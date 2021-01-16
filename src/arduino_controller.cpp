@@ -8,14 +8,14 @@ ArduinoController::ArduinoController() : Node("ArduinoController")
     //   "joy", 10, std::bind(&ArduinoController::joy_callback, this, _1));     
 
     joySubscription = this->create_subscription<sensor_msgs::msg::Joy>(
-      "joy", 10, std::bind(&ArduinoController::joy_callback, this, _1));    
+      "joy", std::bind(&ArduinoController::joy_callback, this, _1));   // add queue size in later versions of ros2
 
     
 }
  
-void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg) const
+void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)  // use const at end of function in later versions of ros2
 {
-    RCLCPP_INFO(this->get_logger(), "Received joy msg: %i", msg->buttons[0]);
+    RCLCPP_INFO(this->get_logger(), "Received joy msg: %i %i %i %i", msg->axes[0], msg->axes[1], msg->axes[2], msg->axes[3]);
 }
 
 

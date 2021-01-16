@@ -9,7 +9,7 @@ class ArduinoController : public rclcpp::Node
         ArduinoController();        
 
     private:
-        void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg) const;   
+        void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg);
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joySubscription;
 
 };
