@@ -165,6 +165,6 @@ void unpackEncoderMessage(data_msg msg, encoder_msg& enc_msg)
 
 void unpackServoMessage(data_msg msg, servo_msg& smsg)
 {
-    smsg.steer = (int32_t) msg.msg[0]<<24 | msg.msg[1] << 16 | msg.msg[2] << 8 << msg.msg[3];
-    smsg.throttle = (int32_t) msg.msg[4]<<24 | msg.msg[5] << 16 | msg.msg[6] << 8 << msg.msg[7];
+    smsg.steer = (int32_t) msg.msg[0]<<24 | (int32_t)msg.msg[1] << 16 | (int32_t)msg.msg[2] << 8 | (int32_t)msg.msg[3];
+    smsg.throttle = (int32_t) msg.msg[4]<<24 | (int32_t)msg.msg[5] << 16 | (int32_t)msg.msg[6] << 8 | (int32_t)msg.msg[7];
 }

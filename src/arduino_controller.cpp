@@ -4,7 +4,7 @@
 using std::placeholders::_1;
 using namespace std::chrono_literals;
 
-ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(NULL)
+ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(NULL), published(false)
 {
     // init parameters    
     this->get_parameter_or("serial_port", portPath, rclcpp::Parameter("serial_port", "/dev/ttyUSB0"));    
@@ -62,18 +62,18 @@ ArduinoController::~ArduinoController()
  
 void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)  // use const at end of function in later versions of ros2
 {
-    data_msg dmsg; 
-    dmsg.msg_type = SERVO_MSG;    
+    data_msg dmsg;     
     servo_msg smsg;
     smsg.steer = getSteeringPWM(msg->axes[steeringAxisID]);
     smsg.throttle = getThrottlePWM(msg->axes[throttleAxisID]);    
-    dmsg.msg_len = sizeof(smsg);
-    dmsg.crc1 = 0;    
-    memcpy(dmsg.msg, &smsg, sizeof(smsg));
+    
+    packServoMessage(smsg, dmsg);
 
-
-
-    // writeData(dmsg);
+    if (!published)
+    {
+        writeData(dmsg);
+        published = true;
+    }    
 }
 
 void ArduinoController::param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent)
@@ -205,13 +205,17 @@ void ArduinoController::writeData(data_msg dmsg)
     if (!serialPort->isConnected())
         return;
     
-    unsigned char data[sizeof(dmsg) + 1];
-    memcpy(data, &dmsg, sizeof(dmsg));
-    data[sizeof(dmsg)] = '\n';
+    unsigned char data[MSG_SIZE + 2];
+    memcpy(data, &dmsg, MSG_SIZE);
+    data[MSG_SIZE] = MESSAGE_DELIM;
+    data[MSG_SIZE+1] = MESSAGE_DELIM;
 
-    if (serialPort->writePort((const unsigned char*) &data, 11) == -1)
-         RCLCPP_ERROR(this->get_logger(), "Error occurred writing data to serial port");
+    volatile int writeCount = serialPort->writePort((const unsigned char*) &data, MSG_SIZE+2);
 
+    if (writeCount != (int)(MSG_SIZE+2))
+    {
+        RCLCPP_ERROR(this->get_logger(), "Error occurred writing data to serial port. %i", writeCount);
+    }
 }
 
 int main(int argc, char * argv[])

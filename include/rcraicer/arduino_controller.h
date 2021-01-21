@@ -51,5 +51,7 @@ class ArduinoController : public rclcpp::Node
 
         int64_t steeringAxisID;
         int64_t throttleAxisID;
+
+        bool published;
   
 };
