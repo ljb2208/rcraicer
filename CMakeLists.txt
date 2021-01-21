@@ -20,6 +20,11 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/Encoder.msg"
+ )
 
 add_executable(arduino_controller src/arduino_controller.cpp src/serial_port.cpp)
 ament_target_dependencies(arduino_controller rclcpp std_msgs sensor_msgs)
