@@ -4,12 +4,16 @@
 using std::placeholders::_1;
 using namespace std::chrono_literals;
 
-ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(NULL), published(false)
+ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(NULL)
 {
     // init parameters    
     this->get_parameter_or("serial_port", portPath, rclcpp::Parameter("serial_port", "/dev/ttyUSB0"));    
-    this->get_parameter_or("steering_axis", steeringAxis, rclcpp::Parameter("steering_axis", 0));
+    
+    this->get_parameter_or("steering_axis", steeringAxis, rclcpp::Parameter("steering_axis", 3));
     this->get_parameter_or("throttle_axis", throttleAxis, rclcpp::Parameter("throttleAxis", 1));
+    this->get_parameter_or("reverse_steering_input", reverseSteeringInput, rclcpp::Parameter("reverse_steering_input", true));
+    this->get_parameter_or("reverse_throttle_input", reverseThrottleInput, rclcpp::Parameter("reverse_throttle_input", false));
+
     this->get_parameter_or("baud_rate", baudRate, rclcpp::Parameter("baud_rate", 115200));
 
     std::vector<int64_t> defaultServoPoints = {1000, 1500, 2000};
@@ -17,6 +21,8 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     this->get_parameter_or("throttle_servo_points", throttleServoPoints, rclcpp::Parameter("throttle_servo_points", defaultServoPoints));
 
     updateInternalParams();
+
+    encPublisher = this->create_publisher<rcraicer_msgs::msg::Encoder>("encoder");
     
     joySubscription = this->create_subscription<sensor_msgs::msg::Joy>(
       "joy", std::bind(&ArduinoController::joy_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
@@ -47,8 +53,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     {
         RCLCPP_ERROR(this->get_logger(), "Error connecting on %s @ %i. Error: %s", portPath.as_string().c_str(), 
                                     baudRate.as_int(), serialPort->getErrorString().c_str());        
-    }
-    
+    }    
 
     RCLCPP_INFO(this->get_logger(), "Node started. Steering Axis: %i. Throttle Axis: %i",
                                     steeringAxis.as_int(), throttleAxis.as_int());    
@@ -67,13 +72,8 @@ void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
     smsg.steer = getSteeringPWM(msg->axes[steeringAxisID]);
     smsg.throttle = getThrottlePWM(msg->axes[throttleAxisID]);    
     
-    packServoMessage(smsg, dmsg);
-
-    if (!published)
-    {
-        writeData(dmsg);
-        published = true;
-    }    
+    packServoMessage(smsg, dmsg);            
+    writeData(dmsg);            
 }
 
 void ArduinoController::param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent)
@@ -127,10 +127,10 @@ void ArduinoController::serial_data_callback()
     unsigned char data[MSG_SIZE];
     int length = 0;
 
-    while (serialPort->getNextMessage(data, length))
+    while (serialPort->getNextMessage(data, MSG_SIZE, length))
     {
-        // process message
-        processMessage(data, length);        
+        // process message        
+        processMessage(data, length);                
         length = 0;
     }
 }
@@ -156,26 +156,58 @@ void ArduinoController::processMessage(unsigned char* data, int length)
     switch(msg.msg_type)
     {
         case ENCODER_MSG:
+        {
             RCLCPP_INFO(this->get_logger(), "received encoder message");
             encoder_msg enc_msg;
             unpackEncoderMessage(msg, enc_msg);
+
+            rcraicer_msgs::msg::Encoder enc;
+            enc.left_rear = enc_msg.left_rear;
+            enc.left_front = enc_msg.left_front;
+            enc.right_front = enc_msg.right_front;
+            enc.right_rear = enc_msg.right_rear;
+
+            encPublisher->publish(enc);
+
             RCLCPP_INFO(this->get_logger(), "Values: %i %i %i %i", enc_msg.left_rear, enc_msg.left_front, enc_msg.right_front, enc_msg.right_rear);
             break;
+        }
         default:
+        {
             RCLCPP_ERROR(this->get_logger(), "received unknown serial message");
             break;
+        }
     }
 }
 
 void ArduinoController::updateInternalParams()
 {
     steeringServoMin = steeringServoPoints.as_integer_array()[0];
-    steeringServoMid = steeringServoPoints.as_integer_array()[0];
-    steeringServoMax = steeringServoPoints.as_integer_array()[0];
+    steeringServoMid = steeringServoPoints.as_integer_array()[1];
+    steeringServoMax = steeringServoPoints.as_integer_array()[2];
 
     throttleServoMin = throttleServoPoints.as_integer_array()[0];
-    throttleServoMid = throttleServoPoints.as_integer_array()[0];
-    throttleServoMax = throttleServoPoints.as_integer_array()[0];
+    throttleServoMid = throttleServoPoints.as_integer_array()[1];
+    throttleServoMax = throttleServoPoints.as_integer_array()[2];
+
+    if (reverseThrottleInput.as_bool() == true)
+    {
+        throttleInputFactor = -1.0;
+    }
+    else
+    {
+        throttleInputFactor = 1.0;
+    }
+
+    if (reverseSteeringInput.as_bool() == true)
+    {
+        steeringInputFactor = -1.0;
+    }
+    else
+    {
+        steeringInputFactor = 1.0;
+    }
+    
 
     steeringAxisID = steeringAxis.as_int();
     throttleAxisID = throttleAxis.as_int();
@@ -183,19 +215,19 @@ void ArduinoController::updateInternalParams()
 
 int32_t ArduinoController::getSteeringPWM(float value)
 {
-    return getPWM(value, steeringServoMin, steeringServoMid, steeringServoMax);    
+    return getPWM(value, steeringInputFactor, steeringServoMin, steeringServoMid, steeringServoMax);    
 }
 
 int32_t ArduinoController::getThrottlePWM(float value)
 {
-    return getPWM(value, throttleServoMin, throttleServoMid, throttleServoMax);
+    return getPWM(value, throttleInputFactor, throttleServoMin, throttleServoMid, throttleServoMax);
 }
 
-int32_t ArduinoController::getPWM(float value, int64_t min, int64_t mid, int64_t max)
+int32_t ArduinoController::getPWM(float value, float inputFactor, int64_t min, int64_t mid, int64_t max)
 {
     int32_t pwm = 1500;
     int64_t range = (max - min)/2;
-    pwm = value * range + mid;
+    pwm = (value * inputFactor * range) + mid;
 
     return pwm;
 }
@@ -205,16 +237,14 @@ void ArduinoController::writeData(data_msg dmsg)
     if (!serialPort->isConnected())
         return;
     
-    unsigned char data[MSG_SIZE + 2];
+    unsigned char data[MSG_SIZE_WITH_DELIM];
     memcpy(data, &dmsg, MSG_SIZE);
     data[MSG_SIZE] = MESSAGE_DELIM;
-    data[MSG_SIZE+1] = MESSAGE_DELIM;
+    data[MSG_SIZE+1] = MESSAGE_DELIM;    
 
-    volatile int writeCount = serialPort->writePort((const unsigned char*) &data, MSG_SIZE+2);
-
-    if (writeCount != (int)(MSG_SIZE+2))
+    if (serialPort->writePort((const unsigned char*) &data, MSG_SIZE_WITH_DELIM) != (int)(MSG_SIZE_WITH_DELIM))
     {
-        RCLCPP_ERROR(this->get_logger(), "Error occurred writing data to serial port. %i", writeCount);
+        RCLCPP_ERROR(this->get_logger(), "Error occurred writing data to serial port");
     }
 }
 

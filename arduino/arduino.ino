@@ -7,11 +7,13 @@ Servo throttleServo;
 int STEER_PIN = 10;
 int THROTTLE_PIN = 11;
 
-int steerPos = 1500;
-int newSteerPos = 1500;
+int steerPos = 3000;
+int newSteerPos = 3000;
 int throttlePos = 0;
-char serialBuffer[100];
+char serialBuffer[MAX_BUFFER];
 int serialBufferPtr = 0;
+
+int writeCounter = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -22,17 +24,35 @@ void setup() {
 }
 
 void loop() {
-//  readSerial();
+    readSerial();
 
-    encoder_msg enc_msg;
-    enc_msg.left_rear = 652324;
-    enc_msg.left_front = 20;
-    enc_msg.right_front = 30;
-    enc_msg.right_rear = 40;
+     if (writeCounter > 1000)
+     {
 
-    data_msg dmsg;
-    packEncoderMessage(enc_msg, dmsg);    
-    
+      encoder_msg enc_msg;
+      enc_msg.left_rear = steerPos;
+      enc_msg.left_front = 0;
+      enc_msg.right_front = 0;
+      enc_msg.right_rear = throttlePos;
+
+      data_msg dmsg;
+      packEncoderMessage(enc_msg, dmsg);    
+  
+      uint8_t serial_data[MSG_SIZE+2];
+      memcpy(serial_data, &dmsg, MSG_SIZE);
+      serial_data[MSG_SIZE] = MESSAGE_DELIM;
+      serial_data[MSG_SIZE+1] = MESSAGE_DELIM;
+      Serial.write(serial_data, MSG_SIZE_WITH_DELIM);
+      
+      writeCounter = 0;
+      
+     }
+     else
+     {
+      delay(1);
+      writeCounter++;
+     }
+     
 
 //    for (int i=0; i < (sizeof(data_msg)); i++)
 //    {
@@ -42,13 +62,13 @@ void loop() {
 //      Serial.println();
 //    }
 //    Serial.println();
-    uint8_t serial_data[MSG_SIZE+2];
-    memcpy(serial_data, &dmsg, MSG_SIZE);
-    serial_data[MSG_SIZE] = MESSAGE_DELIM;
-    serial_data[MSG_SIZE+1] = MESSAGE_DELIM;
-    Serial.write(serial_data, MSG_SIZE+2);    
-    
-    delay(5000);
+//    uint8_t serial_data[MSG_SIZE+2];
+//    memcpy(serial_data, &dmsg, MSG_SIZE);
+//    serial_data[MSG_SIZE] = MESSAGE_DELIM;
+//    serial_data[MSG_SIZE+1] = MESSAGE_DELIM;
+//    Serial.write(serial_data, MSG_SIZE+2);    
+//    
+//    delay(5000);
     
   
 //  // put your main code here, to run repeatedly:
@@ -66,45 +86,69 @@ void readSerial()
 {
   while (Serial.available() > 0)
   {
-    char data = Serial.read();
+    uint8_t data = Serial.read();
+    serialBuffer[serialBufferPtr] = data;
+    serialBufferPtr++;  
 
-    if (data !='\n')
+    if (serialBufferPtr == MAX_BUFFER)
     {
-      serialBuffer[serialBufferPtr] = data;
-      serialBufferPtr++;  
-    }
-    else
-    {
-      processSerialData();
       serialBufferPtr = 0;
     }
+
+    if (data == MESSAGE_DELIM)
+    {
+      if (serialBufferPtr > 1 && serialBuffer[serialBufferPtr - 2] == MESSAGE_DELIM)
+      {
+//        processSerialData();
+        processSerialMsg();
+        serialBufferPtr = 0;
+      }        
+    }    
   }
+}
+
+
+void processServoMsg(servo_msg& msg)
+{
+  steerPos = msg.steer;
+  throttlePos = msg.throttle;  
 }
 
 void processSerialMsg()
 {
   data_msg msg;
+  memcpy(&msg, serialBuffer, MSG_SIZE);
+
+  if (!validateCRC(msg))
+  {
+    steerPos = 1;
+    throttlePos = 1;
+    return;
+  }
 
   switch (msg.msg_type)
   {
     case SERVO_MSG:
+    {
       servo_msg sm;
+      unpackServoMessage(msg, sm);
       processServoMsg(sm);
       break;  
+    }
     case COMMAND_MSG:
-      command_msg cm;
+    {
+      command_msg cm;    
       processCommandMsg(cm);
+    }
     default:
-      Serial.println("unknown msg");
+    {
+      steerPos = 2;
+      throttlePos = 2;      
       break;
-     
+    }
   }  
 }
 
-void processServoMsg(servo_msg& msg)
-{
-  
-}
 
 void processCommandMsg(command_msg& msg)
 {

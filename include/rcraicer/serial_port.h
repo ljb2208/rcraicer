@@ -26,7 +26,7 @@ class SerialPort
         void registerDataCallback(DataCallback callback);
         void clearDataCallback();
 
-        bool getNextMessage(unsigned char* data, int& length);
+        bool getNextMessage(unsigned char* data, int dataLength, int& length);
 
         void waitForData();
 

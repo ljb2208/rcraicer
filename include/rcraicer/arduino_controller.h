@@ -7,6 +7,8 @@
 #include "serial_port.h"
 #include "serial_data_msg.h"
 
+#include "rcraicer_msgs/msg/encoder.hpp"
+
 
 class ArduinoController : public rclcpp::Node 
 {
@@ -26,8 +28,9 @@ class ArduinoController : public rclcpp::Node
 
         int32_t getSteeringPWM(float value);
         int32_t getThrottlePWM(float value);
-        int32_t getPWM(float value, int64_t min, int64_t mid, int64_t max);
+        int32_t getPWM(float value, float inputFactor, int64_t min, int64_t mid, int64_t max);
 
+        rclcpp::Publisher<rcraicer_msgs::msg::Encoder>::SharedPtr encPublisher;
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joySubscription;
         rclcpp::Subscription<rcl_interfaces::msg::ParameterEvent>::SharedPtr paramSubscription;
         rclcpp::AsyncParametersClient::SharedPtr parameterClient;
@@ -38,8 +41,13 @@ class ArduinoController : public rclcpp::Node
         rclcpp::Parameter baudRate;
         rclcpp::Parameter throttleAxis;
         rclcpp::Parameter steeringAxis;
+        rclcpp::Parameter reverseThrottleInput;
+        rclcpp::Parameter reverseSteeringInput;
         rclcpp::Parameter steeringServoPoints;
         rclcpp::Parameter throttleServoPoints;
+
+        float steeringInputFactor;
+        float throttleInputFactor;
 
         int64_t steeringServoMin;
         int64_t steeringServoMax;
@@ -51,7 +59,5 @@ class ArduinoController : public rclcpp::Node
 
         int64_t steeringAxisID;
         int64_t throttleAxisID;
-
-        bool published;
   
 };

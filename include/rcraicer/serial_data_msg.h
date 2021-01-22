@@ -16,6 +16,7 @@ const uint8_t COMMAND_MSG = 2;
 const uint8_t ENCODER_MSG = 3;
 
 const uint8_t MESSAGE_DELIM = 0x7E;
+const uint8_t MAX_BUFFER = 100;
 
 struct __attribute__ ((__packed__)) data_msg {
   uint8_t msg_type;
@@ -26,6 +27,7 @@ struct __attribute__ ((__packed__)) data_msg {
 };
 
 const uint8_t MSG_SIZE = sizeof(data_msg);
+const uint8_t MSG_SIZE_WITH_DELIM = MSG_SIZE + 2;
 
 struct __attribute__ ((__packed__)) servo_msg {
   int32_t steer;

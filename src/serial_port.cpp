@@ -34,7 +34,7 @@ void SerialPort::run()
   struct timeval tv;
   uint8_t data[512];
   int retval;
-  int received;
+  volatile int received;
   bool newMessage = false;
 
 
@@ -60,6 +60,11 @@ void SerialPort::run()
         {
           dataMutex.lock();
 
+          if (dataBuffer.size() > 100)
+          {
+            dataBuffer.clear();
+          }
+
           for (int i=0; i < received; i++)
           {
             dataBuffer.push_back(data[i]);
@@ -69,7 +74,7 @@ void SerialPort::run()
             
           }
 
-          dataMutex.unlock();
+          dataMutex.unlock();         
 
           if (newMessage && dataCallback)
           {
@@ -79,7 +84,7 @@ void SerialPort::run()
             {
 
             }
-          }
+          }          
 
           newMessage = false;
         }
@@ -87,13 +92,13 @@ void SerialPort::run()
   }
 }
 
-bool SerialPort::getNextMessage(unsigned char* data, int& length)
+bool SerialPort::getNextMessage(unsigned char* data, int dataLength, int& length)
 {
   dataMutex.lock();
 
-  int messageEnd = -1;
-  int bufferLen = dataBuffer.size();
-  int i = 0;
+  volatile int messageEnd = -1;
+  volatile int bufferLen = dataBuffer.size();
+  volatile int i = 0;
 
   length = 0;  
 
@@ -115,14 +120,21 @@ bool SerialPort::getNextMessage(unsigned char* data, int& length)
     return false;
   }
 
-  // copy to return data variable
-  // data = new unsigned char[messageEnd];
-  length= messageEnd;
+  // copy to return data variable  
+  int startIndex = 0;
 
-  for (i=0; i < length; i++)
+  if (messageEnd > dataLength)
   {
-    data[i] = dataBuffer.at(i);
+    startIndex = messageEnd - dataLength;
+  }  
+
+  int returnBufPtr = 0;
+  for (i=startIndex; i < messageEnd; i++)
+  {
+    data[returnBufPtr++] = dataBuffer.at(i);
   }
+
+  length = messageEnd - startIndex;
 
   // delete data from buffer including following 2 delim characters
   dataBuffer.erase(dataBuffer.begin(), dataBuffer.begin() + messageEnd + 2);
