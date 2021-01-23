@@ -51,7 +51,7 @@ unsigned long longestLoopDuration = 0;
 uint16_t statusServoUpdates = 0;
 uint16_t statusEncoderMsgs = 0;
 uint16_t statusMainLoopMax = 0;
-volatile uint16_t statusMainLoopCount = 0;
+volatile uint32_t statusMainLoopCount = 0;
 uint16_t statusInvalidCRC = 0;
 uint16_t statusInvalidMSG = 0;
 

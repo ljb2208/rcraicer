@@ -80,12 +80,24 @@ void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
 
     if (msg->buttons[armButtonID] != armButtonValue)
     {
-        isArmed = !isArmed;
-        command_msg cmsg;
-        cmsg.armed = isArmed;
+        if (msg->buttons[armButtonID] == 1)
+        {
+            isArmed = !isArmed;
+            command_msg cmsg;
+            cmsg.armed = isArmed;
 
-        packCommandMessage(cmsg, dmsg);
-        writeData(dmsg);
+            if (cmsg.armed)
+            {
+                RCLCPP_INFO(this->get_logger(), "Arming.");
+            }
+            else
+            {
+                RCLCPP_INFO(this->get_logger(), "Disarming.");
+            }
+            
+            packCommandMessage(cmsg, dmsg);
+            writeData(dmsg);
+        }
 
         armButtonValue = msg->buttons[armButtonID];
     }
