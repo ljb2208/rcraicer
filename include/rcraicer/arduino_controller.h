@@ -8,6 +8,7 @@
 #include "serial_data_msg.h"
 
 #include "rcraicer_msgs/msg/encoder.hpp"
+#include "rcraicer_msgs/msg/arduino_status.hpp"
 
 
 class ArduinoController : public rclcpp::Node 
@@ -31,6 +32,7 @@ class ArduinoController : public rclcpp::Node
         int32_t getPWM(float value, float inputFactor, int64_t min, int64_t mid, int64_t max);
 
         rclcpp::Publisher<rcraicer_msgs::msg::Encoder>::SharedPtr encPublisher;
+        rclcpp::Publisher<rcraicer_msgs::msg::ArduinoStatus>::SharedPtr statusPublisher;
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joySubscription;
         rclcpp::Subscription<rcl_interfaces::msg::ParameterEvent>::SharedPtr paramSubscription;
         rclcpp::AsyncParametersClient::SharedPtr parameterClient;
@@ -41,6 +43,7 @@ class ArduinoController : public rclcpp::Node
         rclcpp::Parameter baudRate;
         rclcpp::Parameter throttleAxis;
         rclcpp::Parameter steeringAxis;
+        rclcpp::Parameter armButton;
         rclcpp::Parameter reverseThrottleInput;
         rclcpp::Parameter reverseSteeringInput;
         rclcpp::Parameter steeringServoPoints;
@@ -59,5 +62,11 @@ class ArduinoController : public rclcpp::Node
 
         int64_t steeringAxisID;
         int64_t throttleAxisID;
+
+        int64_t armButtonID;        
+
+        bool isArmed;
+        int64_t armButtonValue;
+
   
 };

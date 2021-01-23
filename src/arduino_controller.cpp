@@ -4,13 +4,14 @@
 using std::placeholders::_1;
 using namespace std::chrono_literals;
 
-ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(NULL)
-{
+ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(NULL), isArmed(false), armButtonValue(0)
+{    
     // init parameters    
     this->get_parameter_or("serial_port", portPath, rclcpp::Parameter("serial_port", "/dev/ttyUSB0"));    
     
     this->get_parameter_or("steering_axis", steeringAxis, rclcpp::Parameter("steering_axis", 3));
-    this->get_parameter_or("throttle_axis", throttleAxis, rclcpp::Parameter("throttleAxis", 1));
+    this->get_parameter_or("throttle_axis", throttleAxis, rclcpp::Parameter("throttle_axis", 1));
+    this->get_parameter_or("arm_button", armButton, rclcpp::Parameter("armButton", 0));
     this->get_parameter_or("reverse_steering_input", reverseSteeringInput, rclcpp::Parameter("reverse_steering_input", true));
     this->get_parameter_or("reverse_throttle_input", reverseThrottleInput, rclcpp::Parameter("reverse_throttle_input", false));
 
@@ -23,6 +24,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     updateInternalParams();
 
     encPublisher = this->create_publisher<rcraicer_msgs::msg::Encoder>("encoder");
+    statusPublisher = this->create_publisher<rcraicer_msgs::msg::ArduinoStatus>("arduino_status");
     
     joySubscription = this->create_subscription<sensor_msgs::msg::Joy>(
       "joy", std::bind(&ArduinoController::joy_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
@@ -57,6 +59,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
 
     RCLCPP_INFO(this->get_logger(), "Node started. Steering Axis: %i. Throttle Axis: %i",
                                     steeringAxis.as_int(), throttleAxis.as_int());    
+    
 }
 
 ArduinoController::~ArduinoController()
@@ -70,10 +73,22 @@ void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
     data_msg dmsg;     
     servo_msg smsg;
     smsg.steer = getSteeringPWM(msg->axes[steeringAxisID]);
-    smsg.throttle = getThrottlePWM(msg->axes[throttleAxisID]);    
+    smsg.throttle = getThrottlePWM(msg->axes[throttleAxisID]);        
     
     packServoMessage(smsg, dmsg);            
     writeData(dmsg);            
+
+    if (msg->buttons[armButtonID] != armButtonValue)
+    {
+        isArmed = !isArmed;
+        command_msg cmsg;
+        cmsg.armed = isArmed;
+
+        packCommandMessage(cmsg, dmsg);
+        writeData(dmsg);
+
+        armButtonValue = msg->buttons[armButtonID];
+    }
 }
 
 void ArduinoController::param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent)
@@ -148,8 +163,8 @@ void ArduinoController::processMessage(unsigned char* data, int length)
 
     // check crc
     if (!validateCRC(msg))
-    {
-        RCLCPP_ERROR(this->get_logger(), "Invalid CRC. Ignoring message");
+    {     
+        RCLCPP_ERROR(this->get_logger(), "Invalid CRC. Ignoring message of type %i", msg.msg_type);
         return;
     }
 
@@ -157,7 +172,7 @@ void ArduinoController::processMessage(unsigned char* data, int length)
     {
         case ENCODER_MSG:
         {
-            RCLCPP_INFO(this->get_logger(), "received encoder message");
+            // RCLCPP_INFO(this->get_logger(), "received encoder message");
             encoder_msg enc_msg;
             unpackEncoderMessage(msg, enc_msg);
 
@@ -169,8 +184,24 @@ void ArduinoController::processMessage(unsigned char* data, int length)
 
             encPublisher->publish(enc);
 
-            RCLCPP_INFO(this->get_logger(), "Values: %i %i %i %i", enc_msg.left_rear, enc_msg.left_front, enc_msg.right_front, enc_msg.right_rear);
+            // RCLCPP_INFO(this->get_logger(), "Values: %i %i %i %i", enc_msg.left_rear, enc_msg.left_front, enc_msg.right_front, enc_msg.right_rear);
             break;
+        }
+        case ARDUINO_STATUS_MSG:
+        {
+            arduino_status_msg smsg;
+            unpackArduinoStatusMessage(msg, smsg);
+            rcraicer_msgs::msg::ArduinoStatus status;
+            status.servo_update_count = smsg.servo_update_count;
+            status.encoder_msg_count = smsg.encoder_msg_count;
+            status.main_loop_count = smsg.main_loop_count;
+            status.main_loop_max = smsg.main_loop_max;            
+            status.armed = smsg.armed;
+            status.status = smsg.status;
+
+            statusPublisher->publish(status);
+            break;
+
         }
         default:
         {
@@ -211,6 +242,7 @@ void ArduinoController::updateInternalParams()
 
     steeringAxisID = steeringAxis.as_int();
     throttleAxisID = throttleAxis.as_int();
+    armButtonID = armButton.as_int();
 }
 
 int32_t ArduinoController::getSteeringPWM(float value)
