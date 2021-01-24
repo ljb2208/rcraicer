@@ -43,11 +43,11 @@ struct __attribute__ ((__packed__)) servo_msg {
 
 struct __attribute__ ((__packed__)) command_msg {
     uint8_t armed;
-    uint8_t reverse;
-    uint16_t blank1;    
-    int32_t blank2;    
-    int32_t blank3;
+    uint8_t blank1;
+    uint16_t blank2;    
+    int32_t blank3;    
     int32_t blank4;
+    int32_t blank5;
 };
 
 struct __attribute__ ((__packed__)) encoder_msg {
@@ -64,8 +64,9 @@ struct __attribute__ ((__packed__)) arduino_status_msg {
     uint16_t main_loop_max;
     uint8_t armed;
     uint8_t status;
+    uint16_t crc_error;    
+    uint16_t unknown_msg;
     uint16_t blank1;    
-    int32_t blank2;    
 };
 
 void getCRCBit(uint16_t& crc)
@@ -200,10 +201,10 @@ void packArduinoStatusMessage(arduino_status_msg smsg, data_msg& msg)
     msg.msg[9] = smsg.status;
 
     // blanks
-    msg.msg[10] = 0;
-    msg.msg[11] = 0;
-    msg.msg[12] = 0;
-    msg.msg[13] = 0;
+    msg.msg[10] = smsg.crc_error >> 8;
+    msg.msg[11] = smsg.crc_error;
+    msg.msg[12] = smsg.unknown_msg >> 8;
+    msg.msg[13] = smsg.unknown_msg;
     msg.msg[14] = 0;
     msg.msg[15] = 0;
 
@@ -215,7 +216,7 @@ void packCommandMessage(command_msg cmsg, data_msg& msg)
     msg.msg_type = COMMAND_MSG;
     msg.msg_len = MSG_SIZE;
     msg.msg[0] = cmsg.armed;
-    msg.msg[1] = cmsg.reverse;
+    msg.msg[1] = 0;
     msg.msg[2] = 0;
     msg.msg[3] = 0;
     msg.msg[4] = 0;
@@ -259,16 +260,17 @@ void unpackArduinoStatusMessage(data_msg msg, arduino_status_msg& smsg)
     smsg.main_loop_max = (uint16_t) msg.msg[6] << 8 | (uint16_t) msg.msg[7];
     smsg.armed = msg.msg[8];
     smsg.status = msg.msg[9];
-    smsg.blank1 = 0;
-    smsg.blank2 = 0;
+    smsg.crc_error = (uint16_t) msg.msg[10] << 8 | (uint16_t) msg.msg[11];
+    smsg.unknown_msg = (uint16_t) msg.msg[12] << 8 | (uint16_t) msg.msg[13];
+    smsg.blank1 = 0;    
 }
 
 void unpackCommandMessage(data_msg msg, command_msg& cmsg)
 {
-    cmsg.armed = msg.msg[0];
-    cmsg.reverse = msg.msg[1];
+    cmsg.armed = msg.msg[0]; 
     cmsg.blank1 = 0;
     cmsg.blank2 = 0;
     cmsg.blank3 = 0;
     cmsg.blank4 = 0;
+    cmsg.blank5 = 0;
 }

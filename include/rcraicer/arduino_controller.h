@@ -67,6 +67,8 @@ class ArduinoController : public rclcpp::Node
 
         bool isArmed;
         int64_t armButtonValue;
+        uint16_t invalidCRC;
+        uint16_t unknownMsg;
 
   
 };

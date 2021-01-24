@@ -232,6 +232,8 @@ void sendStatusMessage()
   status_msg.main_loop_max = statusMainLoopMax;  
   status_msg.armed = isArmed;
   status_msg.status = getStatus();
+  status_msg.crc_error = statusInvalidCRC;
+  status_msg.unknown_msg = statusInvalidMSG;
 
   data_msg dmsg;
   packArduinoStatusMessage(status_msg, dmsg);  
@@ -295,6 +297,11 @@ void processSerialMsg()
 
   if (!validateCRC(msg))
   {    
+    if (statusInvalidCRC == 65535)
+    {
+      statusInvalidCRC = 0;
+    }
+      
     statusInvalidCRC++;
     return;
   }
@@ -315,7 +322,12 @@ void processSerialMsg()
       processCommandMsg(cm);
     }
     default:
-    {      
+    {
+      if (statusInvalidMSG == 65536)
+      {
+        statusInvalidMSG = 0;      
+      }
+      
       statusInvalidMSG++;
       break;
     }
@@ -336,23 +348,6 @@ void processCommandMsg(command_msg& msg)
   {
     isArmed = false;
   }  
-}
-
-void processSerialData()
-{  
-  char data[serialBufferPtr];
-
-  for (int i=0; i < serialBufferPtr; i++)
-  {
-    data[i] = serialBuffer[i];
-  }
-  
-  int val = atoi(data);
-
-  Serial.write("Input: ");
-  Serial.print(val);
-  Serial.println();  
-  sendServoControl(0, val);
 }
 
 void sendServoControl(int servo, int value)

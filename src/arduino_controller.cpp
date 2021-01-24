@@ -4,7 +4,7 @@
 using std::placeholders::_1;
 using namespace std::chrono_literals;
 
-ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(NULL), isArmed(false), armButtonValue(0)
+ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(NULL), isArmed(false), armButtonValue(0), invalidCRC(0), unknownMsg(0)
 {    
     // init parameters    
     this->get_parameter_or("serial_port", portPath, rclcpp::Parameter("serial_port", "/dev/ttyUSB0"));    
@@ -176,6 +176,13 @@ void ArduinoController::processMessage(unsigned char* data, int length)
     // check crc
     if (!validateCRC(msg))
     {     
+        if (invalidCRC >= 65535)
+        {
+            invalidCRC = 0;
+        }
+
+        invalidCRC++;
+
         RCLCPP_ERROR(this->get_logger(), "Invalid CRC. Ignoring message of type %i", msg.msg_type);
         return;
     }
@@ -210,6 +217,10 @@ void ArduinoController::processMessage(unsigned char* data, int length)
             status.main_loop_max = smsg.main_loop_max;            
             status.armed = smsg.armed;
             status.status = smsg.status;
+            status.invalid_crc_arduino = smsg.crc_error;
+            status.unknown_msg_arduino = smsg.unknown_msg;
+            status.invalid_crc = invalidCRC;
+            status.unknown_msg = unknownMsg;
 
             statusPublisher->publish(status);
             break;
@@ -217,6 +228,12 @@ void ArduinoController::processMessage(unsigned char* data, int length)
         }
         default:
         {
+            if (unknownMsg >= 65535)
+            {
+                unknownMsg = 0;
+            }
+
+            unknownMsg++;
             RCLCPP_ERROR(this->get_logger(), "received unknown serial message");
             break;
         }
