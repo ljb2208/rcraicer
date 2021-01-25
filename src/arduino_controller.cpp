@@ -17,7 +17,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
 
     this->get_parameter_or("baud_rate", baudRate, rclcpp::Parameter("baud_rate", 115200));
 
-    std::vector<int64_t> defaultServoPoints = {1000, 1500, 2000};
+    std::vector<int64_t> defaultServoPoints = {1200, 1500, 1800};
     this->get_parameter_or("steering_servo_points", steeringServoPoints, rclcpp::Parameter("steering_servo_points", defaultServoPoints));
     this->get_parameter_or("throttle_servo_points", throttleServoPoints, rclcpp::Parameter("throttle_servo_points", defaultServoPoints));
 
@@ -280,7 +280,7 @@ int32_t ArduinoController::getSteeringPWM(float value)
 }
 
 int32_t ArduinoController::getThrottlePWM(float value)
-{
+{    
     return getPWM(value, throttleInputFactor, throttleServoMin, throttleServoMid, throttleServoMax);
 }
 

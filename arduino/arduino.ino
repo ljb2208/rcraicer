@@ -2,10 +2,10 @@
 #include "/home/lbarnett/ros2_ws/src/rcraicer/include/rcraicer/serial_data_msg.h"
 
 // encoder variables
-int LR_PIN = 6;
-int LF_PIN = 7;
-int RF_PIN = 8;
-int RR_PIN = 0;
+int LR_PIN = 4;
+int LF_PIN = 5;
+int RF_PIN = 6;
+int RR_PIN = 7;
 
 bool encoderSet[4] = {false, false, false, false};
 int32_t encoderTicks[4] = {0, 0, 0, 0};
@@ -13,7 +13,7 @@ int32_t encoderTicks[4] = {0, 0, 0, 0};
 Servo steeringServo;
 Servo throttleServo;
 
-const int STEER_PIN = 10;
+const int STEER_PIN = 9;
 const int THROTTLE_PIN = 11;
 
 int steerPos = 1500;
@@ -68,7 +68,7 @@ void setup() {
 
   // set servos
   steeringServo.attach(STEER_PIN);
-  steeringServo.attach(THROTTLE_PIN);
+  throttleServo.attach(THROTTLE_PIN);
 
   // set digital pins for encoders
   pinMode(LR_PIN, INPUT);
@@ -86,13 +86,23 @@ void setup() {
 
   // start status timer
   statusTimerStart = millis();
-  statusTimerRunning = true;  
+  statusTimerRunning = true;    
 }
 
 void loop() {
-    loopTimer = millis();
+    loopTimer = millis();   
     
     readSerial();
+//
+//    steeringServo.writeMicroseconds(steerPos);
+//    steerPos += 100;
+//
+//    if (steerPos > 1900)
+//      steerPos = 1200;
+//
+//     delay(1000);
+
+//    sendServoControl();
 
     // if throttle locked (i.e. forward/reverse change requested, ensure that no movement for 
     if (lockThrottle)
@@ -160,13 +170,13 @@ void sendServoControl()
 {
   if (isArmed)
   {
-    sendServoControl(steerPos, STEER_PIN);    
-    sendServoControl(throttlePos, THROTTLE_PIN);
+    sendServoControl(STEER_PIN, steerPos);    
+    sendServoControl(THROTTLE_PIN, throttlePos);
   }
   else
   {
-    sendServoControl(STEER_POS_DEFAULT, STEER_PIN);
-    sendServoControl(THROTTLE_POS_DEFAULT, THROTTLE_PIN);
+    sendServoControl(STEER_PIN, STEER_POS_DEFAULT);
+    sendServoControl(THROTTLE_PIN, THROTTLE_POS_DEFAULT);
   }
 
   statusServoUpdates++;
@@ -268,7 +278,7 @@ uint8_t getStatus()
 void processServoMsg(servo_msg& msg)
 {
   steerPos = msg.steer;
-  throttlePos = msg.throttle;  
+  throttlePos = msg.throttle;    
 
   if (msg.throttle < 1500 && priorThrottlePos >= 1500)
   {
@@ -281,12 +291,9 @@ void processServoMsg(servo_msg& msg)
     direction = FORWARD;
     lockThrottle = true;
     throttlePos = 1500;
-  }
-  else
-  {
-    priorThrottlePos = throttlePos;
-  }
-  
+  }  
+
+  priorThrottlePos = msg.throttle;
   
 }
 
@@ -352,5 +359,13 @@ void processCommandMsg(command_msg& msg)
 
 void sendServoControl(int servo, int value)
 {
-  steeringServo.writeMicroseconds(value);
+  if (servo == STEER_PIN)
+  {
+    steeringServo.writeMicroseconds(value);
+  }
+
+  if (servo == THROTTLE_PIN)
+  {
+    throttleServo.writeMicroseconds(value);
+  }
 }
