@@ -23,7 +23,9 @@ find_package(sensor_msgs REQUIRED)
 find_package(rcraicer_msgs REQUIRED)
 
 add_executable(arduino_controller src/arduino_controller.cpp src/serial_port.cpp)
+add_executable(external_tracker src/external_tracker.cpp)
 ament_target_dependencies(arduino_controller rclcpp std_msgs sensor_msgs rcraicer_msgs)
+ament_target_dependencies(external_tracker rclcpp std_msgs sensor_msgs)
 
 
 if(BUILD_TESTING)
@@ -39,6 +41,7 @@ endif()
 
 install (TARGETS 
     arduino_controller
+    external_tracker
     DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

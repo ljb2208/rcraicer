@@ -1,14 +1,19 @@
 #include <Servo.h>
 #include "/home/lbarnett/ros2_ws/src/rcraicer/include/rcraicer/serial_data_msg.h"
+#include <Arduino_LSM6DS3.h>
 
 // encoder variables
-int LR_PIN = 4;
-int LF_PIN = 5;
-int RF_PIN = 6;
-int RR_PIN = 7;
+int LR_PIN = 3;
+int LF_PIN = 4;
+int RF_PIN = 5;
+int RR_PIN = 6;
 
-bool encoderSet[4] = {false, false, false, false};
-int32_t encoderTicks[4] = {0, 0, 0, 0};
+int32_t lrEncoderTicks = 0;
+int32_t lfEncoderTicks = 0;
+int32_t rfEncoderTicks = 0;
+int32_t rrEncoderTicks = 0;
+
+unsigned long lastEncoderTick = 0;
 
 Servo steeringServo;
 Servo throttleServo;
@@ -76,6 +81,11 @@ void setup() {
   pinMode(RF_PIN, INPUT);
   pinMode(RR_PIN, INPUT);
 
+  attachInterrupt(digitalPinToInterrupt(LR_PIN), lrInterrupt, FALLING);
+  attachInterrupt(digitalPinToInterrupt(LF_PIN), lfInterrupt, FALLING);
+  attachInterrupt(digitalPinToInterrupt(RF_PIN), rfInterrupt, FALLING);
+  attachInterrupt(digitalPinToInterrupt(RR_PIN), rrInterrupt, FALLING);
+
   // start servo timer
   servoTimerStart = millis();
   servoTimerRunning = true;
@@ -93,21 +103,11 @@ void loop() {
     loopTimer = millis();   
     
     readSerial();
-//
-//    steeringServo.writeMicroseconds(steerPos);
-//    steerPos += 100;
-//
-//    if (steerPos > 1900)
-//      steerPos = 1200;
-//
-//     delay(1000);
-
-//    sendServoControl();
 
     // if throttle locked (i.e. forward/reverse change requested, ensure that no movement for 
     if (lockThrottle)
     {
-      if ((millis() - lastMove) > 500)
+      if ((millis() - lastEncoderTick) > 500)
       {
         lockThrottle = false;
       }
@@ -166,6 +166,20 @@ void readSerial()
   }
 }
 
+void readIMU()
+{
+  float x, y, z, delta;
+  if (IMU.accelerationAvailable())
+  {
+    IMU.readAcceleration(x, y, z);
+  }
+
+  if (IMU.gyroscopeAvailable())
+  {
+    IMU.readGyroscope(x, y, z);
+  }
+}
+
 void sendServoControl()
 {
   if (isArmed)
@@ -182,44 +196,14 @@ void sendServoControl()
   statusServoUpdates++;
 }
 
-void readEncoderValues()
-{
-  bool isMoving = readEncoderValue(LR_PIN, 0);  
-  isMoving &= readEncoderValue(LF_PIN, 1);
-  isMoving &= readEncoderValue(RF_PIN, 2);
-  isMoving &= readEncoderValue(RR_PIN, 3);
-
-  if (isMoving)
-    lastMove = millis();
-}
-
-bool readEncoderValue(int pin, int index)
-{
-  bool isMoving = false;
-  int val = digitalRead(pin);
-
-  if (val == 0 && !encoderSet[index])
-  {
-    encoderSet[index] = true;
-    isMoving = true;
-  }
-  else if (val == 1 && encoderSet[index])
-  {
-    encoderSet[index] = false;
-    encoderTicks[index]+= direction;
-    isMoving = true;
-  } 
-
-  return isMoving;
-}
 
 void sendEncoderMessage()
 {
   encoder_msg enc_msg;
-  enc_msg.left_rear = steerPos;
-  enc_msg.left_front = 0;
-  enc_msg.right_front = statusMainLoopCount;
-  enc_msg.right_rear = throttlePos;
+  enc_msg.left_rear = lrEncoderTicks;
+  enc_msg.left_front = lfEncoderTicks;
+  enc_msg.right_front = rfEncoderTicks;
+  enc_msg.right_rear = rrEncoderTicks;
 
   data_msg dmsg;
   packEncoderMessage(enc_msg, dmsg);    
@@ -368,4 +352,28 @@ void sendServoControl(int servo, int value)
   {
     throttleServo.writeMicroseconds(value);
   }
+}
+
+void lrInterrupt()
+{
+  lrEncoderTicks += direction;  
+  lastEncoderTick = millis();
+}
+
+void lfInterrupt()
+{
+  lfEncoderTicks += direction;
+  lastEncoderTick = millis();
+}
+
+void rfInterrupt()
+{
+  rfEncoderTicks += direction;
+  lastEncoderTick = millis();
+}
+
+void rrInterrupt()
+{
+  rrEncoderTicks += direction;
+  lastEncoderTick = millis();
 }
