@@ -69,7 +69,7 @@ bool lockThrottle = false;
 
 void setup() {
   // set serial
-  Serial.begin(115200);
+  Serial.begin(230400);
 
   // set servos
   steeringServo.attach(STEER_PIN);

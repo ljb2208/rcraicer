@@ -172,7 +172,7 @@ void SerialPort::clearDataCallback()
 bool SerialPort::connect(std::string port, int baudRate)
 {
     connected = false;
-    port_fd = open(port.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+    port_fd = open(port.c_str(), O_RDWR | O_NOCTTY /*| O_NDELAY*/);
 
     if (port_fd == -1)
     {
@@ -273,9 +273,12 @@ int SerialPort::writePortInternal(const unsigned char* data, unsigned int length
 
   if(n < 0)
   {  
-    printf("Error %i from open: %s\n", errno, strerror(errno));
+    printf("Error %i from write: %s\n", errno, strerror(errno));
+    int val = fcntl(port_fd, F_GETFL, 0);
+    printf("file status = 0x%x\n", val);
+    
     return -1;
-  }
+  }    
 
   return n;
 }

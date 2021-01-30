@@ -7,7 +7,7 @@ using namespace std::chrono_literals;
 ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(NULL), isArmed(false), armButtonValue(0), invalidCRC(0), unknownMsg(0)
 {    
     // init parameters    
-    this->get_parameter_or("serial_port", portPath, rclcpp::Parameter("serial_port", "/dev/ttyUSB0"));    
+    this->get_parameter_or("serial_port", portPath, rclcpp::Parameter("serial_port", "/dev/ttyACM0"));    
     
     this->get_parameter_or("steering_axis", steeringAxis, rclcpp::Parameter("steering_axis", 3));
     this->get_parameter_or("throttle_axis", throttleAxis, rclcpp::Parameter("throttle_axis", 1));
@@ -15,7 +15,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     this->get_parameter_or("reverse_steering_input", reverseSteeringInput, rclcpp::Parameter("reverse_steering_input", true));
     this->get_parameter_or("reverse_throttle_input", reverseThrottleInput, rclcpp::Parameter("reverse_throttle_input", false));
 
-    this->get_parameter_or("baud_rate", baudRate, rclcpp::Parameter("baud_rate", 115200));
+    this->get_parameter_or("baud_rate", baudRate, rclcpp::Parameter("baud_rate", 230400));
 
     std::vector<int64_t> defaultServoPoints = {1200, 1500, 1800};
     this->get_parameter_or("steering_servo_points", steeringServoPoints, rclcpp::Parameter("steering_servo_points", defaultServoPoints));

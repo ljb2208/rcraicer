@@ -7,7 +7,14 @@ from os import path
 
 
 def main():
-    retval = cv2.aruco.CharucoBoard_create(	11, 8, 0.15, 0.05, cv2.aruco.DICT4X4	)
+    chardict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)    
+    board = cv2.aruco.CharucoBoard_create(	8, 6, 0.35, 0.2, chardict)
+
+    boardImage = board.draw((650, 550), 10, 1)
+
+    cv2.imwrite("board.png", boardImage)
+
+    
 
 
 
