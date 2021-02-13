@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 import pathlib
-from ximea import xiapi
+from os import path
+from ximea_cam import Camera
 from datetime import datetime
 
 
@@ -34,6 +35,24 @@ def saveImage(image, isLeft):
     cv2.imwrite(filename, image)
     print("Saved image " + filename)
 
+def getStartIndex():
+    global leftIndex
+    global rightIndex
+
+    filename = str(pathlib.Path(__file__).parent.absolute()) + "/images/"
+
+    leftFilename = filename + "left_" + str(leftIndex) + ".png"
+    rightFilename = filename + "right_" + str(rightIndex) + ".png"
+
+    while (path.exists(leftFilename) and path.exists(rightFilename)):
+        leftIndex += 1
+        rightIndex += 1
+
+        leftFilename = filename + "left_" + str(leftIndex) + ".png"
+        rightFilename = filename + "right_" + str(rightIndex) + ".png"
+
+        
+
 def drawCorners(image):    
 
     gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY);    
@@ -59,31 +78,13 @@ def main():
     global leftIndex
     global rightIndex
 
-    currentImage = None
+    getStartIndex()
 
-    leftCam = xiapi.Camera()
-    rightCam = xiapi.Camera()
+    leftCam = Camera("left", '31703351', downsampling="XI_DWN_1x1")
+    rightCam = Camera("right", '32703551', downsampling="XI_DWN_1x1")
 
-
-    leftCam.open_device_by_SN('31703351')
-    rightCam.open_device_by_SN('32703551')    
-
-    leftCam.set_downsampling('XI_DWN_2x2')
-    rightCam.set_downsampling('XI_DWN_2x2')
-
-    leftCam.set_imgdataformat('XI_RGB24')
-    rightCam.set_imgdataformat('XI_RGB24')
-    leftCam.enable_aeag()
-    rightCam.enable_aeag()
-    leftCam.enable_auto_wb()
-    rightCam.enable_auto_wb()
-
-    
-    leftImg = xiapi.Image()
-    rightImg = xiapi.Image()
-
-    leftCam.start_acquisition()
-    rightCam.start_acquisition()    
+    leftCam.open()
+    rightCam.open()
 
     cv2.namedWindow("Left")
     cv2.namedWindow("Right")
@@ -97,14 +98,10 @@ def main():
 
     secondsLeft = 5    
 
-    while (True):            
+    while (True):                    
         
-        leftCam.get_image(leftImg)
-        rightCam.get_image(rightImg)        
-
-        # data_raw = img.get_image_data_raw()
-        leftData = leftImg.get_image_data_numpy()
-        rightData = rightImg.get_image_data_numpy()
+        leftData = leftCam.getImage()
+        rightData = rightCam.getImage()
 
         leftDataSave = leftData.copy()
         rightDataSave = rightData.copy()
@@ -116,7 +113,7 @@ def main():
             if rightRet == True and leftRet == True:
                 goodImages += 1
 
-                if goodImages > 30:
+                if goodImages > 10:
                     saveImageFlag = True
             else:
                 goodImages = 0
@@ -153,12 +150,8 @@ def main():
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-
-    leftCam.stop_acquisition()
-    rightCam.stop_acquisition()
-
-    leftCam.close_device()
-    rightCam.close_device()
+    leftCam.close()
+    rightCam.close()
     cv2.destroyAllWindows()
 
 

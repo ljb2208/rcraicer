@@ -18,7 +18,7 @@ unsigned long lastEncoderTick = 0;
 Servo steeringServo;
 Servo throttleServo;
 
-const int STEER_PIN = 9;
+const int STEER_PIN = 10;
 const int THROTTLE_PIN = 11;
 
 int steerPos = 1500;

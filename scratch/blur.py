@@ -7,8 +7,8 @@ from ximea_cam import Camera
 
 def main():
 
-    leftCam = Camera("left", "31703351")
-    rightCam = Camera("right", "32703551")
+    leftCam = Camera("left", "31703351", downsampling='XI_DWN_1x1')
+    rightCam = Camera("right", "32703551", downsampling='XI_DWN_1x1')
 
     leftCam.open()
     rightCam.open()        

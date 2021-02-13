@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 import pathlib
+from os import path
 from ximea_cam import Camera
 from datetime import datetime
 
@@ -44,15 +45,39 @@ def drawCorners(image, cdict, board, params):
     if len(corners) < 1:
         return 0    
 
-    image = cv2.aruco.drawDetectedCornersCharuco(image, np.float32(corners), None, (0,0, 255))    
+    res, ccorners, cids = cv2.aruco.interpolateCornersCharuco(corners, markerIds, gray, board)
+
+    if (ccorners is None or len(ccorners) < 1):
+        return 0
+
+    image = cv2.aruco.drawDetectedCornersCharuco(image, ccorners, cids, (0,0, 255))    
         
-    return len(corners)
+    return len(ccorners)
+
+def getStartIndex():
+    global leftIndex
+    global rightIndex
+
+    filename = str(pathlib.Path(__file__).parent.absolute()) + "/charuco_images/"
+
+    leftFilename = filename + "left_" + str(leftIndex) + ".png"
+    rightFilename = filename + "right_" + str(rightIndex) + ".png"
+
+    while (path.exists(leftFilename) and path.exists(rightFilename)):
+        leftIndex += 1
+        rightIndex += 1
+
+        leftFilename = filename + "left_" + str(leftIndex) + ".png"
+        rightFilename = filename + "right_" + str(rightIndex) + ".png"
+
         
 
 def main():
     global currentImage
     global leftIndex
     global rightIndex
+
+    getStartIndex()
 
     currentImage = None
 
@@ -70,8 +95,8 @@ def main():
     startCapture = False
     lastCapture = datetime.now()
 
-    cdict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
-    board = cv2.aruco.CharucoBoard_create(	8, 6, 0.35, 0.2, cdict)
+    cdict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_5X5_1000)
+    board = cv2.aruco.CharucoBoard_create(	7, 5, 0.032, 0.016, cdict)
     params = cv2.aruco.DetectorParameters_create()
 
     goodImages = 0    
@@ -90,10 +115,10 @@ def main():
         leftRet = drawCorners(leftData, cdict, board, params)        
 
         if startCapture == True:
-            if rightRet > 10 and leftRet > 10:
+            if rightRet > 20 and leftRet > 20:
                 goodImages += 1
 
-                if goodImages > 30:
+                if goodImages > 0:
                     saveImageFlag = True
             else:
                 goodImages = 0
@@ -115,14 +140,19 @@ def main():
                 
 
         statusText = "Saved: " + str(leftIndex)
+        pointsText = "Corners: " + str(leftRet)
         leftData = cv2.putText(leftData, statusText, (40, 40), cv2.FONT_HERSHEY_SIMPLEX, 1,  (0, 0, 255), 2)
+        leftData = cv2.putText(leftData, pointsText, (400, 40), cv2.FONT_HERSHEY_SIMPLEX, 1,  (0, 0, 255), 2)
 
         if startCapture == False:
-            statusText = "Next capture: " + str(secondsLeft) + "s"
+            statusText = "Next capture: " + str(int(secondsLeft)) + "s"
         else:
             statusText = "Capturing now....."
 
+
+        poitnsText = "Corners: " + str(rightRet)
         rightData = cv2.putText(rightData, statusText, (40, 40), cv2.FONT_HERSHEY_SIMPLEX, 1,  (0, 0, 255), 2)
+        rightData = cv2.putText(rightData, pointsText, (400, 40), cv2.FONT_HERSHEY_SIMPLEX, 1,  (0, 0, 255), 2)
 
         cv2.imshow("Left", leftData)
         cv2.imshow("Right", rightData)        

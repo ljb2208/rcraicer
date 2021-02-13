@@ -7,8 +7,8 @@ from os import path
 
 
 def main():
-    chardict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)    
-    board = cv2.aruco.CharucoBoard_create(	8, 6, 0.35, 0.2, chardict)
+    chardict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_5X5_1000)    
+    board = cv2.aruco.CharucoBoard_create(	7, 5, 0.04, 0.02, chardict)
 
     boardImage = board.draw((650, 550), 10, 1)
 

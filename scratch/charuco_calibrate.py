@@ -1,51 +1,47 @@
 import cv2
 import numpy as np
 import pathlib
+import pickle
 from os import path
 from ximea import xiapi
 from datetime import datetime
 
 
-def calibrateCamera(objectPoints, cornerPoints, leftCamera):
 
-    # TODO - Try calibrateCameraRO
-    # ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objectPoints, cornerPoints, (640, 480), None, None)
-    ret, mtx, dist, rvecs, tvecs, nop = cv2.calibrateCameraRO(objectPoints, cornerPoints, (640, 480), 30, None, None)
+def calibrateCamera(cornerPoints, ids, board, leftCamera):
 
+    # TODO - Try calibrateCameraRO    
+    ret, mtx, dist, rvecs, tvecs = cv2.aruco.calibrateCameraCharuco(cornerPoints, ids, board, (1280, 1024), None, None)
 
     filePath = str(pathlib.Path(__file__).parent.absolute())
     filePath += "/calibration/"
 
     if leftCamera == True:
-        filePath += "left"
+        filePath += "left_charuco.pkl"
     else:
-        filePath += "right"
+        filePath += "right_charuco.pkl"
 
-    fileName = filePath + "_mtx.txt"
-    mtx.tofile(fileName)
+    with open(filePath, 'wb') as handle:
+        pickle.dump(mtx, handle)
+        pickle.dump(dist, handle)
+        pickle.dump(rvecs, handle)
+        pickle.dump(tvecs, handle)
 
-    fileName = filePath + "_dist.txt"
-    dist.tofile(fileName)
-
-    # fileName = filePath + "_rvecs.txt"
-    # rvecs.tofile(fileName)
-
-    # fileName = filePath + "_tvecs.txt"
-    # tvecs.tofile(fileName)
-
-
-    return ret, mtx, dist, nop
+    return ret, mtx, dist
     
 
-def getCorners(image, cdict):        
+def getCorners(image, cdict, board):        
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    corners, markerIds, rejectedPoints = cv2.aruco.detectMarkers(image, cdict)
+    corners, markerIds, rejectedPoints = cv2.aruco.detectMarkers(gray, cdict)
 
-    return corners, markerIds
+    ret, ccorners, cids = cv2.aruco.interpolateCornersCharuco(corners, markerIds, gray, board)
+
+    return ccorners, cids
         
 
 
-def loadData(cdict):
+def loadData(cdict, board):
     index = 0
         
     leftCornerPoints = []
@@ -62,18 +58,16 @@ def loadData(cdict):
         leftImage = cv2.imread(leftFilename)
         rightImage = cv2.imread(rightFilename)
 
-        lc, li = getCorners(leftImage, cdict)
-        rc, ri = getCorners(rightImage, cdict)
+        lc, li = getCorners(leftImage, cdict, board)
+        rc, ri = getCorners(rightImage, cdict, board)
 
-        leftCornerPoints.append(np.float32(lc))
+        leftCornerPoints.append(lc)
         leftIds.append(li)
 
-        rightCornerPoints.append(np.float32(rc))
+        rightCornerPoints.append(rc)
         rightIds.append(ri)
 
-        index += 1
-
-        print("Left corners: " + str(len(lc)) + " ids: " + str(len(li)))
+        index += 1        
 
         leftFilename =  filePath + "/charuco_images/left_" + str(index) + ".png"
         rightFilename = filePath + "/charuco_images/right_" + str(index) + ".png"
@@ -87,20 +81,17 @@ def loadData(cdict):
 
 def main():
 
-    cdict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
-    board = cv2.aruco.CharucoBoard_create(	8, 6, 0.35, 0.2, cdict)
+    cdict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_5X5_1000)
+    board = cv2.aruco.CharucoBoard_create(	7, 5, 0.032, 0.016, cdict)
     params = cv2.aruco.DetectorParameters_create()
 
-
-    leftCornerPoints, leftIds, rightCornerPoints, rightIds = loadData(cdict)
-
-    # calibrate left camera
-    # ret, lmtx, ldist, lnop = calibrateCamera(objectPoints, leftCornerPoints, True)
-    ret, lmtx, ldist, lr, lt = cv2.aruco.calibrateCameraCharuco(leftCornerPoints, leftIds, board, (1024, 760), None, None)
+    leftCornerPoints, leftIds, rightCornerPoints, rightIds = loadData(cdict, board)
+    
+    ret, lmtx, ldist = calibrateCamera(leftCornerPoints, leftIds, board, True)
     print("Left camera calibration returned: " + str(ret))
 
-    # ret, rmtx, rdist, rr, rt = cv2.aruco.calibrateCameraCharuco(np.float32(rightCornerPoints), rightIds, board, (1024, 760), None, None)
-    # print("Right camera calibration returned: " + str(ret))
+    ret, rmtx, rdist = calibrateCamera(rightCornerPoints, rightIds, board, False)
+    print("Right camera calibration returned: " + str(ret))
 
     # ret, slmat, sldist, srmat, srdist, R, T, E, F = cv2.stereoCalibrate(objectPoints, leftCornerPoints, rightCornerPoints, lmtx, ldist, rmtx, rdist, (640, 480))
 
