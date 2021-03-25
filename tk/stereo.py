@@ -17,6 +17,10 @@ class Stereo:
         self.rightMapX = None
         self.rightMapY = None
         self.stereoMatcher = None
+        self.leftMat = None
+        self.leftDist = None
+        self.rightMat = None
+        self.rightDist = None
 
         self.maxDisp = 160
         self.windowSize = 3
@@ -40,23 +44,23 @@ class Stereo:
         filePath += "/../scratch/" + self.config + "/stereo.pkl"    
 
         with open(filePath, 'rb') as handle:
-            leftMat = pickle.load(handle)
-            leftDist = pickle.load(handle)
-            rightMat = pickle.load(handle)
-            rightDist = pickle.load(handle)
+            self.leftMat = pickle.load(handle)
+            self.leftDist = pickle.load(handle)
+            self.rightMat = pickle.load(handle)
+            self.rightDist = pickle.load(handle)
             self.R = pickle.load(handle)
             self.T = pickle.load(handle)
             # E = pickle.load(handle)
             # F = pickle.load(handle)
 
-        print("Left mat: " + str(leftMat))
-        print("Right mat: " + str(rightMat))
+        print("Left mat: " + str(self.leftMat))
+        print("Right mat: " + str(self.rightMat))
         print("R: " + str(self.R))
         print("T: " + str(self.T))
 
-        leftRect, rightRect, leftProj, rightProj, self.Q, leftROI, rightROI = cv2.stereoRectify(leftMat, leftDist, rightMat, rightDist, self.imageSize, self.R, self.T) #, flags=cv2.CALIB_ZERO_DISPARITY
-        self.leftMapX, self.leftMapY = cv2.initUndistortRectifyMap(leftMat, leftDist, leftRect, leftProj, self.imageSize, cv2.CV_32FC1)
-        self.rightMapX, self.rightMapY = cv2.initUndistortRectifyMap(rightMat, rightDist, rightRect, rightProj, self.imageSize, cv2.CV_32FC1)
+        leftRect, rightRect, leftProj, rightProj, self.Q, leftROI, rightROI = cv2.stereoRectify(self.leftMat, self.leftDist, self.rightMat, self.rightDist, self.imageSize, self.R, self.T) #, flags=cv2.CALIB_ZERO_DISPARITY
+        self.leftMapX, self.leftMapY = cv2.initUndistortRectifyMap(self.leftMat, self.leftDist, leftRect, leftProj, self.imageSize, cv2.CV_32FC1)
+        self.rightMapX, self.rightMapY = cv2.initUndistortRectifyMap(self.rightMat, self.rightDist, rightRect, rightProj, self.imageSize, cv2.CV_32FC1)
 
     def createStereoMatchers(self):
         p1Mod = self.p1 * self.windowSize * self.windowSize

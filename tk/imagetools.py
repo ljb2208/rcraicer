@@ -275,6 +275,56 @@ class ImageTools():
         return self.getDepthAtPoint(image3d, int(remapX), int(remapY))
 
 
+    def getNewCameraPose(self, leftImage, rightImage, leftNewImage, rightNewImage):
+        return 0
+
+    def keyPointTest(self, image1, image2, image1New, image2New):
+        self.getKeyPoints(image1, image2, "matches1.png")
+        self.getKeyPoints(image1, image1New, "matches2.png")
+        self.getKeyPoints(image2, image2New, "matches3.png")
+        self.getKeyPoints(image1New, image2New, "matches4.png")
+
+    def getKeyPoints(self, image1, image2, fileName):
+        grey1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+        grey2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
+
+        # sift = cv2.SIFT_create()
+        orb = cv2.ORB_create()
+
+        kp1, des1 = orb.detectAndCompute(grey1, None)
+        kp2, des2 = orb.detectAndCompute(grey2, None)
+
+        # bf = cv2.BFMatcher()        
+        bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+
+
+        matches = bf.match(des1,des2)
+
+        # matches = bf.knnMatch(des1, des2, k=2)
+        matches = sorted(matches, key = lambda x:x.distance)
+
+        # # Apply ratio test
+        # good = []
+        # for m,n in matches:
+        #     if m.distance < 0.75*n.distance:
+        #         good.append([m])
+
+        # img3 = cv2.drawMatchesKnn(grey1, kp1, grey2, kp2, good, None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+
+        img3 = cv2.drawMatches(grey1, kp1, grey2, kp2, matches[:30], None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+
+        cv2.imwrite(fileName, img3)
+
+    def drawBoundingBox(self, image, bb):
+        pts = bb.points.reshape((-1,1,2))
+        print(str(pts))
+        # pts = np.array([[10,5],[20,30],[70,20],[50,10]], np.int32)
+        # print(str(pts))
+        # pts = pts.reshape((-1,1,2))
+        cv2.polylines(image, [pts], True, (0,0,255))        
+
+
+
 
         
             

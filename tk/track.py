@@ -1,13 +1,24 @@
 import pathlib
 import pickle
 
+class KeyFrame():
+    def __init__(self, id, rotation, translation):
+        self.id = id
+        self.rotation = rotation
+        self.translation = translation
+
+class TrackPoint():
+    def __init__(self, point3d, isBegin=False, isEnd=False):
+        self.point3d = point3d
+        self.isBegin = isBegin
+        self.isEnd = isEnd
 
 class TrackSegment():
     def __init__(self):
         self.points = []
 
-    def addPoint(self, point3d):
-        self.points.append(point3d)
+    def addPoint(self, point3d, isBegin=False, isEnd=False):
+        self.points.append(TrackPoint(point3d, isBegin, isEnd))
         return len(self.points)
     
     def getPointsCount(self):
@@ -19,11 +30,11 @@ class TrackSegments():
         self.currentSegmentIndex = 0
         self.originPoint = None
 
-    def addToSegment(self, point3d):
+    def addToSegment(self, point3d, isBegin=False, isEnd=False):
         if (self.currentSegmentIndex == 0 and self.segments[self.currentSegmentIndex].getPointsCount() == 0):
             self.originPoint = point3d
 
-        return self.segments[self.currentSegmentIndex].addPoint(self.convertPointRelativeToOrigin(point3d))
+        return self.segments[self.currentSegmentIndex].addPoint(point3d, isBegin, isEnd)
 
     def getCurrentSegmentIndex(self):
         return self.currentSegmentIndex
@@ -54,15 +65,19 @@ class TrackSegments():
 class Track():
     def __init__(self):
         self.segments = TrackSegments()            
+        self.keyFrames = []
         self.testLoad()
 
     def testLoad(self):
-        p1 = [10., 0., 10.]
-        p2 = [20., 0., 20.]
-        p3 = [30., 0., 30.]
-        self.segments.addToSegment(p1)
+        p1 = [1.5, 0., -50.]
+        p2 = [-1.5, 0., -6.]
+        p3 = [-3., 0., -4.]
+        self.segments.addToSegment(p1, isBegin=True)
         self.segments.addToSegment(p2)
-        self.segments.addToSegment(p3)
+        self.segments.addToSegment(p3, isEnd=True)
+
+    def addKeyFrame(self, rotation, translation):
+        self.keyFrames.append(KeyFrame(len(self.keyFrames), rotation, translation))
 
 
     def loadTrack(self):

@@ -18,8 +18,14 @@ class CameraThread():
             leftImage = self.leftCamera.getImage()
             rightImage = self.rightCamera.getImage()
 
+            if (self.messageQueue.qsize() > 0):
+                continue
+
             self.messageQueue.put([leftImage, rightImage])
 
         self.leftCamera.close()
         self.rightCamera.close()
 
+    def terminate(self):
+        print("Terminating thread")
+        self.running = False

@@ -12,7 +12,8 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
+  #add_compile_options(-Wall -Wextra -Wpedantic )
+  add_compile_options(-Wall -Wextra)
 endif()
 
 # find dependencies
@@ -20,12 +21,18 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(rcraicer_msgs REQUIRED)
+find_package(eigen3_cmake_module REQUIRED)
+find_package(Eigen3 REQUIRED)
 
+add_executable(imu_mavlink src/imu_mavlink.cpp src/mavlink_serial_port.cpp)
 add_executable(arduino_controller src/arduino_controller.cpp src/serial_port.cpp)
-add_executable(external_tracker src/external_tracker.cpp)
+#add_executable(external_tracker src/external_tracker.cpp)
+ament_target_dependencies(imu_mavlink rclcpp std_msgs sensor_msgs Eigen3 geometry_msgs tf2)
 ament_target_dependencies(arduino_controller rclcpp std_msgs sensor_msgs rcraicer_msgs)
-ament_target_dependencies(external_tracker rclcpp std_msgs sensor_msgs)
+#ament_target_dependencies(external_tracker rclcpp std_msgs sensor_msgs)
 
 
 if(BUILD_TESTING)
@@ -40,8 +47,9 @@ if(BUILD_TESTING)
 endif()
 
 install (TARGETS 
+    imu_mavlink
     arduino_controller
-    external_tracker
+    #external_tracker
     DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

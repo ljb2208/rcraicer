@@ -7,12 +7,16 @@ import threading
 from queue import Queue
 from cam_thread import CameraThread
 from imagetools import ImageTools
+from pose_estimator import PoseEstimator
 from track_widget import TrackWidget
 from track import Track
 import pathlib
+from os import path
 
 from OpenGL import GL
 from pyopengltk import OpenGLFrame
+
+from bounding_box import BoundingBox
 
 
 class ScrolledFrame(Frame):
@@ -70,7 +74,8 @@ class TrackBuilder():
         self.imageFrame = None
         self.ctrlFrame = None
         
-        self.cameraThread = None
+        self.cameraThread = None        
+        self.camera = None
         self.messageQueue = Queue()
         self.imageTools = ImageTools()
 
@@ -84,7 +89,11 @@ class TrackBuilder():
         self.rightImageCanvas = None
         self.filterImageCanvas = None
 
+        self.leftBB = BoundingBox()
+        self.rightBB = BoundingBox()
+
         self.saveImagesFlag = False
+        self.saveImageIndex = 0
 
         self.xLeftSel = -1
         self.yLeftSel = -1
@@ -105,8 +114,11 @@ class TrackBuilder():
 
     def testFnc(self):
         # newImage = self.imageTools.detectOrb(self.leftFilterImage, 0, 0)
-        newImage = self.imageTools.detectEdges(self.leftFilterImage)
-        self.loadImage(self.leftFilterImageCanvas, newImage, False)
+        # newImage = self.imageTools.detectEdges(self.leftFilterImage)
+        # self.loadImage(self.leftFilterImageCanvas, newImage, False)
+        #self.imageTools.keyPointTest(self.leftImagePrev, self.rightImagePrev, self.leftImage, self.rightImage)
+        est = PoseEstimator()
+        est.calculatePose(self.leftImagePrev, self.rightImagePrev, self.leftImage, self.rightImage)
 
     def getDepthToSelectedCone(self):
 
@@ -136,7 +148,12 @@ class TrackBuilder():
 
     def onImageMouseButton(self, event):
         self.xLeftSel = event.x * 2
-        self.yLeftSel = event.y * 2        
+        self.yLeftSel = event.y * 2 
+
+        self.leftBB.addPoint([self.xLeftSel, self.yLeftSel])       
+
+        if (self.leftBB.isComplete()):
+            self.drawBoundingBox()
 
         self.point3d = None
         self.eucDistance = None
@@ -278,7 +295,7 @@ class TrackBuilder():
         self.trackFrame.bind("<Configure>", self.onTrackFrameResize)
 
         self.trackCanvas = Canvas(self.trackFrame, height=600, width=600)
-        self.trackCanvas.grid(row=0, column=0, sticky=NSEW)        
+        self.trackCanvas.grid(row=0, column=0, sticky=NSEW)                
 
         self.trackControlsFrame = Canvas(self.trackFrame)
         self.trackControlsFrame.grid(row=0, column=1, sticky="N,S,E")
@@ -291,8 +308,10 @@ class TrackBuilder():
 
 
         self.trackWidget = TrackWidget(self.track, self.trackCanvas, 600, 600)
-        self.trackWidget.grid(row=0, column=0, sticky=NSEW)        
+        self.trackWidget.grid(row=0, column=0, sticky=NSEW)                
         self.trackWidget.animate = 1
+
+        
 
         self.tabTrack.grid_columnconfigure(0, weight=1)
         self.tabTrack.grid_rowconfigure(0, weight=1)  
@@ -364,12 +383,7 @@ class TrackBuilder():
 
         pointsText = "Segments: " + str(self.track.segments.getSegmentCount()) + " Current: " + str(self.track.segments.currentSegmentIndex) + " Points: " + str(self.track.segments.getCurrentSegmentPointsCount())
         self.pointsText['text'] = pointsText
-
-
-    def runCameraThread(self):
-        cameras = CameraThread(self, self.messageQueue)
-        cameras.run()
-        self.cameraThread = None        
+    
 
     def getImageFilePath(self):
         filePath = str(pathlib.Path(__file__).parent.absolute())
@@ -381,10 +395,30 @@ class TrackBuilder():
         self.saveImagesFlag = True
 
     def loadImages(self):
-        
-        li = cv2.imread(self.getImageFilePath() + "left.png")
-        ri = cv2.imread(self.getImageFilePath() + "right.png")
 
+        leftImageFile = self.getImageFilePath() + "left_" + str(self.saveImageIndex) + ".png"
+        rightImageFile = self.getImageFilePath() + "right_" + str(self.saveImageIndex) + ".png"
+
+        if not path.exists(leftImageFile):
+            self.saveImageIndex = 0
+            leftImageFile = self.getImageFilePath() + "left_" + str(self.saveImageIndex) + ".png"
+            rightImageFile = self.getImageFilePath() + "right_" + str(self.saveImageIndex) + ".png"
+        
+        if not path.exists(leftImageFile):
+            return
+
+        li = cv2.imread(leftImageFile)
+        ri = cv2.imread(rightImageFile)
+
+        self.saveImageIndex += 1
+
+        if (self.leftImage is not None and self.rightImage is not None):
+            pose = self.imageTools.getNewCameraPose(self.leftImage, self.rightImage, li, ri)
+            print("New camera pose: " + str(pose))
+        
+
+        self.leftImagePrev = self.leftImage
+        self.rightImagePrev = self.rightImage
         self.leftImage = li.copy()
         self.rightImage = ri.copy()
 
@@ -408,11 +442,14 @@ class TrackBuilder():
 
     def connect(self):
         if self.cameraThread is None or not self.cameraThread.is_alive():
-            self.cameraThread = threading.Thread(target=self.runCameraThread)
+            self.cameras = CameraThread(self, self.messageQueue)
+            self.cameraThread = threading.Thread(target=self.cameras.run)
             self.cameraThread.start()    
             self.connectButton['text'] = "Disconnect"
         else:
-            self.cameraThread.running = False
+            if self.cameras is not None:
+                self.cameras.terminate()
+                self.cameras = None
             self.connectButton['text'] = "Connect"
 
     def showEdges(self):
@@ -442,8 +479,9 @@ class TrackBuilder():
         self.loadImage(self.rightImageCanvas, images[1])                   
 
         if self.saveImagesFlag:
-            cv2.imwrite(self.getImageFilePath() + "left.png", images[0])
-            cv2.imwrite(self.getImageFilePath() + "right.png", images[1])
+            cv2.imwrite(self.getImageFilePath() + "left_" + str(self.saveImageIndex) + ".png", images[0])
+            cv2.imwrite(self.getImageFilePath() + "right_" + str(self.saveImageIndex) + ".png", images[1])
+            self.saveImageIndex += 1
             self.saveImagesFlag = False
 
         self.image3d = None
@@ -476,6 +514,10 @@ class TrackBuilder():
         imageCanvas.create_image(0, 0, anchor=NW, image=tkImage)
         imageCanvas._image_cache = tkImage  # avoid garbage collection        
 
+    def drawBoundingBox(self):
+        self.imageTools.drawBoundingBox(self.leftImage, self.leftBB)
+        self.loadImage(self.leftImageCanvas, self.leftImage)
+
 
     def runMainLoop(self):
 
@@ -485,8 +527,10 @@ class TrackBuilder():
             self.main.update()
 
             while not self.messageQueue.empty():
-                images = self.messageQueue.get()
-                self.onCameraImages(images)
+                images = self.messageQueue.get_nowait()
+
+                if images is not None:
+                    self.onCameraImages(images)
 
         self.main.destroy()
 
