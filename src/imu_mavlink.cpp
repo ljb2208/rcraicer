@@ -7,7 +7,7 @@ using namespace std::chrono_literals;
 IMUMavlink::IMUMavlink() : Node("imu_mavlink"), serialPort(NULL), rxDropCount(0), linear_accel_vec_flu(Eigen::Vector3d::Zero())
 {    
     // init parameters    
-    this->get_parameter_or("serial_port", portPath, rclcpp::Parameter("serial_port", "/dev/ttyACM0"));        
+    this->get_parameter_or("serial_port", portPath, rclcpp::Parameter("serial_port", "/dev/arIMU"));        
     this->get_parameter_or("baud_rate", baudRate, rclcpp::Parameter("baud_rate", 115200));
     this->get_parameter_or("frame_id", frame_id_param, rclcpp::Parameter("frame_id", "base_link"));
 
@@ -230,38 +230,7 @@ void IMUMavlink::handleImu(mavlink_highres_imu_t imu_hr)
         publishMagData(imu_hr.time_usec, mag_field);
     }
     // [mag_available]
-
-		// /** Check if static pressure sensor data is available:
-		//  *  @snippet src/plugins/imu.cpp static_pressure_available
-		//  */
-		// // [static_pressure_available]
-		// if (imu_hr.fields_updated & (1 << 9)) {
-		// 	auto static_pressure_msg = boost::make_shared<sensor_msgs::FluidPressure>();
-
-		// 	static_pressure_msg->header = header;
-		// 	static_pressure_msg->fluid_pressure = imu_hr.abs_pressure;
-
-		// 	static_press_pub.publish(static_pressure_msg);
-		// }
-		// // [static_pressure_available]
-
-		// /** Check if differential pressure sensor data is available:
-		//  *  @snippet src/plugins/imu.cpp differential_pressure_available
-		//  */
-		// // [differential_pressure_available]
-		// if (imu_hr.fields_updated & (1 << 10)) {
-		// 	auto differential_pressure_msg = boost::make_shared<sensor_msgs::FluidPressure>();
-
-		// 	differential_pressure_msg->header = header;
-		// 	differential_pressure_msg->fluid_pressure = imu_hr.diff_pressure;
-
-		// 	diff_press_pub.publish(differential_pressure_msg);
-		// }
-		// // [differential_pressure_available]
-
-		// /** Check if temperature data is available:
-		//  *  @snippet src/plugins/imu.cpp temperature_available
-		//  */
+		
     // [temperature_available]
     if (imu_hr.fields_updated & (1 << 12)) {
         std::shared_ptr<sensor_msgs::msg::Temperature> temp_msg = std::make_shared<sensor_msgs::msg::Temperature>();        
