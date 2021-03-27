@@ -113,6 +113,7 @@ void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
 void ArduinoController::publishChassisState(float throttle, float steer)
 {
     std::shared_ptr<rcraicer_msgs::msg::ChassisState> state_msg = std::make_shared<rcraicer_msgs::msg::ChassisState>();
+    state_msg->header.stamp = rclcpp::Node::now();
     state_msg->armed = isArmed;
     state_msg->throttle = throttle;
     state_msg->steer = steer;
@@ -224,6 +225,7 @@ void ArduinoController::processMessage(unsigned char* data, int length)
             unpackEncoderMessage(msg, enc_msg);
 
             rcraicer_msgs::msg::Encoder enc;
+            enc.header.stamp = rclcpp::Node::now();
             enc.left_rear = enc_msg.left_rear;
             enc.left_front = enc_msg.left_front;
             enc.right_front = enc_msg.right_front;
@@ -239,6 +241,7 @@ void ArduinoController::processMessage(unsigned char* data, int length)
             arduino_status_msg smsg;
             unpackArduinoStatusMessage(msg, smsg);
             rcraicer_msgs::msg::ArduinoStatus status;
+            status.header.stamp = rclcpp::Node::now();
             status.servo_update_count = smsg.servo_update_count;
             status.encoder_msg_count = smsg.encoder_msg_count;
             status.main_loop_count = smsg.main_loop_count;
