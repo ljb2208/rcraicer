@@ -25,9 +25,13 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
 
     encPublisher = this->create_publisher<rcraicer_msgs::msg::Encoder>("encoder");
     statusPublisher = this->create_publisher<rcraicer_msgs::msg::ArduinoStatus>("arduino_status");
+    statePublisher = this->create_publisher<rcraicer_msgs::msg::ChassisState>("chassis_state");
     
     joySubscription = this->create_subscription<sensor_msgs::msg::Joy>(
       "joy", std::bind(&ArduinoController::joy_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
+
+    commandSubscription = this->create_subscription<rcraicer_msgs::msg::ChassisCommand>(
+      "cmds", std::bind(&ArduinoController::command_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
 
     parameterClient = std::make_shared<rclcpp::AsyncParametersClient>(this);
     paramSubscription = parameterClient->on_parameter_event(std::bind(&ArduinoController::param_callback, this, std::placeholders::_1));
@@ -36,7 +40,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     {
         if (!rclcpp::ok())
         {
-            RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the parameter service.");
+            RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the parameter service.");   
             return;
         }
     }
@@ -67,22 +71,25 @@ ArduinoController::~ArduinoController()
     if (serialPort)
         delete serialPort;
 }
+
+void ArduinoController::command_callback(const rcraicer_msgs::msg::ChassisCommand::SharedPtr msg)
+{
+    sendActuatorData(msg->throttle, msg->steer);    
+}
  
 void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)  // use const at end of function in later versions of ros2
-{
-    data_msg dmsg;     
-    servo_msg smsg;
-    smsg.steer = getSteeringPWM(msg->axes[steeringAxisID]);
-    smsg.throttle = getThrottlePWM(msg->axes[throttleAxisID]);        
-    
-    packServoMessage(smsg, dmsg);            
-    writeData(dmsg);            
+{    
+    float steer = msg->axes[steeringAxisID];
+    float throttle = msg->axes[throttleAxisID];
+
+    sendActuatorData(throttle, steer);    
 
     if (msg->buttons[armButtonID] != armButtonValue)
     {
         if (msg->buttons[armButtonID] == 1)
         {
             isArmed = !isArmed;
+            data_msg dmsg;
             command_msg cmsg;
             cmsg.armed = isArmed;
 
@@ -101,6 +108,27 @@ void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
 
         armButtonValue = msg->buttons[armButtonID];
     }
+}
+
+void ArduinoController::publishChassisState(float throttle, float steer)
+{
+    std::shared_ptr<rcraicer_msgs::msg::ChassisState> state_msg = std::make_shared<rcraicer_msgs::msg::ChassisState>();
+    state_msg->armed = isArmed;
+    state_msg->throttle = throttle;
+    state_msg->steer = steer;
+
+    statePublisher->publish(state_msg);
+}
+
+void ArduinoController::sendActuatorData(float throttle, float steer)
+{         
+    data_msg dmsg;
+    servo_msg smsg;
+    smsg.steer = getSteeringPWM(steer);
+    smsg.throttle = getThrottlePWM(throttle);        
+    
+    packServoMessage(smsg, dmsg);            
+    writeData(dmsg);            
 }
 
 void ArduinoController::param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent)
