@@ -7,7 +7,7 @@ using namespace std::chrono_literals;
 IMUMavlink::IMUMavlink() : Node("imu_mavlink"), serialPort(NULL), rxDropCount(0), linear_accel_vec_flu(Eigen::Vector3d::Zero())
 {    
     // init parameters    
-    this->get_parameter_or("serial_port", portPath, rclcpp::Parameter("serial_port", "/dev/arIMU"));        
+    this->get_parameter_or("serial_port", portPath, rclcpp::Parameter("serial_port", "/dev/rcIMU"));        
     this->get_parameter_or("baud_rate", baudRate, rclcpp::Parameter("baud_rate", 115200));
     this->get_parameter_or("frame_id", frame_id_param, rclcpp::Parameter("frame_id", "base_link"));
 
