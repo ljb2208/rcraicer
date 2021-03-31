@@ -23,15 +23,15 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
 
     updateInternalParams();
 
-    encPublisher = this->create_publisher<rcraicer_msgs::msg::Encoder>("encoder");
-    statusPublisher = this->create_publisher<rcraicer_msgs::msg::ArduinoStatus>("arduino_status");
-    statePublisher = this->create_publisher<rcraicer_msgs::msg::ChassisState>("chassis_state");
+    encPublisher = this->create_publisher<rcraicer_msgs::msg::Encoder>("encoder", 10);
+    statusPublisher = this->create_publisher<rcraicer_msgs::msg::ArduinoStatus>("arduino_status", 10);
+    statePublisher = this->create_publisher<rcraicer_msgs::msg::ChassisState>("chassis_state", 10);
     
     joySubscription = this->create_subscription<sensor_msgs::msg::Joy>(
-      "joy", std::bind(&ArduinoController::joy_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
+      "joy", 10, std::bind(&ArduinoController::joy_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
 
     commandSubscription = this->create_subscription<rcraicer_msgs::msg::ChassisCommand>(
-      "cmds", std::bind(&ArduinoController::command_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
+      "cmds", 10, std::bind(&ArduinoController::command_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
 
     parameterClient = std::make_shared<rclcpp::AsyncParametersClient>(this);
     paramSubscription = parameterClient->on_parameter_event(std::bind(&ArduinoController::param_callback, this, std::placeholders::_1));
@@ -112,11 +112,11 @@ void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
 
 void ArduinoController::publishChassisState(float throttle, float steer)
 {
-    std::shared_ptr<rcraicer_msgs::msg::ChassisState> state_msg = std::make_shared<rcraicer_msgs::msg::ChassisState>();
-    state_msg->header.stamp = rclcpp::Node::now();
-    state_msg->armed = isArmed;
-    state_msg->throttle = throttle;
-    state_msg->steer = steer;
+    rcraicer_msgs::msg::ChassisState state_msg = rcraicer_msgs::msg::ChassisState();
+    state_msg.header.stamp = rclcpp::Node::now();
+    state_msg.armed = isArmed;
+    state_msg.throttle = throttle;
+    state_msg.steer = steer;
 
     statePublisher->publish(state_msg);
 }

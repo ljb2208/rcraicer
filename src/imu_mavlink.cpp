@@ -32,10 +32,10 @@ IMUMavlink::IMUMavlink() : Node("imu_mavlink"), serialPort(NULL), rxDropCount(0)
 
     RCLCPP_INFO(this->get_logger(), "Parameter service available.");
 
-    imuPublisher = this->create_publisher<sensor_msgs::msg::Imu>("imu");
-    imuPublisherRaw = this->create_publisher<sensor_msgs::msg::Imu>("imu_raw");
-    magPublisher = this->create_publisher<sensor_msgs::msg::MagneticField>("imu_mag");
-    tempPublisher = this->create_publisher<sensor_msgs::msg::Temperature>("imu_temp");
+    imuPublisher = this->create_publisher<sensor_msgs::msg::Imu>("imu", 10);
+    imuPublisherRaw = this->create_publisher<sensor_msgs::msg::Imu>("imu_raw", 10);
+    magPublisher = this->create_publisher<sensor_msgs::msg::MagneticField>("imu_mag", 10);
+    tempPublisher = this->create_publisher<sensor_msgs::msg::Temperature>("imu_temp", 10);
 
     serialPort = new MavlinkSerialPort(portPath.as_string(), baudRate.as_int());
     serialPort->registerDataCallback(std::bind(&IMUMavlink::serial_data_callback, this));
@@ -117,34 +117,34 @@ void IMUMavlink::setup_covariance(sensor_msgs::msg::Imu::_angular_velocity_covar
 
 void IMUMavlink::publishImuData(uint32_t time_boot_ms, Eigen::Quaterniond &orientation_enu, Eigen::Vector3d &gyro_flu)
 {    
-    std::shared_ptr<sensor_msgs::msg::Imu> imu_enu_msg = std::make_shared<sensor_msgs::msg::Imu>();
+    sensor_msgs::msg::Imu imu_enu_msg = sensor_msgs::msg::Imu();
 
     // Fill message header
-    imu_enu_msg->header.frame_id = frame_id;
-    imu_enu_msg->header.stamp = rclcpp::Time(time_boot_ms);    
+    imu_enu_msg.header.frame_id = frame_id;
+    imu_enu_msg.header.stamp = rclcpp::Time(time_boot_ms);    
 
-    imu_enu_msg->orientation.x = orientation_enu.x();
-    imu_enu_msg->orientation.y = orientation_enu.y();
-    imu_enu_msg->orientation.z = orientation_enu.z();
-    imu_enu_msg->orientation.w = orientation_enu.w();
+    imu_enu_msg.orientation.x = orientation_enu.x();
+    imu_enu_msg.orientation.y = orientation_enu.y();
+    imu_enu_msg.orientation.z = orientation_enu.z();
+    imu_enu_msg.orientation.w = orientation_enu.w();
         
-    imu_enu_msg->angular_velocity.x = gyro_flu.x();
-    imu_enu_msg->angular_velocity.y = gyro_flu.y();
-    imu_enu_msg->angular_velocity.z = gyro_flu.z();
+    imu_enu_msg.angular_velocity.x = gyro_flu.x();
+    imu_enu_msg.angular_velocity.y = gyro_flu.y();
+    imu_enu_msg.angular_velocity.z = gyro_flu.z();
         
-    imu_enu_msg->linear_acceleration.x = linear_accel_vec_flu.x();
-    imu_enu_msg->linear_acceleration.y = linear_accel_vec_flu.y();
-    imu_enu_msg->linear_acceleration.z = linear_accel_vec_flu.z();
+    imu_enu_msg.linear_acceleration.x = linear_accel_vec_flu.x();
+    imu_enu_msg.linear_acceleration.y = linear_accel_vec_flu.y();
+    imu_enu_msg.linear_acceleration.z = linear_accel_vec_flu.z();
 
     // // Pass ENU msg covariances
-    imu_enu_msg->orientation_covariance = orientation_cov;
-    imu_enu_msg->angular_velocity_covariance = angular_velocity_cov;
-    imu_enu_msg->linear_acceleration_covariance = linear_acceleration_cov;
+    imu_enu_msg.orientation_covariance = orientation_cov;
+    imu_enu_msg.angular_velocity_covariance = angular_velocity_cov;
+    imu_enu_msg.linear_acceleration_covariance = linear_acceleration_cov;
     
 
     if (!received_linear_accel) {
         // Set element 0 of covariance matrix to -1 if no data received as per sensor_msgs/Imu defintion
-        imu_enu_msg->linear_acceleration_covariance[0] = -1;        
+        imu_enu_msg.linear_acceleration_covariance[0] = -1;        
     }
             
     imuPublisher->publish(imu_enu_msg);		
@@ -153,17 +153,17 @@ void IMUMavlink::publishImuData(uint32_t time_boot_ms, Eigen::Quaterniond &orien
 void IMUMavlink::publishMagData(uint32_t time_boot_ms, Eigen::Vector3d &mag_field)
 {
       
-    std::shared_ptr<sensor_msgs::msg::MagneticField> mag_msg = std::make_shared<sensor_msgs::msg::MagneticField>();
+    sensor_msgs::msg::MagneticField mag_msg = sensor_msgs::msg::MagneticField();
 
     // Fill message header
-    mag_msg->header.frame_id = frame_id;
-    mag_msg->header.stamp = rclcpp::Time(time_boot_ms);  
+    mag_msg.header.frame_id = frame_id;
+    mag_msg.header.stamp = rclcpp::Time(time_boot_ms);  
 
-    mag_msg->magnetic_field.x = mag_field.x();
-    mag_msg->magnetic_field.y = mag_field.y();
-    mag_msg->magnetic_field.z = mag_field.z();		
+    mag_msg.magnetic_field.x = mag_field.x();
+    mag_msg.magnetic_field.y = mag_field.y();
+    mag_msg.magnetic_field.z = mag_field.z();		
 	
-    mag_msg->magnetic_field_covariance = magnetic_cov;
+    mag_msg.magnetic_field_covariance = magnetic_cov;
 
     magPublisher->publish(mag_msg);
 }
@@ -171,19 +171,19 @@ void IMUMavlink::publishMagData(uint32_t time_boot_ms, Eigen::Vector3d &mag_fiel
 void IMUMavlink::publishImuDataRaw(uint32_t time_usec, Eigen::Vector3d &gyro_flu, 
 				Eigen::Vector3d &accel_flu, Eigen::Vector3d &accel_frd)
 {
-    std::shared_ptr<sensor_msgs::msg::Imu> imu_enu_msg = std::make_shared<sensor_msgs::msg::Imu>();
+    sensor_msgs::msg::Imu imu_enu_msg = sensor_msgs::msg::Imu();
 
     // Fill message header
-    imu_enu_msg->header.frame_id = frame_id;
-    imu_enu_msg->header.stamp = rclcpp::Time(time_usec);    
+    imu_enu_msg.header.frame_id = frame_id;
+    imu_enu_msg.header.stamp = rclcpp::Time(time_usec);    
         
-    imu_enu_msg->angular_velocity.x = gyro_flu.x();
-    imu_enu_msg->angular_velocity.y = gyro_flu.y();
-    imu_enu_msg->angular_velocity.z = gyro_flu.z();
+    imu_enu_msg.angular_velocity.x = gyro_flu.x();
+    imu_enu_msg.angular_velocity.y = gyro_flu.y();
+    imu_enu_msg.angular_velocity.z = gyro_flu.z();
         
-    imu_enu_msg->linear_acceleration.x = accel_flu.x();
-    imu_enu_msg->linear_acceleration.y = accel_flu.y();
-    imu_enu_msg->linear_acceleration.z = accel_flu.z();
+    imu_enu_msg.linear_acceleration.x = accel_flu.x();
+    imu_enu_msg.linear_acceleration.y = accel_flu.y();
+    imu_enu_msg.linear_acceleration.z = accel_flu.z();
 
     // Save readings
     linear_accel_vec_flu = accel_flu;
@@ -191,9 +191,9 @@ void IMUMavlink::publishImuDataRaw(uint32_t time_usec, Eigen::Vector3d &gyro_flu
     received_linear_accel = true;
 
     // // Pass ENU msg covariances
-    imu_enu_msg->orientation_covariance = unk_orientation_cov;
-    imu_enu_msg->angular_velocity_covariance = angular_velocity_cov;
-    imu_enu_msg->linear_acceleration_covariance = linear_acceleration_cov;
+    imu_enu_msg.orientation_covariance = unk_orientation_cov;
+    imu_enu_msg.angular_velocity_covariance = angular_velocity_cov;
+    imu_enu_msg.linear_acceleration_covariance = linear_acceleration_cov;
             
     imuPublisherRaw->publish(imu_enu_msg);		
 }
@@ -233,11 +233,11 @@ void IMUMavlink::handleImu(mavlink_highres_imu_t imu_hr)
 		
     // [temperature_available]
     if (imu_hr.fields_updated & (1 << 12)) {
-        std::shared_ptr<sensor_msgs::msg::Temperature> temp_msg = std::make_shared<sensor_msgs::msg::Temperature>();        
+        sensor_msgs::msg::Temperature temp_msg = sensor_msgs::msg::Temperature();        
 
-        temp_msg->header.frame_id = frame_id;
-        temp_msg->header.stamp = rclcpp::Time(imu_hr.time_usec);    
-        temp_msg->temperature = imu_hr.temperature;
+        temp_msg.header.frame_id = frame_id;
+        temp_msg.header.stamp = rclcpp::Time(imu_hr.time_usec);    
+        temp_msg.temperature = imu_hr.temperature;
 
         tempPublisher->publish(temp_msg);
     }

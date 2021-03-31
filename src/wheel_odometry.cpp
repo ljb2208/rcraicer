@@ -9,7 +9,7 @@ WheelOdometry::WheelOdometry() : Node("wheel_odometry")
     prev_enc_lr = 0;
     prev_enc_rr = 0;
 
-    odomPublisher = this->create_publisher<nav_msgs::msg::Odometry>("odom");        
+    odomPublisher = this->create_publisher<nav_msgs::msg::Odometry>("odom", 10);        
 
     this->get_parameter_or("vehicle_wheelbase", vehicle_wheelbase, rclcpp::Parameter("vehicle_wheelbase", 0.3));    
     this->get_parameter_or("vehicle_width", vehicle_width, rclcpp::Parameter("vehicle_width", 0.2));    
@@ -32,10 +32,10 @@ WheelOdometry::WheelOdometry() : Node("wheel_odometry")
     RCLCPP_INFO(this->get_logger(), "Parameter service available.");
 
     stateSubscription = this->create_subscription<rcraicer_msgs::msg::ChassisState>(
-          "chassis_state", std::bind(&WheelOdometry::state_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
+          "chassis_state", 10, std::bind(&WheelOdometry::state_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
 
     encSubscription = this->create_subscription<rcraicer_msgs::msg::Encoder>(
-          "enc", std::bind(&WheelOdometry::encoder_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
+          "enc", 10, std::bind(&WheelOdometry::encoder_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
 
 }
 
@@ -180,27 +180,27 @@ void WheelOdometry::encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPt
     // function for error_velocity_theta_: -0.6398 * exp(-5.1233 * error_velocity_theta_) + 0.7541
     velocity_theta_var_ = VELOCITY_THETA_ALPHA * exp(VELOCITY_THETA_BETA * error_velocity_theta_) + VELOCITY_THETA_GAMMA;
     
-    std::shared_ptr<nav_msgs::msg::Odometry> odom_msg = std::make_shared<nav_msgs::msg::Odometry>();
-    odom_msg->header.stamp = rclcpp::Node::now();
+    nav_msgs::msg::Odometry odom_msg = nav_msgs::msg::Odometry();
+    odom_msg.header.stamp = rclcpp::Node::now();
     // the pose is relative to the header.frame_id reference published
-    odom_msg->header.frame_id = "wheel_odom";
+    odom_msg.header.frame_id = "wheel_odom";
     // the twist is relative to the child_fram_id
-    odom_msg->child_frame_id = "base_link";
+    odom_msg.child_frame_id = "base_link";
 
-    odom_msg->pose.pose.position.x = x_;
-    odom_msg->pose.pose.position.y = y_;
-    odom_msg->pose.pose.position.z = 0;
+    odom_msg.pose.pose.position.x = x_;
+    odom_msg.pose.pose.position.y = y_;
+    odom_msg.pose.pose.position.z = 0;
     double yaw = theta_ * PI / 180.0;
 
     tf2::Quaternion q_orientation = tf2::Quaternion();
     q_orientation.setRPY(0, 0, yaw);
-    odom_msg->pose.pose.orientation.x = q_orientation.x();
-    odom_msg->pose.pose.orientation.y = q_orientation.y();
-    odom_msg->pose.pose.orientation.z = q_orientation.z();
-    odom_msg->pose.pose.orientation.w = q_orientation.w();
+    odom_msg.pose.pose.orientation.x = q_orientation.x();
+    odom_msg.pose.pose.orientation.y = q_orientation.y();
+    odom_msg.pose.pose.orientation.z = q_orientation.z();
+    odom_msg.pose.pose.orientation.w = q_orientation.w();
 
     // covariance matrix takes same form as above
-    odom_msg->pose.covariance = {
+    odom_msg.pose.covariance = {
             10000,  1e-9,  1e-9,  1e-9,  1e-9,  1e-9,
              1e-9, 10000,  1e-9,  1e-9,  1e-9,  1e-9,
              1e-9,  1e-9, 10000,  1e-9,  1e-9,  1e-9,
@@ -209,16 +209,16 @@ void WheelOdometry::encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPt
              1e-9,  1e-9,  1e-9,  1e-9,  1e-9, 10000
     };
 
-     odom_msg->twist.twist.linear.x = delta_x_ / delta_t_;
-    odom_msg->twist.twist.linear.y = 0; // assume instantaneous y velocity is 0
-    odom_msg->twist.twist.linear.z = 0;
+    odom_msg.twist.twist.linear.x = delta_x_ / delta_t_;
+    odom_msg.twist.twist.linear.y = 0; // assume instantaneous y velocity is 0
+    odom_msg.twist.twist.linear.z = 0;
 
-    odom_msg->twist.twist.angular.x = 0;
-    odom_msg->twist.twist.angular.y = 0;
-    odom_msg->twist.twist.angular.z = delta_theta_ * PI / 180.0 / delta_t_;
+    odom_msg.twist.twist.angular.x = 0;
+    odom_msg.twist.twist.angular.y = 0;
+    odom_msg.twist.twist.angular.z = delta_theta_ * PI / 180.0 / delta_t_;
 
     // covariance matrix takes same form as above
-    odom_msg->twist.covariance = {
+    odom_msg.twist.covariance = {
             velocity_x_var_,              1e-9,                1e-9,                  1e-9,                  1e-9,                1e-9,
                        1e-9, velocity_x_var_*2,                1e-9,                  1e-9,                  1e-9,                1e-9,
                        1e-9,              1e-9,   velocity_x_var_*2,                  1e-9,                  1e-9,                1e-9,
