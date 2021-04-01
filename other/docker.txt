@@ -1,0 +1,1 @@
+sudo docker run --runtime nvidia -it --rm --network host ros:foxy-ros-base-l4t-r32.4.4 --device /dev/rcIMU --device /dev/rcArduino
