@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/usbdevice_fs.h>
+#include <iostream>
 
 SerialPort::SerialPort(std::string port, int baudRate, uint8_t messageDelim): port_fd(-1), port_setting_error(""), connected(false), alive(false)
 {
@@ -187,7 +188,7 @@ bool SerialPort::connect(std::string port, int baudRate)
     //Get the current options for the port...
     if(tcgetattr (port_fd, &port_settings) != 0)
     {
-        port_setting_error = "could not get options for port";
+        port_setting_error = "could not get options for port";        
         return false;
     }
 
