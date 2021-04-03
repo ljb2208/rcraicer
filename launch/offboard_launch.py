@@ -6,7 +6,7 @@ def generate_launch_description():
    return LaunchDescription([
        Node(
            package="joy",           
-           node_executable="joy_node",
-           node_name="joy_node"
+           executable="joy_node",
+           name="joy_node"
        )
    ])

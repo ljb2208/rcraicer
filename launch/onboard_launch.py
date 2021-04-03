@@ -6,12 +6,12 @@ def generate_launch_description():
    return LaunchDescription([
        Node(
            package="rcraicer",           
-           node_executable="arduino_controller",
-           node_name="arduino_controller"
+           executable="arduino_controller",
+           name="arduino_controller"
        ),
        Node(
            package="rcraicer",           
-           node_executable="imu_mavlink",
-           node_name="imu_mavlink"
+           executable="imu_mavlink",
+           name="imu_mavlink"
        )
    ])
