@@ -3,8 +3,8 @@
 #include <Arduino_LSM6DS3.h>
 
 // encoder variables
-int LR_PIN = 5;
-int LF_PIN = 4;
+int LR_PIN = 11;
+int LF_PIN = 10;
 int RF_PIN = 3;
 int RR_PIN = 2;
 
@@ -18,8 +18,8 @@ unsigned long lastEncoderTick = 0;
 Servo steeringServo;
 Servo throttleServo;
 
-const int STEER_PIN = 19;
-const int THROTTLE_PIN = 16;
+const int STEER_PIN = 17;
+const int THROTTLE_PIN = 19;
 
 int steerPos = 1500;
 int throttlePos = 1500;
