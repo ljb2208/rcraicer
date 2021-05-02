@@ -108,6 +108,8 @@ void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
 
         armButtonValue = msg->buttons[armButtonID];
     }
+
+    publishChassisState(throttle, steer);
 }
 
 void ArduinoController::publishChassisState(float throttle, float steer)

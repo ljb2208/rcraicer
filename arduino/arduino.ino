@@ -40,7 +40,7 @@ unsigned long SERVO_TIMER = 20; // 50 HZ Updates for servos
 unsigned long servoTimerStart= 0;
 bool servoTimerRunning = false;
 
-unsigned long ENCODER_TIMER = 200; // 5 HZ Updates for encoder
+unsigned long ENCODER_TIMER = 20; // 5 HZ Updates for encoder
 unsigned long encoderTimerStart= 0;
 bool encoderTimerRunning = false;
 

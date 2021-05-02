@@ -11,8 +11,9 @@ WheelOdometry::WheelOdometry() : Node("wheel_odometry")
 
     odomPublisher = this->create_publisher<nav_msgs::msg::Odometry>("odom", 10);        
 
-    this->get_parameter_or("vehicle_wheelbase", vehicle_wheelbase, rclcpp::Parameter("vehicle_wheelbase", 0.3));    
-    this->get_parameter_or("vehicle_width", vehicle_width, rclcpp::Parameter("vehicle_width", 0.2));    
+    this->get_parameter_or("vehicle_wheelbase", vehicle_wheelbase_param, rclcpp::Parameter("vehicle_wheelbase", 0.29));    
+    this->get_parameter_or("vehicle_width", vehicle_width_param, rclcpp::Parameter("vehicle_width", 0.23));    
+    this->get_parameter_or("wheel_radius", wheel_radius_param, rclcpp::Parameter("wheel_radius", 0.053));
     this->get_parameter_or("time_delay", time_delay_param, rclcpp::Parameter("time_delay", 0.1));    
     
     update_internal_params();
@@ -35,7 +36,7 @@ WheelOdometry::WheelOdometry() : Node("wheel_odometry")
           "chassis_state", 10, std::bind(&WheelOdometry::state_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
 
     encSubscription = this->create_subscription<rcraicer_msgs::msg::Encoder>(
-          "enc", 10, std::bind(&WheelOdometry::encoder_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
+          "encoder", 10, std::bind(&WheelOdometry::encoder_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
 
 }
 
@@ -50,13 +51,13 @@ void WheelOdometry::param_callback(const rcl_interfaces::msg::ParameterEvent::Sh
     {
         if (param.name == "vehicle_wheelbase")
         {
-            vehicle_wheelbase.from_parameter_msg(param);
-            RCLCPP_INFO(this->get_logger(), "Wheelbase Param changed: %d", vehicle_wheelbase.as_double());    
+            vehicle_wheelbase_param.from_parameter_msg(param);
+            RCLCPP_INFO(this->get_logger(), "Wheelbase Param changed: %d", vehicle_wheelbase_param.as_double());    
         }
         if (param.name == "vehicle_width")
         {
-            vehicle_width.from_parameter_msg(param);
-            RCLCPP_INFO(this->get_logger(), "Vehicle width Param changed: %d", vehicle_width.as_double());    
+            vehicle_width_param.from_parameter_msg(param);
+            RCLCPP_INFO(this->get_logger(), "Vehicle width Param changed: %d", vehicle_width_param.as_double());    
         }
         if (param.name == "time_delay")
         {
@@ -75,8 +76,8 @@ void WheelOdometry::param_callback(const rcl_interfaces::msg::ParameterEvent::Sh
 
 void WheelOdometry::update_internal_params()
 {
-    length = vehicle_wheelbase.as_double();
-    width = vehicle_width.as_double();
+    length = vehicle_wheelbase_param.as_double();
+    width = vehicle_width_param.as_double();
     time_delay = time_delay_param.as_double();
     wheel_radius = wheel_radius_param.as_double();
 

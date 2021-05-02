@@ -12,3 +12,7 @@ docker attach
 
 # how to detach from container
 ctrl+p and then ctrl+q
+
+#build container
+goto development/jetson-containers
+./scripts/docker_build_rcraicer_latest.sh

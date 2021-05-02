@@ -31,8 +31,8 @@ class WheelOdometry : public rclcpp::Node
         rclcpp::Subscription<rcraicer_msgs::msg::Encoder>::SharedPtr encSubscription;
         rclcpp::AsyncParametersClient::SharedPtr parameterClient;        
 
-        rclcpp::Parameter vehicle_wheelbase;
-        rclcpp::Parameter vehicle_width;
+        rclcpp::Parameter vehicle_wheelbase_param;
+        rclcpp::Parameter vehicle_width_param;
         rclcpp::Parameter time_delay_param;
         rclcpp::Parameter wheel_radius_param;
 
