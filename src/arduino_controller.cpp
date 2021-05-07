@@ -12,7 +12,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     this->get_parameter_or("steering_axis", steeringAxis, rclcpp::Parameter("steering_axis", 3));
     this->get_parameter_or("throttle_axis", throttleAxis, rclcpp::Parameter("throttle_axis", 1));
     this->get_parameter_or("arm_button", armButton, rclcpp::Parameter("armButton", 0));
-    this->get_parameter_or("reverse_steering_input", reverseSteeringInput, rclcpp::Parameter("reverse_steering_input", true));
+    this->get_parameter_or("reverse_steering_input", reverseSteeringInput, rclcpp::Parameter("reverse_steering_input", false));
     this->get_parameter_or("reverse_throttle_input", reverseThrottleInput, rclcpp::Parameter("reverse_throttle_input", false));
 
     this->get_parameter_or("baud_rate", baudRate, rclcpp::Parameter("baud_rate", 230400));
@@ -20,6 +20,8 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     std::vector<int64_t> defaultServoPoints = {1200, 1500, 1800};
     this->get_parameter_or("steering_servo_points", steeringServoPoints, rclcpp::Parameter("steering_servo_points", defaultServoPoints));
     this->get_parameter_or("throttle_servo_points", throttleServoPoints, rclcpp::Parameter("throttle_servo_points", defaultServoPoints));
+
+    this->get_parameter_or("steering_degrees_per_tick", steeringDegreesPerTick, rclcpp::Parameter("steering_degrees_per_tick", 0.10834));
 
     updateInternalParams();
 
@@ -107,18 +109,17 @@ void ArduinoController::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
         }
 
         armButtonValue = msg->buttons[armButtonID];
-    }
-
-    publishChassisState(throttle, steer);
+    }    
 }
 
-void ArduinoController::publishChassisState(float throttle, float steer)
+void ArduinoController::publishChassisState(float throttle, float steer, float steerAngle)
 {
     rcraicer_msgs::msg::ChassisState state_msg = rcraicer_msgs::msg::ChassisState();
     state_msg.header.stamp = rclcpp::Node::now();
     state_msg.armed = isArmed;
     state_msg.throttle = throttle;
     state_msg.steer = steer;
+    state_msg.steer_angle = steerAngle;
 
     statePublisher->publish(state_msg);
 }
@@ -127,11 +128,15 @@ void ArduinoController::sendActuatorData(float throttle, float steer)
 {         
     data_msg dmsg;
     servo_msg smsg;
-    smsg.steer = getSteeringPWM(steer);
+    int steeringPWM = getSteeringPWM(steer);
+    smsg.steer = steeringPWM;
     smsg.throttle = getThrottlePWM(throttle);        
     
     packServoMessage(smsg, dmsg);            
     writeData(dmsg);            
+
+    float steerAngle = getSteeringAngle(steeringPWM);
+    publishChassisState(throttle, steer, steerAngle);
 }
 
 void ArduinoController::param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent)
@@ -275,6 +280,7 @@ void ArduinoController::processMessage(unsigned char* data, int length)
 
 void ArduinoController::updateInternalParams()
 {
+    steeringAngleCoefficient = steeringDegreesPerTick.as_double();
     steeringServoMin = steeringServoPoints.as_integer_array()[0];
     steeringServoMid = steeringServoPoints.as_integer_array()[1];
     steeringServoMax = steeringServoPoints.as_integer_array()[2];
@@ -305,6 +311,12 @@ void ArduinoController::updateInternalParams()
     steeringAxisID = steeringAxis.as_int();
     throttleAxisID = throttleAxis.as_int();
     armButtonID = armButton.as_int();
+}
+
+float ArduinoController::getSteeringAngle(int steerPWM)
+{
+    int pwmValue = steerPWM - steeringServoMid;    
+    return pwmValue * steeringAngleCoefficient;
 }
 
 int32_t ArduinoController::getSteeringPWM(float value)

@@ -26,13 +26,14 @@ class ArduinoController : public rclcpp::Node
         void test_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent);
         void serial_data_callback();
         void sendActuatorData(float throttle, float steer);
-        void publishChassisState(float throttle, float steer);
+        void publishChassisState(float throttle, float steer, float steerAngle);
         
         void writeData(data_msg dmsg);        
         void processMessage(unsigned char* data, int length);
 
         void updateInternalParams();
 
+        float getSteeringAngle(int steerPWM);
         int32_t getSteeringPWM(float value);
         int32_t getThrottlePWM(float value);
         int32_t getPWM(float value, float inputFactor, int64_t min, int64_t mid, int64_t max);
@@ -56,6 +57,9 @@ class ArduinoController : public rclcpp::Node
         rclcpp::Parameter reverseSteeringInput;
         rclcpp::Parameter steeringServoPoints;
         rclcpp::Parameter throttleServoPoints;
+        rclcpp::Parameter steeringDegreesPerTick;
+
+        double steeringAngleCoefficient;
 
         float steeringInputFactor;
         float throttleInputFactor;
