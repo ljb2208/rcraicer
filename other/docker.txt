@@ -1,7 +1,7 @@
 # start container
 sudo docker run --runtime nvidia -it --rm --network host --device /dev/rcIMU --device /dev/rcArduino --name rcraicer ros:rcraicer-latest
 
-sudo docker run --runtime nvidia -it --restart unless-stopped --network host --device /dev/rcIMU --name rcraicer  --device /dev/rcArduino ros:rcraicer-latest
+sudo docker run --runtime nvidia -it --restart unless-stopped --network host --device /dev/rcIMU --name rcraicer  --device /dev/rcArduino ros:rcraicer-latest -v "/home/lbarnett/ros2_ws:/root/ros2_ws"
 
 # connect to running container
 sudo docker exec -it <container-id> /bin/bash

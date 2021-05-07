@@ -12,7 +12,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     this->get_parameter_or("steering_axis", steeringAxis, rclcpp::Parameter("steering_axis", 3));
     this->get_parameter_or("throttle_axis", throttleAxis, rclcpp::Parameter("throttle_axis", 1));
     this->get_parameter_or("arm_button", armButton, rclcpp::Parameter("armButton", 0));
-    this->get_parameter_or("reverse_steering_input", reverseSteeringInput, rclcpp::Parameter("reverse_steering_input", false));
+    this->get_parameter_or("reverse_steering_input", reverseSteeringInput, rclcpp::Parameter("reverse_steering_input", true));
     this->get_parameter_or("reverse_throttle_input", reverseThrottleInput, rclcpp::Parameter("reverse_throttle_input", false));
 
     this->get_parameter_or("baud_rate", baudRate, rclcpp::Parameter("baud_rate", 230400));
