@@ -63,8 +63,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
                                     baudRate.as_int(), serialPort->getErrorString().c_str());        
     }    
 
-    RCLCPP_INFO(this->get_logger(), "Node started. Steering Axis: %i. Throttle Axis: %i",
-                                    steeringAxis.as_int(), throttleAxis.as_int());    
+    RCLCPP_INFO(this->get_logger(), "Node started.");                                        
     
 }
 
@@ -311,6 +310,11 @@ void ArduinoController::updateInternalParams()
     steeringAxisID = steeringAxis.as_int();
     throttleAxisID = throttleAxis.as_int();
     armButtonID = armButton.as_int();
+
+    RCLCPP_INFO(this->get_logger(), "Steering servo points: %i/%i/%i", steeringServoMin, steeringServoMid, steeringServoMax);
+    RCLCPP_INFO(this->get_logger(), "Throttle servo points: %i/%i/%i", steeringServoMin, steeringServoMid, steeringServoMax);
+    RCLCPP_INFO(this->get_logger(), "Steering reverse: %i Throttle reverse: %i", steeringInputFactor, throttleInputFactor);
+    RCLCPP_INFO(this->get_logger(), "Steering axis: %i Throttle axis: %i Arm Button: %i", steeringAxisID, throttleAxisID, armButtonID);
 }
 
 float ArduinoController::getSteeringAngle(int steerPWM)
