@@ -21,9 +21,7 @@ class ArduinoController : public rclcpp::Node
 
     private:
         void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg);
-        void command_callback(const rcraicer_msgs::msg::ChassisCommand::SharedPtr msg);
-        void param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent);
-        void test_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent);
+        void command_callback(const rcraicer_msgs::msg::ChassisCommand::SharedPtr msg);        
         void serial_data_callback();
         void sendActuatorData(float throttle, float steer);
         void publishChassisState(float throttle, float steer, float steerAngle);
@@ -43,8 +41,10 @@ class ArduinoController : public rclcpp::Node
         rclcpp::Publisher<rcraicer_msgs::msg::ChassisState>::SharedPtr statePublisher;
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joySubscription;
         rclcpp::Subscription<rcl_interfaces::msg::ParameterEvent>::SharedPtr paramSubscription;
-        rclcpp::Subscription<rcraicer_msgs::msg::ChassisCommand>::SharedPtr commandSubscription;
-        rclcpp::AsyncParametersClient::SharedPtr parameterClient;        
+        rclcpp::Subscription<rcraicer_msgs::msg::ChassisCommand>::SharedPtr commandSubscription;        
+
+        rcl_interfaces::msg::SetParametersResult paramSetCallback(const std::vector<rclcpp::Parameter>& parameters);
+        OnSetParametersCallbackHandle::SharedPtr paramSetCallbackHandler;
 
         SerialPort* serialPort;
 
@@ -53,8 +53,8 @@ class ArduinoController : public rclcpp::Node
         rclcpp::Parameter throttleAxis;
         rclcpp::Parameter steeringAxis;
         rclcpp::Parameter armButton;
-        rclcpp::Parameter reverseThrottleInput;
-        rclcpp::Parameter reverseSteeringInput;
+        rclcpp::Parameter throttleInputFactorParam;
+        rclcpp::Parameter steeringInputFactorParam;
         rclcpp::Parameter steeringServoPoints;
         rclcpp::Parameter throttleServoPoints;
         rclcpp::Parameter steeringDegreesPerTick;

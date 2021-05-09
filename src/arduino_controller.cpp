@@ -13,25 +13,27 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     this->declare_parameter<int>("throttle_axis", 1);
     this->declare_parameter<int>("arm_button", 0);
 
-    this->declare_parameter<bool>("reverse_steering_input", true);
-    this->declare_parameter<bool>("reverse_throttle_input", false);    
+    this->declare_parameter("steering_input_factor", -1.0);
+    this->declare_parameter("throttle_input_factor", 1.0);    
 
     std::vector<int64_t> defaultServoPoints = {1200, 1500, 1800};
     this->declare_parameter<std::vector<int64_t>>("steering_servo_points", defaultServoPoints);
     this->declare_parameter<std::vector<int64_t>>("throttle_servo_points", defaultServoPoints);
     this->declare_parameter<double>("steering_degrees_per_tick", 0.10834);
 
+    paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&ArduinoController::paramSetCallback, this, std::placeholders::_1));
+
 
     // init parameters    
-    portPath = this->get_parameter("serial_port"); //, portPath, rclcpp::Parameter("serial_port", "/dev/rcArduino"));    
+    portPath = this->get_parameter("serial_port"); 
     baudRate = this->get_parameter("baud_rate");
 
     steeringAxis = this->get_parameter("steering_axis");
     throttleAxis = this->get_parameter("throttle_axis");
     armButton = this->get_parameter("arm_button");
 
-    reverseSteeringInput = this->get_parameter("reverse_steering_input");
-    reverseThrottleInput = this->get_parameter("reverse_throttle_input");
+    steeringInputFactorParam = this->get_parameter("steering_input_factor");
+    throttleInputFactorParam = this->get_parameter("throttle_input_factor");
 
     steeringServoPoints = this->get_parameter("steering_servo_points");
     throttleServoPoints = this->get_parameter("throttle_servo_points");
@@ -49,21 +51,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
 
     commandSubscription = this->create_subscription<rcraicer_msgs::msg::ChassisCommand>(
       "cmds", 10, std::bind(&ArduinoController::command_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
-
-    parameterClient = std::make_shared<rclcpp::AsyncParametersClient>(this);
-    paramSubscription = parameterClient->on_parameter_event(std::bind(&ArduinoController::param_callback, this, std::placeholders::_1));
-
-    while (!parameterClient->wait_for_service(10s))
-    {
-        if (!rclcpp::ok())
-        {
-            RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the parameter service.");   
-            return;
-        }
-    }
-
-    RCLCPP_INFO(this->get_logger(), "Parameter service available.");
-
+    
     serialPort = new SerialPort(portPath.as_string(), baudRate.as_int(), MESSAGE_DELIM);
     serialPort->registerDataCallback(std::bind(&ArduinoController::serial_data_callback, this));
 
@@ -153,59 +141,74 @@ void ArduinoController::sendActuatorData(float throttle, float steer)
     publishChassisState(throttle, steer, steerAngle);
 }
 
-void ArduinoController::param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent)
+rcl_interfaces::msg::SetParametersResult ArduinoController::paramSetCallback(const std::vector<rclcpp::Parameter>& parameters)
 {
-    for (auto & param : paramEvent->changed_parameters)
-    {
-        if (param.name == "serial_port")
-        {
-            portPath = rclcpp::Parameter::from_parameter_msg(param);
-            RCLCPP_INFO(this->get_logger(), "Serial Port Param changed: %s", portPath.as_string().c_str());    
-        }
-        else if (param.name == "steering_axis")
-        {
-            steeringAxis = rclcpp::Parameter::from_parameter_msg(param);
-            RCLCPP_INFO(this->get_logger(), "Steering Axis Param changed: %i", steeringAxis.as_int());    
-        }
-        else if (param.name == "throttle_axis")
-        {
-            throttleAxis = rclcpp::Parameter::from_parameter_msg(param);
-            RCLCPP_INFO(this->get_logger(), "Throttle Axis Param changed: %i", throttleAxis.as_int());    
-        }
-        else if (param.name == "steering_servo_points")
-        {
-            if (param.value.integer_array_value.size() != 3)
-            {
-                RCLCPP_ERROR(this->get_logger(), "Cannot set steering servo points param. Wrong number of items specified");
-            }
-            else
-            {
-                steeringServoPoints = rclcpp::Parameter::from_parameter_msg(param);
-                RCLCPP_INFO(this->get_logger(), "Steering servo points changed: %i/%i/%i", steeringServoPoints.as_integer_array()[0], steeringServoPoints.as_integer_array()[1], steeringServoPoints.as_integer_array()[2]);
-                
-            }            
-        }
-        else if (param.name == "throttle_servo_points")
-        {
-            if (param.value.integer_array_value.size() != 3)
-            {
-                RCLCPP_ERROR(this->get_logger(), "Cannot set throttle servo points param. Wrong number of items specified");
-            }
-            else
-            {
-                throttleServoPoints = rclcpp::Parameter::from_parameter_msg(param);
+    rcl_interfaces::msg::SetParametersResult result;
+    result.successful = true;
 
-                RCLCPP_INFO(this->get_logger(), "Throttle servo points changed: %i/%i/%i", throttleServoPoints.as_integer_array()[0], throttleServoPoints.as_integer_array()[1], throttleServoPoints.as_integer_array()[2]);
-            }            
+    for (auto param : parameters)
+    {        
+        if (param.get_name() == "arm_button")
+        {
+            armButton = param;
         }
-        else if (param.name == "steering_degress_per_tick")
+        else if (param.get_name() == "serial_port")
+        {
+            portPath = param;
+        }
+        else if (param.get_name() == "baud_rate")
+        {
+            baudRate = param;
+        }
+        else if (param.get_name() == "steering_axis")
+        {
+            steeringAxis = param;
+        }
+        else if (param.get_name() == "throttle_axis")
+        {
+            throttleAxis = param;
+        }        
+        else if (param.get_name() == "steering_servo_points")
+        {
+            if (param.get_type() != rclcpp::ParameterType::PARAMETER_INTEGER_ARRAY || param.as_integer_array().size() != 3)
+            {
+                result.successful = false;
+                result.reason = "Wrong number of items specified, must be 3 (min, mid, max)";                
+            }
+            else
+            {
+                steeringServoPoints = param;
+            }
+            
+        }
+        else if (param.get_name() == "throttle_servo_points")
+        {
+            if (param.get_type() != rclcpp::ParameterType::PARAMETER_INTEGER_ARRAY || param.as_integer_array().size() != 3)
+            {
+                result.successful = false;
+                result.reason = "Wrong number of items specified, must be 3 (min, mid, max)";
+            }
+            else
+            {
+                throttleServoPoints = param;
+            }            
+        }        
+        else if (param.get_name() == "steering_degress_per_tick")
         {            
-            steeringDegreesPerTick = rclcpp::Parameter::from_parameter_msg(param);         
-            RCLCPP_INFO(this->get_logger(), "Steering degrees per tick changes: %f", steeringDegreesPerTick.as_double());    
+            steeringDegreesPerTick = param;                  
+        }
+        else if (param.get_name() == "steering_input_factor")
+        {
+            steeringInputFactorParam = param;
+        }
+        else if (param.get_name() == "throttle_input_factor")
+        {
+            throttleInputFactorParam = param;
         }
     }
 
     updateInternalParams();
+    return result;
 }
 
 void ArduinoController::serial_data_callback()
@@ -303,39 +306,57 @@ void ArduinoController::processMessage(unsigned char* data, int length)
 
 void ArduinoController::updateInternalParams()
 {
-    steeringAngleCoefficient = steeringDegreesPerTick.as_double();
-    steeringServoMin = steeringServoPoints.as_integer_array()[0];
-    steeringServoMid = steeringServoPoints.as_integer_array()[1];
-    steeringServoMax = steeringServoPoints.as_integer_array()[2];
-
-    throttleServoMin = throttleServoPoints.as_integer_array()[0];
-    throttleServoMid = throttleServoPoints.as_integer_array()[1];
-    throttleServoMax = throttleServoPoints.as_integer_array()[2];
-
-    throttleInputFactor = 1.0;
-    steeringInputFactor = 1.0;
-
-    if (reverseThrottleInput.as_bool() == true)
+    if (steeringAngleCoefficient != steeringDegreesPerTick.as_double())
     {
-        throttleInputFactor = -1.0;
+        steeringAngleCoefficient = steeringDegreesPerTick.as_double();
+        RCLCPP_INFO(this->get_logger(), "Steering degrees per tick: %f", steeringAngleCoefficient);
     }
-    
-    if (reverseSteeringInput.as_bool() == true)
+
+    if (steeringServoMin != steeringServoPoints.as_integer_array()[0] || steeringServoMid != steeringServoPoints.as_integer_array()[1] || steeringServoMax != steeringServoPoints.as_integer_array()[2])    
     {
-        steeringInputFactor = -1.0;
-    }        
+        steeringServoMin = steeringServoPoints.as_integer_array()[0];
+        steeringServoMid = steeringServoPoints.as_integer_array()[1];
+        steeringServoMax = steeringServoPoints.as_integer_array()[2];
+        RCLCPP_INFO(this->get_logger(), "Steering servo points: %i/%i/%i", steeringServoMin, steeringServoMid, steeringServoMax);
+    }
 
-    steeringAxisID = steeringAxis.as_int();
-    throttleAxisID = throttleAxis.as_int();
-    armButtonID = armButton.as_int();
+    if (throttleServoMin != throttleServoPoints.as_integer_array()[0] || throttleServoMid != throttleServoPoints.as_integer_array()[1] || throttleServoMax != throttleServoPoints.as_integer_array()[2])    
+    {
+        throttleServoMin = throttleServoPoints.as_integer_array()[0];
+        throttleServoMid = throttleServoPoints.as_integer_array()[1];
+        throttleServoMax = throttleServoPoints.as_integer_array()[2];
+        RCLCPP_INFO(this->get_logger(), "Throttle servo points: %i/%i/%i", steeringServoMin, steeringServoMid, steeringServoMax);
+    }       
 
-    steeringAngleCoefficient = steeringDegreesPerTick.as_double();
+    if (steeringInputFactor != steeringInputFactorParam.as_double())
+    {
+        steeringInputFactor = steeringInputFactorParam.as_double();
+        RCLCPP_INFO(this->get_logger(), "Steering input factor: %f", steeringInputFactor);
+    }
 
-    // RCLCPP_INFO(this->get_logger(), "Steering servo points: %i/%i/%i", steeringServoMin, steeringServoMid, steeringServoMax);
-    // RCLCPP_INFO(this->get_logger(), "Throttle servo points: %i/%i/%i", steeringServoMin, steeringServoMid, steeringServoMax);
-    // RCLCPP_INFO(this->get_logger(), "Steering reverse: %f Throttle reverse: %f", steeringInputFactor, throttleInputFactor);
-    // RCLCPP_INFO(this->get_logger(), "Steering axis: %i Throttle axis: %i Arm Button: %i", steeringAxisID, throttleAxisID, armButtonID);
-    // RCLCPP_INFO(this->get_logger(), "Steering degrees per tick: %f", steeringAngleCoefficient);
+    if (throttleInputFactor != throttleInputFactorParam.as_double())
+    {
+        throttleInputFactor = throttleInputFactorParam.as_double();
+        RCLCPP_INFO(this->get_logger(), "Throttle input factor: %f", throttleInputFactor);
+    }    
+
+    if (steeringAxisID != steeringAxis.as_int())
+    {
+        steeringAxisID = steeringAxis.as_int();
+        RCLCPP_INFO(this->get_logger(), "Steering Axis: %i", steeringAxisID);
+    }
+
+    if (throttleAxisID != throttleAxis.as_int())
+    {
+        throttleAxisID = throttleAxis.as_int();    
+        RCLCPP_INFO(this->get_logger(), "Throttle Axis: %i", throttleAxisID);
+    }
+
+    if (armButtonID != armButton.as_int())
+    {
+        armButtonID = armButton.as_int();
+        RCLCPP_INFO(this->get_logger(), "Arm Button: %i", armButtonID);
+    }    
 }
 
 float ArduinoController::getSteeringAngle(int steerPWM)
