@@ -68,9 +68,10 @@ class IMUMavlink : public rclcpp::Node
         rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imuPublisher;
         rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imuPublisherRaw;
         rclcpp::Publisher<sensor_msgs::msg::MagneticField>::SharedPtr magPublisher;
-        rclcpp::Publisher<sensor_msgs::msg::Temperature>::SharedPtr tempPublisher;
-        rclcpp::Subscription<rcl_interfaces::msg::ParameterEvent>::SharedPtr paramSubscription;
-        rclcpp::AsyncParametersClient::SharedPtr parameterClient;
+        rclcpp::Publisher<sensor_msgs::msg::Temperature>::SharedPtr tempPublisher;        
+
+        rcl_interfaces::msg::SetParametersResult paramSetCallback(const std::vector<rclcpp::Parameter>& parameters);
+        OnSetParametersCallbackHandle::SharedPtr paramSetCallbackHandler;
 
         MavlinkSerialPort* serialPort;
 

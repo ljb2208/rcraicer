@@ -7,30 +7,19 @@ using namespace std::chrono_literals;
 IMUMavlink::IMUMavlink() : Node("imu_mavlink"), serialPort(NULL), rxDropCount(0), linear_accel_vec_flu(Eigen::Vector3d::Zero())
 {    
     // init parameters    
-    this->get_parameter_or("serial_port", portPath, rclcpp::Parameter("serial_port", "/dev/rcIMU"));        
-    this->get_parameter_or("baud_rate", baudRate, rclcpp::Parameter("baud_rate", 115200));
-    this->get_parameter_or("frame_id", frame_id_param, rclcpp::Parameter("frame_id", "base_link"));
+    this->declare_parameter("serial_port", "/dev/rcIMU");
+    this->declare_parameter("baud_rate", 115200);
+    this->declare_parameter("frame_id", 115200);
+    this->declare_parameter("linear_acceleration_stdev", 115200);
+    this->declare_parameter("angular_velocity_stdev", 115200);
+    this->declare_parameter("orientation_stdev", 115200);
+    this->declare_parameter("magnetic_stdev", 115200);
 
-    this->get_parameter_or("linear_acceleration_stdev", linear_stdev, rclcpp::Parameter("linear_acceleration_stdev", 0.0003));
-    this->get_parameter_or("angular_velocity_stdev", angular_stdev, rclcpp::Parameter("angular_velocity_stdev",  0.02 * (M_PI / 180.0)));
-    this->get_parameter_or("orientation_stdev", orientation_stdev, rclcpp::Parameter("orientation_stdev",  1.0));
-    this->get_parameter_or("magnetic_stdev", mag_stdev, rclcpp::Parameter("magnetic_stdev",  0.0));
-
-    updateInternalParams();        
     
-    parameterClient = std::make_shared<rclcpp::AsyncParametersClient>(this);
-    paramSubscription = parameterClient->on_parameter_event(std::bind(&IMUMavlink::param_callback, this, std::placeholders::_1));
+    updateInternalParams();
 
-    while (!parameterClient->wait_for_service(10s))
-    {
-        if (!rclcpp::ok())
-        {
-            RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the parameter service.");
-            return;
-        }
-    }
-
-    RCLCPP_INFO(this->get_logger(), "Parameter service available.");
+    paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&IMUMavlink::paramSetCallback, this, std::placeholders::_1));
+        
 
     imuPublisher = this->create_publisher<sensor_msgs::msg::Imu>("imu", 10);
     imuPublisherRaw = this->create_publisher<sensor_msgs::msg::Imu>("imu_raw", 10);
@@ -60,46 +49,59 @@ IMUMavlink::~IMUMavlink()
     if (serialPort)
         delete serialPort;
 }
- 
 
-void IMUMavlink::param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent)
+rcl_interfaces::msg::SetParametersResult IMUMavlink::paramSetCallback(const std::vector<rclcpp::Parameter>& parameters)
 {
-    for (auto & param : paramEvent->changed_parameters)
-    {
-        if (param.name == "frame_id")
+    rcl_interfaces::msg::SetParametersResult result;
+    result.successful = true;
+
+    this->declare_parameter("serial_port", "/dev/rcIMU");
+    this->declare_parameter("baud_rate", 115200);
+    this->declare_parameter("frame_id", 115200);
+    this->declare_parameter("linear_acceleration_stdev", 115200);
+    this->declare_parameter("angular_velocity_stdev", 115200);
+    this->declare_parameter("orientation_stdev", 115200);
+    this->declare_parameter("magnetic_stdev", 115200);
+
+
+    for (auto param : parameters)
+    {        
+        if (param.get_name() == "serial_port")
         {
-            frame_id_param.from_parameter_msg(param);            
+            portPath = param;
         }
-        if (param.name == "serial_port")
+        else if (param.get_name() == "baud_rate")
         {
-            portPath.from_parameter_msg(param);
-            RCLCPP_INFO(this->get_logger(), "Serial Port Param changed: %s", portPath.as_string().c_str());    
+            baudRate = param;
+        }
+        else if (param.get_name() == "frame_id")
+        {
+            frame_id_param = param;
+        }
+        else if (param.get_name() == "linear_acceleration_stdev")
+        {
+            linear_stdev = param;
+        }
+        else if (param.get_name() == "angular_velocity_stdev")
+        {
+            angular_stdev = param;
         }        
-
-        if (param.name == "linear_acceleration_stdev")
+        else if (param.get_name() == "orientation_stdev")
         {
-            linear_stdev.from_parameter_msg(param);            
+            orientation_stdev = param;
         }
-
-        if (param.name == "angular_velocity_stdev")
+        else if (param.get_name() == "magnetic_stdev")
         {
-            angular_stdev.from_parameter_msg(param);            
-        }
-
-        if (param.name == "orientation_stdev")
-        {
-            orientation_stdev.from_parameter_msg(param);            
-        }
-
-        if (param.name == "magnetic_stdev")
-        {
-            mag_stdev.from_parameter_msg(param);            
+            mag_stdev = param;
         }
     }
 
     updateInternalParams();
+
+    return result;
 }
 
+ 
 void IMUMavlink::setup_covariance(sensor_msgs::msg::Imu::_angular_velocity_covariance_type &cov, double stdev)
 {
     Eigen::Map<Eigen::Matrix<double, 3, 3, Eigen::RowMajor> > c(cov.data());
