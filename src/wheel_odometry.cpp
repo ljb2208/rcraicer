@@ -11,26 +11,25 @@ WheelOdometry::WheelOdometry() : Node("wheel_odometry")
 
     odomPublisher = this->create_publisher<nav_msgs::msg::Odometry>("odom", 10);        
 
+    // set defaults
+    length = 0.29;    
+    width = 0.23;
+    wheel_radius = 0.053;
+    time_delay = 0.1;
+
+    this->declare_parameter("vehicle_wheelbase", length);
+    this->declare_parameter("vehicle_width", width);
+    this->declare_parameter("wheel_radius", wheel_radius);
+    this->declare_parameter("time_delay", time_delay);
+
+    paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&WheelOdometry::paramSetCallback, this, std::placeholders::_1));
+
     this->get_parameter_or("vehicle_wheelbase", vehicle_wheelbase_param, rclcpp::Parameter("vehicle_wheelbase", 0.29));    
     this->get_parameter_or("vehicle_width", vehicle_width_param, rclcpp::Parameter("vehicle_width", 0.23));    
     this->get_parameter_or("wheel_radius", wheel_radius_param, rclcpp::Parameter("wheel_radius", 0.053));
     this->get_parameter_or("time_delay", time_delay_param, rclcpp::Parameter("time_delay", 0.1));    
     
     update_internal_params();
-
-    parameterClient = std::make_shared<rclcpp::AsyncParametersClient>(this);
-    paramSubscription = parameterClient->on_parameter_event(std::bind(&WheelOdometry::param_callback, this, std::placeholders::_1));
-
-    while (!parameterClient->wait_for_service(10s))
-    {
-        if (!rclcpp::ok())
-        {
-            RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the parameter service.");   
-            return;
-        }
-    }
-
-    RCLCPP_INFO(this->get_logger(), "Parameter service available.");
 
     stateSubscription = this->create_subscription<rcraicer_msgs::msg::ChassisState>(
           "chassis_state", 10, std::bind(&WheelOdometry::state_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
@@ -45,56 +44,67 @@ WheelOdometry::~WheelOdometry()
     
 }
 
-void WheelOdometry::param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent)
+rcl_interfaces::msg::SetParametersResult WheelOdometry::paramSetCallback(const std::vector<rclcpp::Parameter>& parameters)
 {
-    for (auto & param : paramEvent->changed_parameters)
-    {
-        if (param.name == "vehicle_wheelbase")
+    rcl_interfaces::msg::SetParametersResult result;
+    result.successful = true;
+
+    for (auto param : parameters)
+    {        
+        if (param.get_name() == "vehicle_wheelbase")
         {
-            vehicle_wheelbase_param.from_parameter_msg(param);
-            RCLCPP_INFO(this->get_logger(), "Wheelbase Param changed: %d", vehicle_wheelbase_param.as_double());    
+            vehicle_wheelbase_param = param;
         }
-        if (param.name == "vehicle_width")
+        else if (param.get_name() == "vehicle_width")
         {
-            vehicle_width_param.from_parameter_msg(param);
-            RCLCPP_INFO(this->get_logger(), "Vehicle width Param changed: %d", vehicle_width_param.as_double());    
+            vehicle_width_param = param;
         }
-        if (param.name == "time_delay")
+        else if (param.get_name() == "wheel_radius")
         {
-            time_delay_param.from_parameter_msg(param);
-            RCLCPP_INFO(this->get_logger(), "Time delay Param changed: %d", time_delay_param.as_double());    
+            wheel_radius_param = param;
         }
-        if (param.name == "wheel_radius")
+        else if (param.get_name() == "time_delay")
         {
-            wheel_radius_param.from_parameter_msg(param);
-            RCLCPP_INFO(this->get_logger(), "Wheel radius Param changed: %d", wheel_radius_param.as_double());    
+            time_delay_param = param;
         }
     }
 
     update_internal_params();
+
+    return result;
 }
 
 void WheelOdometry::update_internal_params()
 {
-    length = vehicle_wheelbase_param.as_double();
-    width = vehicle_width_param.as_double();
-    time_delay = time_delay_param.as_double();
-    wheel_radius = wheel_radius_param.as_double();
+    if (length != vehicle_wheelbase_param.as_double())
+    {
+        length = vehicle_wheelbase_param.as_double();    
+        RCLCPP_INFO(this->get_logger(), "Wheelbase Param changed: %d", vehicle_wheelbase_param.as_double());    
+    }
 
-    mpt = 2.0 * wheel_radius * PI / 4.0;
+    if (width != vehicle_width_param.as_double())
+    {
+        width = vehicle_width_param.as_double();
+        RCLCPP_INFO(this->get_logger(), "Vehicle width Param changed: %d", vehicle_width_param.as_double());  
+    }
+
+    if (time_delay != time_delay_param.as_double())
+    {
+        time_delay = time_delay_param.as_double();
+        RCLCPP_INFO(this->get_logger(), "Time delay Param changed: %d", time_delay_param.as_double());    
+    }
+
+    if (wheel_radius != wheel_radius_param.as_double())
+    {
+        wheel_radius = wheel_radius_param.as_double();
+        RCLCPP_INFO(this->get_logger(), "Wheel radius Param changed: %d", wheel_radius_param.as_double());
+        mpt = 2.0 * wheel_radius * PI / 4.0;
+    }
 }
 
 void WheelOdometry::state_callback(const rcraicer_msgs::msg::ChassisState::SharedPtr msg)
 {
-    servo_val_ = msg->steer;
-
-    // correct for values to high and too low
-    if (servo_val_ >= MAX_SERVO_VAL)
-      steering_angle_ = STEERING_ALPHA * MAX_SERVO_VAL + STEERING_BETA;
-    else if (servo_val_ <= -MAX_SERVO_VAL)
-      steering_angle_ = STEERING_ALPHA * -MAX_SERVO_VAL + STEERING_BETA;
-    else
-      steering_angle_ = STEERING_ALPHA * servo_val_ + STEERING_BETA;
+    steering_angle_ = -msg->steer_angle; // neeed to check sign
 }
 
 void WheelOdometry::encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPtr msg)

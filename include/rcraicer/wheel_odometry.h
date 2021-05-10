@@ -19,8 +19,7 @@ class WheelOdometry : public rclcpp::Node
 
     private:
         void state_callback(const rcraicer_msgs::msg::ChassisState::SharedPtr msg);
-        void encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPtr msg);
-        void param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent);
+        void encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPtr msg);        
 
         void update_internal_params();
 
@@ -28,8 +27,10 @@ class WheelOdometry : public rclcpp::Node
         rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odomPublisher;                
         rclcpp::Subscription<rcl_interfaces::msg::ParameterEvent>::SharedPtr paramSubscription;        
         rclcpp::Subscription<rcraicer_msgs::msg::ChassisState>::SharedPtr stateSubscription;
-        rclcpp::Subscription<rcraicer_msgs::msg::Encoder>::SharedPtr encSubscription;
-        rclcpp::AsyncParametersClient::SharedPtr parameterClient;        
+        rclcpp::Subscription<rcraicer_msgs::msg::Encoder>::SharedPtr encSubscription;        
+
+        rcl_interfaces::msg::SetParametersResult paramSetCallback(const std::vector<rclcpp::Parameter>& parameters);
+        OnSetParametersCallbackHandle::SharedPtr paramSetCallbackHandler;
 
         rclcpp::Parameter vehicle_wheelbase_param;
         rclcpp::Parameter vehicle_width_param;
