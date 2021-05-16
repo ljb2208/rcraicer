@@ -9,11 +9,11 @@ IMUMavlink::IMUMavlink() : Node("imu_mavlink"), serialPort(NULL), rxDropCount(0)
     // init parameters    
     this->declare_parameter("serial_port", "/dev/rcIMU");
     this->declare_parameter("baud_rate", 115200);
-    this->declare_parameter("frame_id", 115200);
-    this->declare_parameter("linear_acceleration_stdev", 115200);
-    this->declare_parameter("angular_velocity_stdev", 115200);
-    this->declare_parameter("orientation_stdev", 115200);
-    this->declare_parameter("magnetic_stdev", 115200);
+    this->declare_parameter("frame_id", "imu_link");
+    this->declare_parameter("linear_acceleration_stdev", 0.0003);
+    this->declare_parameter("angular_velocity_stdev",  0.02 * (M_PI / 180.0));
+    this->declare_parameter("orientation_stdev", 1.0);
+    this->declare_parameter("magnetic_stdev", 0.0);
 
     
     updateInternalParams();
@@ -54,15 +54,6 @@ rcl_interfaces::msg::SetParametersResult IMUMavlink::paramSetCallback(const std:
 {
     rcl_interfaces::msg::SetParametersResult result;
     result.successful = true;
-
-    this->declare_parameter("serial_port", "/dev/rcIMU");
-    this->declare_parameter("baud_rate", 115200);
-    this->declare_parameter("frame_id", 115200);
-    this->declare_parameter("linear_acceleration_stdev", 115200);
-    this->declare_parameter("angular_velocity_stdev", 115200);
-    this->declare_parameter("orientation_stdev", 115200);
-    this->declare_parameter("magnetic_stdev", 115200);
-
 
     for (auto param : parameters)
     {        
