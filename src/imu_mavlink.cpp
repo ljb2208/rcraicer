@@ -123,7 +123,7 @@ void IMUMavlink::publishImuData(uint32_t time_boot_ms, Eigen::Quaterniond &orien
 
     // Fill message header
     imu_enu_msg.header.frame_id = frame_id;
-    imu_enu_msg.header.stamp = rclcpp::Time(time_boot_ms);    
+    imu_enu_msg.header.stamp = this->get_clock()->now();    
 
     imu_enu_msg.orientation.x = orientation_enu.x();
     imu_enu_msg.orientation.y = orientation_enu.y();
@@ -159,7 +159,7 @@ void IMUMavlink::publishMagData(uint32_t time_boot_ms, Eigen::Vector3d &mag_fiel
 
     // Fill message header
     mag_msg.header.frame_id = frame_id;
-    mag_msg.header.stamp = rclcpp::Time(time_boot_ms);  
+    mag_msg.header.stamp = this->get_clock()->now();  
 
     mag_msg.magnetic_field.x = mag_field.x();
     mag_msg.magnetic_field.y = mag_field.y();
@@ -177,7 +177,7 @@ void IMUMavlink::publishImuDataRaw(uint32_t time_usec, Eigen::Vector3d &gyro_flu
 
     // Fill message header
     imu_enu_msg.header.frame_id = frame_id;
-    imu_enu_msg.header.stamp = rclcpp::Time(time_usec);    
+    imu_enu_msg.header.stamp = this->get_clock()->now();
         
     imu_enu_msg.angular_velocity.x = gyro_flu.x();
     imu_enu_msg.angular_velocity.y = gyro_flu.y();
@@ -238,7 +238,7 @@ void IMUMavlink::handleImu(mavlink_highres_imu_t imu_hr)
         sensor_msgs::msg::Temperature temp_msg = sensor_msgs::msg::Temperature();        
 
         temp_msg.header.frame_id = frame_id;
-        temp_msg.header.stamp = rclcpp::Time(imu_hr.time_usec);    
+        temp_msg.header.stamp = this->get_clock()->now();
         temp_msg.temperature = imu_hr.temperature;
 
         tempPublisher->publish(temp_msg);

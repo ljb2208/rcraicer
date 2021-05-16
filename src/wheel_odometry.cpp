@@ -16,6 +16,7 @@ WheelOdometry::WheelOdometry() : Node("wheel_odometry")
     width = 0.23;
     wheel_radius = 0.053;
     time_delay = 0.1;
+    mpt = 2.0 * wheel_radius * PI / 4.0;
 
     this->declare_parameter("vehicle_wheelbase", length);
     this->declare_parameter("vehicle_width", width);
@@ -24,10 +25,10 @@ WheelOdometry::WheelOdometry() : Node("wheel_odometry")
 
     paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&WheelOdometry::paramSetCallback, this, std::placeholders::_1));
 
-    this->get_parameter_or("vehicle_wheelbase", vehicle_wheelbase_param, rclcpp::Parameter("vehicle_wheelbase", 0.29));    
-    this->get_parameter_or("vehicle_width", vehicle_width_param, rclcpp::Parameter("vehicle_width", 0.23));    
-    this->get_parameter_or("wheel_radius", wheel_radius_param, rclcpp::Parameter("wheel_radius", 0.053));
-    this->get_parameter_or("time_delay", time_delay_param, rclcpp::Parameter("time_delay", 0.1));    
+    this->get_parameter_or("vehicle_wheelbase", vehicle_wheelbase_param, rclcpp::Parameter("vehicle_wheelbase", length));    
+    this->get_parameter_or("vehicle_width", vehicle_width_param, rclcpp::Parameter("vehicle_width", width));    
+    this->get_parameter_or("wheel_radius", wheel_radius_param, rclcpp::Parameter("wheel_radius", wheel_radius));
+    this->get_parameter_or("time_delay", time_delay_param, rclcpp::Parameter("time_delay", time_delay));    
     
     update_internal_params();
 
@@ -192,7 +193,7 @@ void WheelOdometry::encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPt
     velocity_theta_var_ = VELOCITY_THETA_ALPHA * exp(VELOCITY_THETA_BETA * error_velocity_theta_) + VELOCITY_THETA_GAMMA;
     
     nav_msgs::msg::Odometry odom_msg = nav_msgs::msg::Odometry();
-    odom_msg.header.stamp = rclcpp::Node::now();
+    odom_msg.header.stamp = this->get_clock()->now();
     // the pose is relative to the header.frame_id reference published
     odom_msg.header.frame_id = "wheel_odom";
     // the twist is relative to the child_fram_id
