@@ -20,6 +20,13 @@ IMUMavlink::IMUMavlink() : Node("imu_mavlink"), serialPort(NULL), rxDropCount(0)
 
     paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&IMUMavlink::paramSetCallback, this, std::placeholders::_1));
         
+    portPath = this->get_parameter("serial_port");
+    baudRate = this->get_parameter("baud_rate");
+    frame_id_param = this->get_parameter("frame_id");
+    linear_stdev = this->get_parameter("linear_acceleration_stdev");
+    angular_stdev = this->get_parameter("angular_velocity_stdev");
+    orientation_stdev = this->get_parameter("orientation_stdev");
+    mag_stdev = this->get_parameter("magnetic_stdev");
 
     imuPublisher = this->create_publisher<sensor_msgs::msg::Imu>("imu", 10);
     imuPublisherRaw = this->create_publisher<sensor_msgs::msg::Imu>("imu_raw", 10);
