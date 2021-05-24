@@ -121,12 +121,16 @@ void WheelOdometry::encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPt
     speed_BR_ = rr * mpt;
     avg_speed_ = (speed_FL_ + speed_FR_) / 2;
 
+    rclcpp::Time ts = msg->header.stamp;
+
     if (prev_ == 0)
         delta_t_ = 0.02;
     else
-        delta_t_ = msg->header.stamp.sec - prev_;
+        delta_t_ = ts.seconds() - prev_;
     
-    prev_ = msg->header.stamp.sec;
+    prev_ = ts;
+
+    // RCLCPP_INFO(this->get_logger(), "FL: %i FR: %i, DFL: %i DFR: %i Angle: %f delta_t: %f" , msg->left_front, msg->right_front, fl, fr, steering_angle_, delta_t_);
     
 
     if (std::abs(steering_angle_) < 1e-6)
@@ -154,6 +158,8 @@ void WheelOdometry::encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPt
     // update x and y positions in meters
     x_ += (delta_x_ * cos(theta_ * PI / 180.0) - delta_y_ * sin(theta_ * PI / 180.0));
     y_ += (delta_x_ * sin(theta_ * PI / 180.0) + delta_y_ * cos(theta_ * PI / 180.0));
+
+    // RCLCPP_INFO(this->get_logger(), "X: %f Y: %f, Delta_X: %f Delta_Y: %f", x_, y_, delta_x_, delta_y_);
 
     theta_ = fmod((theta_ + delta_theta_), 360.0);
 

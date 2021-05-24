@@ -27,6 +27,6 @@ def generate_launch_description():
            name='ekf_filter_node',
            output='screen',
         #    parameters=[os.path.join(get_package_share_directory("rcraicer"), 'params', 'ekf.yaml')],           
-           parameters=["/home/lbarnett/ros2_ws/src/rcraicer/params/ekf.yaml"]
+           parameters=["/home/lbarnett/ros2_ws/src/rcraicer/config/ekf.yaml"]
        )
    ])

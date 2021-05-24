@@ -14,9 +14,6 @@ IMUMavlink::IMUMavlink() : Node("imu_mavlink"), serialPort(NULL), rxDropCount(0)
     this->declare_parameter("angular_velocity_stdev",  0.02 * (M_PI / 180.0));
     this->declare_parameter("orientation_stdev", 1.0);
     this->declare_parameter("magnetic_stdev", 0.0);
-    
-
-    paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&IMUMavlink::paramSetCallback, this, std::placeholders::_1));
         
     portPath = this->get_parameter("serial_port");
     baudRate = this->get_parameter("baud_rate");
@@ -25,6 +22,8 @@ IMUMavlink::IMUMavlink() : Node("imu_mavlink"), serialPort(NULL), rxDropCount(0)
     angular_stdev = this->get_parameter("angular_velocity_stdev");
     orientation_stdev = this->get_parameter("orientation_stdev");
     mag_stdev = this->get_parameter("magnetic_stdev");
+
+    paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&IMUMavlink::paramSetCallback, this, std::placeholders::_1));
 
     updateInternalParams();
 
