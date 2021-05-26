@@ -4,30 +4,21 @@ using namespace std::chrono_literals;
 
 WheelOdometry::WheelOdometry() : Node("wheel_odometry")
 {
-    prev_enc_fl = 0;
-    prev_enc_fr = 0;
-    prev_enc_lr = 0;
-    prev_enc_rr = 0;
-
     odomPublisher = this->create_publisher<nav_msgs::msg::Odometry>("odom", 10);        
 
     // set defaults
     length = 0.29;    
     width = 0.23;
-    wheel_radius = 0.053;
-    time_delay = 0.1;
-    mpt = 2.0 * wheel_radius * PI / 4.0;
+    time_delay = 0.1;    
 
     this->declare_parameter("vehicle_wheelbase", length);
-    this->declare_parameter("vehicle_width", width);
-    this->declare_parameter("wheel_radius", wheel_radius);
+    this->declare_parameter("vehicle_width", width);    
     this->declare_parameter("time_delay", time_delay);
 
     paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&WheelOdometry::paramSetCallback, this, std::placeholders::_1));
 
     this->get_parameter_or("vehicle_wheelbase", vehicle_wheelbase_param, rclcpp::Parameter("vehicle_wheelbase", length));    
-    this->get_parameter_or("vehicle_width", vehicle_width_param, rclcpp::Parameter("vehicle_width", width));    
-    this->get_parameter_or("wheel_radius", wheel_radius_param, rclcpp::Parameter("wheel_radius", wheel_radius));
+    this->get_parameter_or("vehicle_width", vehicle_width_param, rclcpp::Parameter("vehicle_width", width));        
     this->get_parameter_or("time_delay", time_delay_param, rclcpp::Parameter("time_delay", time_delay));    
     
     update_internal_params();
@@ -35,8 +26,8 @@ WheelOdometry::WheelOdometry() : Node("wheel_odometry")
     stateSubscription = this->create_subscription<rcraicer_msgs::msg::ChassisState>(
           "chassis_state", 10, std::bind(&WheelOdometry::state_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
 
-    encSubscription = this->create_subscription<rcraicer_msgs::msg::Encoder>(
-          "encoder", 10, std::bind(&WheelOdometry::encoder_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
+    wsSubscription = this->create_subscription<rcraicer_msgs::msg::WheelSpeed>(
+          "wheel_speeds", 10, std::bind(&WheelOdometry::wheelspeed_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
 
 }
 
@@ -59,11 +50,7 @@ rcl_interfaces::msg::SetParametersResult WheelOdometry::paramSetCallback(const s
         else if (param.get_name() == "vehicle_width")
         {
             vehicle_width_param = param;
-        }
-        else if (param.get_name() == "wheel_radius")
-        {
-            wheel_radius_param = param;
-        }
+        }        
         else if (param.get_name() == "time_delay")
         {
             time_delay_param = param;
@@ -93,14 +80,7 @@ void WheelOdometry::update_internal_params()
     {
         time_delay = time_delay_param.as_double();
         RCLCPP_INFO(this->get_logger(), "Time delay Param changed: %d", time_delay_param.as_double());    
-    }
-
-    if (wheel_radius != wheel_radius_param.as_double())
-    {
-        wheel_radius = wheel_radius_param.as_double();
-        RCLCPP_INFO(this->get_logger(), "Wheel radius Param changed: %d", wheel_radius_param.as_double());
-        mpt = 2.0 * wheel_radius * PI / 4.0;
-    }
+    }    
 }
 
 void WheelOdometry::state_callback(const rcraicer_msgs::msg::ChassisState::SharedPtr msg)
@@ -108,17 +88,12 @@ void WheelOdometry::state_callback(const rcraicer_msgs::msg::ChassisState::Share
     steering_angle_ = -msg->steer_angle; // neeed to check sign
 }
 
-void WheelOdometry::encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPtr msg)
-{
-    int32_t fl = msg->left_front - prev_enc_fl;
-    int32_t fr = msg->right_front - prev_enc_fr;
-    int32_t lr = msg->left_rear - prev_enc_lr;
-    int32_t rr = msg->right_rear - prev_enc_rr;
-    
-    speed_FL_ = fl * mpt;
-    speed_FR_ = fr * mpt;
-    speed_BL_ = lr * mpt;
-    speed_BR_ = rr * mpt;
+void WheelOdometry::wheelspeed_callback(const rcraicer_msgs::msg::WheelSpeed::SharedPtr msg)
+{    
+    speed_FL_ = msg->left_front;
+    speed_FR_ = msg->right_front;
+    speed_BL_ = msg->left_rear;
+    speed_BR_ = msg->right_rear;
     avg_speed_ = (speed_FL_ + speed_FR_) / 2;
 
     rclcpp::Time ts = msg->header.stamp;
@@ -249,11 +224,6 @@ void WheelOdometry::encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPt
     };
 
     odomPublisher->publish(odom_msg);
-
-    prev_enc_fl = msg->left_front;
-    prev_enc_fr = msg->right_front;
-    prev_enc_lr = msg->left_rear;
-    prev_enc_rr = msg->right_rear;
 }
 
 

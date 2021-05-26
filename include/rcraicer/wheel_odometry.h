@@ -5,7 +5,7 @@
 #include <vector>
 #include <math.h>
 
-#include "rcraicer_msgs/msg/encoder.hpp"
+#include "rcraicer_msgs/msg/wheel_speed.hpp"
 #include "rcraicer_msgs/msg/arduino_status.hpp"
 #include "rcraicer_msgs/msg/chassis_state.hpp"
 #include "rcraicer_msgs/msg/chassis_command.hpp"
@@ -19,7 +19,7 @@ class WheelOdometry : public rclcpp::Node
 
     private:
         void state_callback(const rcraicer_msgs::msg::ChassisState::SharedPtr msg);
-        void encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPtr msg);        
+        void wheelspeed_callback(const rcraicer_msgs::msg::WheelSpeed::SharedPtr msg);        
 
         void update_internal_params();
 
@@ -27,26 +27,19 @@ class WheelOdometry : public rclcpp::Node
         rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odomPublisher;                
         rclcpp::Subscription<rcl_interfaces::msg::ParameterEvent>::SharedPtr paramSubscription;        
         rclcpp::Subscription<rcraicer_msgs::msg::ChassisState>::SharedPtr stateSubscription;
-        rclcpp::Subscription<rcraicer_msgs::msg::Encoder>::SharedPtr encSubscription;        
+        rclcpp::Subscription<rcraicer_msgs::msg::WheelSpeed>::SharedPtr wsSubscription;        
 
         rcl_interfaces::msg::SetParametersResult paramSetCallback(const std::vector<rclcpp::Parameter>& parameters);
         OnSetParametersCallbackHandle::SharedPtr paramSetCallbackHandler;
 
         rclcpp::Parameter vehicle_wheelbase_param;
         rclcpp::Parameter vehicle_width_param;
-        rclcpp::Parameter time_delay_param;
-        rclcpp::Parameter wheel_radius_param;
+        rclcpp::Parameter time_delay_param;        
 
         double length;
         double width;
-        double time_delay;
-        double wheel_radius;
-        double mpt; // metres per tick 
-
-        int32_t prev_enc_fl;
-        int32_t prev_enc_fr;
-        int32_t prev_enc_lr;
-        int32_t prev_enc_rr;
+        double time_delay;        
+        double mpt; // metres per tick        
 
         double speed_FL_;   ///< Speed of the front left wheel in m/s
         double speed_FR_;   ///< Speed of the front right wheel in m/s
