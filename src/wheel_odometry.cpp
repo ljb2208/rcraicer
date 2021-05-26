@@ -128,7 +128,7 @@ void WheelOdometry::encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPt
     else
         delta_t_ = ts.seconds() - prev_;
     
-    prev_ = ts;
+    prev_ = ts.seconds();
 
     // RCLCPP_INFO(this->get_logger(), "FL: %i FR: %i, DFL: %i DFR: %i Angle: %f delta_t: %f" , msg->left_front, msg->right_front, fl, fr, steering_angle_, delta_t_);
     
@@ -159,9 +159,12 @@ void WheelOdometry::encoder_callback(const rcraicer_msgs::msg::Encoder::SharedPt
     x_ += (delta_x_ * cos(theta_ * PI / 180.0) - delta_y_ * sin(theta_ * PI / 180.0));
     y_ += (delta_x_ * sin(theta_ * PI / 180.0) + delta_y_ * cos(theta_ * PI / 180.0));
 
-    // RCLCPP_INFO(this->get_logger(), "X: %f Y: %f, Delta_X: %f Delta_Y: %f", x_, y_, delta_x_, delta_y_);
+    RCLCPP_INFO(this->get_logger(), "X: %f Y: %f Steer: %f Theta: %f Delta Theta: %f turn radius: %f Delta_X: %f Delta_Y: %f Delta_t: %f lf: %i rf: %i", x_, y_, steering_angle_, theta_, delta_theta_, turn_radius_, delta_x_, delta_y_, delta_t_, msg->left_front, msg->right_front);
 
     theta_ = fmod((theta_ + delta_theta_), 360.0);
+    // theta_ = fmod((theta_ + delta_theta_), PI);
+
+    // RCLCPP_INFO(this->get_logger(), "X: %f Y: %f Steer: %f Theta: %f Delta Theta: %f turn radius: %f Delta_X: %f Delta_Y: %f", x_, y_, steering_angle_, theta_, delta_theta_, turn_radius_, delta_x_, delta_y_);
 
     // Two estimations, based on left and right front wheels
     double phi_1;

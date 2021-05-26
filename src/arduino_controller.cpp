@@ -12,6 +12,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     this->declare_parameter<int>("steering_axis", 3);
     this->declare_parameter<int>("throttle_axis", 1);
     this->declare_parameter<int>("arm_button", 0);
+    this->declare_parameter<double>("wheel_diameter", 0.106);
 
     this->declare_parameter("steering_input_factor", -1.0);
     this->declare_parameter("throttle_input_factor", 1.0);    
@@ -39,9 +40,11 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     throttleServoPoints = this->get_parameter("throttle_servo_points");
 
     steeringDegreesPerTick = this->get_parameter("steering_degrees_per_tick");
+    wheelDiameterParam = this->get_parameter("wheel_diameter");
     
     updateInternalParams();
 
+    wsPublisher = this->create_publisher<rcraicer_msgs::msg::WheelSpeed>("wheel_speeds", 10);
     encPublisher = this->create_publisher<rcraicer_msgs::msg::Encoder>("encoder", 10);
     statusPublisher = this->create_publisher<rcraicer_msgs::msg::ArduinoStatus>("arduino_status", 10);
     statePublisher = this->create_publisher<rcraicer_msgs::msg::ChassisState>("chassis_state", 10);
@@ -269,6 +272,25 @@ void ArduinoController::processMessage(unsigned char* data, int length)
             // RCLCPP_INFO(this->get_logger(), "Values: %i %i %i %i", enc_msg.left_rear, enc_msg.left_front, enc_msg.right_front, enc_msg.right_rear);
             break;
         }
+        case WHEEL_SPEED_MSG:
+        {
+            wheel_speed_msg ws_msg;
+            unpackWheelSpeedMessage(msg, ws_msg);
+
+            rcraicer_msgs::msg::WheelSpeed ws;
+            ws.header.stamp = this->get_clock()->now();
+
+            // convert from rotations to meters/second            
+            ws.left_rear = ws_msg.left_rear * wheelDiameter * PI;
+            ws.left_front = ws_msg.left_front * wheelDiameter * PI;
+            ws.right_front = ws_msg.right_front * wheelDiameter * PI;
+            ws.right_rear = ws_msg.right_rear * wheelDiameter * PI;
+
+            wsPublisher->publish(ws);
+
+            break;
+
+        }
         case ARDUINO_STATUS_MSG:
         {
             arduino_status_msg smsg;
@@ -306,6 +328,12 @@ void ArduinoController::processMessage(unsigned char* data, int length)
 
 void ArduinoController::updateInternalParams()
 {
+    if (wheelDiameter != wheelDiameterParam.as_double())
+    {
+        wheelDiameter = wheelDiameterParam.as_double();
+        RCLCPP_INFO(this->get_logger(), "Wheel Diameter: %f", wheelDiameter);
+    }
+
     if (steeringAngleCoefficient != steeringDegreesPerTick.as_double())
     {
         steeringAngleCoefficient = steeringDegreesPerTick.as_double();

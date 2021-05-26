@@ -16,6 +16,7 @@ const uint8_t COMMAND_MSG = 2;
 const uint8_t ENCODER_MSG = 3;
 const uint8_t ARDUINO_STATUS_MSG = 4;
 const uint8_t IMU_MSG = 5;
+const uint8_t WHEEL_SPEED_MSG = 5;
 
 const uint8_t MESSAGE_DELIM = 0x7E;
 const uint8_t MAX_BUFFER = 100;
@@ -81,6 +82,26 @@ struct __attribute__ ((__packed__)) arduino_imu_msg {
     float gyro_z;
 };
 
+struct __attribute__ ((__packed__)) wheel_speed_msg {
+    float left_rear;    
+    float left_front;
+    float right_front;
+    float right_rear;
+};
+
+float getFloatFromByteArray(uint8_t* data, uint8_t startIndex)
+{
+    float fval = 0.0;
+    memcpy(&fval, (void*) &data[startIndex], sizeof(float));
+    return fval;
+}
+
+double getDoubleFromByteArray(uint8_t* data, uint8_t startIndex)
+{
+    double dval = 0.0;
+    memcpy(&dval, (void*) &data[startIndex], sizeof(double));
+    return dval;
+}
 
 void getCRCBit(uint16_t& crc)
 {
@@ -198,6 +219,41 @@ void packEncoderMessage(encoder_msg enc_msg, data_msg& msg)
     appendCRC(msg);
 }
 
+void packWheelSpeedMessage(wheel_speed_msg ws_msg, data_msg& msg)
+{
+    msg.msg_type = WHEEL_SPEED_MSG;
+    msg.msg_len = MSG_SIZE;
+
+    unsigned char* fval = (unsigned char*) &ws_msg.left_rear;
+    msg.msg[0] = fval[0];
+    msg.msg[1] = fval[1];
+    msg.msg[2] = fval[2];
+    msg.msg[3] = fval[3];    
+
+    fval = (unsigned char*) &ws_msg.left_front;
+    msg.msg[4] = fval[0];
+    msg.msg[5] = fval[1];
+    msg.msg[6] = fval[2];
+    msg.msg[7] = fval[3];
+    
+    fval = (unsigned char*) &ws_msg.right_front;
+
+    msg.msg[8] = fval[0];
+    msg.msg[9] = fval[1];
+    msg.msg[10] = fval[2];
+    msg.msg[11] = fval[3];
+    
+    fval = (unsigned char*) &ws_msg.right_rear;
+
+    msg.msg[12] = fval[0];
+    msg.msg[13] = fval[1];
+    msg.msg[14] = fval[2];
+    msg.msg[15] = fval[3];
+    
+    fillMsg(msg, sizeof(wheel_speed_msg));
+    appendCRC(msg);
+}
+
 void packArduinoStatusMessage(arduino_status_msg smsg, data_msg& msg)
 {
     msg.msg_type = ARDUINO_STATUS_MSG;
@@ -286,6 +342,14 @@ void unpackEncoderMessage(data_msg msg, encoder_msg& enc_msg)
     enc_msg.right_rear = (int32_t)msg.msg[12]<<24 | (int32_t)msg.msg[13]<<16 | (int32_t)msg.msg[14]<<8 | (int32_t)msg.msg[15];        
 }
 
+void unpackWheelSpeedMessage(data_msg msg, wheel_speed_msg& ws_msg)
+{    
+    ws_msg.left_rear = getFloatFromByteArray(msg.msg, 0);
+    ws_msg.left_front = getFloatFromByteArray(msg.msg, 4);
+    ws_msg.right_front = getFloatFromByteArray(msg.msg, 8);
+    ws_msg.right_rear = getFloatFromByteArray(msg.msg, 12);
+}
+
 void unpackServoMessage(data_msg msg, servo_msg& smsg)
 {
     smsg.steer = (int32_t) msg.msg[0]<<24 | (int32_t)msg.msg[1] << 16 | (int32_t)msg.msg[2] << 8 | (int32_t)msg.msg[3];
@@ -309,12 +373,6 @@ void unpackCommandMessage(data_msg msg, command_msg& cmsg)
     cmsg.armed = msg.msg[0];         
 }
 
-float getFloatFromByteArray(uint8_t* data, uint8_t startIndex)
-{
-    float fval = 0.0;
-    memcpy(&fval, (void*) &data[startIndex], sizeof(float));
-    return fval;
-}
 
 void unpackIMUMessage(data_msg msg, arduino_imu_msg& imsg)
 {    

@@ -11,6 +11,7 @@
 #include "rcraicer_msgs/msg/arduino_status.hpp"
 #include "rcraicer_msgs/msg/chassis_state.hpp"
 #include "rcraicer_msgs/msg/chassis_command.hpp"
+#include "rcraicer_msgs/msg/wheel_speed.hpp"
 
 
 class ArduinoController : public rclcpp::Node 
@@ -37,6 +38,7 @@ class ArduinoController : public rclcpp::Node
         int32_t getPWM(float value, float inputFactor, int64_t min, int64_t mid, int64_t max);
 
         rclcpp::Publisher<rcraicer_msgs::msg::Encoder>::SharedPtr encPublisher;
+        rclcpp::Publisher<rcraicer_msgs::msg::WheelSpeed>::SharedPtr wsPublisher;
         rclcpp::Publisher<rcraicer_msgs::msg::ArduinoStatus>::SharedPtr statusPublisher;
         rclcpp::Publisher<rcraicer_msgs::msg::ChassisState>::SharedPtr statePublisher;
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joySubscription;
@@ -58,11 +60,14 @@ class ArduinoController : public rclcpp::Node
         rclcpp::Parameter steeringServoPoints;
         rclcpp::Parameter throttleServoPoints;
         rclcpp::Parameter steeringDegreesPerTick;
+        rclcpp::Parameter wheelDiameterParam;
 
         double steeringAngleCoefficient;
 
         float steeringInputFactor;
         float throttleInputFactor;
+
+        double wheelDiameter;
 
         int64_t steeringServoMin;
         int64_t steeringServoMax;
@@ -81,6 +86,8 @@ class ArduinoController : public rclcpp::Node
         int64_t armButtonValue;
         uint16_t invalidCRC;
         uint16_t unknownMsg;
+
+        const double PI = 3.14159265; ///< Value for pi
 
   
 };
