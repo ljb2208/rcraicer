@@ -101,18 +101,23 @@ bool SerialPort::getNextMessage(unsigned char* data, int dataLength, int& length
   volatile int bufferLen = dataBuffer.size();
   volatile int i = 0;
 
+  // if buffer length less than message length return
+  if (bufferLen < dataLength)
+  {
+    dataMutex.unlock();
+    return false;
+  }
+
   length = 0;  
 
   // find delimiter for messages
-  while (i < (bufferLen - 1))
+  for (i = dataLength; i < (bufferLen - 1); i++)  
   {
     if (dataBuffer.at(i) == messageDelim && dataBuffer.at(i+1) == messageDelim)
     {            
       messageEnd = i;      
       break;
-    }        
-
-    i++;
+    }            
   }
   
   if (messageEnd == -1)
@@ -136,6 +141,11 @@ bool SerialPort::getNextMessage(unsigned char* data, int dataLength, int& length
   }
 
   length = messageEnd - startIndex;
+
+  if (length != dataLength)
+  {
+    returnBufPtr = 0;
+  }
 
   // delete data from buffer including following 2 delim characters
   dataBuffer.erase(dataBuffer.begin(), dataBuffer.begin() + messageEnd + 2);

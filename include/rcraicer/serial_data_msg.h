@@ -16,7 +16,7 @@ const uint8_t COMMAND_MSG = 2;
 const uint8_t ENCODER_MSG = 3;
 const uint8_t ARDUINO_STATUS_MSG = 4;
 const uint8_t IMU_MSG = 5;
-const uint8_t WHEEL_SPEED_MSG = 5;
+const uint8_t WHEEL_SPEED_MSG = 6;
 
 const uint8_t MESSAGE_DELIM = 0x7E;
 const uint8_t MAX_BUFFER = 100;
