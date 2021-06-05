@@ -10,16 +10,19 @@ WheelOdometry::WheelOdometry() : Node("wheel_odometry")
     length = 0.29;    
     width = 0.23;
     time_delay = 0.1;    
+    debug = true;
 
-    this->declare_parameter("vehicle_wheelbase", length);
-    this->declare_parameter("vehicle_width", width);    
-    this->declare_parameter("time_delay", time_delay);
+    this->declare_parameter<double>("vehicle_wheelbase", length);
+    this->declare_parameter<double>("vehicle_width", width);    
+    this->declare_parameter<double>("time_delay", time_delay);
+    this->declare_parameter<bool>("debug", debug);
 
     paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&WheelOdometry::paramSetCallback, this, std::placeholders::_1));
 
-    this->get_parameter_or("vehicle_wheelbase", vehicle_wheelbase_param, rclcpp::Parameter("vehicle_wheelbase", length));    
-    this->get_parameter_or("vehicle_width", vehicle_width_param, rclcpp::Parameter("vehicle_width", width));        
-    this->get_parameter_or("time_delay", time_delay_param, rclcpp::Parameter("time_delay", time_delay));    
+    vehicle_wheelbase_param = this->get_parameter("vehicle_wheelbase");    
+    vehicle_width_param = this->get_parameter("vehicle_width");        
+    time_delay_param = this->get_parameter("time_delay");    
+    debug_param = this->get_parameter("debug");    
     
     update_internal_params();
 
@@ -28,6 +31,11 @@ WheelOdometry::WheelOdometry() : Node("wheel_odometry")
 
     wsSubscription = this->create_subscription<rcraicer_msgs::msg::WheelSpeed>(
           "wheel_speeds", 10, std::bind(&WheelOdometry::wheelspeed_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
+
+    if (debug)
+    {
+        markerPublisher = this->create_publisher<visualization_msgs::msg::Marker>("odom_markers", 10);
+    }    
 
 }
 
@@ -55,6 +63,10 @@ rcl_interfaces::msg::SetParametersResult WheelOdometry::paramSetCallback(const s
         {
             time_delay_param = param;
         }
+        else if (param.get_name() == "debug")
+        {
+            debug_param = param;
+        }
     }
 
     update_internal_params();
@@ -81,6 +93,12 @@ void WheelOdometry::update_internal_params()
         time_delay = time_delay_param.as_double();
         RCLCPP_INFO(this->get_logger(), "Time delay Param changed: %d", time_delay_param.as_double());    
     }    
+
+    if (debug != debug_param.as_bool())
+    {
+        debug = debug_param.as_bool();
+        RCLCPP_INFO(this->get_logger(), "Debug Param changed: %i", debug);    
+    }    
 }
 
 void WheelOdometry::state_callback(const rcraicer_msgs::msg::ChassisState::SharedPtr msg)
@@ -96,7 +114,7 @@ void WheelOdometry::wheelspeed_callback(const rcraicer_msgs::msg::WheelSpeed::Sh
     speed_BR_ = msg->right_rear;
     avg_speed_ = (speed_FL_ + speed_FR_) / 2;
 
-    rclcpp::Time ts = msg->header.stamp;
+    rclcpp::Time ts = msg->header.stamp;    
 
     if (prev_ == 0)
         delta_t_ = 0.02;
@@ -224,6 +242,29 @@ void WheelOdometry::wheelspeed_callback(const rcraicer_msgs::msg::WheelSpeed::Sh
     };
 
     odomPublisher->publish(odom_msg);
+
+    if (debug)
+    {
+        visualization_msgs::msg::Marker dMsg = visualization_msgs::msg::Marker();
+
+        dMsg.header.frame_id = "map";
+        dMsg.header.stamp = this->get_clock()->now();
+        dMsg.id = markerId++;
+        dMsg.type = visualization_msgs::msg::Marker::SPHERE;
+        dMsg.action = visualization_msgs::msg::Marker::ADD;
+        dMsg.pose = odom_msg.pose.pose;
+        dMsg.scale.x = 0.1;
+        dMsg.scale.y = 0.1;
+        dMsg.scale.z = 0.1;
+        dMsg.color.r = 1.0;
+        dMsg.color.g = 0.0;
+        dMsg.color.b = 0.0;
+        dMsg.color.a = 1.0;
+
+        dMsg.frame_locked = false;        
+
+        markerPublisher->publish(dMsg);
+    }
 }
 
 
