@@ -10,6 +10,8 @@
 #include "rcraicer_msgs/msg/chassis_state.hpp"
 #include "rcraicer_msgs/msg/chassis_command.hpp"
 
+#include "visualization_msgs/msg/marker.hpp"
+
 
 class WheelOdometry : public rclcpp::Node 
 {
@@ -21,13 +23,17 @@ class WheelOdometry : public rclcpp::Node
         void state_callback(const rcraicer_msgs::msg::ChassisState::SharedPtr msg);
         void wheelspeed_callback(const rcraicer_msgs::msg::WheelSpeed::SharedPtr msg);        
 
-        void update_internal_params();
+        void update_internal_params();        
 
 
         rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odomPublisher;                
+        rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr markerPublisher;        
+
+
         rclcpp::Subscription<rcl_interfaces::msg::ParameterEvent>::SharedPtr paramSubscription;        
         rclcpp::Subscription<rcraicer_msgs::msg::ChassisState>::SharedPtr stateSubscription;
         rclcpp::Subscription<rcraicer_msgs::msg::WheelSpeed>::SharedPtr wsSubscription;        
+        
 
         rcl_interfaces::msg::SetParametersResult paramSetCallback(const std::vector<rclcpp::Parameter>& parameters);
         OnSetParametersCallbackHandle::SharedPtr paramSetCallbackHandler;
@@ -35,11 +41,13 @@ class WheelOdometry : public rclcpp::Node
         rclcpp::Parameter vehicle_wheelbase_param;
         rclcpp::Parameter vehicle_width_param;
         rclcpp::Parameter time_delay_param;        
+        rclcpp::Parameter debug_param;
 
         double length;
         double width;
         double time_delay;        
-        double mpt; // metres per tick        
+        double mpt; // metres per tick
+        bool debug;        
 
         double speed_FL_;   ///< Speed of the front left wheel in m/s
         double speed_FR_;   ///< Speed of the front right wheel in m/s
@@ -81,5 +89,7 @@ class WheelOdometry : public rclcpp::Node
         const double VELOCITY_THETA_ALPHA = -3.199; ///< Coefficient for calculating variance in yaw rate
         const double VELOCITY_THETA_BETA = -5.1233; ///< Coefficient for calculating variance in yaw rate
         const double VELOCITY_THETA_GAMMA = 3.7705; ///< Coefficient for calculating variance in yaw rate
+
+        int markerId {0};
 
 };

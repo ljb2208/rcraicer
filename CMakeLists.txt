@@ -6,9 +6,9 @@ if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
 endif()
 
-# Default to C++14
+# Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 17)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -25,18 +25,25 @@ find_package(tf2 REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
 find_package(rcraicer_msgs REQUIRED)
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(GeographicLib REQUIRED)
+find_package(GTSAM REQUIRED)
 
 add_executable(imu_mavlink src/imu_mavlink.cpp src/mavlink_serial_port.cpp)
 add_executable(arduino_controller src/arduino_controller.cpp src/serial_port.cpp)
 add_executable(wheel_odometry src/wheel_odometry.cpp)
+add_executable(state_estimator src/state_estimator.cpp)
+
+target_link_libraries(state_estimator gtsam)
 
 #add_executable(external_tracker src/external_tracker.cpp)
 ament_target_dependencies(imu_mavlink rclcpp std_msgs sensor_msgs Eigen3 geometry_msgs tf2 tf2_eigen)
 ament_target_dependencies(arduino_controller rclcpp std_msgs sensor_msgs rcraicer_msgs)
-ament_target_dependencies(wheel_odometry rclcpp std_msgs sensor_msgs nav_msgs rcraicer_msgs tf2)
+ament_target_dependencies(wheel_odometry rclcpp std_msgs sensor_msgs nav_msgs visualization_msgs rcraicer_msgs tf2)
+ament_target_dependencies(state_estimator rclcpp std_msgs sensor_msgs nav_msgs visualization_msgs geometry_msgs rcraicer_msgs tf2 GTSAM Eigen3 GeographicLib)
 #ament_target_dependencies(external_tracker rclcpp std_msgs sensor_msgs)
 
 
@@ -55,6 +62,7 @@ install (TARGETS
     imu_mavlink
     arduino_controller
     wheel_odometry
+    state_estimator
     #external_tracker
     DESTINATION lib/${PROJECT_NAME})
 
