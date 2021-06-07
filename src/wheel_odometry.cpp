@@ -152,7 +152,7 @@ void WheelOdometry::wheelspeed_callback(const rcraicer_msgs::msg::WheelSpeed::Sh
     x_ += (delta_x_ * cos(theta_ * PI / 180.0) - delta_y_ * sin(theta_ * PI / 180.0));
     y_ += (delta_x_ * sin(theta_ * PI / 180.0) + delta_y_ * cos(theta_ * PI / 180.0));
 
-    RCLCPP_INFO(this->get_logger(), "X: %f Y: %f Steer: %f Theta: %f Delta Theta: %f turn radius: %f Delta_X: %f Delta_Y: %f Delta_t: %f lf: %i rf: %i", x_, y_, steering_angle_, theta_, delta_theta_, turn_radius_, delta_x_, delta_y_, delta_t_, msg->left_front, msg->right_front);
+    // RCLCPP_INFO(this->get_logger(), "X: %f Y: %f Steer: %f Theta: %f Delta Theta: %f turn radius: %f Delta_X: %f Delta_Y: %f Delta_t: %f lf: %i rf: %i", x_, y_, steering_angle_, theta_, delta_theta_, turn_radius_, delta_x_, delta_y_, delta_t_, msg->left_front, msg->right_front);
 
     theta_ = fmod((theta_ + delta_theta_), 360.0);
     // theta_ = fmod((theta_ + delta_theta_), PI);

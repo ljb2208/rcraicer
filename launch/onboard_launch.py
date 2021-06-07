@@ -14,5 +14,17 @@ def generate_launch_description():
            package="rcraicer",           
            executable="imu_mavlink",
            name="imu_mavlink"
+       ),
+       Node(
+           package="rcraicer",           
+           executable="wheel_odometry",
+           name="wheel_odometry"
+       ),
+       Node(
+           package="rcraicer_gps",           
+           executable="gps_node",
+           name="gps_rover",
+           parameters=[{"base" : 0},{"serial_port" : "/dev/rcGPSRover"}]
        )
+
    ])
