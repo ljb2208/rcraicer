@@ -7,7 +7,8 @@ def generate_launch_description():
        Node(
            package="rcraicer",           
            executable="arduino_controller",
-           name="arduino_controller"
+           name="arduino_controller",
+           parameters=[{"steering_input_factor" : 1.0},{"steering_degrees_per_tick" : -0.10834}]
        ),
        Node(
            package="rcraicer",           
