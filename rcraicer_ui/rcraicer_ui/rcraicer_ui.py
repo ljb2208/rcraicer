@@ -275,9 +275,9 @@ class RCRaicerUI():
 
         rlatLabel = Label(self.main, text="Lat/Lon", font=FONT_LABEL)
         rlatLabel.grid(row=rowId, column=0)
-        self.rlatValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.rlatValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=16)                                
         self.rlatValue.grid(row=rowId, column=1)    
-        self.rlonValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.rlonValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=16)                                
         self.rlonValue.grid(row=rowId, column=2)    
 
         rowId += 1
@@ -292,9 +292,9 @@ class RCRaicerUI():
 
         rsuLabel = Label(self.main, text="Satelittes Used/Vis", font=FONT_LABEL)
         rsuLabel.grid(row=rowId, column=0)
-        self.rsuValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.rsuValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=16)                                
         self.rsuValue.grid(row=rowId, column=1)    
-        self.rsvValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.rsvValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=16)                                
         self.rsvValue.grid(row=rowId, column=2)    
 
         rowId += 1
