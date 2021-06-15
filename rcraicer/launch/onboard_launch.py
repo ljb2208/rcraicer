@@ -7,7 +7,8 @@ def generate_launch_description():
        Node(
            package="rcraicer",           
            executable="arduino_controller",
-           name="arduino_controller"
+           name="arduino_controller",
+           parameters=[{"steering_input_factor" : 1.0},{"steering_degrees_per_tick" : -0.10834}]
        ),
        Node(
            package="rcraicer",           
@@ -18,6 +19,12 @@ def generate_launch_description():
            package="rcraicer",           
            executable="wheel_odometry",
            name="wheel_odometry"
+       ),
+       Node(
+           package="rcraicer_gps",           
+           executable="gps_node",
+           name="gps_rover",
+           parameters=[{"base" : False},{"serial_port" : "/dev/rcGPSRover"}]
        )
 
    ])
