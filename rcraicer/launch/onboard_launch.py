@@ -27,4 +27,4 @@ def generate_launch_description():
            parameters=[{"base" : False},{"serial_port" : "/dev/rcGPSRover"},{"output_rf",  True}]
        )
 
-   ])g
+   ])
