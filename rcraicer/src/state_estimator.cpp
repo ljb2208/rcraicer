@@ -208,15 +208,8 @@ void StateEstimator::completeSetup()
     gpsSub_ = this->create_subscription<sensor_msgs::msg::NavSatFix>("rover_navsat_fix", 300, std::bind(&StateEstimator::GpsCallback, this, std::placeholders::_1));
     imuSub_ = this->create_subscription<sensor_msgs::msg::Imu>("imu", 600, std::bind(&StateEstimator::ImuCallback, this, std::placeholders::_1));
     odomSub_ = this->create_subscription<nav_msgs::msg::Odometry>("odom", 300, std::bind(&StateEstimator::WheelOdomCallback, this, std::placeholders::_1));
-
-    try
-    {
-      optimizer = std::thread(&StateEstimator::GpsHelper,this);
-    }
-    catch(exception& e)
-    {
-      std::cout << "Exception: " << e.what() << "\r\n";
-    }
+    
+    optimizer = std::thread(&StateEstimator::GpsHelper,this);        
 }
 
 template<typename T> T StateEstimator::getsetParameter(std::string paramName, T value)
