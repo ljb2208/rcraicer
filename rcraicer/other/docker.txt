@@ -1,0 +1,21 @@
+# start container
+sudo docker run --runtime nvidia -it --rm --network host --device /dev/rcIMU --device /dev/rcArduino --name rcraicer ros:rcraicer-latest
+
+sudo docker run --runtime nvidia -it --restart unless-stopped --network host --mount type=bind,source=/home/lbarnett/ros2_ws,target=/root/ros2_ws --device /dev/rcIMU --name rcraicer  --device /dev/rcArduino ros:rcraicer-base 
+
+# connect to running container
+sudo docker exec -it <container-id> /bin/bash
+
+or
+
+docker attach 
+
+# run launch file
+sudo docker exec -it <container-id> ros2
+
+# how to detach from container
+ctrl+p and then ctrl+q
+
+#build container
+goto development/jetson-containers
+./scripts/docker_build_rcraicer_latest.sh

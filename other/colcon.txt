@@ -1,1 +1,0 @@
-colcon build --packages-select rcraicer --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo --cmake-target clean

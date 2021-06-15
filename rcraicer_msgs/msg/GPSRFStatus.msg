@@ -1,0 +1,13 @@
+std_msgs/Header header
+
+int16 block1_jamming
+int16 block1_antenna_status
+int16 block1_antenna_power
+int32 block1_noise
+int16 block1_jamming_ind
+
+int16 block2_jamming
+int16 block2_antenna_status
+int16 block2_antenna_power
+int32 block2_noise
+int16 block2_jamming_ind
