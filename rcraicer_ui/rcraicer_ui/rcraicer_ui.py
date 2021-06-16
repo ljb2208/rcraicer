@@ -62,9 +62,8 @@ class RCRaicerUI():
 
             if msg[0] == "rover":
                 self.processRoverMessage(msg[1])
-            elif msg[1] == "base":
+            elif msg[0] == "base":
                 self.processBaseMessage(msg[1])
-
 
     def processRoverMessage(self, msg):        
 
@@ -92,7 +91,6 @@ class RCRaicerUI():
             self.updateNumericValue(self.raltValue, msg.altitude, None)
 
     def processBaseMessage(self, msg):        
-
         if type(msg) is GPSStatus:
             self.updateNumericValue(self.bhdopValue, "{:.3f}".format(msg.hdop), self.dopLevels)            
             self.updateNumericValue(self.bpdopValue, "{:.3f}".format(msg.pdop), self.dopLevels)
@@ -119,8 +117,8 @@ class RCRaicerUI():
             self.updateNumericValue(self.bsurveyObsValue, msg.observations, self.obsLevels)
             self.updateNumericValue(self.bsurveyDurationValue, msg.duration, self.obsLevels)
             self.updateNumericValue(self.bsurveyAccuracyValue, "{:.3f}".format(msg.accuracy), self.accLevels)            
-            self.updateTextValue(self.bsurveyActiveValue, self.getSurveyActive(msg.active), None)
-            self.updateTextValue(self.bsurveyValidValue, self.getSurveyValid(msg.active), None)
+            self.updateTextValue(self.bsurveyStatusValue, self.getSurveyActive(msg.active), None)
+            self.updateTextValue(self.bsurveyValidValue, self.getSurveyValid(msg.valid), None)
             self.updateNumericValue(self.bsurveyMeanXValue, "{:.3f}".format(msg.mean_x), self.meanLevels)            
             self.updateNumericValue(self.bsurveyMeanYValue, "{:.3f}".format(msg.mean_y), self.meanLevels)            
             self.updateNumericValue(self.bsurveyMeanZValue, "{:.3f}".format(msg.mean_z), self.meanLevels)            
@@ -180,8 +178,8 @@ class RCRaicerUI():
         return ("Unknown", 0)
 
 
-    def processBaseMessage(self, msg):
-        print("base message")
+    # def processBaseMessage(self, msg):
+    #     print("base message")
 
 
     def updateNumericValue(self, ctrl, value, valueLevels):
@@ -486,6 +484,17 @@ class RosThread(Node):
                                     self.baseGpsRFStatusCallback,
                                     10)
 
+
+        self.baseNavSatSub = self.create_subscription(GPSRFStatus, 
+                                    'base_navsat_fix',
+                                    self.baseNavSatFixCallback,
+                                    10)
+
+        self.baseSurveySub = self.create_subscription(GPSSurvey, 
+                                    'base_gps_survey',
+                                    self.baseGpsSurveyCallback,
+                                    10)
+
     def roverGpsStatusCallback(self, msg):
         self.queueMessage("rover", msg)
 
@@ -502,6 +511,9 @@ class RosThread(Node):
         self.queueMessage("base", msg)
 
     def baseNavSatFixCallback(self, msg):
+        self.queueMessage("base", msg)
+
+    def baseGpsSurveyCallback(self, msg):
         self.queueMessage("base", msg)
 
     def queueMessage(self, target, msg):

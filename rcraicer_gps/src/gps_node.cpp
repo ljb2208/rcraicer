@@ -11,7 +11,7 @@ GPSNode::GPSNode() : Node("gps_node"), ubxProto(NULL)
     this->declare_parameter<bool>("base", true);
     this->declare_parameter<bool>("output_rf", true);
     this->declare_parameter<bool>("msg_debug", false);
-    this->declare_parameter<int>("base_svin_acc_limit", 2000); // millimeters
+    this->declare_parameter<int>("base_svin_acc_limit", 10000); // millimeters
     this->declare_parameter<int>("base_svin_min_duration", 120); // seconds
 
     this->declare_parameter<std::string>("frame_id", "gps_link");
