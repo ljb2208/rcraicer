@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(rcraicer_msgs)
+project(rcraicer_imu)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -17,25 +17,22 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(builtin_interfaces REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_eigen REQUIRED)
+find_package(eigen3_cmake_module REQUIRED)
+find_package(Eigen3 REQUIRED)
 
-rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/Encoder.msg"
-  "msg/ArduinoStatus.msg"
-  "msg/ChassisState.msg"
-  "msg/ChassisCommand.msg"
-  "msg/GPSStatus.msg"
-  "msg/GPSSurvey.msg"
-  "msg/GPSRFStatus.msg"
-  "msg/WheelSpeed.msg"
-  "msg/StateEstimatorStatus.msg"
-  "msg/ImuFilterOutput.msg"
-  "msg/ComputeStatus.msg"
-  DEPENDENCIES builtin_interfaces std_msgs geometry_msgs
- )
+
+add_executable(imu src/imu.cpp src/y3_protocol.cpp src/serial_port.cpp)
+
+ament_target_dependencies(imu rclcpp std_msgs sensor_msgs Eigen3)
+
+# uncomment the following section in order to fill in
+# further dependencies manually.
+# find_package(<dependency> REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
