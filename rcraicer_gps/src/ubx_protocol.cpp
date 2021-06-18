@@ -603,6 +603,12 @@ int UbxProtocol::payloadRxDone()
                 fixMsg.status.status = rcraicer_msgs::msg::GPSStatus::STATUS_NO_FIX;                
             }
             
+            gpsStatusMsg.hacc = buf.payload_rx_nav_pvt.hAcc / 1000;
+            gpsStatusMsg.vacc = buf.payload_rx_nav_pvt.vAcc / 1000;
+            gpsStatusMsg.gspeed = buf.payload_rx_nav_pvt.gSpeed / 1000;
+            gpsStatusMsg.sacc = buf.payload_rx_nav_pvt.sAcc / 1000;
+            gpsStatusMsg.headmot = buf.payload_rx_nav_pvt.headMot / 10000;
+            gpsStatusMsg.headacc = buf.payload_rx_nav_pvt.headAcc / 10000;
 
 		    fixMsg.latitude	= buf.payload_rx_nav_pvt.lat / 1e7; // convert  to degrees
 		    fixMsg.longitude = buf.payload_rx_nav_pvt.lon  / 1e7; // copnvert to degrees

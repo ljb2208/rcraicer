@@ -30,3 +30,10 @@ int16 rtk_status
 float32 vdop
 float32 hdop
 float32 pdop
+
+float32 hacc
+float32 vacc
+float32 gspeed
+float32 sacc
+float32 headmot
+float32 headacc

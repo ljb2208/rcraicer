@@ -28,7 +28,8 @@ class RCRaicerUI():
         self.jammingLevels = (15., 30.)
         self.noiseLevels = (15., 30.)
         self.obsLevels = (120, 60)
-        self.accLevels = (2., 3.)
+        self.surveyAccLevels = (2., 3.)
+        self.accLevels = (0.05, 1.)
         self.meanLevels = (2.0, 3.0)
         self.rtkLevels = ("Float", "Fixed")
 
@@ -75,7 +76,12 @@ class RCRaicerUI():
             self.updateNumericValue(self.rsvValue, msg.satellites_visible, self.satVisibleLevels)
             self.updateTextValue(self.rrtkStatusValue, self.getRTKStatus(msg.rtk_status), self.rtkLevels)
             self.updateTextValue(self.rstatusValue, self.getGPSStatus(msg.status), None)
-
+            self.updateNumericValue(self.rhaccValue, "{:.2f}".format(msg.hacc), self.accLevels)
+            self.updateNumericValue(self.rvaccValue, "{:.2f}".format(msg.vacc), self.accLevels)
+            self.updateNumericValue(self.rspeedValue, "{:.2f}".format(msg.gspeed), None)
+            self.updateNumericValue(self.rspeedAccValue, "{:.2f}".format(msg.sacc), self.accLevels)
+            self.updateNumericValue(self.rheadingValue, "{:.2f}".format(msg.headmot), None)
+            self.updateNumericValue(self.rheadingAccValue, "{:.2f}".format(msg.headacc), self.accLevels)
 
         elif type(msg) is GPSRFStatus:
             self.updateTextValue(self.rjammingStatusValue1, self.getJammingStatus(msg.block1_jamming), None)
@@ -98,6 +104,12 @@ class RCRaicerUI():
             self.updateNumericValue(self.bsuValue, msg.satellites_used, self.satUsedLevels)
             self.updateNumericValue(self.bsvValue, msg.satellites_visible, self.satVisibleLevels)            
             self.updateTextValue(self.bstatusValue, self.getGPSStatus(msg.status), None)
+            self.updateNumericValue(self.bhaccValue, "{:.2f}".format(msg.hacc), self.accLevels)
+            self.updateNumericValue(self.bvaccValue, "{:.2f}".format(msg.vacc), self.accLevels)
+            self.updateNumericValue(self.bspeedValue, "{:.2f}".format(msg.gspeed), None)
+            self.updateNumericValue(self.bspeedAccValue, "{:.2f}".format(msg.sacc), self.accLevels)
+            self.updateNumericValue(self.bheadingValue, "{:.2f}".format(msg.headmot), None)
+            self.updateNumericValue(self.bheadingAccValue, "{:.2f}".format(msg.headacc), self.accLevels)
 
 
         elif type(msg) is GPSRFStatus:
@@ -116,7 +128,7 @@ class RCRaicerUI():
         elif type(msg) is GPSSurvey:
             self.updateNumericValue(self.bsurveyObsValue, msg.observations, self.obsLevels)
             self.updateNumericValue(self.bsurveyDurationValue, msg.duration, self.obsLevels)
-            self.updateNumericValue(self.bsurveyAccuracyValue, "{:.3f}".format(msg.accuracy), self.accLevels)            
+            self.updateNumericValue(self.bsurveyAccuracyValue, "{:.3f}".format(msg.accuracy), self.surveyAccLevels)            
             self.updateTextValue(self.bsurveyStatusValue, self.getSurveyActive(msg.active), None)
             self.updateTextValue(self.bsurveyValidValue, self.getSurveyValid(msg.valid), None)
             self.updateNumericValue(self.bsurveyMeanXValue, "{:.3f}".format(msg.mean_x), self.meanLevels)            
@@ -271,6 +283,33 @@ class RCRaicerUI():
 
         rowId += 1
 
+        raccLabel = Label(self.main, text="Acc (Hor/Ver)", font=FONT_LABEL)
+        raccLabel.grid(row=rowId, column=0)
+        self.rhaccValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.rhaccValue.grid(row=rowId, column=1)
+        self.rvaccValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.rvaccValue.grid(row=rowId, column=2)    
+        
+        rowId += 1
+
+        rspeedLabel = Label(self.main, text="Speed/Acc", font=FONT_LABEL)
+        rspeedLabel.grid(row=rowId, column=0)
+        self.rspeedValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.rspeedValue.grid(row=rowId, column=1)
+        self.rspeedAccValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.rspeedAccValue.grid(row=rowId, column=2)    
+        
+        rowId += 1
+
+        rheadingLabel = Label(self.main, text="Heading/Acc", font=FONT_LABEL)
+        rheadingLabel.grid(row=rowId, column=0)
+        self.rheadingValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.rheadingValue.grid(row=rowId, column=1)
+        self.rheadingAccValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.rheadingAccValue.grid(row=rowId, column=2)    
+        
+        rowId += 1
+
         rlatLabel = Label(self.main, text="Lat/Lon", font=FONT_LABEL)
         rlatLabel.grid(row=rowId, column=0)
         self.rlatValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=16)                                
@@ -353,6 +392,27 @@ class RCRaicerUI():
         self.bvdopValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
         self.bvdopValue.grid(row=rowId, column=3)    
 
+        rowId += 1
+
+        self.bhaccValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.bhaccValue.grid(row=rowId, column=3)
+        self.bvaccValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.bvaccValue.grid(row=rowId, column=4)    
+        
+        rowId += 1
+
+        self.bspeedValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.bspeedValue.grid(row=rowId, column=3)
+        self.bspeedAccValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.bspeedAccValue.grid(row=rowId, column=4)    
+        
+        rowId += 1
+
+        self.bheadingValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.bheadingValue.grid(row=rowId, column=3)
+        self.bheadingAccValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
+        self.bheadingAccValue.grid(row=rowId, column=4)    
+        
         rowId += 1
         
         self.blatValue = Label(self.main, text="0.0", borderwidth=2, relief="groove", bg="grey", width=8)                                
@@ -485,7 +545,7 @@ class RosThread(Node):
                                     10)
 
 
-        self.baseNavSatSub = self.create_subscription(GPSRFStatus, 
+        self.baseNavSatSub = self.create_subscription(NavSatFix, 
                                     'base_navsat_fix',
                                     self.baseNavSatFixCallback,
                                     10)
