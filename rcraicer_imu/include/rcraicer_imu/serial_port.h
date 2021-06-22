@@ -17,7 +17,7 @@ class SerialPort
 
         ~SerialPort();
 
-        bool connect(std::string port, int baudRate);
+        bool connect();
         int writePort(const unsigned char* data, unsigned int length);
         int writePortTry(const unsigned char* data, unsigned int length);
 
@@ -46,6 +46,7 @@ class SerialPort
 
         int writePortInternal(const unsigned char* data, unsigned int length) const;        
         std::string port;
+        int baud;
         int port_fd; // file descriptor for serial port
         std::string port_setting_error;
         bool connected;

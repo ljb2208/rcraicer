@@ -7,7 +7,7 @@ using namespace std::chrono_literals;
 Y3Imu::Y3Imu() : Node("imu")
 {
     // init parameters    
-    this->declare_parameter("serial_port", "/dev/rcIMU");
+    this->declare_parameter("serial_port", "/dev/ttyACM0");
     this->declare_parameter("baud_rate", 115200);
     this->declare_parameter("frame_id", "imu_link");
     this->declare_parameter("linear_acceleration_stdev", 0.0003);
@@ -40,6 +40,8 @@ Y3Imu::Y3Imu() : Node("imu")
         RCLCPP_INFO(this->get_logger(), "Connected on %s @ %i", portPath.as_string().c_str(), 
                                     baudRate.as_int());
     }
+
+    proto->configure();
     
 
     RCLCPP_INFO(this->get_logger(), "Node started.");    

@@ -13,9 +13,16 @@
 
 #define Y3_SYNC                         0xF8
 
+#define Y3_SUCCESS                      0x00
+#define Y3_FAIL                         0x01
+
+
+
 #define Y3_CMD                          0xF7
 #define Y3_CMD_WITH_RESP_HEADER         0xF9
-#define Y3_CMD_MSG_SIZE                 0x03
+#define Y3_CMD_MSG_SIZE                 0x02
+
+#define Y3_CMD_STREAM                   0xFF
 
 #define Y3_CMD_TARED_ORIENTATION_Q      0x00
 #define Y3_CMD_TARED_ORIENTATION_E      0x01
@@ -65,8 +72,19 @@
 
 #define Y3_CMD_GYRO_CALIBRATE           0xA6
 
+#define Y3_CMD_AXIS_DIRECTION           0x74
 
+#define Y3_CMD_RESP_HEADER              0xDD
 
+#define Y3_CMD_RESET                    0xE2
+
+// #define Y3_HEADER_BITS                  0x0000004F // set checksum, success/failure, command excho and data length
+#define Y3_HEADER_BITS                  0x4D000000 // set checksum, success/failure, command echo and data length
+
+// #define Y3_AXIS_DIRECTION               0b01101000 // x - forward, y - left, z - up 
+#define Y3_AXIS_DIRECTION               0b00010011 // x - forward, y - left, z - up 
+
+#define _swap(a,b,c) c=a;a=b;b=c;
 
 
 /* Decoder state */
@@ -75,7 +93,7 @@ typedef enum {
 	Y3_DECODE_ID,
     Y3_DECODE_LENGTH,    
 	Y3_DECODE_PAYLOAD,
-	Y3_DECODE_CHKSUM	
+	Y3_DECODE_CHKSUM
 } y3_decode_state_t;
 
 /* Rx message state */
@@ -104,13 +122,55 @@ typedef struct {
     uint32_t z;    
 } y3_payload_rx_3dvector_t;
 
+typedef struct {
+    uint32_t orient_x;
+    uint32_t orient_y;
+    uint32_t orient_z;
+    uint32_t orient_w;
+    uint32_t gyro_x;
+    uint32_t gyro_y;
+    uint32_t gyro_z;
+    uint32_t accel_x;
+    uint32_t accel_y;
+    uint32_t accel_z;
+    uint32_t mag_x;
+    uint32_t mag_y;
+    uint32_t mag_z;    
+    uint32_t temp;
+} y3_payload_rx_stream_data_t;
+
+typedef struct {
+    uint32_t gyro_x;
+    uint32_t gyro_y;
+    uint32_t gyro_z;
+    uint32_t accel_x;
+    uint32_t accel_y;
+    uint32_t accel_z;
+    uint32_t mag_x;
+    uint32_t mag_y;
+    uint32_t mag_z;        
+} y3_payload_rx_sensor_data_t;
+
+typedef struct {
+    uint32_t interval;
+    uint32_t duration;
+    uint32_t delay;
+
+} y3_payload_rx_timing_t;
+
+
 /* General message and payload buffer union */
 typedef union {
 	y3_payload_rx_temperature_t         payload_rx_temperature;	
     y3_payload_rx_quaternion_t          payload_rx_orientation_q;	
     y3_payload_rx_3dvector_t            payload_rx_gyro;
+    y3_payload_rx_stream_data_t         payload_rx_stream_data;
+    y3_payload_rx_sensor_data_t         payload_rx_sensor_data;
+    y3_payload_rx_timing_t              payload_rx_timing;
 
 } y3_rx_buf_t;
+
+
 
 typedef struct {
     uint8_t cmd_sync;
@@ -136,10 +196,27 @@ typedef struct {
 
 } y3_tx_timing_t;
 
+typedef struct {
+    uint8_t axis_direction;
+} y3_tx_axis_direction_t;
+
+typedef struct {
+    uint32_t header_config;
+} y3_tx_response_header_t;
+
 typedef union {
     y3_tx_slots_t y3_tx_slots;
     y3_tx_timing_t y3_tx_timing;
+    y3_tx_response_header_t y3_tx_response_header;
+    y3_tx_axis_direction_t y3_tx_axis_direction;  
 } y3_tx_buf_t;
+
+typedef union {
+    float f;
+    uint32_t ul;
+} y3_float_t;
+
+
 
 
 class Y3Protocol
@@ -170,21 +247,43 @@ class Y3Protocol
         void addByteToChecksum(const uint8_t b);
         void decodeInit();
         int payloadRxInit();
-        int payloadRxAdd(const uint8_t b);
-        int payloadRxDone();
+        int payloadRxAdd(const uint8_t b);        
+        int payloadRxDone();        
 
-        void calcChecksum(const uint8_t *buffer, const uint16_t length, uint8_t *checksum);
+        bool configureResponse();
+
+        void calcChecksum(const uint8_t *buffer, const uint16_t length, uint8_t &checksum);
+        bool validateChecksum();
 
         void serial_data_callback(const uint8_t data);
 
         bool sendMessage(const uint8_t msg, const uint8_t *payload, const uint16_t length);
 
+        static float getFloat(const uint8_t* value)
+        {
+            y3_float_t flvalue;
+            flvalue.ul = (value[0] << 24) | (value[1] << 16) | (value[2] << 8) | value[3];
+
+            return flvalue.f;
+
+        }        
+
+        static uint32_t flipUint32(const uint8_t* value)
+        {
+            uint32_t newValue = (value[0] << 24) | (value[1] << 16) | (value[2] << 8) | value[3];
+            return newValue;
+        }
+
+        
+
         y3_decode_state_t  decode_state{};
         y3_rxmsg_state_t   rx_state{UBX_RXMSG_IGNORE};
-        uint16_t rx_msg{};
+        uint8_t rx_msg{0};
         uint16_t rx_payload_index{0};
         uint16_t rx_payload_length{0};                
+        uint8_t ck{0};
         uint8_t rx_ck{0};
+
 
         y3_rx_buf_t  buf{};
         y3_tx_buf_t  tx_buf{};

@@ -7,15 +7,10 @@
 #include <sys/ioctl.h>
 #include <linux/usbdevice_fs.h>
 
-SerialPort::SerialPort(std::string port, int baudRate): port_fd(-1), port_setting_error(""), connected(false), alive(false), dataCallback(NULL)
+SerialPort::SerialPort(std::string port, int baudRate): port_fd(-1), port_setting_error(""), connected(false), dataCallback(NULL), alive(false) 
 {
     this->port = port;    
-
-    if (connect(port, baudRate))
-    {
-      alive = true;
-      runThread = std::shared_ptr<std::thread>(new std::thread(std::bind(&SerialPort::run, this)));
-    }
+    this->baud = baudRate;    
 }
 
 SerialPort::~SerialPort()
@@ -87,15 +82,19 @@ void SerialPort::unlock()
 
 void SerialPort::registerDataCallback(DataCallback callback)
 {
+  dataMutex.lock();          
   dataCallback = callback;
+  dataMutex.unlock();                             
 }
 
 void SerialPort::clearDataCallback()
 {
+  dataMutex.lock();          
   dataCallback = NULL;
+  dataMutex.unlock();                             
 }
 
-bool SerialPort::connect(std::string port, int baudRate)
+bool SerialPort::connect()
 {
     connected = false;
     port_fd = open(port.c_str(), O_RDWR | O_NOCTTY /*| O_NDELAY*/);
@@ -118,7 +117,7 @@ bool SerialPort::connect(std::string port, int baudRate)
     }
 
     speed_t b;
-    switch(baudRate)
+    switch(baud)
     {
       case 4800:
         b = B4800;
@@ -185,6 +184,9 @@ bool SerialPort::connect(std::string port, int baudRate)
       usleep(200000); //  wait for connection to be negotiated
                       //  found this length through experimentation      
       connected = true;
+
+      alive = true;
+      runThread = std::shared_ptr<std::thread>(new std::thread(std::bind(&SerialPort::run, this)));
       return true;
     }
     
