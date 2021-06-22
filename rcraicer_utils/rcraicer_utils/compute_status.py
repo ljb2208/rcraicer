@@ -91,6 +91,8 @@ class MachineStats():
 
     def parseWifiStats(self, stats):
         lines = stats.split('\n')
+
+
         for line in lines:            
             if "ESSID:" in line:
                 sInd = line.find("ESSID:")
@@ -100,7 +102,7 @@ class MachineStats():
             elif "Bit Rate=" in line:
                 sInd = line.find("Bit Rate=")
                 eInd = line.find('Tx',  sInd+9)
-                self.bitRate = line[sInd+9: eInd].strip()
+                self.bitRate = line[sInd+9: eInd].strip()                
 
             elif "Link Quality" in line:
                 sInd = line.find("Link Quality=")
@@ -119,14 +121,23 @@ class MachineStats():
                 return
 
     def parseHostName(self, stats):
-        self.hostName = stats
+        lines = stats.split('\n')
+        self.hostName = lines[0]
 
     def parsePowerStats(self, stats):
-        sInd = stats.find(":")
-        eInd = stats.find('\n')
+        lines = stats.split('\n')
 
-        mode = stats[sInd+1:eInd].strip()
-        level = stats[eInd+1:].strip()
+        mode = "Unkown"
+        level = "-1"
+
+        for line in lines:
+            if "NV Power Mode" in line:
+                sInd = line.find("NV Power Mode:")        
+                mode = line[sInd+14:].strip()
+                # level = stats[eInd+2:].strip()
+            if "NV" not in line and len(line) > 0:
+                print("Line: " + line)
+                level = line.strip()
         try:
             self.powerLevel = mode + " (" + level +")"
         except:
@@ -169,7 +180,7 @@ class ComputerStatus(Node):
         retval = -1
 
         try:
-            retval = subprocess.check_output(command)                        
+            retval = subprocess.check_output(command, universal_newlines=True)                        
         except Exception as exc:
             retval = None            
             self.get_logger().warn("exception during command: " + str(exc))
@@ -185,7 +196,7 @@ class ComputerStatus(Node):
             self.machineStats.parseHostName(str(retval))
 
     def getPowerSetting(self):
-        command = ["/usr/sbin/nvpmodel","-q"]
+        command = ["sudo", "/usr/sbin/nvpmodel","-q"]
 
         retval = self.runCommand(command)
 
@@ -194,7 +205,7 @@ class ComputerStatus(Node):
 
     def getWifiStats(self):
         # command = "sudo iwconfig"
-        command = "iwconfig"
+        command = ["sudo", "iwconfig", "wlan0"]
 
         retval = self.runCommand(command)
 
