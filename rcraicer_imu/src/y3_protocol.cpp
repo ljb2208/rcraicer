@@ -5,9 +5,10 @@
 #include <iomanip>
 #include <cstring>
 
-Y3Protocol::Y3Protocol() : serialPort(NULL)
+Y3Protocol::Y3Protocol(uint32_t update_freq) : serialPort(NULL)
 {
-
+    this->update_freq = update_freq;
+    decodeInit();
 }
 
 Y3Protocol::~Y3Protocol()
@@ -39,9 +40,22 @@ bool Y3Protocol::closePort()
 bool Y3Protocol::configure()
 {
     bool ret = true;
-    configureResponse();        
 
-    // return ret;
+    // configure response header
+    memset(&tx_buf.y3_tx_response_header, 0, sizeof(tx_buf.y3_tx_response_header));
+
+    tx_buf.y3_tx_response_header.header_config = Y3_HEADER_BITS;
+
+    ret = sendMessage(Y3_CMD_RESP_HEADER, (uint8_t*)&tx_buf, sizeof(tx_buf.y3_tx_response_header));      
+
+    if (!ret)    
+        return ret;    
+
+    // get calibs
+    ret = sendMessage(Y3_CMD_GET_CALIB_ACCEL, NULL, 0);      
+
+    if (!ret)    
+        return ret;            
 
     //configure axis direction
     memset(&tx_buf.y3_tx_axis_direction, 0, sizeof(tx_buf.y3_tx_axis_direction));
@@ -49,10 +63,14 @@ bool Y3Protocol::configure()
 
     ret = sendMessage(Y3_CMD_AXIS_DIRECTION, (uint8_t*)&tx_buf, sizeof(tx_buf.y3_tx_axis_direction));
 
+
+    if (!ret)    
+        return ret;
+
     // configure streaming slots
     memset(&tx_buf.y3_tx_slots, 0, sizeof(tx_buf.y3_tx_slots));
     tx_buf.y3_tx_slots.slot1 = Y3_CMD_TARED_ORIENTATION_Q;
-    tx_buf.y3_tx_slots.slot2 = Y3_CMD_RAW_SENSOR_DATA;// Y3_CMD_CORR_SENSOR_DATA;
+    tx_buf.y3_tx_slots.slot2 = Y3_CMD_CORR_SENSOR_DATA;// Y3_CMD_CORR_SENSOR_DATA;
     tx_buf.y3_tx_slots.slot3 = Y3_CMD_TEMP_C;
     tx_buf.y3_tx_slots.slot4 = 0xFF;
     tx_buf.y3_tx_slots.slot5 = 0xFF;
@@ -66,8 +84,10 @@ bool Y3Protocol::configure()
         return ret;
 
     // configure timing
+    // uint32_t timing = 1000000;
+    uint32_t timing = 1000000 / update_freq;
     memset(&tx_buf.y3_tx_timing, 0, sizeof(tx_buf.y3_tx_timing));
-    uint32_t timing = 1000000;
+    
 
     tx_buf.y3_tx_timing.interval = Y3Protocol::flipUint32((uint8_t*)&timing);
     tx_buf.y3_tx_timing.duration = 0xFFFFFFFF; // continue idefinitely
@@ -75,36 +95,10 @@ bool Y3Protocol::configure()
 
     ret = sendMessage(Y3_CMD_SET_STREAM_TIMING, (uint8_t*)&tx_buf, sizeof(tx_buf.y3_tx_timing));
 
-    startStreaming();
-
-    // ret = sendMessage(Y3_CMD_GET_STREAM_TIMING, NULL, 0);
-
+    // startStreaming();    
 
     return ret;
 
-}
-
-bool Y3Protocol::configureResponse()
-{   
-    // stopStreaming();
-    decodeInit();
-    // bool ret = sendMessage(Y3_CMD_RESET, NULL, 0);
-
-    // if (!ret)
-    // {
-    //     std::cout << "Error resetting\r\n";
-    // }
-
-    memset(&tx_buf.y3_tx_response_header, 0, sizeof(tx_buf.y3_tx_response_header));
-
-    tx_buf.y3_tx_response_header.header_config = Y3_HEADER_BITS;
-
-    bool ret = sendMessage(Y3_CMD_RESP_HEADER, (uint8_t*)&tx_buf, sizeof(tx_buf.y3_tx_response_header));
-
-    ret = sendMessage(Y3_CMD_RAW_SENSOR_DATA, NULL, 0);
-
-    return ret;
-    
 }
 
 bool Y3Protocol::startStreaming()
@@ -252,13 +246,22 @@ int Y3Protocol::payloadRxInit()  // -1 = abort, 0 = continue
         case Y3_CMD_SET_STREAM_SLOTS:
         case Y3_CMD_SET_STREAM_TIMING:
         case Y3_CMD_START_STREAM:
-        case Y3_CMD_STOP_STREAM:
+        case Y3_CMD_STOP_STREAM:                    
         case Y3_CMD_AXIS_DIRECTION:
             if (rx_payload_length != 0) {
                 rx_state = UBX_RXMSG_ERROR_LENGTH;
             }
             else {
                 rx_state = UBX_RXMSG_HANDLE;    
+            }
+            break;
+        case Y3_CMD_GET_CALIB_ACCEL:
+            if (rx_payload_length != sizeof(y3_payload_rx_calib_t)){
+                rx_state = UBX_RXMSG_ERROR_LENGTH;
+            }
+            else
+            {
+                rx_state = UBX_RXMSG_HANDLE;
             }
             break;
         case Y3_CMD_GET_STREAM_TIMING:
@@ -391,6 +394,14 @@ int Y3Protocol::payloadRxDone()
         case Y3_CMD_GET_STREAM_TIMING:
             std::cout << "Y3_CMD_GET_STREAM_TIMING " << Y3Protocol::flipUint32((uint8_t*)&buf.payload_rx_timing.interval) << ":" << buf.payload_rx_timing.duration << ":" << buf.payload_rx_timing.delay << "\r\n";
             break;
+        case Y3_CMD_GET_CALIB_ACCEL:
+            std::cout << "Y3_CMD_GET_CALIB_ACCEL" << "\r\n";
+            std::cout << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.mat0_0) << ":" << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.mat0_1) << ":" << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.mat0_2) << "\r\n";
+            std::cout << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.mat1_0) << ":" << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.mat1_1) << ":" << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.mat1_2) << "\r\n";
+            std::cout << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.mat2_0) << ":" << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.mat2_1) << ":" << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.mat2_2) << "\r\n";
+            std::cout << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.bias1) << ":" << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.bias2) << ":" << Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_calib.bias3) << "\r\n";
+            break;
+
         case Y3_CMD_RAW_SENSOR_DATA:
             std::cout << "Y3_CMD_RAW_SENSOR_DATA" << "\r\n";
             yValue = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_sensor_data.accel_x);
@@ -403,7 +414,31 @@ int Y3Protocol::payloadRxDone()
 
             break;
         case Y3_CMD_STREAM:
-            yValue = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.temp);
+            // get temperature
+            tempMsg.temperature = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.temp);
+
+            // get magnetic field (convert gauss to tesla)
+            magMsg.magnetic_field.x = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.mag_x) / 10000;
+            magMsg.magnetic_field.y = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.mag_y) / 10000;
+            magMsg.magnetic_field.z = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.mag_z) / 10000;
+
+            // get raw IMU measurements
+            imuMsg.orientation.x = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.orient_x);
+            imuMsg.orientation.y = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.orient_y);
+            imuMsg.orientation.z = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.orient_z);
+            imuMsg.orientation.w = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.orient_w);
+
+            imuMsg.linear_acceleration.x = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.accel_x) * GRAVITY;
+            imuMsg.linear_acceleration.y = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.accel_y) * GRAVITY;
+            imuMsg.linear_acceleration.z = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.accel_z) * GRAVITY;
+
+            imuMsg.angular_velocity.x = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.gyro_x);
+            imuMsg.angular_velocity.y = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.gyro_y);
+            imuMsg.angular_velocity.z = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.gyro_z);
+
+            if (sensorMessagesCallback != NULL)
+                sensorMessagesCallback(imuMsg, magMsg, tempMsg);
+
             std::cout << "Y3_CMD_STREAM  : " << yValue;
             yValue = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.accel_x);
             std::cout << " : " << yValue << " : ";
@@ -420,24 +455,9 @@ int Y3Protocol::payloadRxDone()
     return ret;
 }
 
-void Y3Protocol::registerImuMessageCallback(ImuMessageCallback callback)
+void Y3Protocol::registerSensorMessagesCallback(SensorMessagesCallback callback)
 {
-    imuMessageCallback = callback;
-}
-
-void Y3Protocol::registerImuRawMessageCallback(ImuRawMessageCallback callback)
-{
-    imuRawMessageCallback = callback;
-}
-
-void Y3Protocol::registerMagMessageCallback(MagMessageCallback callback)
-{
-    magMessageCallback = callback;
-}
-
-void Y3Protocol::registerTempMessageCallback(TempMessageCallback callback)
-{
-    tempMessageCallback = callback;
+    sensorMessagesCallback = callback;
 }
 
 void Y3Protocol::calcChecksum(const uint8_t *buffer, const uint16_t length, uint8_t &checksum)

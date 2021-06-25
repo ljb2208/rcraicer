@@ -1,14 +1,14 @@
-#include "../include/rcraicer_imu/imu.h"
+#include "../include/rcraicer_sim/sim_node.h"
 
 using std::placeholders::_1;
 using namespace std::chrono_literals;
 
 
-Y3Imu::Y3Imu() : Node("imu")
+SimNode::SimNode() : Node("sim_node"), server(NULL)
 {
     // init parameters    
-    this->declare_parameter("serial_port", "/dev/ttyACM0");
-    this->declare_parameter("baud_rate", 115200);
+    this->declare_parameter("ip_address", "127.0.0.1");
+    this->declare_parameter("port", "9091");
     this->declare_parameter("frame_id", "imu_link");
     this->declare_parameter("linear_acceleration_stdev", 0.0003);
     this->declare_parameter("angular_velocity_stdev",  0.02 * (M_PI / 180.0));
@@ -16,8 +16,8 @@ Y3Imu::Y3Imu() : Node("imu")
     this->declare_parameter("magnetic_stdev", 0.0);
     this->declare_parameter("pub_freq", 400); // hz
         
-    portPath = this->get_parameter("serial_port");
-    baudRate = this->get_parameter("baud_rate");
+    ipAddress = this->get_parameter("ip_address");
+    port = this->get_parameter("port");
     frame_id_param = this->get_parameter("frame_id");
     linear_stdev = this->get_parameter("linear_acceleration_stdev");
     angular_stdev = this->get_parameter("angular_velocity_stdev");
@@ -25,49 +25,49 @@ Y3Imu::Y3Imu() : Node("imu")
     mag_stdev = this->get_parameter("magnetic_stdev");
     pub_freq = this->get_parameter("pub_freq");
 
-    paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&Y3Imu::paramSetCallback, this, std::placeholders::_1));
+    paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&SimNode::paramSetCallback, this, std::placeholders::_1));
 
     updateInternalParams();
 
     imuPublisher = this->create_publisher<sensor_msgs::msg::Imu>("imu", 10);    
     magPublisher = this->create_publisher<sensor_msgs::msg::MagneticField>("imu_mag", 10);
     tempPublisher = this->create_publisher<sensor_msgs::msg::Temperature>("imu_temp", 10);
-
-    proto = new Y3Protocol(pub_freq.as_int());
-    proto->registerSensorMessagesCallback(std::bind(&Y3Imu::publishSensorMessages, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     
-    if (proto->openPort(portPath.as_string(), baudRate.as_int()))
-    {
-        RCLCPP_INFO(this->get_logger(), "Connected on %s @ %i", portPath.as_string().c_str(), 
-                                    baudRate.as_int());
-    }
+    // server->registerSensorMessagesCallback(std::bind(&SimNode::publishSensorMessages, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    
+    // if (server->openPort(portPath.as_string(), baudRate.as_int()))
+    // {
+    //     RCLCPP_INFO(this->get_logger(), "Connected on %s @ %i", portPath.as_string().c_str(), 
+    //                                 baudRate.as_int());
+    // }    
 
-    proto->configure();
+    server = new TcpServer(ipAddress.as_string(), port.as_string());
+    server->connectToSocket();
     
 
     RCLCPP_INFO(this->get_logger(), "Node started.");    
 }
 
-Y3Imu::~Y3Imu()
+SimNode::~SimNode()
 {
-    if (proto != NULL)
-        delete proto;
+    if (server != NULL)
+        delete server;
 }
 
-rcl_interfaces::msg::SetParametersResult Y3Imu::paramSetCallback(const std::vector<rclcpp::Parameter>& parameters)
+rcl_interfaces::msg::SetParametersResult SimNode::paramSetCallback(const std::vector<rclcpp::Parameter>& parameters)
 {
     rcl_interfaces::msg::SetParametersResult result;
     result.successful = true;
 
     for (auto param : parameters)
     {        
-        if (param.get_name() == "serial_port")
+        if (param.get_name() == "ip_address")
         {
-            portPath = param;
+            ipAddress = param;
         }
-        else if (param.get_name() == "baud_rate")
+        else if (param.get_name() == "port")
         {
-            baudRate = param;
+            port = param;
         }
         else if (param.get_name() == "frame_id")
         {
@@ -101,7 +101,7 @@ rcl_interfaces::msg::SetParametersResult Y3Imu::paramSetCallback(const std::vect
 }
 
 
-void Y3Imu::updateInternalParams()
+void SimNode::updateInternalParams()
 {
     frame_id = frame_id_param.as_string();  
     setup_covariance(linear_acceleration_cov, linear_stdev.as_double());
@@ -112,7 +112,7 @@ void Y3Imu::updateInternalParams()
 }
 
  
-void Y3Imu::setup_covariance(sensor_msgs::msg::Imu::_angular_velocity_covariance_type &cov, double stdev)
+void SimNode::setup_covariance(sensor_msgs::msg::Imu::_angular_velocity_covariance_type &cov, double stdev)
 {
     Eigen::Map<Eigen::Matrix<double, 3, 3, Eigen::RowMajor> > c(cov.data());
 
@@ -126,7 +126,7 @@ void Y3Imu::setup_covariance(sensor_msgs::msg::Imu::_angular_velocity_covariance
     }
 }
 
-void Y3Imu::publishSensorMessages(sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::MagneticField magMsg, sensor_msgs::msg::Temperature tempMsg)
+void SimNode::publishSensorMessages(sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::MagneticField magMsg, sensor_msgs::msg::Temperature tempMsg)
 {
     rclcpp::Time tm = this->get_clock()->now();    
     imuMsg.header.stamp = tm;
@@ -147,7 +147,7 @@ void Y3Imu::publishSensorMessages(sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg
 int main(int argc, char * argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<Y3Imu>());
+    rclcpp::spin(std::make_shared<SimNode>());
     rclcpp::shutdown();
     return 0;
 }

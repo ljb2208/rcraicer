@@ -31,6 +31,27 @@
             ],
             "preLaunchTask": "",
             "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Debug rcraicer_sim",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/lbarnett//ros2_ws/build/rcraicer_sim/sim_node",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
 }

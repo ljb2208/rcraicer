@@ -11,6 +11,8 @@
 #include "sensor_msgs/msg/temperature.hpp"
 
 
+#define GRAVITY (9.80665)
+
 #define Y3_SYNC                         0xF8
 
 #define Y3_SUCCESS                      0x00
@@ -81,7 +83,6 @@
 // #define Y3_HEADER_BITS                  0x0000004F // set checksum, success/failure, command excho and data length
 #define Y3_HEADER_BITS                  0x4D000000 // set checksum, success/failure, command echo and data length
 
-// #define Y3_AXIS_DIRECTION               0b01101000 // x - forward, y - left, z - up 
 #define Y3_AXIS_DIRECTION               0b00010011 // x - forward, y - left, z - up 
 
 #define _swap(a,b,c) c=a;a=b;b=c;
@@ -158,6 +159,21 @@ typedef struct {
 
 } y3_payload_rx_timing_t;
 
+typedef struct {
+    uint32_t mat0_0;
+    uint32_t mat0_1;
+    uint32_t mat0_2;
+    uint32_t mat1_0;
+    uint32_t mat1_1;
+    uint32_t mat1_2;
+    uint32_t mat2_0;
+    uint32_t mat2_1;
+    uint32_t mat2_2;
+    uint32_t bias1;
+    uint32_t bias2;
+    uint32_t bias3;
+} y3_payload_rx_calib_t;
+
 
 /* General message and payload buffer union */
 typedef union {
@@ -167,6 +183,7 @@ typedef union {
     y3_payload_rx_stream_data_t         payload_rx_stream_data;
     y3_payload_rx_sensor_data_t         payload_rx_sensor_data;
     y3_payload_rx_timing_t              payload_rx_timing;
+    y3_payload_rx_calib_t               payload_rx_calib;
 
 } y3_rx_buf_t;
 
@@ -222,21 +239,15 @@ typedef union {
 class Y3Protocol
 {
     public:
-        Y3Protocol();
+        Y3Protocol(uint32_t update_freq);
         ~Y3Protocol();
 
         bool openPort(std::string serialPort, int baudRate);
         bool closePort();
 
-        typedef std::function<void(sensor_msgs::msg::Imu)> ImuMessageCallback;
-        typedef std::function<void(sensor_msgs::msg::Imu)> ImuRawMessageCallback;
-        typedef std::function<void(sensor_msgs::msg::MagneticField)> MagMessageCallback;
-        typedef std::function<void(sensor_msgs::msg::Temperature)> TempMessageCallback;
+        typedef std::function<void(sensor_msgs::msg::Imu, sensor_msgs::msg::MagneticField, sensor_msgs::msg::Temperature)> SensorMessagesCallback;        
 
-        void registerImuMessageCallback(ImuMessageCallback callback);
-        void registerImuRawMessageCallback(ImuRawMessageCallback callback);
-        void registerMagMessageCallback(MagMessageCallback callback);
-        void registerTempMessageCallback(TempMessageCallback callback);
+        void registerSensorMessagesCallback(SensorMessagesCallback callback);        
 
         bool configure();
         bool startStreaming();
@@ -248,9 +259,7 @@ class Y3Protocol
         void decodeInit();
         int payloadRxInit();
         int payloadRxAdd(const uint8_t b);        
-        int payloadRxDone();        
-
-        bool configureResponse();
+        int payloadRxDone();                
 
         void calcChecksum(const uint8_t *buffer, const uint16_t length, uint8_t &checksum);
         bool validateChecksum();
@@ -289,10 +298,15 @@ class Y3Protocol
         y3_tx_buf_t  tx_buf{};
         SerialPort* serialPort;
 
-        ImuMessageCallback imuMessageCallback;
-        ImuRawMessageCallback imuRawMessageCallback;
-        MagMessageCallback magMessageCallback;
-        TempMessageCallback tempMessageCallback;
+        uint32_t update_freq;
+
+        SensorMessagesCallback sensorMessagesCallback;
+
+        sensor_msgs::msg::Temperature tempMsg;      
+        sensor_msgs::msg::Imu imuMsg;
+        sensor_msgs::msg::MagneticField magMsg;
+
+
 };
 
 

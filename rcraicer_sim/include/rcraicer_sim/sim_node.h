@@ -4,17 +4,17 @@
 #include "sensor_msgs/msg/magnetic_field.hpp"
 #include "sensor_msgs/msg/temperature.hpp"
 
-#include "y3_protocol.h"
-
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
 
 
-class Y3Imu : public rclcpp::Node
+#include "tcp_server.h"
+
+class SimNode : public rclcpp::Node
 {
     public:
-        Y3Imu();
-        ~Y3Imu();
+        SimNode();
+        ~SimNode();
 
         void publishSensorMessages(sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::MagneticField magMsg, sensor_msgs::msg::Temperature tempMsg);
         
@@ -32,8 +32,8 @@ class Y3Imu : public rclcpp::Node
 
         void setup_covariance(sensor_msgs::msg::Imu::_angular_velocity_covariance_type &cov, double stdev);
 
-        rclcpp::Parameter portPath;
-        rclcpp::Parameter baudRate;
+        rclcpp::Parameter ipAddress;
+        rclcpp::Parameter port;
 
         rclcpp::Parameter linear_stdev;
         rclcpp::Parameter angular_stdev;
@@ -48,9 +48,9 @@ class Y3Imu : public rclcpp::Node
         sensor_msgs::msg::Imu::_angular_velocity_covariance_type unk_orientation_cov;
         sensor_msgs::msg::Imu::_angular_velocity_covariance_type magnetic_cov;
 
-        std::string frame_id;      
+        std::string frame_id;              
 
-        Y3Protocol* proto;
+        TcpServer* server;
 
 
 };
