@@ -24,11 +24,12 @@ find_package(tf2 REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
-
+find_package(rcraicer_msgs REQUIRED)
+find_package(GeographicLib REQUIRED)
 
 add_executable(sim_node src/sim_node.cpp src/tcp_server.cpp)
 
-ament_target_dependencies(sim_node rclcpp std_msgs sensor_msgs Eigen3)
+ament_target_dependencies(sim_node rclcpp std_msgs sensor_msgs rcraicer_msgs Eigen3 tf2 tf2_eigen GeographicLib)
 
 # uncomment the following section in order to fill in
 # further dependencies manually.

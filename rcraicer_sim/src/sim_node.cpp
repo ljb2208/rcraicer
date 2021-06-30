@@ -31,7 +31,9 @@ SimNode::SimNode() : Node("sim_node"), server(NULL)
 
     imuPublisher = this->create_publisher<sensor_msgs::msg::Imu>("imu", 10);    
     magPublisher = this->create_publisher<sensor_msgs::msg::MagneticField>("imu_mag", 10);
-    tempPublisher = this->create_publisher<sensor_msgs::msg::Temperature>("imu_temp", 10);
+    wsPublisher = this->create_publisher<rcraicer_msgs::msg::WheelSpeed>("wheel_speeds", 10);
+    csPublisher = this->create_publisher<rcraicer_msgs::msg::ChassisState>("chassis_state", 10);
+    fixPublisher = this->create_publisher<sensor_msgs::msg::NavSatFix>("rover_gps_fix", 10);
     
     // server->registerSensorMessagesCallback(std::bind(&SimNode::publishSensorMessages, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     
@@ -42,7 +44,16 @@ SimNode::SimNode() : Node("sim_node"), server(NULL)
     // }    
 
     server = new TcpServer(ipAddress.as_string(), port.as_string());
-    server->connectToSocket();
+
+    server->registerTelemetryCallback(std::bind(&SimNode::publishTelemetryMessages, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+    if (server->connectToSocket())
+    {
+        RCLCPP_INFO(this->get_logger(), "Connected to %s:%s.", ipAddress.as_string().c_str(), port.as_string().c_str());    
+    }
+    else
+    {
+        connectTimer = this->create_wall_timer(std::chrono::milliseconds(2000), std::bind(&SimNode::connectTimerCallback, this));
+    }
     
 
     RCLCPP_INFO(this->get_logger(), "Node started.");    
@@ -52,6 +63,17 @@ SimNode::~SimNode()
 {
     if (server != NULL)
         delete server;
+}
+
+void SimNode::connectTimerCallback()
+{
+    if (!server->isConnected())
+    {
+        if (server->connectToSocket())
+        {
+            RCLCPP_INFO(this->get_logger(), "Connected to %s:%s.", ipAddress.as_string().c_str(), port.as_string().c_str());    
+        }
+    }
 }
 
 rcl_interfaces::msg::SetParametersResult SimNode::paramSetCallback(const std::vector<rclcpp::Parameter>& parameters)
@@ -126,21 +148,26 @@ void SimNode::setup_covariance(sensor_msgs::msg::Imu::_angular_velocity_covarian
     }
 }
 
-void SimNode::publishSensorMessages(sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::MagneticField magMsg, sensor_msgs::msg::Temperature tempMsg)
+void SimNode::publishTelemetryMessages(rcraicer_msgs::msg::WheelSpeed wsMsg, rcraicer_msgs::msg::ChassisState csMsg, sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::NavSatFix fixMsg)
 {
-    rclcpp::Time tm = this->get_clock()->now();    
+    rclcpp::Time tm = this->get_clock()->now();
+
+    wsMsg.header.stamp = tm;
+    wsMsg.header.frame_id = "base_link";
+
+    csMsg.header.stamp = tm;
+    csMsg.header.frame_id = "base_link";
+
     imuMsg.header.stamp = tm;
-    imuMsg.header.frame_id = frame_id;
+    imuMsg.header.frame_id = "imu_link";
 
-    magMsg.header.stamp = tm;
-    magMsg.header.frame_id = frame_id;
+    fixMsg.header.stamp = tm;
+    fixMsg.header.frame_id = "gps_link";
 
-    tempMsg.header.stamp = tm;
-    tempMsg.header.frame_id = frame_id;
-
-    imuPublisher->publish(imuMsg);    
-    magPublisher->publish(magMsg);
-    tempPublisher->publish(tempMsg);
+    wsPublisher->publish(wsMsg);
+    csPublisher->publish(csMsg);
+    imuPublisher->publish(imuMsg);
+    fixPublisher->publish(fixMsg);
 }
 
 

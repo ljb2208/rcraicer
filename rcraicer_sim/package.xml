@@ -15,9 +15,10 @@
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
+  <depend>rcraicer_msgs</depend>
   <depend>tf2</depend>
   <depend>tf2_eigen</depend>
-
+  <depend>geographiclib</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

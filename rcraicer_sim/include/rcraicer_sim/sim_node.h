@@ -15,14 +15,18 @@ class SimNode : public rclcpp::Node
     public:
         SimNode();
         ~SimNode();
-
-        void publishSensorMessages(sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::MagneticField magMsg, sensor_msgs::msg::Temperature tempMsg);
         
+        void publishTelemetryMessages(rcraicer_msgs::msg::WheelSpeed wsMsg, rcraicer_msgs::msg::ChassisState csMsg, sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::NavSatFix fixMsg);
+
     private:
         rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imuPublisher;
-        rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imuPublisherRaw;
         rclcpp::Publisher<sensor_msgs::msg::MagneticField>::SharedPtr magPublisher;
-        rclcpp::Publisher<sensor_msgs::msg::Temperature>::SharedPtr tempPublisher;  
+        rclcpp::Publisher<rcraicer_msgs::msg::WheelSpeed>::SharedPtr wsPublisher;
+        rclcpp::Publisher<rcraicer_msgs::msg::ChassisState>::SharedPtr csPublisher;
+        rclcpp::Publisher<sensor_msgs::msg::NavSatFix>::SharedPtr fixPublisher;
+
+        rclcpp::TimerBase::SharedPtr connectTimer;
+        void connectTimerCallback();  
 
         void param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent);        
         void updateInternalParams();

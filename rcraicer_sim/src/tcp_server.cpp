@@ -14,10 +14,15 @@
 #include <netdb.h>
 #include <sys/socket.h>
 
-TcpServer::TcpServer(std::string ipAddress, std::string port): port_fd(-1), port_setting_error(""), connected(false), dataCallback(NULL), alive(false) 
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Matrix3x3.h>
+
+TcpServer::TcpServer(std::string ipAddress, std::string port): port_fd(-1), port_setting_error(""), connected(false), telemCallback(NULL), alive(false), geod(NULL)
 {
     this->port = port;    
     this->ipAddress = ipAddress;
+
+    geod = new GeographicLib::Geodesic(GeographicLib::Constants::WGS84_a(), GeographicLib::Constants::WGS84_f());
 }
 
 TcpServer::~TcpServer()
@@ -28,6 +33,9 @@ TcpServer::~TcpServer()
     runThread->join();
 
   }
+
+  if (geod != NULL)
+    delete geod;
 }
 
 void TcpServer::run()
@@ -121,14 +129,66 @@ void TcpServer::processMessage()
 {    
     msgBuffer[msgIndex] = '\0';
 
-    std::string output((char*) msgBuffer, msgIndex);
-    std::cout << "Received: " << output.c_str() << "\r\n";
+    if (msgIndex <= 3)
+      return;
+    
+    jsonDoc.ParseInsitu((char*)msgBuffer);
+    std::string msgType = jsonDoc["msg_type"].GetString();
 
-    if (msgIndex > 3)
+    if (msgType.compare("telemetry") == 0)
     {
-      jsonDoc.ParseInsitu((char*)msgBuffer);
-      std::cout << "Message type: " <<  jsonDoc["msg_type"].GetString() << "\r\n";
-    }        
+      wsMsg.left_rear = jsonDoc["ws_lr"].GetFloat();
+      wsMsg.right_rear = jsonDoc["ws_rr"].GetFloat();
+      wsMsg.left_front = jsonDoc["ws_lf"].GetFloat();
+      wsMsg.right_front = jsonDoc["ws_rf"].GetFloat();
+      // wsMsg.right_front = jsonDoc["speed"].GetFloat();
+
+      csMsg.throttle = jsonDoc["throttle"].GetFloat();
+      csMsg.steer = jsonDoc["steer"].GetFloat();
+      csMsg.steer_angle = jsonDoc["steering_angle"].GetFloat();
+
+      // Unity coords forward = z, right = x, up = y
+      // ros coords forward =x, left = y, up = z
+
+      tf2::Quaternion gyro(-jsonDoc["gyro_z"].GetFloat(), jsonDoc["gyro_x"].GetFloat(), -jsonDoc["gyro_y"].GetFloat(), jsonDoc["gyro_w"].GetFloat());
+      tf2::Matrix3x3 mGyro(gyro);
+      mGyro.getRPY(imuMsg.angular_velocity.x, imuMsg.angular_velocity.y, imuMsg.angular_velocity.z);
+
+      imuMsg.linear_acceleration.x = jsonDoc["accel_z"].GetFloat();
+      imuMsg.linear_acceleration.y = -(jsonDoc["accel_x"].GetFloat());
+      imuMsg.linear_acceleration.z = jsonDoc["accel_y"].GetFloat() + GRAVITY;
+
+      imuMsg.orientation.x = -jsonDoc["orient_z"].GetFloat();
+      imuMsg.orientation.y = jsonDoc["orient_x"].GetFloat();
+      imuMsg.orientation.z = -jsonDoc["orient_y"].GetFloat();
+      imuMsg.orientation.w = jsonDoc["orient_w"].GetFloat();
+
+      double roll, pitch, yaw;
+      tf2::Quaternion orient(imuMsg.orientation.x, imuMsg.orientation.y, imuMsg.orientation.z, imuMsg.orientation.w);
+      tf2::Matrix3x3 mOrient(orient);
+      mOrient.getRPY(roll, pitch, yaw);
+
+      double posx = jsonDoc["pos_z"].GetDouble();
+      double posy = jsonDoc["pos_x"].GetDouble();
+      double posz = jsonDoc["pos_y"].GetDouble();
+
+      double distance = sqrt(posx*posx + posy*posy);
+      double latitude2, longitude2;
+      geod->Direct(latitude, longitude, yaw, distance, latitude2, longitude2);
+
+      fixMsg.latitude = latitude2;
+      fixMsg.longitude = longitude2;
+      fixMsg.altitude = altitude + posz;
+      fixMsg.status.status = 2;
+      fixMsg.status.service = 11;
+
+      latitude = latitude2;
+      longitude = longitude2;
+      altitude = altitude + posz;
+      
+      if (telemCallback != NULL)
+        telemCallback(wsMsg, csMsg, imuMsg, fixMsg);
+    }
 }
 
 void TcpServer::lock()
@@ -146,17 +206,17 @@ void TcpServer::unlock()
   dataMutex.unlock();
 }
 
-void TcpServer::registerDataCallback(DataCallback callback)
+void TcpServer::registerTelemetryCallback(TelemetryCallback callback)
 {
   dataMutex.lock();          
-  dataCallback = callback;
+  telemCallback = callback;
   dataMutex.unlock();                             
 }
 
-void TcpServer::clearDataCallback()
+void TcpServer::clearTelemetryCallback()
 {
   dataMutex.lock();          
-  dataCallback = NULL;
+  telemCallback = NULL;
   dataMutex.unlock();                             
 }
 

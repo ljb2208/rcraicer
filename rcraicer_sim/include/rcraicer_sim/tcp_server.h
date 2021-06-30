@@ -13,8 +13,20 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
+#include "rcraicer_msgs/msg/wheel_speed.hpp"
+#include "rcraicer_msgs/msg/chassis_state.hpp"
+#include "sensor_msgs/msg/imu.hpp"
+#include "sensor_msgs/msg/magnetic_field.hpp"
+#include "sensor_msgs/msg/nav_sat_fix.hpp"
+#include "sensor_msgs/msg/nav_sat_status.hpp"
+
+#include <GeographicLib/Geodesic.hpp>
+#include <GeographicLib/Constants.hpp>
+
+
 #define BUFFER_SIZE 64128
 #define MSG_BUFFER_SIZE 64128 * 10
+#define GRAVITY (9.80665)
 
 #define SYNC_CHAR '{'
 #define END_SYNC_CHAR1 '}'
@@ -44,9 +56,9 @@ class TcpServer
         bool tryLock();
         void unlock();
 
-        typedef std::function<void(const uint8_t)> DataCallback;
-        void registerDataCallback(DataCallback callback);
-        void clearDataCallback();
+        typedef std::function<void(rcraicer_msgs::msg::WheelSpeed wsMsg, rcraicer_msgs::msg::ChassisState csMsg, sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::NavSatFix fixMsg)> TelemetryCallback;
+        void registerTelemetryCallback(TelemetryCallback callback);
+        void clearTelemetryCallback();
         void waitForData();                
 
         bool isConnected()
@@ -80,7 +92,7 @@ class TcpServer
         std::mutex writeMutex; ///< mutex for writing serial data
         std::mutex waitMutex; ///< mutex for thread synchronization
 
-        DataCallback dataCallback; ///< Callback triggered when new data arrives
+        TelemetryCallback telemCallback; ///< Callback triggered when new data arrives
         volatile bool alive;
 
         uint8_t msgBuffer[MSG_BUFFER_SIZE];
@@ -88,6 +100,19 @@ class TcpServer
         decode_state_t decode_state {DECODE_SYNC};
 
         rapidjson::Document jsonDoc;
+
+        rcraicer_msgs::msg::ChassisState csMsg;
+        rcraicer_msgs::msg::WheelSpeed wsMsg;
+        sensor_msgs::msg::Imu imuMsg;
+        sensor_msgs::msg::MagneticField magMsg;
+        sensor_msgs::msg::NavSatFix fixMsg;
+
+        double latitude {41.00469};
+        double longitude {-74.08575};
+        double altitude {20.0};
+
+        GeographicLib::Geodesic* geod;
+        
 };
 
 #endif
