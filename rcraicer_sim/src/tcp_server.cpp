@@ -23,6 +23,18 @@ TcpServer::TcpServer(std::string ipAddress, std::string port): port_fd(-1), port
     this->ipAddress = ipAddress;
 
     geod = new GeographicLib::Geodesic(GeographicLib::Constants::WGS84_a(), GeographicLib::Constants::WGS84_f());
+
+    // create control json doc
+    controlDoc.SetObject();
+    rapidjson::Document::AllocatorType& allocator = controlDoc.GetAllocator();
+    // controlWriter = rapidjson::Writer<rapidjson::StringBuffer>(controlBuffer);
+    // controlDoc.Accept(controlWriter);
+
+    controlDoc.AddMember("msg_type", "control", allocator);
+    controlDoc.AddMember("throttle", 0.0, allocator);
+    controlDoc.AddMember("steering", 0.0, allocator);
+    controlDoc.AddMember("brake", 0.0, allocator);
+
 }
 
 TcpServer::~TcpServer()
@@ -189,6 +201,24 @@ void TcpServer::processMessage()
       if (telemCallback != NULL)
         telemCallback(wsMsg, csMsg, imuMsg, fixMsg);
     }
+}
+
+bool TcpServer::sendControls(float throttle, float steering, float brake)
+{
+  bool ret = true;
+
+  controlDoc["throttle"].SetFloat(throttle);
+  controlDoc["steering"].SetFloat(steering);
+  controlDoc["brake"].SetFloat(brake);
+
+  rapidjson::Writer<rapidjson::StringBuffer> controlWriter(controlBuffer);
+  controlDoc.Accept(controlWriter);
+
+  std::string ctrl = controlBuffer.GetString();
+
+  std::cout << "Control string: " <<  ctrl.c_str() << "\r\n";
+
+  return ret;
 }
 
 void TcpServer::lock()

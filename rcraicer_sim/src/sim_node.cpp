@@ -4,7 +4,7 @@ using std::placeholders::_1;
 using namespace std::chrono_literals;
 
 
-SimNode::SimNode() : Node("sim_node"), server(NULL)
+SimNode::SimNode() : Node("sim_node"), server(NULL), autoEnabled(false)
 {
     // init parameters    
     this->declare_parameter("ip_address", "127.0.0.1");
@@ -15,6 +15,11 @@ SimNode::SimNode() : Node("sim_node"), server(NULL)
     this->declare_parameter("orientation_stdev", 1.0);
     this->declare_parameter("magnetic_stdev", 0.0);
     this->declare_parameter("pub_freq", 400); // hz
+    this->declare_parameter("throttle_axis", 1);
+    this->declare_parameter("steering_axis", 3);
+    this->declare_parameter("auto_button", 0);
+    this->declare_parameter("reverse_steering", false);
+    this->declare_parameter("reverse_throttle", false);
         
     ipAddress = this->get_parameter("ip_address");
     port = this->get_parameter("port");
@@ -24,6 +29,11 @@ SimNode::SimNode() : Node("sim_node"), server(NULL)
     orientation_stdev = this->get_parameter("orientation_stdev");
     mag_stdev = this->get_parameter("magnetic_stdev");
     pub_freq = this->get_parameter("pub_freq");
+    auto_button = this->get_parameter("auto_button");
+    steering_axis = this->get_parameter("steering_axis");
+    throttle_axis = this->get_parameter("throttle_axis");
+    reverse_steering = this->get_parameter("reverse_steering");
+    reverse_throttle = this->get_parameter("reverse_throttle");
 
     paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&SimNode::paramSetCallback, this, std::placeholders::_1));
 
@@ -34,14 +44,9 @@ SimNode::SimNode() : Node("sim_node"), server(NULL)
     wsPublisher = this->create_publisher<rcraicer_msgs::msg::WheelSpeed>("wheel_speeds", 10);
     csPublisher = this->create_publisher<rcraicer_msgs::msg::ChassisState>("chassis_state", 10);
     fixPublisher = this->create_publisher<sensor_msgs::msg::NavSatFix>("rover_gps_fix", 10);
-    
-    // server->registerSensorMessagesCallback(std::bind(&SimNode::publishSensorMessages, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    
-    // if (server->openPort(portPath.as_string(), baudRate.as_int()))
-    // {
-    //     RCLCPP_INFO(this->get_logger(), "Connected on %s @ %i", portPath.as_string().c_str(), 
-    //                                 baudRate.as_int());
-    // }    
+
+    joySubscription = this->create_subscription<sensor_msgs::msg::Joy>(
+      "joy", 10, std::bind(&SimNode::joy_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
 
     server = new TcpServer(ipAddress.as_string(), port.as_string());
 
@@ -125,6 +130,20 @@ rcl_interfaces::msg::SetParametersResult SimNode::paramSetCallback(const std::ve
 
 void SimNode::updateInternalParams()
 {
+    throttleAxisID = throttle_axis.as_int();
+    steeringAxisID = steering_axis.as_int();
+    autoButtonID = auto_button.as_int();
+
+    if (reverse_steering.as_bool())
+        reverseSteering = -1;
+    else
+        reverseSteering = 1;
+
+    if (reverse_throttle.as_bool())
+        reverseThrottle = -1;
+    else
+        reverseThrottle = 1;
+
     frame_id = frame_id_param.as_string();  
     setup_covariance(linear_acceleration_cov, linear_stdev.as_double());
     setup_covariance(angular_velocity_cov, angular_stdev.as_double());
@@ -170,6 +189,31 @@ void SimNode::publishTelemetryMessages(rcraicer_msgs::msg::WheelSpeed wsMsg, rcr
     fixPublisher->publish(fixMsg);
 }
 
+void SimNode::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)  // use const at end of function in later versions of ros2
+{    
+
+    if (msg->buttons[autoButtonID] == 1)
+    {
+        autoEnabled = !autoEnabled;
+    }
+
+    if (autoEnabled)
+        return;
+
+    float steer = msg->axes[steeringAxisID];
+    float throttle = msg->axes[throttleAxisID];
+    float brake = 0.0;
+
+    sendControls(throttle, steer, brake);
+}
+
+void SimNode::sendControls(float throttle, float steering, float brake)
+{
+    if (!server->sendControls(throttle * reverseThrottle, steering * reverseSteering, brake))
+    {
+        RCLCPP_ERROR(this->get_logger(), "Error sending actions");
+    }
+}
 
 int main(int argc, char * argv[])
 {

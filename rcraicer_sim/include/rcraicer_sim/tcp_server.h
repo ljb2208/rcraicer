@@ -59,7 +59,9 @@ class TcpServer
         typedef std::function<void(rcraicer_msgs::msg::WheelSpeed wsMsg, rcraicer_msgs::msg::ChassisState csMsg, sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::NavSatFix fixMsg)> TelemetryCallback;
         void registerTelemetryCallback(TelemetryCallback callback);
         void clearTelemetryCallback();
-        void waitForData();                
+        void waitForData();           
+
+        bool sendControls(float throttle, float steering, float brake);     
 
         bool isConnected()
         {
@@ -100,6 +102,9 @@ class TcpServer
         decode_state_t decode_state {DECODE_SYNC};
 
         rapidjson::Document jsonDoc;
+        rapidjson::Document controlDoc;
+        rapidjson::StringBuffer controlBuffer;
+        // rapidjson::Writer<rapidjson::StringBuffer> controlWriter(controlBuffer);
 
         rcraicer_msgs::msg::ChassisState csMsg;
         rcraicer_msgs::msg::WheelSpeed wsMsg;
