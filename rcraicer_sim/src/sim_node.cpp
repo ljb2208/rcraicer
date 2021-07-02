@@ -46,8 +46,11 @@ SimNode::SimNode() : Node("sim_node"), server(NULL), autoEnabled(false)
     fixPublisher = this->create_publisher<sensor_msgs::msg::NavSatFix>("rover_gps_fix", 10);
 
     joySubscription = this->create_subscription<sensor_msgs::msg::Joy>(
-      "joy", 10, std::bind(&SimNode::joy_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
+      "joy", 10, std::bind(&SimNode::joy_callback, this, std::placeholders::_1));   
 
+    cmdSubscription = this->create_subscription<rcraicer_msgs::msg::ChassisCommand>(
+      "cmds", 10, std::bind(&SimNode::command_callback, this, std::placeholders::_1));   
+    
     server = new TcpServer(ipAddress.as_string(), port.as_string());
 
     server->registerTelemetryCallback(std::bind(&SimNode::publishTelemetryMessages, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
@@ -205,6 +208,14 @@ void SimNode::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)  // use c
     float brake = 0.0;
 
     sendControls(throttle, steer, brake);
+}
+
+void SimNode::command_callback(const rcraicer_msgs::msg::ChassisCommand::SharedPtr msg)
+{
+    if (autoEnabled)
+    {
+        sendControls(msg->throttle, msg->steer, 0.0);
+    }
 }
 
 void SimNode::sendControls(float throttle, float steering, float brake)

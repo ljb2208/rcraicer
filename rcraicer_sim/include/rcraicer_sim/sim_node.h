@@ -4,6 +4,7 @@
 #include "sensor_msgs/msg/magnetic_field.hpp"
 #include "sensor_msgs/msg/temperature.hpp"
 #include "sensor_msgs/msg/joy.hpp"
+#include "rcraicer_msgs/msg/chassis_command.hpp"
 
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
@@ -27,10 +28,12 @@ class SimNode : public rclcpp::Node
         rclcpp::Publisher<sensor_msgs::msg::NavSatFix>::SharedPtr fixPublisher;
 
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joySubscription;
+        rclcpp::Subscription<rcraicer_msgs::msg::ChassisCommand>::SharedPtr cmdSubscription;
 
         rclcpp::TimerBase::SharedPtr connectTimer;
         void connectTimerCallback();  
         void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg);
+        void command_callback(const rcraicer_msgs::msg::ChassisCommand::SharedPtr msg);
 
         void param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent);        
         void updateInternalParams();
