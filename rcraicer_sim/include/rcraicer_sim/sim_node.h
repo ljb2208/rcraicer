@@ -37,6 +37,7 @@ class SimNode : public rclcpp::Node
         void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg);
         void command_callback(const rcraicer_msgs::msg::ChassisCommand::SharedPtr msg);
 
+        void event_callback(sim_event_t event);
         void param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent);        
         void updateInternalParams();
 
@@ -62,6 +63,7 @@ class SimNode : public rclcpp::Node
         rclcpp::Parameter reverse_steering;
         rclcpp::Parameter reverse_throttle;
         rclcpp::Parameter publish_image;
+        rclcpp::Parameter scene_name;
 
         sensor_msgs::msg::Imu::_angular_velocity_covariance_type linear_acceleration_cov;
         sensor_msgs::msg::Imu::_angular_velocity_covariance_type angular_velocity_cov;
@@ -80,6 +82,7 @@ class SimNode : public rclcpp::Node
         int reverseSteering;
         int reverseThrottle;
 
+        bool active {false};
         bool autoEnabled;
         bool publishImage;
 

@@ -207,7 +207,23 @@ void TcpServer::processMessage()
     }
     else if (msgType.compare("scene_selection_ready") == 0)
     {
-      eventCallback(SCENE_SELECTION_READY);
+      if (eventCallback != NULL)
+        eventCallback(SCENE_SELECTION_READY);
+    }
+    else if (msgType.compare("car_loaded") == 0)
+    {
+      if (eventCallback != NULL)
+        eventCallback(CAR_LOADED);
+    }
+    else if (msgType.compare("aborted") == 0)
+    {
+      if (eventCallback != NULL)
+        eventCallback(ABORTED);
+    }
+    else if (msgType.compare("need_car_config") == 0)
+    {
+      if (eventCallback != NULL)
+        eventCallback(NEED_CAR_CONFIG);
     }
     else
     {

@@ -21,6 +21,7 @@ SimNode::SimNode() : Node("sim_node"), server(NULL), autoEnabled(false)
     this->declare_parameter("reverse_steering", false);
     this->declare_parameter("reverse_throttle", false);
     this->declare_parameter("publish_image", true);
+    this->declare_parameter("scene_name", "donkey-minimonaco-track-v0");
         
     ipAddress = this->get_parameter("ip_address");
     port = this->get_parameter("port");
@@ -35,6 +36,7 @@ SimNode::SimNode() : Node("sim_node"), server(NULL), autoEnabled(false)
     throttle_axis = this->get_parameter("throttle_axis");
     reverse_steering = this->get_parameter("reverse_steering");
     reverse_throttle = this->get_parameter("reverse_throttle");
+    scene_name = this->get_parameter("scene_name");
 
     paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&SimNode::paramSetCallback, this, std::placeholders::_1));
 
@@ -130,6 +132,10 @@ rcl_interfaces::msg::SetParametersResult SimNode::paramSetCallback(const std::ve
         {
             pub_freq = param;
         }
+        else if (param.get_name() == "scene_name")
+        {
+            scene_name = param;
+        }
     }
 
     updateInternalParams();
@@ -223,6 +229,29 @@ void SimNode::command_callback(const rcraicer_msgs::msg::ChassisCommand::SharedP
     {
         sendControls(msg->throttle, msg->steer, 0.0);
     }
+}
+
+void SimNode::event_callback(sim_event_t event)
+{
+    switch(event)
+    {
+        case SCENE_SELECTION_READY:
+            server->sendSceneSelection(scene_name.as_string());
+            break;
+        case CAR_LOADED:
+            RCLCPP_INFO(this->get_logger(), "Car loaded");
+            break;
+        case ABORTED:
+            RCLCPP_INFO(this->get_logger(), "Aborted");
+            break;
+        case NEED_CAR_CONFIG:
+            RCLCPP_INFO(this->get_logger(), "Need car config");
+            break;
+        default:
+            break;
+    }
+    
+        
 }
 
 void SimNode::sendControls(float throttle, float steering, float brake)
