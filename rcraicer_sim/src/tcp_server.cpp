@@ -200,6 +200,13 @@ void TcpServer::processMessage()
       
       if (telemCallback != NULL)
         telemCallback(wsMsg, csMsg, imuMsg, fixMsg);
+
+      if (publishImage)
+      {
+          std::string img = jsonDoc["image"].GetString();
+          
+           
+      }
     }
 }
 
@@ -219,6 +226,11 @@ bool TcpServer::sendControls(float throttle, float steering, float brake)
   std::cout << "Control string: " <<  ctrl.c_str() << "\r\n";
 
   return ret;
+}
+
+void TcpServer::enableImagePublishing()
+{
+  publishImages = true;
 }
 
 void TcpServer::lock()
@@ -247,6 +259,20 @@ void TcpServer::clearTelemetryCallback()
 {
   dataMutex.lock();          
   telemCallback = NULL;
+  dataMutex.unlock();                             
+}
+
+void TcpServer::registerImageCallback(ImageCallback callback)
+{
+  dataMutex.lock();          
+  imageCallback = callback;
+  dataMutex.unlock();                             
+}
+
+void TcpServer::clearImageCallback()
+{
+  dataMutex.lock();          
+  imageCallback = NULL;
   dataMutex.unlock();                             
 }
 

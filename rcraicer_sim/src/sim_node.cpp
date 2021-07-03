@@ -20,6 +20,7 @@ SimNode::SimNode() : Node("sim_node"), server(NULL), autoEnabled(false)
     this->declare_parameter("auto_button", 0);
     this->declare_parameter("reverse_steering", false);
     this->declare_parameter("reverse_throttle", false);
+    this->declare_parameter("publish_image", true);
         
     ipAddress = this->get_parameter("ip_address");
     port = this->get_parameter("port");
@@ -39,6 +40,9 @@ SimNode::SimNode() : Node("sim_node"), server(NULL), autoEnabled(false)
 
     updateInternalParams();
 
+    if (publishImage)
+        imagePublisher = this->create_publisher<sensor_msgs::msg::Image>("image", 10);
+
     imuPublisher = this->create_publisher<sensor_msgs::msg::Imu>("imu", 10);    
     magPublisher = this->create_publisher<sensor_msgs::msg::MagneticField>("imu_mag", 10);
     wsPublisher = this->create_publisher<rcraicer_msgs::msg::WheelSpeed>("wheel_speeds", 10);
@@ -52,6 +56,9 @@ SimNode::SimNode() : Node("sim_node"), server(NULL), autoEnabled(false)
       "cmds", 10, std::bind(&SimNode::command_callback, this, std::placeholders::_1));   
     
     server = new TcpServer(ipAddress.as_string(), port.as_string());
+
+    if (publishImage)
+        server->enableImagePublishing();
 
     server->registerTelemetryCallback(std::bind(&SimNode::publishTelemetryMessages, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     if (server->connectToSocket())

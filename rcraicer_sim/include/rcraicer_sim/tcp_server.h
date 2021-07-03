@@ -19,6 +19,8 @@
 #include "sensor_msgs/msg/magnetic_field.hpp"
 #include "sensor_msgs/msg/nav_sat_fix.hpp"
 #include "sensor_msgs/msg/nav_sat_status.hpp"
+#include "sensor_msgs/msg/image.hpp"
+
 
 #include <GeographicLib/Geodesic.hpp>
 #include <GeographicLib/Constants.hpp>
@@ -48,6 +50,8 @@ class TcpServer
 
         ~TcpServer();
 
+        void enableImagePublishing();
+
         bool connectToSocket();
         int writePort(const unsigned char* data, unsigned int length);
         int writePortTry(const unsigned char* data, unsigned int length);
@@ -57,8 +61,11 @@ class TcpServer
         void unlock();
 
         typedef std::function<void(rcraicer_msgs::msg::WheelSpeed wsMsg, rcraicer_msgs::msg::ChassisState csMsg, sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::NavSatFix fixMsg)> TelemetryCallback;
+        typedef std::function<void(sensor_msgs::msg::Image imageMsg)> ImageCallback;
+        void registerImageCallback(ImageCallback callback);
         void registerTelemetryCallback(TelemetryCallback callback);
         void clearTelemetryCallback();
+        void clearImageCallback();
         void waitForData();           
 
         bool sendControls(float throttle, float steering, float brake);     
@@ -95,6 +102,8 @@ class TcpServer
         std::mutex waitMutex; ///< mutex for thread synchronization
 
         TelemetryCallback telemCallback; ///< Callback triggered when new data arrives
+        ImageCallback imageCallback;
+        
         volatile bool alive;
 
         uint8_t msgBuffer[MSG_BUFFER_SIZE];
@@ -115,6 +124,8 @@ class TcpServer
         double latitude {41.00469};
         double longitude {-74.08575};
         double altitude {20.0};
+
+        bool publishImages {false};
 
         GeographicLib::Geodesic* geod;
         

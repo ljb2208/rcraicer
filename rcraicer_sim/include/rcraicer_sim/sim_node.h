@@ -4,6 +4,7 @@
 #include "sensor_msgs/msg/magnetic_field.hpp"
 #include "sensor_msgs/msg/temperature.hpp"
 #include "sensor_msgs/msg/joy.hpp"
+#include "sensor_msgs/msg/image.hpp"
 #include "rcraicer_msgs/msg/chassis_command.hpp"
 
 #include <Eigen/Eigen>
@@ -26,6 +27,7 @@ class SimNode : public rclcpp::Node
         rclcpp::Publisher<rcraicer_msgs::msg::WheelSpeed>::SharedPtr wsPublisher;
         rclcpp::Publisher<rcraicer_msgs::msg::ChassisState>::SharedPtr csPublisher;
         rclcpp::Publisher<sensor_msgs::msg::NavSatFix>::SharedPtr fixPublisher;
+        rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr imagePublisher;
 
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joySubscription;
         rclcpp::Subscription<rcraicer_msgs::msg::ChassisCommand>::SharedPtr cmdSubscription;
@@ -59,6 +61,7 @@ class SimNode : public rclcpp::Node
         rclcpp::Parameter auto_button;
         rclcpp::Parameter reverse_steering;
         rclcpp::Parameter reverse_throttle;
+        rclcpp::Parameter publish_image;
 
         sensor_msgs::msg::Imu::_angular_velocity_covariance_type linear_acceleration_cov;
         sensor_msgs::msg::Imu::_angular_velocity_covariance_type angular_velocity_cov;
@@ -78,6 +81,6 @@ class SimNode : public rclcpp::Node
         int reverseThrottle;
 
         bool autoEnabled;
-
+        bool publishImage;
 
 };
