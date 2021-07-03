@@ -70,13 +70,7 @@ void TcpServer::run()
     {        
           dataMutex.lock();          
 
-          processData(data, received);          
-
-        //   for (int i=0; i < received; i++)
-        //   {            
-        //     if (dataCallback != NULL)
-        //       dataCallback(data[i]);                                                                          
-        //   }
+          processData(data, received);                  
 
           dataMutex.unlock();                                     
     }
@@ -143,6 +137,9 @@ void TcpServer::processMessage()
 
     if (msgIndex <= 3)
       return;
+
+    // std::string output((char*) msgBuffer, msgIndex);
+    // std::cout << "Message: " << output.c_str() << "\r\n";
     
     jsonDoc.ParseInsitu((char*)msgBuffer);
     std::string msgType = jsonDoc["msg_type"].GetString();
@@ -208,6 +205,13 @@ void TcpServer::processMessage()
            
       }
     }
+    else if (msgType.compare("scene_selection_ready"))
+    {
+      
+    }
+    else
+      std::cout << "Message received " << msgType.c_str() << "\r\n";
+    }
 }
 
 bool TcpServer::sendControls(float throttle, float steering, float brake)
@@ -218,12 +222,15 @@ bool TcpServer::sendControls(float throttle, float steering, float brake)
   controlDoc["steering"].SetFloat(steering);
   controlDoc["brake"].SetFloat(brake);
 
-  rapidjson::Writer<rapidjson::StringBuffer> controlWriter(controlBuffer);
-  controlDoc.Accept(controlWriter);
+  // rapidjson::Writer<rapidjson::StringBuffer> controlWriter(controlBuffer);
+  // controlDoc.Accept(controlWriter);
 
-  std::string ctrl = controlBuffer.GetString();
+  // std::string ctrl = controlBuffer.GetString();
 
-  std::cout << "Control string: " <<  ctrl.c_str() << "\r\n";
+  // std::cout << "Control: " << ctrl.c_str() << "\r\n";
+
+  // strcpy((char *) txBuffer, ctrl.c_str());
+  // writePort(txBuffer, ctrl.size());
 
   return ret;
 }

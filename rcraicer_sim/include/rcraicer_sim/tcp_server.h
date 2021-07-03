@@ -103,7 +103,7 @@ class TcpServer
 
         TelemetryCallback telemCallback; ///< Callback triggered when new data arrives
         ImageCallback imageCallback;
-        
+
         volatile bool alive;
 
         uint8_t msgBuffer[MSG_BUFFER_SIZE];
@@ -126,6 +126,7 @@ class TcpServer
         double altitude {20.0};
 
         bool publishImages {false};
+        uint8_t txBuffer[BUFFER_SIZE];
 
         GeographicLib::Geodesic* geod;
         
