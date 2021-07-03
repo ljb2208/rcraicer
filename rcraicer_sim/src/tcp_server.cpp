@@ -198,20 +198,44 @@ void TcpServer::processMessage()
       if (telemCallback != NULL)
         telemCallback(wsMsg, csMsg, imuMsg, fixMsg);
 
-      if (publishImage)
+      if (publishImages)
       {
           std::string img = jsonDoc["image"].GetString();
           
            
       }
     }
-    else if (msgType.compare("scene_selection_ready"))
+    else if (msgType.compare("scene_selection_ready") == 0)
     {
-      
+      eventCallback(SCENE_SELECTION_READY);
     }
     else
+    {
       std::cout << "Message received " << msgType.c_str() << "\r\n";
     }
+}
+
+bool TcpServer::sendSceneSelection(std::string scene_name)
+{
+  rapidjson::Document doc;
+  rapidjson::StringBuffer buffer;
+
+  doc.SetObject();
+  rapidjson::Document::AllocatorType& alloc = doc.GetAllocator();
+
+  doc.AddMember("msg_type", "load_scene", alloc);
+  doc.AddMember("scene_name", rapidjson::StringRef(scene_name), alloc);
+
+  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+  doc.Accept(writer);
+
+  std::string cmd = buffer.GetString();
+
+  strcpy((char *) txBuffer, cmd.c_str());
+  if (writePort(txBuffer, cmd.size()) > 0)
+    return true;
+
+  return false;
 }
 
 bool TcpServer::sendControls(float throttle, float steering, float brake)
@@ -262,6 +286,14 @@ void TcpServer::registerTelemetryCallback(TelemetryCallback callback)
   dataMutex.unlock();                             
 }
 
+
+void TcpServer::registerEventCallback(EventCallback callback)
+{
+  dataMutex.lock();          
+  eventCallback = callback;
+  dataMutex.unlock();                             
+}
+
 void TcpServer::clearTelemetryCallback()
 {
   dataMutex.lock();          
@@ -280,6 +312,14 @@ void TcpServer::clearImageCallback()
 {
   dataMutex.lock();          
   imageCallback = NULL;
+  dataMutex.unlock();                             
+}
+
+
+void TcpServer::clearEventCallback()
+{
+  dataMutex.lock();          
+  eventCallback = NULL;
   dataMutex.unlock();                             
 }
 

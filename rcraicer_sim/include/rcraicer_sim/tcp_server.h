@@ -9,6 +9,8 @@
 #include <memory>
 #include <vector>
 
+#define RAPIDJSON_HAS_STDSTRING 1
+
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
@@ -43,6 +45,19 @@ typedef enum {
 
 } decode_state_t;
 
+typedef enum {
+    SCENE_SELECTION_READY = 0,
+    CAR_LOADED,
+    CROSS_START,
+    RACE_START,
+    RACE_STOP,
+    DQ,
+    PING,
+    ABORTED,
+    MISSED_CHECKPOINT,
+    NEED_CAR_CONFIG
+} sim_event_t;
+
 class TcpServer
 {
     public:
@@ -60,13 +75,18 @@ class TcpServer
         bool tryLock();
         void unlock();
 
+        typedef std::function<void(sim_event_t simEvent)> EventCallback;
         typedef std::function<void(rcraicer_msgs::msg::WheelSpeed wsMsg, rcraicer_msgs::msg::ChassisState csMsg, sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::NavSatFix fixMsg)> TelemetryCallback;
         typedef std::function<void(sensor_msgs::msg::Image imageMsg)> ImageCallback;
+        void registerEventCallback(EventCallback callback);
         void registerImageCallback(ImageCallback callback);
         void registerTelemetryCallback(TelemetryCallback callback);
         void clearTelemetryCallback();
         void clearImageCallback();
-        void waitForData();           
+        void clearEventCallback();
+        void waitForData();
+
+        bool sendSceneSelection(std::string scene_name);           
 
         bool sendControls(float throttle, float steering, float brake);     
 
@@ -89,6 +109,7 @@ class TcpServer
         void decodeInit();
         void addToMsgBuffer(const unsigned char data);
         void processMessage();
+
         std::string ipAddress;
         std::string port;
         int port_fd; // file descriptor for serial port
@@ -103,6 +124,7 @@ class TcpServer
 
         TelemetryCallback telemCallback; ///< Callback triggered when new data arrives
         ImageCallback imageCallback;
+        EventCallback eventCallback;
 
         volatile bool alive;
 
