@@ -116,6 +116,8 @@ class TcpServer
         double longitude {-74.08575};
         double altitude {20.0};
 
+        uint8_t txBuffer[BUFFER_SIZE];
+
         GeographicLib::Geodesic* geod;
         
 };
