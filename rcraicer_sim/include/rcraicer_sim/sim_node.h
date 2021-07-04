@@ -9,6 +9,7 @@
 
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
+#include <vector>
 
 
 #include "tcp_server.h"
@@ -41,7 +42,11 @@ class SimNode : public rclcpp::Node
         void param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent);        
         void updateInternalParams();
 
+        void setActive(bool active);
+
         void sendControls(float throttle, float steering, float brake);
+
+        std::string getScene();
 
         rcl_interfaces::msg::SetParametersResult paramSetCallback(const std::vector<rclcpp::Parameter>& parameters);
         OnSetParametersCallbackHandle::SharedPtr paramSetCallbackHandler;
@@ -85,5 +90,7 @@ class SimNode : public rclcpp::Node
         bool active {false};
         bool autoEnabled;
         bool publishImage;
+
+        std::vector<std::string> sceneNames;
 
 };

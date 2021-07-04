@@ -198,12 +198,25 @@ void TcpServer::processMessage()
       if (telemCallback != NULL)
         telemCallback(wsMsg, csMsg, imuMsg, fixMsg);
 
+      sendControls();
+
       if (publishImages)
       {
-          std::string img = jsonDoc["image"].GetString();
-          
-           
+          std::string img = jsonDoc["image"].GetString();          
       }
+    }
+    else if (msgType.compare("scene_names") == 0)
+    {
+      sceneNames.clear();
+
+      const rapidjson::Value& scenes = jsonDoc["scene_names"];
+
+      for (rapidjson::SizeType i=0; i < scenes.Size(); i++)
+        sceneNames.push_back(scenes[i].GetString());
+
+
+      if (eventCallback != NULL)
+        eventCallback(SCENE_LIST);
     }
     else if (msgType.compare("scene_selection_ready") == 0)
     {
@@ -231,6 +244,18 @@ void TcpServer::processMessage()
     }
 }
 
+void TcpServer::setControls(float throttle, float steering, float brakes)
+{
+    this->throttle = throttle;
+    this->steering = steering;
+    this->brakes = brakes;
+}
+
+std::vector<std::string> TcpServer::getScenes()
+{
+  return sceneNames;
+}
+
 bool TcpServer::sendSceneSelection(std::string scene_name)
 {
   rapidjson::Document doc;
@@ -254,23 +279,43 @@ bool TcpServer::sendSceneSelection(std::string scene_name)
   return false;
 }
 
-bool TcpServer::sendControls(float throttle, float steering, float brake)
+bool TcpServer::sendSceneList()
+{
+  rapidjson::Document doc;
+  rapidjson::StringBuffer buffer;
+
+  doc.SetObject();
+  rapidjson::Document::AllocatorType& alloc = doc.GetAllocator();
+
+  doc.AddMember("msg_type", "get_scene_names", alloc);  
+
+  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+  doc.Accept(writer);
+
+  std::string cmd = buffer.GetString();
+
+  strcpy((char *) txBuffer, cmd.c_str());
+  if (writePort(txBuffer, cmd.size()) > 0)
+    return true;
+
+  return false;
+}
+
+bool TcpServer::sendControls()
 {
   bool ret = true;
 
   controlDoc["throttle"].SetFloat(throttle);
   controlDoc["steering"].SetFloat(steering);
-  controlDoc["brake"].SetFloat(brake);
+  controlDoc["brake"].SetFloat(brakes);
 
-  // rapidjson::Writer<rapidjson::StringBuffer> controlWriter(controlBuffer);
-  // controlDoc.Accept(controlWriter);
+  rapidjson::Writer<rapidjson::StringBuffer> controlWriter(controlBuffer);
+  controlDoc.Accept(controlWriter);
 
-  // std::string ctrl = controlBuffer.GetString();
+  std::string ctrl = controlBuffer.GetString();
 
-  // std::cout << "Control: " << ctrl.c_str() << "\r\n";
-
-  // strcpy((char *) txBuffer, ctrl.c_str());
-  // writePort(txBuffer, ctrl.size());
+  strcpy((char *) txBuffer, ctrl.c_str());
+  writePort(txBuffer, ctrl.size());
 
   return ret;
 }

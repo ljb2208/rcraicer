@@ -18,10 +18,10 @@ SimNode::SimNode() : Node("sim_node"), server(NULL), autoEnabled(false)
     this->declare_parameter("throttle_axis", 1);
     this->declare_parameter("steering_axis", 3);
     this->declare_parameter("auto_button", 0);
-    this->declare_parameter("reverse_steering", false);
+    this->declare_parameter("reverse_steering", true);
     this->declare_parameter("reverse_throttle", false);
     this->declare_parameter("publish_image", true);
-    this->declare_parameter("scene_name", "donkey-minimonaco-track-v0");
+    this->declare_parameter("scene_name", "mini_monaco");
         
     ipAddress = this->get_parameter("ip_address");
     port = this->get_parameter("port");
@@ -61,6 +61,8 @@ SimNode::SimNode() : Node("sim_node"), server(NULL), autoEnabled(false)
 
     if (publishImage)
         server->enableImagePublishing();
+
+    server->registerEventCallback(std::bind(&SimNode::event_callback, this, std::placeholders::_1));
 
     server->registerTelemetryCallback(std::bind(&SimNode::publishTelemetryMessages, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     if (server->connectToSocket())
@@ -236,14 +238,31 @@ void SimNode::event_callback(sim_event_t event)
     switch(event)
     {
         case SCENE_SELECTION_READY:
-            server->sendSceneSelection(scene_name.as_string());
+            server->sendSceneList();
             break;
+        case SCENE_LIST:
+        {
+            sceneNames = server->getScenes();
+
+            std::string scene = getScene();
+
+            if (scene.length() > 0)
+               server->sendSceneSelection(scene);
+
+            break;
+        }
         case CAR_LOADED:
+        {
+            setActive(true);
             RCLCPP_INFO(this->get_logger(), "Car loaded");
             break;
+        }
         case ABORTED:
+        {
+            setActive(false);
             RCLCPP_INFO(this->get_logger(), "Aborted");
             break;
+        }
         case NEED_CAR_CONFIG:
             RCLCPP_INFO(this->get_logger(), "Need car config");
             break;
@@ -254,12 +273,43 @@ void SimNode::event_callback(sim_event_t event)
         
 }
 
+void SimNode::setActive(bool active)
+{
+    this->active = active;
+
+    if (active == false)
+    {
+        sendControls(0.0, 0.0, 0.0);
+    }
+}
+
 void SimNode::sendControls(float throttle, float steering, float brake)
 {
-    if (!server->sendControls(throttle * reverseThrottle, steering * reverseSteering, brake))
+    if (active)
+        server->setControls(throttle * reverseThrottle, steering * reverseSteering, brake);    
+    else
+        server->setControls(0.0, 0.0, 0.0);    
+
+}
+
+std::string SimNode::getScene()
+{
+    std::string scene =  scene_name.as_string();
+
+    for (size_t i=0; i < sceneNames.size(); i++)
     {
-        RCLCPP_ERROR(this->get_logger(), "Error sending actions");
+        if (sceneNames[i].compare(scene) == 0)    
+            return scene;
     }
+
+    RCLCPP_ERROR(this->get_logger(), "Scene parameter %s not valid. Valid scenes are:", scene.c_str());
+
+    for (size_t i=0; i < sceneNames.size(); i++)
+    {
+        RCLCPP_ERROR(this->get_logger(), "Scene: %s", sceneNames[i].c_str());
+    }
+
+    return "";
 }
 
 int main(int argc, char * argv[])

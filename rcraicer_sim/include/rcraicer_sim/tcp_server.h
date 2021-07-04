@@ -47,6 +47,7 @@ typedef enum {
 
 typedef enum {
     SCENE_SELECTION_READY = 0,
+    SCENE_LIST,
     CAR_LOADED,
     CROSS_START,
     RACE_START,
@@ -86,9 +87,11 @@ class TcpServer
         void clearEventCallback();
         void waitForData();
 
+        std::vector<std::string> getScenes();
         bool sendSceneSelection(std::string scene_name);           
+        bool sendSceneList();
 
-        bool sendControls(float throttle, float steering, float brake);     
+        void setControls(float throttle, float steering, float brakes);        
 
         bool isConnected()
         {
@@ -109,6 +112,7 @@ class TcpServer
         void decodeInit();
         void addToMsgBuffer(const unsigned char data);
         void processMessage();
+        bool sendControls();     
 
         std::string ipAddress;
         std::string port;
@@ -147,10 +151,16 @@ class TcpServer
         double longitude {-74.08575};
         double altitude {20.0};
 
+        float throttle {0.0};
+        float steering {0.0};
+        float brakes {0.0};
+
         bool publishImages {false};
         uint8_t txBuffer[BUFFER_SIZE];
 
         GeographicLib::Geodesic* geod;
+
+        std::vector<std::string> sceneNames;
         
 };
 
