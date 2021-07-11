@@ -58,7 +58,7 @@ StateEstimator::StateEstimator() : Node("state_estimator"),
     invertx_ = getsetParameter<bool>("InvertX", false);
     inverty_ = getsetParameter<bool>("InvertY", false);
     invertz_ = getsetParameter<bool>("InvertZ", false);
-    imuDt_ = getsetParameter<double>("Imudt", 1.0/60.0);    // was 200
+    imuDt_ = getsetParameter<double>("Imudt", 1.0/20.0);    // was 200
 
     debug_ = getsetParameter<bool>("debug", true);
 
@@ -232,6 +232,9 @@ void StateEstimator::ImuFilterCallback(rcraicer_msgs::msg::ImuFilterOutput::Cons
 
 void StateEstimator::GpsCallback(sensor_msgs::msg::NavSatFix::ConstSharedPtr fix)
 {
+    rclcpp::Time tm = fix->header.stamp;
+    std::cout <<"GPS Message recv: " << std::fixed << tm.seconds() << " lat: " << fix->latitude << " lon: " << fix->longitude << " alt: " << fix->altitude << "\r\n";
+
     if (!gpsOptQ_.pushNonBlocking(fix))
         RCLCPP_WARN(this->get_logger(), "Dropping a GPS measurement due to full queue");
 }
@@ -239,6 +242,11 @@ void StateEstimator::GpsCallback(sensor_msgs::msg::NavSatFix::ConstSharedPtr fix
 void StateEstimator::ImuCallback(sensor_msgs::msg::Imu::ConstSharedPtr imu)
 {
     rclcpp::Time ts = imu->header.stamp;
+
+    std::cout <<"IMU Message recv: " << std::fixed << ts.seconds() << " ang vel x: " << imu->angular_velocity.x <<  " y: " << imu->angular_velocity.y << "  z: " << imu->angular_velocity.z;
+    std::cout << std::fixed << " lin accel x: " << imu->linear_acceleration.x << " y: " << imu->linear_acceleration.y << " z: " << imu->linear_acceleration.z;
+    std::cout << std::fixed << " orientation x: " << imu->orientation.x << " y: " << imu->orientation.y << " z: " << imu->orientation.z << " w: " << imu->orientation.w << "\r\n";
+
     double dt;
     if (lastImuT_ == 0) dt = 0.005;
     else dt = ts.seconds() - lastImuT_;
@@ -376,6 +384,11 @@ void StateEstimator::ImuCallback(sensor_msgs::msg::Imu::ConstSharedPtr imu)
 
 void StateEstimator::WheelOdomCallback(nav_msgs::msg::Odometry::ConstSharedPtr odom)
 {
+    rclcpp::Time tm = odom->header.stamp;
+    std::cout << "ODOM Message recv: " << std::fixed << tm.seconds() << " x: " << odom->pose.pose.position.x << " y: " << odom->pose.pose.position.y << " z: " << odom->pose.pose.position.z;
+    std::cout << " Orient x: " << std::fixed << odom->pose.pose.orientation.x << " y: " << odom->pose.pose.orientation.y << " z: " << odom->pose.pose.orientation.z << " w: " << odom->pose.pose.orientation.w;
+    std::cout << " Twist lin x: " << std::fixed << odom->twist.twist.linear.x << " ang z: " << odom->twist.twist.angular.z << "\r\n";     
+
     if (!odomOptQ_.pushNonBlocking(odom))
         RCLCPP_WARN(this->get_logger(), "Dropping a wheel odometry measurement due to full queue");
 }
@@ -510,6 +523,18 @@ void StateEstimator::GpsHelper()
           newVariables.insert(V(imuKey), nextNavState.v());
           newVariables.insert(B(imuKey), previousBias_);
           newVariables.insert(G(imuKey), nextNavState.pose().compose(imuPgps_));
+
+          // std::cout << "IMU Key: " << imuKey << " imu ts: " << std::fixed << tsIMU.seconds() << "\r\n";
+
+          std::cout.precision(17);
+
+          std::cout << "IMUKey: " << imuKey << "\r\n";
+          std::cout <<  "CNS: " << std::fixed << curNavState << "\r\n";
+          std::cout <<  "NNS: " << std::fixed <<nextNavState << "\r\n";
+
+
+          //  << " Pose: " << nextNavState.pose() << " V: " << nextNavState.v() << "\r\n";
+          
           prevPose = nextNavState.pose();
           prevVel = nextNavState.v();
           ++imuKey;
@@ -523,14 +548,24 @@ void StateEstimator::GpsHelper()
         if (gpsOptQ_.size() > 0)
           tsGps = gpsOptQ_.front()->header.stamp;
 
+        std::cout.precision(17);
+        // std::cout << "Optimize: " << optimize << " gps queue size: " << gpsOptQ_.size() << " gps seconds " << std::fixed << tsGps.seconds() << " start time: " << std::fixed << startTime << " imu key: " << imuKey << " calc: " << std::fixed << (startTime + (imuKey-1)*0.1 + 1e-2) << "\r\n";
+
         while (optimize && gpsOptQ_.size() > 0 && tsGps.seconds() < (startTime + (imuKey-1)*0.1 + 1e-2))
         {
           sensor_msgs::msg::NavSatFix::ConstSharedPtr fix = gpsOptQ_.popBlocking();
           rclcpp::Time tsFix = fix->header.stamp;
           double timeDiff = (tsFix.seconds() - startTime) / 0.1;
           int key = round(timeDiff);
-          if (std::abs(timeDiff - key) < 1e-4)
-          {
+
+          
+          // std::cout << "time diff: " << std::fixed << timeDiff << " key: " << key << " diff: " << std::fixed << std::abs(timeDiff - key) << "\r\n";
+
+          // if (std::abs(timeDiff - key) < 1e-4)          
+          if (std::abs(timeDiff - key) < 2e-1 && key < imuKey)          
+          {            
+            // std::cout << "GPS Message. Last message " << (tsFix.seconds() - gpsstamp) << "\r\n";
+
             // this is a gps message for a factor
             latestGPSKey = key;
             double E,N,U;
@@ -540,10 +575,11 @@ void StateEstimator::GpsHelper()
             Pose3 expectedState;
             if (newVariables.exists(X(key)))
               expectedState = (Pose3) newVariables.at<Pose3>(X(key));
-            else
+            else                                    
               expectedState = isam_->calculateEstimate<Pose3>(X(key));
 
             double dist = std::sqrt( std::pow(expectedState.x() - E, 2) + std::pow(expectedState.y() - N, 2) );
+            // std::cout <<"GPS Message. Distance: " << std::fixed << dist << "\r\n";
             if (dist < maxGPSError_ || latestGPSKey < imuKey-2)
             {
               SharedDiagonal gpsNoise = noiseModel::Diagonal::Sigmas(Vector3(gpsSigma_, gpsSigma_, 3.0 * gpsSigma_));
@@ -553,12 +589,36 @@ void StateEstimator::GpsHelper()
                   noiseModel::Diagonal::Sigmas((Vector(6) << 0.001,0.001,0.001,0.03,0.03,0.03).finished()));
               newFactors.add(imuPgpsFactor);
 
+              // std::cout << "GPS Key: " << key << " GPS: " << Point3(E, N, U) << "\r\n";
+
+              gpslat = fix->latitude;
+              gpslon = fix->longitude;
+              gpsalt = fix->altitude;
+              gpsstamp = tsFix.seconds();
+
               if (!usingOdom_)
                 odomKey = key+1;
             }
             else
             {
-              RCLCPP_WARN(this->get_logger(), "Received bad GPS message");              
+              RCLCPP_WARN(this->get_logger(), "Received bad GPS message. Dist %f IMU Key %i GPS Key %i", dist, imuKey, latestGPSKey);              
+              std::cout.precision(17);
+              std::cout << "Bad GPS Msg. Lat: " << fix->latitude << " lon: " <<  fix->longitude << " alt: " << fix->altitude << " Stamp: " << tsFix.seconds() << "\r\n";
+              std::cout << "Prior GPS Msg. Lat: " << gpslat << " lon: " <<  gpslon << " alt: " << gpsalt << " Stamp: " << gpsstamp << "\r\n";
+
+              GeographicLib::Geocentric earth(GeographicLib::Constants::WGS84_a(), GeographicLib::Constants::WGS84_f());
+              GeographicLib::LocalCartesian proj(gpslat, gpslon, gpsalt, earth);
+
+              double tx,ty,tz;
+
+              proj.Forward(fix->latitude, fix->longitude, fix->altitude, tx, ty, tz);
+
+              double dist = sqrt(tx*tx + ty*ty + tz*tx);
+
+              std::cout << "Distance: " << dist << " x: " << tx << " y: " << ty << " z: " << tz << "\r\n";
+
+              dist = 0;
+
             }
           }
         }
@@ -638,7 +698,7 @@ void StateEstimator::GpsHelper()
           }
           catch(gtsam::IndeterminantLinearSystemException ex)
           {
-            RCLCPP_ERROR(this->get_logger(), "Encountered Indeterminant System Error!");            
+            RCLCPP_ERROR(this->get_logger(), "Encountered Indeterminant System Error! %s", ex.what());            
             status = rcraicer_msgs::msg::StateEstimatorStatus::ERROR;
             {
               std::scoped_lock guard(optimizedStateMutex_);
@@ -649,6 +709,8 @@ void StateEstimator::GpsHelper()
         loop_rate.sleep();
       }
     }
+
+    RCLCPP_INFO(this->get_logger(), "Exiting GPS Helper loop");
 }
 
 void StateEstimator::GpsHelper_1()

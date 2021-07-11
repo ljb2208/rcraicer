@@ -79,13 +79,13 @@ void WheelOdometry::update_internal_params()
     if (length != vehicle_wheelbase_param.as_double())
     {
         length = vehicle_wheelbase_param.as_double();    
-        RCLCPP_INFO(this->get_logger(), "Wheelbase Param changed: %d", vehicle_wheelbase_param.as_double());    
+        RCLCPP_INFO(this->get_logger(), "Wheelbase Param changed: %f", vehicle_wheelbase_param.as_double());    
     }
 
     if (width != vehicle_width_param.as_double())
     {
         width = vehicle_width_param.as_double();
-        RCLCPP_INFO(this->get_logger(), "Vehicle width Param changed: %d", vehicle_width_param.as_double());  
+        RCLCPP_INFO(this->get_logger(), "Vehicle width Param changed: %f", vehicle_width_param.as_double());  
     }
 
     if (time_delay != time_delay_param.as_double())

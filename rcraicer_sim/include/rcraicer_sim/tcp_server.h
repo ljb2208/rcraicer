@@ -24,6 +24,8 @@
 #include "sensor_msgs/msg/image.hpp"
 
 
+#include <GeographicLib/Geocentric.hpp>
+#include <GeographicLib/LocalCartesian.hpp>
 #include <GeographicLib/Geodesic.hpp>
 #include <GeographicLib/Constants.hpp>
 
@@ -31,6 +33,8 @@
 #define BUFFER_SIZE 64128
 #define MSG_BUFFER_SIZE 64128 * 10
 #define GRAVITY (9.80665)
+
+#define PI 3.14159265358979323846264338
 
 #define SYNC_CHAR '{'
 #define END_SYNC_CHAR1 '}'
@@ -114,6 +118,8 @@ class TcpServer
         void processMessage();
         bool sendControls();     
 
+        void llarToWorld(double lat, double lon, double alt);
+
         std::string ipAddress;
         std::string port;
         int port_fd; // file descriptor for serial port
@@ -151,6 +157,16 @@ class TcpServer
         double longitude {-74.08575};
         double altitude {20.0};
 
+        double priorPosX {0.0};
+        double priorPosY {0.0};
+        double priorPosZ {0.0};
+
+        double initPosX {0.0};
+        double initPosY {0.0};
+        double initPosZ {0.0};
+
+        bool initialPosReceived {false};
+
         float throttle {0.0};
         float steering {0.0};
         float brakes {0.0};
@@ -159,6 +175,8 @@ class TcpServer
         uint8_t txBuffer[BUFFER_SIZE];
 
         GeographicLib::Geodesic* geod;
+        GeographicLib::Geocentric* earth;
+        GeographicLib::LocalCartesian* proj;
 
         std::vector<std::string> sceneNames;
         

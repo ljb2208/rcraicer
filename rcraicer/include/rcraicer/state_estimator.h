@@ -114,6 +114,8 @@ class StateEstimator : public rclcpp::Node
 
         std::thread optimizer;
 
+        double gpslat, gpslon, gpsalt, gpsstamp;
+
 };
 
 

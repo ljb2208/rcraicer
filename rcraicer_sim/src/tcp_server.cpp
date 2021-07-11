@@ -23,6 +23,8 @@ TcpServer::TcpServer(std::string ipAddress, std::string port): port_fd(-1), port
     this->ipAddress = ipAddress;
 
     geod = new GeographicLib::Geodesic(GeographicLib::Constants::WGS84_a(), GeographicLib::Constants::WGS84_f());
+    earth = new GeographicLib::Geocentric(GeographicLib::Constants::WGS84_a(), GeographicLib::Constants::WGS84_f());
+    proj = new GeographicLib::LocalCartesian(latitude, longitude, altitude, *earth);
 
     // create control json doc
     controlDoc.SetObject();
@@ -154,7 +156,7 @@ void TcpServer::processMessage()
 
       csMsg.throttle = jsonDoc["throttle"].GetFloat();
       csMsg.steer = jsonDoc["steer"].GetFloat();
-      csMsg.steer_angle = jsonDoc["steering_angle"].GetFloat();
+      csMsg.steer_angle = jsonDoc["steer_angle"].GetFloat();
 
       // Unity coords forward = z, right = x, up = y
       // ros coords forward =x, left = y, up = z
@@ -178,22 +180,67 @@ void TcpServer::processMessage()
       mOrient.getRPY(roll, pitch, yaw);
 
       double posx = jsonDoc["pos_z"].GetDouble();
-      double posy = jsonDoc["pos_x"].GetDouble();
+      double posy = -jsonDoc["pos_x"].GetDouble();
       double posz = jsonDoc["pos_y"].GetDouble();
 
-      double distance = sqrt(posx*posx + posy*posy);
-      double latitude2, longitude2;
-      geod->Direct(latitude, longitude, yaw, distance, latitude2, longitude2);
+      if (!initialPosReceived)
+      {
+        initPosX = posx;
+        initPosY = posy;
+        initPosZ = posz;
 
-      fixMsg.latitude = latitude2;
-      fixMsg.longitude = longitude2;
-      fixMsg.altitude = altitude + posz;
-      fixMsg.status.status = 2;
-      fixMsg.status.service = 11;
+        priorPosX = posx;
+        priorPosY = posy;
+        priorPosZ = posz;
+        initialPosReceived = true;
 
-      latitude = latitude2;
-      longitude = longitude2;
-      altitude = altitude + posz;
+        fixMsg.latitude = latitude;
+        fixMsg.longitude = longitude;
+        fixMsg.altitude = altitude + posz;
+        fixMsg.status.status = 2;
+        fixMsg.status.service = 11;
+      }
+      else
+      {
+
+        double dposx = posx - priorPosX;
+        double dposy = posy - priorPosY;
+        double dposz = posz - priorPosZ;
+
+        double ddposx = posx - initPosX;
+        double ddposy = posy - initPosY;
+        double ddposz = posz - initPosZ;
+
+        double nlat, nlong, nalt;
+        
+        proj->Reverse(ddposx, ddposy, ddposz, latitude, longitude, altitude);
+
+
+        // std::cout << "New Calc: lat: " << std::fixed << nlat << " lon: " << nlong << " alt: " << nalt << "\r\n";
+
+        // double distance = sqrt(dposx*dposx + dposy*dposy);
+        // double latitude2, longitude2;
+        // geod->Direct(latitude, longitude, yaw * 180.0 / PI, distance, latitude2, longitude2);
+
+        fixMsg.latitude = latitude;
+        fixMsg.longitude = longitude;
+        fixMsg.altitude = altitude;
+        fixMsg.status.status = 2;
+        fixMsg.status.service = 11;
+
+        // latitude = latitude2;
+        // longitude = longitude2;      
+
+        // llarToWorld(latitude, longitude, altitude + posz);
+
+        // std::cout.precision(17);
+        // std::cout << "GPS: lat: " <<  std::fixed << fixMsg.latitude << " lon: " << std::fixed << fixMsg.longitude << " alt: " << std::fixed << fixMsg.altitude << "\r\n";
+        // std::cout << "GPS: distance: " <<  std::fixed << distance << " yaw: " << std::fixed << yaw * 180 / PI << "\r\n";
+
+        priorPosX = posx;
+        priorPosY = posy;
+        priorPosZ = posz;        
+      }      
       
       if (telemCallback != NULL)
         telemCallback(wsMsg, csMsg, imuMsg, fixMsg);
@@ -279,6 +326,18 @@ bool TcpServer::sendSceneSelection(std::string scene_name)
   return false;
 }
 
+void TcpServer::llarToWorld(double lat, double lon, double alt)
+{
+  double f = 0;
+  double rad = 0;
+  double ls = atan((1 - f) * (1 - f) * tan(lat));
+  double x = rad * cos(ls) * cos(lon) + alt * cos(lat) * cos(lon);
+  double y = rad * cos(ls) * sin(lon) + alt * cos(lat) * sin (lon);
+  double z = rad * sin(ls) + alt + sin(lat);
+
+  std::cout << "Converted x/y/z: " << std::fixed << x << "/" << y << "/" << z << "\r\n";
+} 
+
 bool TcpServer::sendSceneList()
 {
   rapidjson::Document doc;
@@ -304,6 +363,8 @@ bool TcpServer::sendSceneList()
 bool TcpServer::sendControls()
 {
   bool ret = true;
+
+  controlBuffer.Clear();
 
   controlDoc["throttle"].SetFloat(throttle);
   controlDoc["steering"].SetFloat(steering);

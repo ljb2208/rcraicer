@@ -34,10 +34,75 @@
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
+            "name": "Ros2 Debug rcraicer_sim",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "/home/lbarnett/ros2_ws/install/rcraicer_sim/lib/rcraicer_sim/sim_node",
+            // "args": ["run", "--prefix", "gdb -ex run --args", "rcraicer_sim", "sim_node"],
+            // "stopAtEntry": false,
+            // "cwd": "${workspaceFolder}",
+            // "environment": [],
+            // "externalConsole": false,
+            "processId":"${command:pickProcess}",
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            // "preLaunchTask": "ros2_launch",
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
             "name": "Debug rcraicer_sim",
             "type": "cppdbg",
             "request": "launch",
             "program": "/home/lbarnett//ros2_ws/build/rcraicer_sim/sim_node",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Debug arisim_node",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/lbarnett//ros2_ws/build/rcraicer_sim/airsim_node",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Debug state estimator",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/lbarnett/ros2_ws/build/rcraicer/state_estimator",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

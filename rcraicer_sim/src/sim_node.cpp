@@ -21,7 +21,7 @@ SimNode::SimNode() : Node("sim_node"), server(NULL), autoEnabled(false)
     this->declare_parameter("reverse_steering", true);
     this->declare_parameter("reverse_throttle", false);
     this->declare_parameter("publish_image", true);
-    this->declare_parameter("scene_name", "mini_monaco");
+    this->declare_parameter("scene_name", "generated_track");
         
     ipAddress = this->get_parameter("ip_address");
     port = this->get_parameter("port");
@@ -49,7 +49,7 @@ SimNode::SimNode() : Node("sim_node"), server(NULL), autoEnabled(false)
     magPublisher = this->create_publisher<sensor_msgs::msg::MagneticField>("imu_mag", 10);
     wsPublisher = this->create_publisher<rcraicer_msgs::msg::WheelSpeed>("wheel_speeds", 10);
     csPublisher = this->create_publisher<rcraicer_msgs::msg::ChassisState>("chassis_state", 10);
-    fixPublisher = this->create_publisher<sensor_msgs::msg::NavSatFix>("rover_gps_fix", 10);
+    fixPublisher = this->create_publisher<sensor_msgs::msg::NavSatFix>("rover_navsat_fix", 10);
 
     joySubscription = this->create_subscription<sensor_msgs::msg::Joy>(
       "joy", 10, std::bind(&SimNode::joy_callback, this, std::placeholders::_1));   
@@ -186,25 +186,34 @@ void SimNode::setup_covariance(sensor_msgs::msg::Imu::_angular_velocity_covarian
 }
 
 void SimNode::publishTelemetryMessages(rcraicer_msgs::msg::WheelSpeed wsMsg, rcraicer_msgs::msg::ChassisState csMsg, sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::NavSatFix fixMsg)
-{
-    rclcpp::Time tm = this->get_clock()->now();
+{    
 
-    wsMsg.header.stamp = tm;
+    wsMsg.header.stamp = this->get_clock()->now();;
     wsMsg.header.frame_id = "base_link";
 
-    csMsg.header.stamp = tm;
+    csMsg.header.stamp = this->get_clock()->now();;
     csMsg.header.frame_id = "base_link";
 
-    imuMsg.header.stamp = tm;
+    imuMsg.header.stamp = this->get_clock()->now();;
     imuMsg.header.frame_id = "imu_link";
+    imuMsg.orientation_covariance = orientation_cov;
+    imuMsg.angular_velocity_covariance = angular_velocity_cov;
+    imuMsg.linear_acceleration_covariance = linear_acceleration_cov;
 
-    fixMsg.header.stamp = tm;
-    fixMsg.header.frame_id = "gps_link";
+    rclcpp::Time tm = this->get_clock()->now();
+
+    if ((tm.seconds() - lastFixPub) >= 0.1)
+    {
+        fixMsg.header.stamp = tm;
+        fixMsg.header.frame_id = "gps_link";
+        fixPublisher->publish(fixMsg);
+        lastFixPub = tm.seconds();
+    }
 
     wsPublisher->publish(wsMsg);
     csPublisher->publish(csMsg);
     imuPublisher->publish(imuMsg);
-    fixPublisher->publish(fixMsg);
+    
 }
 
 void SimNode::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)  // use const at end of function in later versions of ros2

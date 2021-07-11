@@ -34,6 +34,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/StateEstimatorStatus.msg"
   "msg/ImuFilterOutput.msg"
   "msg/ComputeStatus.msg"
+  "msg/SimState.msg"
   DEPENDENCIES builtin_interfaces std_msgs geometry_msgs
  )
 

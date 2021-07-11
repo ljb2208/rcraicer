@@ -5,20 +5,25 @@
 #include "sensor_msgs/msg/temperature.hpp"
 #include "sensor_msgs/msg/joy.hpp"
 #include "sensor_msgs/msg/image.hpp"
+#include "sensor_msgs/msg/nav_sat_fix.hpp"
+#include "geometry_msgs/msg/vector3.hpp"
+#include "geometry_msgs/msg/quaternion.hpp"
 #include "rcraicer_msgs/msg/chassis_command.hpp"
+#include "rcraicer_msgs/msg/chassis_state.hpp"
+#include "rcraicer_msgs/msg/wheel_speed.hpp"
+#include "rcraicer_msgs/msg/sim_state.hpp"
+
+#include "vehicles/car/api/CarRpcLibClient.hpp"
 
 #include <Eigen/Eigen>
 #include <Eigen/Geometry>
 #include <vector>
 
-
-#include "tcp_server.h"
-
-class SimNode : public rclcpp::Node
+class AirSimNode : public rclcpp::Node
 {
     public:
-        SimNode();
-        ~SimNode();
+        AirSimNode();
+        ~AirSimNode();
         
         void publishTelemetryMessages(rcraicer_msgs::msg::WheelSpeed wsMsg, rcraicer_msgs::msg::ChassisState csMsg, sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::NavSatFix fixMsg);
 
@@ -27,18 +32,30 @@ class SimNode : public rclcpp::Node
         rclcpp::Publisher<sensor_msgs::msg::MagneticField>::SharedPtr magPublisher;
         rclcpp::Publisher<rcraicer_msgs::msg::WheelSpeed>::SharedPtr wsPublisher;
         rclcpp::Publisher<rcraicer_msgs::msg::ChassisState>::SharedPtr csPublisher;
+        rclcpp::Publisher<rcraicer_msgs::msg::SimState>::SharedPtr ssPublisher;
         rclcpp::Publisher<sensor_msgs::msg::NavSatFix>::SharedPtr fixPublisher;
         rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr imagePublisher;
+       
 
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joySubscription;
         rclcpp::Subscription<rcraicer_msgs::msg::ChassisCommand>::SharedPtr cmdSubscription;
 
         rclcpp::TimerBase::SharedPtr connectTimer;
-        void connectTimerCallback();          
+        rclcpp::TimerBase::SharedPtr sensorTimer;
+        rclcpp::TimerBase::SharedPtr stateTimer;
+        rclcpp::TimerBase::SharedPtr gpsTimer;
+
+        void connectTimerCallback();                  
+
+        void publishSensorData();
+        void publishImuData();
+        void publishGpsData();
+        void publishMagData();
+        void publishStateData();
+
         void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg);
         void command_callback(const rcraicer_msgs::msg::ChassisCommand::SharedPtr msg);
-
-        void event_callback(sim_event_t event);
+        
         void param_callback(const rcl_interfaces::msg::ParameterEvent::SharedPtr paramEvent);        
         void updateInternalParams();
 
@@ -52,6 +69,10 @@ class SimNode : public rclcpp::Node
         OnSetParametersCallbackHandle::SharedPtr paramSetCallbackHandler;
 
         void setup_covariance(sensor_msgs::msg::Imu::_angular_velocity_covariance_type &cov, double stdev);
+
+        geometry_msgs::msg::Quaternion atorQuat(const msr::airlib::Quaternionr& airlib_quat);
+        geometry_msgs::msg::Vector3 atorVec(const msr::airlib::Vector3r& airlib_vec);
+        rclcpp::Time atorTime(const uint64_t& timestamp);
 
         rclcpp::Parameter ipAddress;
         rclcpp::Parameter port;
@@ -76,9 +97,9 @@ class SimNode : public rclcpp::Node
         sensor_msgs::msg::Imu::_angular_velocity_covariance_type unk_orientation_cov;
         sensor_msgs::msg::Imu::_angular_velocity_covariance_type magnetic_cov;
 
-        std::string frame_id;              
+        std::string frame_id;                      
 
-        TcpServer* server;
+        std::string vehicle_name;
 
         int steeringAxisID;
         int throttleAxisID;
@@ -87,12 +108,20 @@ class SimNode : public rclcpp::Node
         int reverseSteering;
         int reverseThrottle;
 
+        bool connected {false};
+
         bool active {false};
         bool autoEnabled;
         bool publishImage;
 
         double lastFixPub {0.0};
+        double gps_accuracy {0.02};
 
-        std::vector<std::string> sceneNames;
+        int gps_update {100};
+        int sensor_update {10};
+        int state_update {50};
+
+        msr::airlib::CarRpcLibClient* client;
+        msr::airlib::CarApiBase::CarControls controls;
 
 };
