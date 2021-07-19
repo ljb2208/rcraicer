@@ -1,15 +1,16 @@
 #include "../include/rcraicer_sim/airsim_node.h"
 #include "rpc/rpc_error.h"
 
-#include <tf2/LinearMath/Quaternion.h>
-#include <tf2/LinearMath/Matrix3x3.h>
-
 using std::placeholders::_1;
 using namespace std::chrono_literals;
 
 
-AirSimNode::AirSimNode() : Node("airsim_node"), autoEnabled(false), vehicle_name("PhysXCar"), client(NULL)
+AirSimNode::AirSimNode() : Node("airsim_node"), autoEnabled(false), vehicle_name("PhysXCar"), client(NULL), staticBroadcaster(this), baseToOdomBroadcaster(this)
 {
+
+    ENU_NED_Q.setRPY(M_PI, 0, M_PI_2);
+    LOCAL_AIRSIM_ROS_Q.setRPY(M_PI, 0, 0);
+
     // init parameters    
     this->declare_parameter("ip_address", "127.0.0.1");
     this->declare_parameter("port", "9091");
@@ -55,19 +56,19 @@ AirSimNode::AirSimNode() : Node("airsim_node"), autoEnabled(false), vehicle_name
     csPublisher = this->create_publisher<rcraicer_msgs::msg::ChassisState>("chassis_state", 10);
     ssPublisher = this->create_publisher<rcraicer_msgs::msg::SimState>("sim_state", 10);
     fixPublisher = this->create_publisher<sensor_msgs::msg::NavSatFix>("rover_navsat_fix", 10);
+    odomPublisher = this->create_publisher<nav_msgs::msg::Odometry>("odom", 10);
+    imuFilterPublisher = this->create_publisher<rcraicer_msgs::msg::ImuFilterOutput>("imu_filter", 10);
 
     joySubscription = this->create_subscription<sensor_msgs::msg::Joy>(
       "joy", 10, std::bind(&AirSimNode::joy_callback, this, std::placeholders::_1));   
 
     cmdSubscription = this->create_subscription<rcraicer_msgs::msg::ChassisCommand>(
       "cmds", 10, std::bind(&AirSimNode::command_callback, this, std::placeholders::_1));       
-
-    client = new msr::airlib::CarRpcLibClient();
-
+    
     connectTimerCallback();
 
     if (!connected)
-        connectTimer = this->create_wall_timer(std::chrono::milliseconds(2000), std::bind(&AirSimNode::connectTimerCallback, this));        
+        connectTimer = this->create_wall_timer(std::chrono::milliseconds(5000), std::bind(&AirSimNode::connectTimerCallback, this));        
 
     RCLCPP_INFO(this->get_logger(), "Node started.");    
 }
@@ -79,18 +80,65 @@ AirSimNode::~AirSimNode()
 }
 
 void AirSimNode::connectTimerCallback()
-{
-    if (client != NULL && !connected)
+{    
+    if (client == NULL)
     {
-        if (client->getConnectionState() == msr::airlib::RpcLibClientBase::ConnectionState::Connected)
+        try
+        {
+            client = new msr::airlib::CarRpcLibClient();    
+        }
+        catch(const std::exception& e)
+        {                        
+            return;
+        }        
+    }
+    if (client != NULL && !connected)
+    {                
+        msr::airlib::RpcLibClientBase::ConnectionState state = msr::airlib::RpcLibClientBase::ConnectionState::Unknown;        
+        
+        try
+        {
+            state = client->getConnectionState();                                    
+        }
+        catch(const rpc::system_error& e)
+        {                     
+        }
+        
+        if (state == msr::airlib::RpcLibClientBase::ConnectionState::Connected)
         {
             connected = true;
+            client->reset();
             client->enableApiControl(true);            
 
             sensorTimer = this->create_wall_timer(std::chrono::milliseconds(sensor_update), std::bind(&AirSimNode::publishSensorData, this));        
             stateTimer = this->create_wall_timer(std::chrono::milliseconds(state_update), std::bind(&AirSimNode::publishStateData, this));        
             gpsTimer = this->create_wall_timer(std::chrono::milliseconds(gps_update), std::bind(&AirSimNode::publishGpsData, this));        
             RCLCPP_INFO(this->get_logger(), "Connected to sim");
+
+            geometry_msgs::msg::TransformStamped imuTF;
+            imuTF.header.frame_id = "base_link";
+            imuTF.header.stamp = this->get_clock()->now();
+
+            imuTF.child_frame_id = "imu_link";
+            imuTF.transform.translation.x = 0;
+            imuTF.transform.translation.y = 0;
+            imuTF.transform.translation.z = 0.1;
+
+            tf2::Quaternion q;
+            q.setRPY(0, 0, 0);
+            q.normalize();
+
+            imuTF.transform.rotation.x = q.x();
+            imuTF.transform.rotation.y = q.y();
+            imuTF.transform.rotation.z = q.z();
+            imuTF.transform.rotation.w = q.w();
+
+            staticBroadcaster.sendTransform(imuTF);
+        }
+        else
+        {            
+            delete client;
+            client = new msr::airlib::CarRpcLibClient();                
         }
     }    
 }
@@ -101,15 +149,42 @@ void AirSimNode::publishSensorData()
     publishMagData();    
 }
 
+void AirSimNode::disconnected()
+{
+    connected = false;
+    
+    if (client!= NULL)
+    {
+        delete client;
+        client = NULL;
+    }
+
+    RCLCPP_WARN(this->get_logger(), "Disconnected from Sim");
+}
+
 void AirSimNode::publishStateData()
 {
-    rcraicer_msgs::msg::SimState state_msg;    
+    if (!connected)
+        return;
     
-
+    rcraicer_msgs::msg::SimState state_msg;        
     msr::airlib::Environment::State env_data = client->simGetGroundTruthEnvironment();
     msr::airlib::Kinematics::State kin_data = client->simGetGroundTruthKinematics();
     msr::airlib::CarApiBase::CarState state_data = client->getCarState();
-    msr::airlib::CarApiBase::CarControls control_data = client->getCarControls();
+    msr::airlib::CarApiBase::CarControls control_data = client->getCarControls();    
+
+    try
+    {
+        env_data = client->simGetGroundTruthEnvironment();
+        kin_data = client->simGetGroundTruthKinematics();
+        state_data = client->getCarState();
+        control_data = client->getCarControls();    
+    }
+    catch(const rpc::timeout& e)
+    {
+        disconnected();
+        return;
+    }
 
     state_msg.header.frame_id = "base_link";
     state_msg.header.stamp = atorTime(state_data.timestamp);
@@ -130,36 +205,178 @@ void AirSimNode::publishStateData()
 
     state_msg.position = atorVec(kin_data.pose.position);
     state_msg.orientation = atorQuat(kin_data.pose.orientation);
-    state_msg.linear_velocity = atorVec(kin_data.twist.linear);
-    state_msg.linear_acceleration = atorVec(kin_data.accelerations.linear);
-    state_msg.angular_velocity = atorVec(kin_data.twist.angular);
-    state_msg.angular_acceleration = atorVec(kin_data.accelerations.angular);
+    state_msg.linear_velocity = atorVecLocal(kin_data.twist.linear);
+    state_msg.linear_acceleration = atorVecLocal(kin_data.accelerations.linear);
+    state_msg.angular_velocity = atorVecLocal(kin_data.twist.angular);
+    state_msg.angular_acceleration = atorVecLocal(kin_data.accelerations.angular);
 
     ssPublisher->publish(state_msg);
+
+    if (!initPos)
+    {
+        initPos = true;
+        initPosX = state_msg.position.x;
+        initPosY = state_msg.position.y;
+
+        return;
+    }
+
+    nav_msgs::msg::Odometry odom_msg;
+    odom_msg.header.frame_id = "wheel_odom";
+    odom_msg.header.stamp = state_msg.header.stamp;
+    odom_msg.child_frame_id = "base_link";
+
+    // odom_msg.pose.pose.position = atorPoint(state_data.kinematics_estimated.pose.position);
+    // odom_msg.pose.pose.orientation = atorQuat(state_data.kinematics_estimated.pose.orientation);
+    // odom_msg.twist.twist.linear = atorVec(state_data.kinematics_estimated.twist.linear);
+    // odom_msg.twist.twist.angular = atorVec(state_data.kinematics_estimated.twist.angular);
+
+    // odomPublisher->publish(odom_msg);
+
+    odom_msg.pose.pose.position.x = state_msg.position.x - initPosX;
+    odom_msg.pose.pose.position.y = state_msg.position.y - initPosY;
+    // odom_msg.pose.pose.position.x = 0;
+    // odom_msg.pose.pose.position.y = 0;
+    odom_msg.pose.pose.position.z = 0;
+
+    double roll, pitch, yaw;
+
+    tf2::Quaternion qq(state_msg.orientation.x, state_msg.orientation.y, state_msg.orientation.z, state_msg.orientation.w);    
+    tf2::Matrix3x3 m(qq);
+
+    m.getRPY(roll, pitch, yaw);    
+
+    tf2::Quaternion q_orientation = tf2::Quaternion();
+    q_orientation.setRPY(0, 0, yaw);
+    // q_orientation.setRPY(0, 0, 0);
+    odom_msg.pose.pose.orientation.x = q_orientation.x();
+    odom_msg.pose.pose.orientation.y = q_orientation.y();
+    odom_msg.pose.pose.orientation.z = q_orientation.z();
+    odom_msg.pose.pose.orientation.w = q_orientation.w();
+
+    // covariance matrix takes same form as above
+    odom_msg.pose.covariance = {
+            10000,  1e-9,  1e-9,  1e-9,  1e-9,  1e-9,
+             1e-9, 10000,  1e-9,  1e-9,  1e-9,  1e-9,
+             1e-9,  1e-9, 10000,  1e-9,  1e-9,  1e-9,
+             1e-9,  1e-9,  1e-9, 10000,  1e-9,  1e-9,
+             1e-9,  1e-9,  1e-9,  1e-9, 10000,  1e-9,
+             1e-9,  1e-9,  1e-9,  1e-9,  1e-9, 10000
+    };
+
+    double delta_x = odom_msg.pose.pose.position.x - priorX;
+    double delta_yaw = yaw - priorYaw;
+
+    rclcpp::Time t = odom_msg.header.stamp;
+    double delta_t = t.seconds() - priorOdomStamp;
+
+    // odom_msg.twist.twist.linear.x = delta_x / delta_t;
+    // odom_msg.twist.twist.linear.x = state_data.speed;
+    odom_msg.twist.twist.linear.x = 0;
+    odom_msg.twist.twist.linear.y = 0; // assume instantaneous y velocity is 0
+    odom_msg.twist.twist.linear.z = 0;
+
+    odom_msg.twist.twist.angular.x = 0;
+    odom_msg.twist.twist.angular.y = 0;
+    // odom_msg.twist.twist.angular.z = delta_yaw / delta_t;
+    odom_msg.twist.twist.angular.z = 0;
+
+    double velocity_x_var_ = 0.6;
+    double velocity_theta_var_ = 0.57;
+
+    // covariance matrix takes same form as above
+    odom_msg.twist.covariance = {
+            velocity_x_var_,              1e-9,                1e-9,                  1e-9,                  1e-9,                1e-9,
+                       1e-9, velocity_x_var_*2,                1e-9,                  1e-9,                  1e-9,                1e-9,
+                       1e-9,              1e-9,   velocity_x_var_*2,                  1e-9,                  1e-9,                1e-9,
+                       1e-9,              1e-9,                1e-9, velocity_theta_var_*2,                  1e-9,                1e-9,
+                       1e-9,              1e-9,                1e-9,                  1e-9, velocity_theta_var_*2,                1e-9,
+                       1e-9,              1e-9,                1e-9,                  1e-9,                  1e-9, velocity_theta_var_
+    };
+
+    priorX = odom_msg.pose.pose.position.x;
+    priorYaw = yaw;
+    priorOdomStamp = t.seconds();
+
+    odomPublisher->publish(odom_msg);
+
+    geometry_msgs::msg::TransformStamped odomTF;
+    odomTF.header.frame_id = "odom";
+    odomTF.header.stamp = this->get_clock()->now();
+    odomTF.child_frame_id = "base_link";
+
+    odomTF.transform.translation.x = state_msg.position.x;
+    odomTF.transform.translation.y = state_msg.position.y;
+    odomTF.transform.translation.z = state_msg.position.z;    
+
+    odomTF.transform.rotation = state_msg.orientation;    
+
+    baseToOdomBroadcaster.sendTransform(odomTF);
+
 }
 
 
 void AirSimNode::publishImuData()
 {
-    msr::airlib::ImuBase::Output imu_data = client->getImuData();
+    if (!connected)
+        return;
+
+    msr::airlib::ImuBase::Output imu_data;
+
+    try
+    {
+        imu_data = client->getImuData();
+    }
+    catch(const rpc::timeout& e)
+    {
+        disconnected();
+        return;
+    }
+
+    if (imu_data.time_stamp <= lastImuStamp)
+        return;
 
     sensor_msgs::msg::Imu imu_msg;
     imu_msg.header.frame_id = "imu";
     imu_msg.header.stamp = atorTime(imu_data.time_stamp);
     imu_msg.orientation = atorQuat(imu_data.orientation);
-    imu_msg.angular_velocity = atorVec(imu_data.angular_velocity);
-    imu_msg.linear_acceleration = atorVec(imu_data.linear_acceleration);
+    imu_msg.angular_velocity = atorVecLocal(imu_data.angular_velocity);
+    imu_msg.linear_acceleration = atorVecLocal(imu_data.linear_acceleration);
 
     imu_msg.orientation_covariance = orientation_cov;
     imu_msg.angular_velocity_covariance = angular_velocity_cov;
     imu_msg.linear_acceleration_covariance = linear_acceleration_cov;
 
+    lastImuStamp = imu_data.time_stamp;
     imuPublisher->publish(imu_msg);
+
+    rcraicer_msgs::msg::ImuFilterOutput filter_msg;
+    filter_msg.header = imu_msg.header;
+    filter_msg.orientation = imu_msg.orientation;
+    filter_msg.bias.x = 0;
+    filter_msg.bias.y = 0;
+    filter_msg.bias.z = 0;
+
+    imuFilterPublisher->publish(filter_msg);    
 }
 
 void AirSimNode::publishGpsData()
 {
-    msr::airlib::GpsBase::Output gps_data = client->getGpsData();
+    if (!connected)
+        return;
+
+    msr::airlib::GpsBase::Output gps_data;
+    try
+    {
+        gps_data = client->getGpsData();
+    }
+    catch(const rpc::timeout& e)
+    {
+        disconnected();
+        return;
+    }
+
+
     sensor_msgs::msg::NavSatFix gps_msg;
     gps_msg.header.frame_id = "gps";
     gps_msg.header.stamp = atorTime(gps_data.time_stamp);
@@ -198,7 +415,20 @@ void AirSimNode::publishGpsData()
 
 void AirSimNode::publishMagData()
 {
-    msr::airlib::MagnetometerBase::Output mag_data = client->getMagnetometerData();
+    if (!connected)
+        return;
+
+    msr::airlib::MagnetometerBase::Output mag_data;
+        
+    try
+    {
+        mag_data = client->getMagnetometerData();
+    }
+    catch(const rpc::timeout& e)
+    {
+        disconnected();
+        return;
+    }
 
     sensor_msgs::msg::MagneticField mag_msg;
     mag_msg.header.frame_id = "imu";
@@ -216,33 +446,121 @@ void AirSimNode::publishMagData()
 
 }
 
+/*
+    Convert Global frames
+    ROS x - East, y - North, z - Up
+    AirSim x - North, y - East, Z - Down
+*/
+
 geometry_msgs::msg::Quaternion AirSimNode::atorQuat(const msr::airlib::Quaternionr& airlib_quat)
 {
-    // tf2::Quaternion q(airlib_quat.x(), airlib_quat.y(), airlib_quat.z(), airlib_quat.w());
-    // tf2::Matrix3x3 m(q);
+    double roll, pitch, yaw;
+    // std::cout.precision(17);
 
-    // double roll, pitch, yaw;
-    // m.getRPY(roll, pitch, yaw);
+    tf2::Quaternion newq(airlib_quat.x(), airlib_quat.y(), airlib_quat.z(), airlib_quat.w());
 
-    // std::cout <<"q: " << airlib_quat.x() << ":" << airlib_quat.y() << ":" << airlib_quat.z() << ":" << airlib_quat.w() << "\r\n";
-    // std::cout <<"roll: " << roll << " pitch: " << pitch << " yaw: " << yaw << "\r\n";
+    tf2::Matrix3x3 morig(newq);
+    morig.getRPY(roll, pitch, yaw);
 
-    // tf2::Quaternion q2;
-    // q2.setRPY(roll, -pitch, -yaw);
+    // std::cout << "Global orig" << std::fixed << " roll: " << roll << " pitch: " << pitch << " yaw: " << yaw << "\r\n";
 
-    // std::cout <<"q2: " << q2.x() << ":" << q2.y() << ":" << q2.z() << ":" << q2.w() << "\r\n";    
+    // tf2::Quaternion qrot = ENU_NED_Q * newq;
+    // qrot.normalize();
+    tf2::Quaternion qrot;
+    qrot.setRPY(pitch, roll, -yaw + M_PI_2);
+    // tf2::Quaternion qrot(airlib_quat.y(), airlib_quat.x(), -airlib_quat.z(), airlib_quat.w());
 
+    geometry_msgs::msg::Quaternion q;
+    q.x = qrot.x();
+    q.y = qrot.y();
+    q.z = qrot.z();
+    q.w = qrot.w();
 
-    geometry_msgs::msg::Quaternion newq;
-    newq.x = airlib_quat.x();
-    newq.y = -airlib_quat.y();
-    newq.z = -airlib_quat.z();
-    newq.w = airlib_quat.w();
+    // geometry_msgs::msg::Quaternion q;
+    // q.x = airlib_quat.w();
+    // q.y = -airlib_quat.x();
+    // q.z = -airlib_quat.y();
+    // q.w = airlib_quat.z();
 
-    return newq;
+    // tf2::Quaternion qrot(q.x, q.y, q.x, q.w);
+
+    tf2::Matrix3x3 m(qrot);
+    m.getRPY(roll, pitch, yaw);
+
+    // std::cout << "Global " << std::fixed << " roll: " << roll << " pitch: " << pitch << " yaw: " << yaw << "\r\n";
+
+    return q;
 }
 
 geometry_msgs::msg::Vector3 AirSimNode::atorVec(const msr::airlib::Vector3r& airlib_vec)
+{
+    geometry_msgs::msg::Vector3 vec;
+    vec.x = airlib_vec.y();
+    vec.y = airlib_vec.x();
+    vec.z = -airlib_vec.z();
+
+    return vec;
+}
+
+geometry_msgs::msg::Point AirSimNode::atorPoint(const msr::airlib::Vector3r& airlib_vec)
+{
+    geometry_msgs::msg::Point pt;
+    pt.x = airlib_vec.y();
+    pt.y = airlib_vec.x();
+    pt.z = -airlib_vec.z();
+
+    return pt;
+
+}
+
+/*
+    Convert Local frames
+    ROS x - Forward, y - Left, z - Up
+    AirSim x - Forward, y - Right, Z - Down
+*/
+
+geometry_msgs::msg::Quaternion AirSimNode::atorQuatLocal(const msr::airlib::Quaternionr& airlib_quat)
+{
+    double roll, pitch, yaw;
+    std::cout.precision(17);
+
+    tf2::Quaternion newq(airlib_quat.x(), airlib_quat.y(), airlib_quat.z(), airlib_quat.w());
+
+    tf2::Matrix3x3 morig(newq);
+    morig.getRPY(roll, pitch, yaw);
+
+    // std::cout << "Local orig" << std::fixed << " roll: " << roll << " pitch: " <<  pitch << " yaw: " << yaw << "\r\n";
+
+
+    
+
+    tf2::Quaternion qrot = LOCAL_AIRSIM_ROS_Q * newq;
+    qrot.normalize();
+
+    geometry_msgs::msg::Quaternion q;
+    q.x = qrot.x();
+    q.y = qrot.y();
+    q.z = qrot.z();
+    q.w = qrot.w();
+    
+
+    tf2::Matrix3x3 m(qrot);
+    m.getRPY(roll, pitch, yaw);
+
+    // std::cout << "Local " << std::fixed << " roll: " << roll << " pitch: " <<  pitch << " yaw: " << yaw << "\r\n";
+
+    return q;
+
+    // geometry_msgs::msg::Quaternion newq;
+    // newq.x = airlib_quat.x();
+    // newq.y = -airlib_quat.y();
+    // newq.z = -airlib_quat.z();
+    // newq.w = airlib_quat.w();
+
+    // return newq;
+}
+
+geometry_msgs::msg::Vector3 AirSimNode::atorVecLocal(const msr::airlib::Vector3r& airlib_vec)
 {
     geometry_msgs::msg::Vector3 vec;
     vec.x = airlib_vec.x();
@@ -250,6 +568,17 @@ geometry_msgs::msg::Vector3 AirSimNode::atorVec(const msr::airlib::Vector3r& air
     vec.z = -airlib_vec.z();
 
     return vec;
+}
+
+geometry_msgs::msg::Point AirSimNode::atorPointLocal(const msr::airlib::Vector3r& airlib_vec)
+{
+    geometry_msgs::msg::Point pt;
+    pt.x = airlib_vec.x();
+    pt.y = -airlib_vec.y();
+    pt.z = -airlib_vec.z();
+
+    return pt;
+
 }
 
 rclcpp::Time AirSimNode::atorTime(const uint64_t& timestamp)
@@ -348,37 +677,6 @@ void AirSimNode::setup_covariance(sensor_msgs::msg::Imu::_angular_velocity_covar
     }
 }
 
-void AirSimNode::publishTelemetryMessages(rcraicer_msgs::msg::WheelSpeed wsMsg, rcraicer_msgs::msg::ChassisState csMsg, sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::NavSatFix fixMsg)
-{    
-
-    wsMsg.header.stamp = this->get_clock()->now();;
-    wsMsg.header.frame_id = "base_link";
-
-    csMsg.header.stamp = this->get_clock()->now();;
-    csMsg.header.frame_id = "base_link";
-
-    imuMsg.header.stamp = this->get_clock()->now();;
-    imuMsg.header.frame_id = "imu_link";
-    imuMsg.orientation_covariance = orientation_cov;
-    imuMsg.angular_velocity_covariance = angular_velocity_cov;
-    imuMsg.linear_acceleration_covariance = linear_acceleration_cov;
-
-    rclcpp::Time tm = this->get_clock()->now();
-
-    if ((tm.seconds() - lastFixPub) >= 0.1)
-    {
-        fixMsg.header.stamp = tm;
-        fixMsg.header.frame_id = "gps_link";
-        fixPublisher->publish(fixMsg);
-        lastFixPub = tm.seconds();
-    }
-
-    wsPublisher->publish(wsMsg);
-    csPublisher->publish(csMsg);
-    imuPublisher->publish(imuMsg);
-    
-}
-
 void AirSimNode::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)  // use const at end of function in later versions of ros2
 {    
 
@@ -434,7 +732,18 @@ void AirSimNode::sendControls(float throttle, float steering, float brake)
         controls.manual_gear = -1;
     }
 
-    client->setCarControls(controls);    
+    if (connected)
+    {
+        try
+        {
+            client->setCarControls(controls);    
+        }
+        catch(const rpc::timeout& e)
+        {
+            disconnected();
+            return;
+        }        
+    }
 }
 
 int main(int argc, char * argv[])

@@ -23,6 +23,10 @@
 #include "sensor_msgs/msg/imu.hpp"
 #include "sensor_msgs/msg/nav_sat_fix.hpp"
 #include "geometry_msgs/msg/point.hpp"
+#include "geometry_msgs/msg/quaternion.hpp"
+
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Matrix3x3.h>
 
 
 #include "visualization_msgs/msg/marker.hpp"
@@ -115,6 +119,8 @@ class StateEstimator : public rclcpp::Node
         std::thread optimizer;
 
         double gpslat, gpslon, gpsalt, gpsstamp;
+
+        void getRPY(geometry_msgs::msg::Quaternion q, double &roll, double &pitch, double &yaw);
 
 };
 

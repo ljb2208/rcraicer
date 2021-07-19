@@ -10,9 +10,13 @@ def generate_launch_description():
            name="joy_node"
        ),
        Node(
-           package="rcraicer",           
-           executable="wheel_odometry",
-           name="wheel_odometry",
-           parameters=[{"vehicle_wheelbase" : 1.578},{"vehicle_width" : 1.397}]
+           package="rcraicer_sim",           
+           executable="sim_debug_node",
+           name="sim_debug_node"    
+       ),
+       Node(
+           package="rcraicer_sim",           
+           executable="airsim_node",
+           name="airsim_node"    
        )
    ])   

@@ -78,10 +78,52 @@
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
-            "name": "Debug arisim_node",
+            "name": "Debug airsim_node",
             "type": "cppdbg",
             "request": "launch",
             "program": "/home/lbarnett//ros2_ws/build/rcraicer_sim/airsim_node",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Debug map generator",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/lbarnett//ros2_ws/build/rcraicer_mapping/map_generator_node",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Debug map publisher",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/lbarnett//ros2_ws/build/rcraicer_mapping/map_publisher_node",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -103,6 +145,27 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "/home/lbarnett/ros2_ws/build/rcraicer/state_estimator",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Debug sim debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/lbarnett/ros2_ws/build/rcraicer_sim/sim_debug_node",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

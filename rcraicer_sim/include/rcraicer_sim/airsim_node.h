@@ -6,12 +6,14 @@
 #include "sensor_msgs/msg/joy.hpp"
 #include "sensor_msgs/msg/image.hpp"
 #include "sensor_msgs/msg/nav_sat_fix.hpp"
+#include "nav_msgs/msg/odometry.hpp"
 #include "geometry_msgs/msg/vector3.hpp"
 #include "geometry_msgs/msg/quaternion.hpp"
 #include "rcraicer_msgs/msg/chassis_command.hpp"
 #include "rcraicer_msgs/msg/chassis_state.hpp"
 #include "rcraicer_msgs/msg/wheel_speed.hpp"
 #include "rcraicer_msgs/msg/sim_state.hpp"
+#include "rcraicer_msgs/msg/imu_filter_output.hpp"
 
 #include "vehicles/car/api/CarRpcLibClient.hpp"
 
@@ -19,13 +21,21 @@
 #include <Eigen/Geometry>
 #include <vector>
 
+
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Matrix3x3.h>
+
+#include "tf2_ros/static_transform_broadcaster.h"
+#include "tf2_ros/transform_broadcaster.h"
+
+# define M_PI		3.14159265358979323846	/* pi */
+# define M_PI_2		1.57079632679489661923	/* pi/2 */
+
 class AirSimNode : public rclcpp::Node
 {
     public:
         AirSimNode();
-        ~AirSimNode();
-        
-        void publishTelemetryMessages(rcraicer_msgs::msg::WheelSpeed wsMsg, rcraicer_msgs::msg::ChassisState csMsg, sensor_msgs::msg::Imu imuMsg, sensor_msgs::msg::NavSatFix fixMsg);
+        ~AirSimNode();        
 
     private:
         rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imuPublisher;
@@ -35,10 +45,14 @@ class AirSimNode : public rclcpp::Node
         rclcpp::Publisher<rcraicer_msgs::msg::SimState>::SharedPtr ssPublisher;
         rclcpp::Publisher<sensor_msgs::msg::NavSatFix>::SharedPtr fixPublisher;
         rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr imagePublisher;
-       
+        rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odomPublisher;       
+        rclcpp::Publisher<rcraicer_msgs::msg::ImuFilterOutput>::SharedPtr imuFilterPublisher; 
 
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joySubscription;
         rclcpp::Subscription<rcraicer_msgs::msg::ChassisCommand>::SharedPtr cmdSubscription;
+
+        tf2_ros::StaticTransformBroadcaster staticBroadcaster;
+        tf2_ros::TransformBroadcaster baseToOdomBroadcaster;
 
         rclcpp::TimerBase::SharedPtr connectTimer;
         rclcpp::TimerBase::SharedPtr sensorTimer;
@@ -46,8 +60,9 @@ class AirSimNode : public rclcpp::Node
         rclcpp::TimerBase::SharedPtr gpsTimer;
 
         void connectTimerCallback();                  
+        void disconnected();
 
-        void publishSensorData();
+        void publishSensorData();        
         void publishImuData();
         void publishGpsData();
         void publishMagData();
@@ -72,6 +87,10 @@ class AirSimNode : public rclcpp::Node
 
         geometry_msgs::msg::Quaternion atorQuat(const msr::airlib::Quaternionr& airlib_quat);
         geometry_msgs::msg::Vector3 atorVec(const msr::airlib::Vector3r& airlib_vec);
+        geometry_msgs::msg::Point atorPoint(const msr::airlib::Vector3r& airlib_vec);
+        geometry_msgs::msg::Quaternion atorQuatLocal(const msr::airlib::Quaternionr& airlib_quat);
+        geometry_msgs::msg::Vector3 atorVecLocal(const msr::airlib::Vector3r& airlib_vec);
+        geometry_msgs::msg::Point atorPointLocal(const msr::airlib::Vector3r& airlib_vec);
         rclcpp::Time atorTime(const uint64_t& timestamp);
 
         rclcpp::Parameter ipAddress;
@@ -117,11 +136,31 @@ class AirSimNode : public rclcpp::Node
         double lastFixPub {0.0};
         double gps_accuracy {0.02};
 
-        int gps_update {100};
-        int sensor_update {10};
+        // int gps_update {100};
+        // int sensor_update {20};
+        // int state_update {50};
+
+
+        int gps_update {200};
+        int sensor_update {50};
         int state_update {50};
+
+
+        double lastImuStamp {0.0};
+        double initPosX {0.0};
+        double initPosY {0.0};
+        bool initPos {false};
+
+        double priorX {0.0};
+        double priorYaw {0.0};
+        double priorOdomStamp {0.0};
 
         msr::airlib::CarRpcLibClient* client;
         msr::airlib::CarApiBase::CarControls controls;
+
+        tf2::Quaternion ENU_NED_Q;
+        tf2::Quaternion LOCAL_AIRSIM_ROS_Q;
+
+
 
 };

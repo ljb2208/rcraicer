@@ -8,6 +8,7 @@
 #include <gtsam/geometry/Pose3.h>
 #include <gtsam/nonlinear/GaussNewtonOptimizer.h>
 #include <exception>
+#include <fstream>
 
 using namespace gtsam;
 // Convenience for named keys
@@ -25,7 +26,7 @@ StateEstimator::StateEstimator() : Node("state_estimator"),
                                     gpsOptQ_(40),
                                     imuOptQ_(400),
                                     odomOptQ_(100),
-                                    gotFirstFix_(true), // should be false 
+                                    gotFirstFix_(false), // should be false 
                                     gotInitialPose_(false),
                                     debug_(false),
                                     markerId_(0)
@@ -43,7 +44,7 @@ StateEstimator::StateEstimator() : Node("state_estimator"),
     accSigma = getsetParameter<double>("AccelerometerSigma", 6.0e-2);
     gyroSigma = getsetParameter<double>("GyroSigma", 2.0e-2);
     accelBiasSigma_ =  getsetParameter<double>("AccelBiasSigma", 2.0e-4);
-    gyroBiasSigma_ = getsetParameter<double>("GyroBiasSigma", 3.0e-5);
+    gyroBiasSigma_ = getsetParameter<double>("GyroBiasSigma", 3.0e-5);    
     gpsSigma_ = getsetParameter<double>("GPSSigma", 0.07);
     sensorX = getsetParameter<double>("SensorTransformX", 0.0);
     sensorY = getsetParameter<double>("SensorTransformY", 0.0);
@@ -243,9 +244,13 @@ void StateEstimator::ImuCallback(sensor_msgs::msg::Imu::ConstSharedPtr imu)
 {
     rclcpp::Time ts = imu->header.stamp;
 
+    double roll, pitch, yaw;
+    getRPY(imu->orientation, roll, pitch, yaw);
+
     std::cout <<"IMU Message recv: " << std::fixed << ts.seconds() << " ang vel x: " << imu->angular_velocity.x <<  " y: " << imu->angular_velocity.y << "  z: " << imu->angular_velocity.z;
     std::cout << std::fixed << " lin accel x: " << imu->linear_acceleration.x << " y: " << imu->linear_acceleration.y << " z: " << imu->linear_acceleration.z;
-    std::cout << std::fixed << " orientation x: " << imu->orientation.x << " y: " << imu->orientation.y << " z: " << imu->orientation.z << " w: " << imu->orientation.w << "\r\n";
+    // std::cout << std::fixed << " orientation x: " << imu->orientation.x << " y: " << imu->orientation.y << " z: " << imu->orientation.z << " w: " << imu->orientation.w << "\r\n";
+    std::cout << std::fixed << " roll: " << roll << " pitch: " << pitch << " yaw: " << yaw << "\r\n";
 
     double dt;
     if (lastImuT_ == 0) dt = 0.005;
@@ -384,13 +389,25 @@ void StateEstimator::ImuCallback(sensor_msgs::msg::Imu::ConstSharedPtr imu)
 
 void StateEstimator::WheelOdomCallback(nav_msgs::msg::Odometry::ConstSharedPtr odom)
 {
+    double roll, pitch, yaw;
+    getRPY(odom->pose.pose.orientation, roll, pitch, yaw);
+
     rclcpp::Time tm = odom->header.stamp;
     std::cout << "ODOM Message recv: " << std::fixed << tm.seconds() << " x: " << odom->pose.pose.position.x << " y: " << odom->pose.pose.position.y << " z: " << odom->pose.pose.position.z;
-    std::cout << " Orient x: " << std::fixed << odom->pose.pose.orientation.x << " y: " << odom->pose.pose.orientation.y << " z: " << odom->pose.pose.orientation.z << " w: " << odom->pose.pose.orientation.w;
+    std::cout << "roll: " << roll << " pitch: " << pitch << " yaw: " << yaw;
+    // std::cout << " Orient x: " << std::fixed << odom->pose.pose.orientation.x << " y: " << odom->pose.pose.orientation.y << " z: " << odom->pose.pose.orientation.z << " w: " << odom->pose.pose.orientation.w;
     std::cout << " Twist lin x: " << std::fixed << odom->twist.twist.linear.x << " ang z: " << odom->twist.twist.angular.z << "\r\n";     
 
     if (!odomOptQ_.pushNonBlocking(odom))
         RCLCPP_WARN(this->get_logger(), "Dropping a wheel odometry measurement due to full queue");
+}
+
+void StateEstimator::getRPY(geometry_msgs::msg::Quaternion q, double &roll, double &pitch, double &yaw)
+{
+  tf2::Quaternion qrpy(q.x, q.y, q.z, q.w);
+  tf2::Matrix3x3 mat(qrpy);
+
+  mat.getRPY(roll, pitch, yaw);
 }
 
 void StateEstimator::GpsHelper()
@@ -472,10 +489,15 @@ void StateEstimator::GpsHelper()
         lastIMU_ = imuOptQ_.popBlocking();
         //If we only pop one, we need some dt
         rclcpp::Time tsIMU = lastIMU_->header.stamp;
-        lastImuTgps_ = tsIMU.seconds() - 0.005;
+        // lastImuTgps_ = tsIMU.seconds() - 0.005;
+        lastImuTgps_ = tsIMU.seconds() - 0.1;
+
+        std::cout.precision(17);
+        std::cout << "lastImuTgps_ 1 : " << lastImuTgps_ << " tsIMU: " <<tsIMU.seconds() << "\r\n";
         while(tsIMU.seconds() < ts.seconds())
         {
           lastImuTgps_ = tsIMU.seconds();
+          std::cout << "lastImuTgps_ 2 : " << lastImuTgps_ << " tsIMU: " <<tsIMU.seconds() << "\r\n";
           lastIMU_ = imuOptQ_.popBlocking();
 
           tsIMU = lastIMU_->header.stamp;
@@ -506,19 +528,25 @@ void StateEstimator::GpsHelper()
             GetAccGyro(lastIMU_, acc, gyro);
             double imuDT = tsIMU.seconds() - lastImuTgps_;
             lastImuTgps_ = tsIMU.seconds();
+            std::cout << "lastImuTgps_ 3 : " << lastImuTgps_ << " tsIMU: " << tsIMU.seconds() << "\r\n";
+            std::cout << "Timestep: " << imuDT << "\r\n";
             pre_int_data.integrateMeasurement(acc, gyro, imuDT);
             lastIMU_ = imuOptQ_.popBlocking();
             tsIMU = lastIMU_->header.stamp;
           }
           // adding the integrated IMU measurements to the factor graph
           ImuFactor imuFactor(X(imuKey-1), V(imuKey-1), X(imuKey), V(imuKey), B(imuKey-1), pre_int_data);
+          std::cout << "new factors" << "\r\n";
           newFactors.add(imuFactor);
           newFactors.add(BetweenFactor<imuBias::ConstantBias>(B(imuKey-1), B(imuKey), imuBias::ConstantBias(),
               noiseModel::Diagonal::Sigmas( sqrt(pre_int_data.deltaTij()) * noiseModelBetweenBias_sigma_)));
+          std::cout << "new factors end" << "\r\n";
 
           // Predict forward to get an initial estimate for the pose and velocity
           NavState curNavState(prevPose, prevVel);
+          std::cout << "predict" << "\r\n";
           NavState nextNavState = pre_int_data.predict(curNavState, prevBias);
+          std::cout << "predict end" << "\r\n";
           newVariables.insert(X(imuKey), nextNavState.pose());
           newVariables.insert(V(imuKey), nextNavState.v());
           newVariables.insert(B(imuKey), previousBias_);
@@ -569,7 +597,7 @@ void StateEstimator::GpsHelper()
             // this is a gps message for a factor
             latestGPSKey = key;
             double E,N,U;
-            enu_.Forward(fix->latitude, fix->longitude, fix->altitude, E, N, U);
+            enu_.Forward(fix->latitude, fix->longitude, fix->altitude, E, N, U);            
 
             // check if the GPS message is close to our expected position
             Pose3 expectedState;
@@ -653,11 +681,18 @@ void StateEstimator::GpsHelper()
         {
           try
           {
+            std::cout << "update" << "\r\n";            
+            std::ofstream fg("se.viz", std::ofstream::out);
+            newFactors.saveGraph(fg, newVariables);
+            fg.close();
             isam_->update(newFactors, newVariables);
+            std::cout << "here" << "\r\n";
             Pose3 nextState = isam_->calculateEstimate<Pose3>(X(imuKey-1));
 
             prevPose = nextState;
+            std::cout << "here1" << "\r\n";
             prevVel = isam_->calculateEstimate<Vector3>(V(imuKey-1));
+            std::cout << "here2" << "\r\n";
             prevBias = isam_->calculateEstimate<imuBias::ConstantBias>(B(imuKey-1));
 
             // if we haven't added gps data for 2 message (0.2s) then change status

@@ -32,8 +32,11 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
 find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
@@ -51,11 +54,13 @@ include_directories(
 
 add_executable(sim_node src/sim_node.cpp src/tcp_server.cpp)
 add_executable(airsim_node src/airsim_node.cpp)
+add_executable(sim_debug_node src/sim_debug_node.cpp)
 
 
 ament_target_dependencies(sim_node rclcpp std_msgs sensor_msgs rcraicer_msgs Eigen3 tf2 tf2_eigen GeographicLib)
 target_link_libraries(airsim_node AirLib)
-ament_target_dependencies(airsim_node rclcpp std_msgs sensor_msgs geometry_msgs rcraicer_msgs Eigen3 tf2 tf2_eigen GeographicLib)
+ament_target_dependencies(airsim_node rclcpp std_msgs sensor_msgs geometry_msgs nav_msgs rcraicer_msgs Eigen3 tf2 tf2_ros tf2_eigen GeographicLib)
+ament_target_dependencies(sim_debug_node rclcpp std_msgs sensor_msgs visualization_msgs geometry_msgs nav_msgs rcraicer_msgs Eigen3 tf2 tf2_eigen GeographicLib)
 
 
 # uncomment the following section in order to fill in
@@ -76,6 +81,7 @@ endif()
 install (TARGETS 
     sim_node    
     airsim_node
+    sim_debug_node
     DESTINATION lib/${PROJECT_NAME})
 
 
