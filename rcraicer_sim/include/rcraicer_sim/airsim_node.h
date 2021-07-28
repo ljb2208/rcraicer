@@ -104,9 +104,11 @@ class AirSimNode : public rclcpp::Node
         rclcpp::Parameter pub_freq;
         rclcpp::Parameter steering_axis;
         rclcpp::Parameter throttle_axis;
+        rclcpp::Parameter brake_axis;        
         rclcpp::Parameter auto_button;
         rclcpp::Parameter reverse_steering;
         rclcpp::Parameter reverse_throttle;
+        rclcpp::Parameter reverse_brake;
         rclcpp::Parameter publish_image;
         rclcpp::Parameter scene_name;
 
@@ -122,10 +124,12 @@ class AirSimNode : public rclcpp::Node
 
         int steeringAxisID;
         int throttleAxisID;
+        int brakeAxisID;
         int autoButtonID;
 
         int reverseSteering;
         int reverseThrottle;
+        int reverseBrake;
 
         bool connected {false};
 

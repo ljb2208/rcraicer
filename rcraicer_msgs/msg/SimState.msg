@@ -4,6 +4,7 @@ std_msgs/Header header
 float64 speed
 float64 throttle
 float64 steering
+float64 brake
 
 geometry_msgs/Vector3 env_position
 float64 latitude

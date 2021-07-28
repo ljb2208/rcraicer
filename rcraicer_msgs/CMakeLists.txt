@@ -35,6 +35,14 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ImuFilterOutput.msg"
   "msg/ComputeStatus.msg"
   "msg/SimState.msg"
+  "msg/NeuralNetLayer.msg"
+  "msg/NeuralNetModel.msg"
+  "msg/PathIntegralParams.msg"
+  "msg/PathIntegralStats.msg"
+  "msg/PathIntegralStatus.msg"
+  "msg/PathIntegralTiming.msg"
+  "msg/LapStats.msg"
+  "msg/RunStop.msg"
   DEPENDENCIES builtin_interfaces std_msgs geometry_msgs
  )
 

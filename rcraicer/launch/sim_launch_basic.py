@@ -12,7 +12,7 @@ def generate_launch_description():
        Node(
            package="rcraicer_sim",           
            executable="sim_debug_node",
-           name="sim_debug_node"    
+           name="sim_debug_node"       
        ),
        Node(
            package="rcraicer_sim",           

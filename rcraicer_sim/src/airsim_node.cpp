@@ -22,9 +22,11 @@ AirSimNode::AirSimNode() : Node("airsim_node"), autoEnabled(false), vehicle_name
     this->declare_parameter("pub_freq", 400); // hz
     this->declare_parameter("throttle_axis", 1);
     this->declare_parameter("steering_axis", 3);
+    this->declare_parameter("brake_axis", 5);
     this->declare_parameter("auto_button", 0);
     this->declare_parameter("reverse_steering", true);
     this->declare_parameter("reverse_throttle", false);
+    this->declare_parameter("reverse_brake", true);
     this->declare_parameter("publish_image", true);
     this->declare_parameter("scene_name", "generated_track");
         
@@ -39,8 +41,10 @@ AirSimNode::AirSimNode() : Node("airsim_node"), autoEnabled(false), vehicle_name
     auto_button = this->get_parameter("auto_button");
     steering_axis = this->get_parameter("steering_axis");
     throttle_axis = this->get_parameter("throttle_axis");
+    brake_axis = this->get_parameter("brake_axis");
     reverse_steering = this->get_parameter("reverse_steering");
     reverse_throttle = this->get_parameter("reverse_throttle");
+    reverse_brake = this->get_parameter("reverse_brake");
     scene_name = this->get_parameter("scene_name");
 
     paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&AirSimNode::paramSetCallback, this, std::placeholders::_1));
@@ -107,8 +111,16 @@ void AirSimNode::connectTimerCallback()
         if (state == msr::airlib::RpcLibClientBase::ConnectionState::Connected)
         {
             connected = true;
-            client->reset();
-            client->enableApiControl(true);            
+            try
+            {
+                client->reset();
+                client->enableApiControl(true);            
+            }
+            catch(const rpc::system_error& e)
+            {                     
+                return;
+            }
+            
 
             sensorTimer = this->create_wall_timer(std::chrono::milliseconds(sensor_update), std::bind(&AirSimNode::publishSensorData, this));        
             stateTimer = this->create_wall_timer(std::chrono::milliseconds(state_update), std::bind(&AirSimNode::publishStateData, this));        
@@ -192,6 +204,7 @@ void AirSimNode::publishStateData()
     state_msg.speed = state_data.speed;
     state_msg.throttle = control_data.throttle;
     state_msg.steering = control_data.steering;
+    state_msg.brake = control_data.brake;
 
     state_msg.env_position = atorVec(env_data.position);
     state_msg.latitude = env_data.geo_point.latitude;
@@ -205,8 +218,8 @@ void AirSimNode::publishStateData()
 
     state_msg.position = atorVec(kin_data.pose.position);
     state_msg.orientation = atorQuat(kin_data.pose.orientation);
-    state_msg.linear_velocity = atorVecLocal(kin_data.twist.linear);
-    state_msg.linear_acceleration = atorVecLocal(kin_data.accelerations.linear);
+    state_msg.linear_velocity = atorVec(kin_data.twist.linear);
+    state_msg.linear_acceleration = atorVec(kin_data.accelerations.linear);
     state_msg.angular_velocity = atorVecLocal(kin_data.twist.angular);
     state_msg.angular_acceleration = atorVecLocal(kin_data.accelerations.angular);
 
@@ -642,6 +655,7 @@ void AirSimNode::updateInternalParams()
 {
     throttleAxisID = throttle_axis.as_int();
     steeringAxisID = steering_axis.as_int();
+    brakeAxisID = brake_axis.as_int();
     autoButtonID = auto_button.as_int();
 
     if (reverse_steering.as_bool())
@@ -653,6 +667,11 @@ void AirSimNode::updateInternalParams()
         reverseThrottle = -1;
     else
         reverseThrottle = 1;
+
+    if (reverse_brake.as_bool())
+        reverseBrake = -1;
+    else
+        reverseBrake = 1;
 
     frame_id = frame_id_param.as_string();  
     setup_covariance(linear_acceleration_cov, linear_stdev.as_double());
@@ -690,7 +709,7 @@ void AirSimNode::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)  // us
 
     float steer = msg->axes[steeringAxisID];
     float throttle = msg->axes[throttleAxisID];
-    float brake = 0.0;
+    float brake = msg->axes[brakeAxisID];
 
     sendControls(throttle, steer, brake);
 }
@@ -718,7 +737,7 @@ void AirSimNode::sendControls(float throttle, float steering, float brake)
     controls.throttle = throttle * reverseThrottle;
     controls.steering = steering * reverseSteering;
     controls.handbrake = false;
-    controls.brake = brake;
+    controls.brake = (brake * reverseBrake + 1.0) / 2.0;
 
     if (throttle >= 0)
     {

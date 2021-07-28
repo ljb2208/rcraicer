@@ -1,0 +1,259 @@
+#include "../include/rcraicer_mppi_test/data_recorder.h"
+
+using std::placeholders::_1;
+using namespace std::chrono_literals;
+
+
+DataRecorder::DataRecorder() : Node("data_recorder_node")
+{
+    paramSetCallbackHandler = this->add_on_set_parameters_callback(std::bind(&DataRecorder::paramSetCallback, this, std::placeholders::_1));
+
+    updateInternalParams();
+ 
+    ssSubscription = this->create_subscription<rcraicer_msgs::msg::SimState>(
+      "sim_state", 10, std::bind(&DataRecorder::sim_state_callback, this, std::placeholders::_1));       
+
+    joySubscription = this->create_subscription<sensor_msgs::msg::Joy>(
+        "joy", 10, std::bind(&DataRecorder::joy_callback, this, std::placeholders::_1));    
+
+    fileName = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi/training_data/dynamics_data.csv";
+
+    // std::filesystem::status stat(fileName);
+
+    if (!std::filesystem::exists(std::filesystem::status(fileName)))
+        writeHeader = true;
+
+
+    if (deleteFileOnStart)
+    {
+        std::scoped_lock lock(fileMutex);          
+
+        if (std::filesystem::exists(std::filesystem::status(fileName)))
+        {            
+            remove(fileName.c_str());
+            RCLCPP_INFO(this->get_logger(), "File deleted. %s", fileName.c_str());
+            writeHeader = true;
+        }
+        
+    }    
+
+    RCLCPP_INFO(this->get_logger(), "Node started.");    
+}
+
+DataRecorder::~DataRecorder()
+{
+    closeFile();
+}
+
+
+rcl_interfaces::msg::SetParametersResult DataRecorder::paramSetCallback(const std::vector<rclcpp::Parameter>& parameters)
+{
+    rcl_interfaces::msg::SetParametersResult result;
+    result.successful = true;
+
+    for (auto param : parameters)
+    {        
+    }
+
+    updateInternalParams();
+    return result;
+}
+
+
+void DataRecorder::updateInternalParams()
+{    
+}
+
+void DataRecorder::openFile()
+{
+    std::scoped_lock lock(fileMutex);  
+
+    csvFile.open(fileName, std::ios::out);
+
+    //write header
+    if (writeHeader)
+    {
+        csvFile << "steer,throttle,x_pos,y_pos,yaw,roll,u_x,u_y,yaw_mder,act_x_pos,act_y_pos,act_yaw,act_roll,act_u_x,act_u_y,act_yaw_mder\n";
+        writeHeader = false;
+    }
+    csvFile.precision(10);
+}
+
+void DataRecorder::closeFile()
+{
+    std::scoped_lock lock(fileMutex);  
+
+    if (csvFile.is_open())
+        csvFile.close();
+}
+
+void DataRecorder::sim_state_callback(const rcraicer_msgs::msg::SimState::SharedPtr msg)
+{        
+    if (!recordMode)
+        return;
+
+    double roll, pitch, yaw;
+    double tsDelta = 0.0;
+
+    tf2::Quaternion q(msg->orientation.x, msg->orientation.y, msg->orientation.z, msg->orientation.w);
+    tf2::Matrix3x3 m(q);
+    m.getRPY(roll, pitch, yaw);
+
+
+    if (priorMessageAvailable)
+    {                   
+        rclcpp::Time ts = msg->header.stamp;
+        rclcpp::Time priorTs = priorMsg.header.stamp;
+
+        tsDelta = ts.seconds() - priorTs.seconds();        
+
+        float distance = distanceTravelled(msg->env_position.x, msg->env_position.y, priorMsg.env_position.x, priorMsg.env_position.y);
+
+        if (outputEnabled && distance >= minDistance)
+        {      
+            std::scoped_lock lock(fileMutex);  
+            csvFile << priorMsg.steering;
+            csvFile << ",";
+            csvFile << priorMsg.throttle;
+            csvFile << ",";
+            // csvFile << priorMsg.brake;
+            // csvFile << ",";
+            csvFile << priorMsg.env_position.x;
+            csvFile << ",";
+            csvFile << priorMsg.env_position.y;
+            csvFile << ",";
+            csvFile << priorYaw;
+            csvFile << ",";
+            csvFile << priorRoll;
+            csvFile << ",";
+            csvFile << priorMsg.linear_velocity.x;
+            csvFile << ",";
+            csvFile << priorMsg.linear_velocity.y;
+            csvFile << ",";            
+            csvFile << priorMsg.angular_velocity.z;
+
+            // float priorYawmder = yawChange(priorYaw, priorYaw2) / priorTsDelta;
+            // csvFile << priorYawmder;
+            csvFile << ",";
+
+            csvFile << msg->env_position.x;
+            csvFile << ",";
+            csvFile << msg->env_position.y;
+            csvFile << ",";
+            csvFile << yaw;
+            csvFile << ",";
+            csvFile << roll;
+            csvFile << ",";
+            csvFile << msg->linear_velocity.x;
+            csvFile << ",";
+            csvFile << msg->linear_velocity.y;
+            csvFile << ",";
+            csvFile << msg->angular_velocity.z;
+            // float yawmder = yawChange(yaw, priorYaw) / tsDelta;            
+            // csvFile << yawmder;        
+            csvFile << "\n";
+
+            // std::cout << "yawmder: " << yawmder << " ang z: " << msg->angular_velocity.z << " prior: " << priorM\n";
+
+            // if (fabs(yawmder) > M_PI_2/2)
+            // {
+            //     std::cout << "yaw: " << yaw << " prior yaw: " << priorYaw << " tsDelta: " << tsDelta << " priorYaw2: " << priorYaw2 << " priorTsDelta: " << priorTsDelta << " priorYawmder: " << priorYawmder << " yawmderr: " << yawmder << "\n";    
+            // }
+            // std::cout << "yaw: " << yaw << " prior yaw: " << priorYaw << " tsDelta: " << tsDelta << " priorYaw2: " << priorYaw2 << " priorTsDelta: " << priorTsDelta << " priorYawmder: " << priorYawmder << " yawmderr: " << yawmder << "\n";
+
+            recordFlushCount++;
+        }
+    }
+
+    if (recordFlushCount >= 100)
+    {
+        std::scoped_lock lock(fileMutex);  
+        csvFile.flush();
+        recordFlushCount = 0;
+    }
+
+    if (priorMessageAvailable)
+        outputEnabled = true;    
+
+    priorTsDelta = tsDelta;
+    priorYaw2 = priorYaw;
+
+    priorRoll = roll;
+    priorPitch = pitch;
+    priorYaw = yaw;
+    copyMessage(msg);
+}
+
+void DataRecorder::copyMessage(const rcraicer_msgs::msg::SimState::SharedPtr msg)
+{
+    priorMsg.header = msg->header;
+    priorMsg.env_position = msg->env_position;
+    priorMsg.linear_acceleration = msg->linear_acceleration;
+    priorMsg.linear_velocity = msg->linear_velocity;
+    priorMsg.angular_velocity = msg->angular_velocity;
+    priorMsg.throttle = msg->throttle;
+    priorMsg.steering = msg->steering;
+
+    priorMessageAvailable = true;
+}
+
+float DataRecorder::yawChange(float yaw1, float yaw2)
+{        
+    float deltaYaw = fabs(yaw1 - yaw2);
+
+    if (deltaYaw > M_PI_2)
+    {
+        if (yaw1 < -M_PI_2 && yaw2 > M_PI_2)
+            yaw1 = -yaw1;
+        
+        if (yaw1 > M_PI_2 && yaw2 < -M_PI_2)
+            yaw2 = -yaw2;
+    }        
+
+    return yaw1 - yaw2;
+}
+
+float DataRecorder::distanceTravelled(float x, float y, float x1, float y1)
+{
+    float deltaX = x - x1;
+    float deltaY = y - y1;
+    return sqrt(deltaX * deltaX + deltaY * deltaY);
+}
+
+void DataRecorder::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
+{    
+    rclcpp::Time ts = msg->header.stamp;    
+
+    if ((ts.seconds() - recordModeStamp) < 1.0)
+        return;
+
+    if (msg->buttons[recordButtonId] == 1)
+    {
+        if (!recordMode)
+        {
+            recordMode = true;
+            priorMessageAvailable = false;
+            outputEnabled = false;
+
+            openFile();
+            RCLCPP_INFO(this->get_logger(), "Recording started");            
+        }
+        else
+        {
+            closeFile();
+            recordMode = false;
+            RCLCPP_INFO(this->get_logger(), "Recording stopped");            
+        }
+
+        recordModeStamp = ts.seconds();
+    }
+}
+
+
+int main(int argc, char * argv[])
+{
+    rclcpp::init(argc, argv);
+    rclcpp::spin(std::make_shared<DataRecorder>());
+    rclcpp::shutdown();
+    return 0;
+}

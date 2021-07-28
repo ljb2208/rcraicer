@@ -3,8 +3,7 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [
-        
+    "configurations": [        
         {
             "name": "Python: Current File",
             "type": "python",
@@ -141,6 +140,27 @@
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
+            "name": "Debug data recorder",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/lbarnett//ros2_ws/build/rcraicer_mppi/data_recorder_node",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
             "name": "Debug state estimator",
             "type": "cppdbg",
             "request": "launch",
@@ -167,6 +187,27 @@
             "request": "launch",
             "program": "/home/lbarnett/ros2_ws/build/rcraicer_sim/sim_debug_node",
             "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Debug mppi node",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/lbarnett/ros2_ws/build/rcraicer_mppi/path_integral_nn",
+            "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/catkin_ws/src/autorally/autorally_control/src/path_integral/params/models/gazebo_nnet_09_12_2018.npz", "-p", "map_path:=/home/lbarnett/catkin_ws/src/autorally/autorally_control/src/path_integral/params/maps/marietta_costmap_07_25_2019.npz"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
