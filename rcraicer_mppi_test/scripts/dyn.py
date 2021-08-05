@@ -67,7 +67,7 @@ class Dyn():
 
         lossfn = nn.SmoothL1Loss(reduction="sum")
 
-        results = np.empty((test_ds.y_values.shape[0], 7))
+        results = np.empty((test_ds.y_values.shape[0], 9), dtype=np.float32)
         count = 0
 
         for test_rec in test_ds:
@@ -75,21 +75,23 @@ class Dyn():
             y_data = torch.tensor([test_rec["y_values"]]).to(dtype=torch.float32)
             output = model.forward(x_data)
 
-            loss = lossfn(output, y_data)
+            loss = lossfn(output, y_data)            
 
             results[count][0] = output[0][0]
             results[count][1] = output[0][1]
             results[count][2] = output[0][2]
-            results[count][3] = y_data[0][0]
-            results[count][4] = y_data[0][1]
-            results[count][5] = y_data[0][2]
-            results[count][6] = loss
+            results[count][3] = output[0][3]
+            results[count][4] = y_data[0][0]
+            results[count][5] = y_data[0][1]
+            results[count][6] = y_data[0][2]
+            results[count][7] = y_data[0][3]
+            results[count][8] = loss            
             
             # print("loss: {} \n".format(loss))
             # self.comp_values(output, y_data)
             count += 1        
-
-        df = pd.DataFrame(data=results, dtype=results.dtype, columns=["u_x_out", "u_y_out", "yaw_mder_out", "u_x", "u_y", "yaw_mder", "loss"])
+        
+        df = pd.DataFrame(data=results, dtype=results.dtype, columns=["roll_out", "u_x_out", "u_y_out", "yaw_mder_out", "roll", "u_x", "u_y", "yaw_mder", "loss"])
 
         loss_col = df["loss"]
 
@@ -110,21 +112,24 @@ class Dyn():
             index = sorted_df.index[i]
 
             if self.interactive:
-                print("Index: {} loss: {} u_x: {} u_y: {} yaw_mderr: {} u_x_out: {} u_y_out: {} yaw_out: {}".format(index, sorted_df.loss[index],sorted_df.u_x[index],
-                                    sorted_df.u_y[index], sorted_df.yaw_mder[index], sorted_df.u_x_out[index], sorted_df.u_y_out[index], sorted_df.yaw_mder_out[index]))
+                print("Index: {} loss: {} u_x: {} u_y: {} yaw_mderr: {} roll: {} u_x_out: {} u_y_out: {} yaw_out: {} roll_out: {}".format(index, sorted_df.loss[index],sorted_df.u_x[index],
+                                    sorted_df.u_y[index], sorted_df.yaw_mder[index], sorted_df.roll[index], sorted_df.u_x_out[index], sorted_df.u_y_out[index], sorted_df.yaw_mder_out[index], sorted_df.roll_out[index]))
 
-                self.log_verbose("Index: {} loss: {} u_x: {} u_y: {} yaw_mderr: {} u_x_out: {} u_y_out: {} yaw_out: {}\n".format(index, sorted_df.loss[index],sorted_df.u_x[index],
-                                    sorted_df.u_y[index], sorted_df.yaw_mder[index], sorted_df.u_x_out[index], sorted_df.u_y_out[index], sorted_df.yaw_mder_out[index]))
+                self.log_verbose("Index: {} loss: {} u_x: {} u_y: {} yaw_mderr: {} roll: {} u_x_out: {} u_y_out: {} yaw_out: {} roll_out: {}\n".format(index, sorted_df.loss[index],sorted_df.u_x[index],
+                                    sorted_df.u_y[index], sorted_df.yaw_mder[index], sorted_df.roll[index], sorted_df.u_x_out[index], sorted_df.u_y_out[index], sorted_df.yaw_mder_out[index], sorted_df.roll_out[index]))
 
-        fig, axarr = plt.subplots(2, 2, figsize=(12,8))
+        fig, axarr = plt.subplots(3, 2, figsize=(12,8))
         loss_plot = df.plot(y="loss", kind="line", ax=axarr[0][0])
         x_out_plot = df.plot(y="u_x_out", kind="line", ax=axarr[0][1])
         x_out_plot = df.plot(y="u_x", kind="line", ax=axarr[0][1])
         y_out_plot = df.plot(y="u_y_out", kind="line", ax=axarr[1][0])
-        y_out_plot = df.plot(y="u_y", kind="line", ax=axarr[1][0])
+        y_out_plot = df.plot(y="u_y", kind="line", ax=axarr[1][0])        
 
         yaw_out_plot = df.plot(y="yaw_mder_out", kind="line", ax=axarr[1][1])
         yaw_out_plot = df.plot(y="yaw_mder", kind="line", ax=axarr[1][1])
+
+        roll_out_plt = df.plot(y="roll_out", kind="line", ax=axarr[2][0])
+        roll_out_plt = df.plot(y="roll", kind="line", ax=axarr[2][0])
 
         plt.suptitle("id: {} lr: {} optim: {} epochs: {} losses min: {:.4f} max: {:.4f} mean: {:.4f}".format(self.run_id, self.lr, self.optim, self.epochs, lmin, lmax, lavg))
         plt.savefig(self.log_path + "graph{}.png".format(self.run_id))
@@ -183,8 +188,8 @@ class Dyn():
         train_loss = 0.
         valid_loss = 0.
 
-        # lossfn = nn.MSELoss() #reduction="none")
-        lossfn = nn.SmoothL1Loss(reduction="sum")
+        lossfn = nn.MSELoss() #reduction="none")
+        # lossfn = nn.SmoothL1Loss(reduction="sum")
 
         for epoch in range(1, self.epochs + 1):
             model.train()
@@ -234,26 +239,41 @@ class Dyn():
             
             scheduler.step()     
 
+        # for name, param in model.named_parameters():
+        #     print(name, '\t\t', param.shape)
+
+
 
         torch.save(model, self.model_path + "dynmodel{}.pth".format(self.run_id))
         torch.save(model.state_dict(), self.model_path + "dynmodel_states{}.pth".format(self.run_id))
+
+        sd = model.state_dict()
         
+        # state_dict = {"dynamics_b1": sd["bn0.bias"].cpu().numpy(), 
+        #                 "dynamics_b2": sd["bn1.bias"].cpu().numpy(),
+        #                 "dynamics_b3":sd["bn2.bias"].cpu().numpy(), 
+        #                 "weights_b1":sd["bn0.weight"].cpu().numpy(),
+        #                 "weights_b2":sd["bn1.weight"].cpu().numpy(),
+        #                 "weights_b3":sd["bn2.weight"].cpu().numpy()}
+
+        # np.savez(self.model_path + "dynmodel{}.npz".format(self.run_id), **state_dict)
         
 
 
 if __name__ == "__main__":
-    data_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi/training_data/"
-    model_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi/models/"
-    log_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi/logs/"
+    data_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/training_data/"
+    model_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/"
+    log_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/logs/"
     dyn = Dyn(data_path, model_path, log_path, epochs=10, interactive=False)    
     # dyn = Dyn(data_path, model_path, log_path, epochs=10, interactive=True)    
 
-    epochs = [500, 1000]
-    lrs = [0.0001, 0.0002, 0.0003, 0.0004, 0.0005, 0.001]
-    optims = ["sgd", "adam"]
+    epochs = [2000]
+    lrs = [0.0003, 0.0004, 0.0005, 0.001, 0.002, 0.003]
+    # optims = ["sgd", "adam"]
+    optims = ["adam"]
 
-    # epochs = [500]
-    # lrs = [0.001] 
+    # epochs = [100]
+    # lrs = [0.002] 
     # optims = ["sgd"]
 
     for epoch in epochs:

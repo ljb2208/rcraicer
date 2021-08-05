@@ -5,25 +5,28 @@ class DynModel(nn.Module):
     def __init__(self):
         super().__init__()
 
-        in_features = 9
+        in_features = 6
         layer1_size = 32 # orig 32
         layer2_size = 32 # orig 32
         layer3_size = 32 # orig 32
-        out_features = 3
+        out_features = 4
 
 
-        self.bn0 = nn.BatchNorm1d(in_features, eps=1e-5, momentum=0.1, affine=True, track_running_stats=True)
-        self.bn1 = nn.BatchNorm1d(in_features, eps=1e-5, momentum=0.1, affine=True, track_running_stats=True)
-        self.lin1 = nn.Linear(in_features=in_features, out_features=layer1_size, bias=False)
+        # self.bn0 = nn.BatchNorm1d(in_features, eps=1e-5, momentum=0.1, affine=True, track_running_stats=True)
+        # self.bn1 = nn.BatchNorm1d(in_features, eps=1e-5, momentum=0.1, affine=True, track_running_stats=True)
+        # self.lin1 = nn.Linear(in_features=in_features, out_features=layer1_size, bias=False)
+        self.lin1 = nn.Linear(in_features=in_features, out_features=layer1_size, bias=True)
         # self.rel1 = nn.ReLU(inplace=True)
-        # self.rel1 = nn.Tanh()
-        self.rel1 = nn.LeakyReLU()
+        self.rel1 = nn.Tanh()
+        # self.rel1 = nn.LeakyReLU()
+        
 
-        self.bn2 = nn.BatchNorm1d(layer1_size, eps=1e-5, momentum=0.1, affine=True, track_running_stats=True)
-        self.lin2 = nn.Linear(in_features=layer1_size, out_features=layer2_size, bias=False)
+        # self.bn2 = nn.BatchNorm1d(layer1_size, eps=1e-5, momentum=0.1, affine=True, track_running_stats=True)
+        # self.lin2 = nn.Linear(in_features=layer1_size, out_features=layer2_size, bias=False)
+        self.lin2 = nn.Linear(in_features=layer1_size, out_features=layer2_size, bias=True)
         # self.rel2 = nn.ReLU(inplace=True)
-        # self.rel2 = nn.Tanh()
-        self.rel2 = nn.LeakyReLU()
+        self.rel2 = nn.Tanh()
+        # self.rel2 = nn.LeakyReLU()
 
         # self.bn3 = nn.BatchNorm1d(layer2_size, eps=1e-5, momentum=0.1, affine=True, track_running_stats=True)
         # self.lin3 = nn.Linear(in_features=layer2_size, out_features=layer3_size, bias=False)
@@ -39,10 +42,12 @@ class DynModel(nn.Module):
         nn.init.kaiming_uniform_(self.lin_last.weight.data)
 
     def forward(self, x):
-        x = self.bn0(x)
-        x = self.lin1(self.bn1(x))
+        # x = self.bn0(x)
+        # x = self.lin1(self.bn1(x))
+        x = self.lin1(x)
         x = self.rel1(x)
-        x = self.lin2(self.bn2(x))
+        # x = self.lin2(self.bn2(x))
+        x = self.lin2(x)
         x = self.rel2(x)
         # x = self.lin3(self.bn3(x))
         # x = self.rel3(x)

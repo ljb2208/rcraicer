@@ -18,7 +18,9 @@ class DynDataset(Dataset):
     def load_data(self, filename):
         data = pd.read_csv(filename)
         
-        self.x_values = np.array(data.iloc[:,0:9])                
-        self.y_values = np.array(data.iloc[:,13:])
+        # self.x_values = np.array(data.iloc[:,3:9])                
+        # self.y_values = np.array(data.iloc[:,12:])
+        self.x_values = np.array(data.loc[:,["roll","u_x","u_y","yaw_mder","steer","throttle"]])
+        self.y_values = np.array(data.loc[:,["act_roll_mder", "act_u_x","act_u_y", "act_yaw_mder"]])
 
     

@@ -313,33 +313,31 @@ void MapGenerator::saveToFile()
     int yBounds = cm_dims.maxY - cm_dims.minY;
 
     // add pixel border in meters
-    xBounds += pixelBorder;
-    yBounds += pixelBorder;
+    xBounds += pixelBorder / pixelsPerMeter;
+    yBounds += pixelBorder / pixelsPerMeter;
      
     // calculate number of steps in pixels
     int xSteps = xBounds;
     int ySteps = yBounds;
 
-    int xBoundsNPZ[2];
-    int yBoundsNPZ[2];
+    float xBoundsNPZ[2];
+    float yBoundsNPZ[2];
 
     // calculate bounds in pixels for numpy array
-    xBoundsNPZ[0] = cm_dims.minX - (pixelBorder / 2);
+    xBoundsNPZ[0] = cm_dims.minX - ((pixelBorder / pixelsPerMeter) / 2);
     xBoundsNPZ[1] = xBoundsNPZ[0] + xBounds;
 
-    yBoundsNPZ[0] = cm_dims.minY - (pixelBorder / 2);
+    yBoundsNPZ[0] = cm_dims.minY - ((pixelBorder / pixelsPerMeter) / 2);
     yBoundsNPZ[1] = yBoundsNPZ[0] + yBounds;
 
-
-    cnpy::npz_save("costmap.npz", "pixelsPerMeter", &pixelsPerMeter, {1}, "w");
-    cnpy::npz_save("costmap.npz", "xBounds", &xBoundsNPZ[0], {2}, "a");
-    cnpy::npz_save("costmap.npz", "yBounds", &yBoundsNPZ[0], {2}, "a");
-
+    float fPixelsPerMeter = (float) pixelsPerMeter;
+    
     cv::Mat img(ySteps, xSteps, CV_8UC3, cv::Scalar(0, 0, 0));
 
     int numPoints = 0;
 
     std::vector<float> channel0;    
+    std::vector<float> channel1;        
 
     int rminX = xBoundsNPZ[0];
     int rminY = yBoundsNPZ[0];
@@ -382,12 +380,14 @@ void MapGenerator::saveToFile()
                 img.at<cv::Vec3b>(y, x)[2] = r * 255;                               
                 
                 channel0.push_back(1.0 - r);                
+                channel1.push_back(0.0);
 
                 numPoints++;                
             }
             else
             {
-                channel0.push_back(1.1);                
+                channel0.push_back(1.1);
+                channel1.push_back(0.0);                
             }
 
             xcurr++;
@@ -396,7 +396,23 @@ void MapGenerator::saveToFile()
         ycurr++;
     }
 
+    // convert bounds back to non-pixels
+    xBoundsNPZ[0] /= pixelsPerMeter;
+    xBoundsNPZ[1] /= pixelsPerMeter;
+
+    yBoundsNPZ[0] /= pixelsPerMeter;
+    yBoundsNPZ[1] /= pixelsPerMeter;
+
+    cnpy::npz_save("costmap.npz", "pixelsPerMeter", &fPixelsPerMeter, {1}, "w");
+    cnpy::npz_save("costmap.npz", "xBounds", &xBoundsNPZ[0], {2}, "a");
+    cnpy::npz_save("costmap.npz", "yBounds", &yBoundsNPZ[0], {2}, "a");
+
+    std::cout << "Channel0 size: " << channel0.size() << "\n";
+
     cnpy::npz_save("costmap.npz", "channel0", channel0.data(), {channel0.size()}, "a");    
+    cnpy::npz_save("costmap.npz", "channel1", channel1.data(), {channel1.size()}, "a");    
+    cnpy::npz_save("costmap.npz", "channel2", channel1.data(), {channel1.size()}, "a");    
+    cnpy::npz_save("costmap.npz", "channel3", channel1.data(), {channel1.size()}, "a");    
 
     // flip image around x axis
     cv::Mat flipImg(ySteps, xSteps, CV_8UC3, cv::Scalar(0, 0, 0));

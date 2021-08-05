@@ -153,6 +153,8 @@ public:
   */
 	void poseCall(nav_msgs::msg::Odometry::SharedPtr pose_msg);
 
+  void processPose(std_msgs::msg::Header header, geometry_msgs::msg::Quaternion orientation, geometry_msgs::msg::Point position, geometry_msgs::msg::Vector3 linear_velocity, geometry_msgs::msg::Vector3 angular_velocity);
+
   /**
   * @brief Callback for recording the current servo input.
   * 

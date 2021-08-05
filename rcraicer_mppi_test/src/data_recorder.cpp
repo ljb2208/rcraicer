@@ -16,7 +16,7 @@ DataRecorder::DataRecorder() : Node("data_recorder_node")
     joySubscription = this->create_subscription<sensor_msgs::msg::Joy>(
         "joy", 10, std::bind(&DataRecorder::joy_callback, this, std::placeholders::_1));    
 
-    fileName = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi/training_data/dynamics_data.csv";
+    fileName = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/training_data/dynamics_data.csv";
 
     // std::filesystem::status stat(fileName);
 
@@ -68,12 +68,12 @@ void DataRecorder::openFile()
 {
     std::scoped_lock lock(fileMutex);  
 
-    csvFile.open(fileName, std::ios::out);
+    csvFile.open(fileName, std::ios::out | std::ios::app);
 
     //write header
     if (writeHeader)
     {
-        csvFile << "steer,throttle,x_pos,y_pos,yaw,roll,u_x,u_y,yaw_mder,act_x_pos,act_y_pos,act_yaw,act_roll,act_u_x,act_u_y,act_yaw_mder\n";
+        csvFile << "x_pos,y_pos,z_pos,roll,pitch,yaw,u_x,u_y,u_z,roll_mder,pitch_mder,yaw_mder,steer,throttle,brake,act_x_pos,act_y_pos,act_z_pos,act_roll,act_pitch,act_yaw,act_u_x,act_u_y,act_u_z,act_roll_mder,act_pitch_mder,act_yaw_mder\n";
         writeHeader = false;
     }
     csvFile.precision(10);
@@ -111,42 +111,64 @@ void DataRecorder::sim_state_callback(const rcraicer_msgs::msg::SimState::Shared
 
         if (outputEnabled && distance >= minDistance)
         {      
-            std::scoped_lock lock(fileMutex);  
-            csvFile << priorMsg.steering;
-            csvFile << ",";
-            csvFile << priorMsg.throttle;
-            csvFile << ",";
+            std::scoped_lock lock(fileMutex);              
             // csvFile << priorMsg.brake;
             // csvFile << ",";
             csvFile << priorMsg.env_position.x;
             csvFile << ",";
             csvFile << priorMsg.env_position.y;
             csvFile << ",";
-            csvFile << priorYaw;
-            csvFile << ",";
+            csvFile << priorMsg.env_position.z;
+            csvFile << ",";            
             csvFile << priorRoll;
+            csvFile << ",";
+            csvFile << priorPitch;
+            csvFile << ",";
+            csvFile << priorYaw;
             csvFile << ",";
             csvFile << priorMsg.linear_velocity.x;
             csvFile << ",";
-            csvFile << priorMsg.linear_velocity.y;
-            csvFile << ",";            
+            csvFile << priorMsg.linear_velocity.y;                        
+            csvFile << ",";
+            csvFile << priorMsg.linear_velocity.z;                        
+            csvFile << ",";
+            csvFile << priorMsg.angular_velocity.x;
+            csvFile << ",";
+            csvFile << priorMsg.angular_velocity.y;
+            csvFile << ",";
             csvFile << priorMsg.angular_velocity.z;
+            csvFile << ",";
+            csvFile << priorMsg.steering;
+            csvFile << ",";
+            csvFile << priorMsg.throttle;
+            csvFile << ",";
+            csvFile << priorMsg.brake;
+            csvFile << ",";
 
             // float priorYawmder = yawChange(priorYaw, priorYaw2) / priorTsDelta;
-            // csvFile << priorYawmder;
-            csvFile << ",";
+            // csvFile << priorYawmder;            
 
             csvFile << msg->env_position.x;
             csvFile << ",";
             csvFile << msg->env_position.y;
             csvFile << ",";
-            csvFile << yaw;
+            csvFile << msg->env_position.z;            
             csvFile << ",";
             csvFile << roll;
+            csvFile << ",";
+            csvFile << pitch;            
+            csvFile << ",";
+            csvFile << yaw;
             csvFile << ",";
             csvFile << msg->linear_velocity.x;
             csvFile << ",";
             csvFile << msg->linear_velocity.y;
+            csvFile << ",";
+            csvFile << msg->linear_velocity.z;
+            csvFile << ",";
+            csvFile << msg->angular_velocity.x;
+            csvFile << ",";
+            csvFile << msg->angular_velocity.y;
             csvFile << ",";
             csvFile << msg->angular_velocity.z;
             // float yawmder = yawChange(yaw, priorYaw) / tsDelta;            
@@ -193,6 +215,7 @@ void DataRecorder::copyMessage(const rcraicer_msgs::msg::SimState::SharedPtr msg
     priorMsg.angular_velocity = msg->angular_velocity;
     priorMsg.throttle = msg->throttle;
     priorMsg.steering = msg->steering;
+    priorMsg.brake = msg->brake;
 
     priorMessageAvailable = true;
 }

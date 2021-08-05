@@ -128,8 +128,8 @@ void PathIntegralNode::setupSubscribers()
 {
   //Initialize the subscribers.
   pose_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(params.pose_estimate_name, 1, std::bind(&RCRaicerPlant::poseCall, robot, std::placeholders::_1));
-  sim_sub_ = this->create_subscription<rcraicer_msgs::msg::SimState>("SimState", 1, std::bind(&RCRaicerPlant::simStateCall, robot, std::placeholders::_1));
-  servo_sub_ = this->create_subscription<rcraicer_msgs::msg::ChassisState>("chassisState", 1, std::bind(&RCRaicerPlant::servoCall, robot, std::placeholders::_1));
+  sim_sub_ = this->create_subscription<rcraicer_msgs::msg::SimState>("sim_state", 1, std::bind(&RCRaicerPlant::simStateCall, robot, std::placeholders::_1));
+  servo_sub_ = this->create_subscription<rcraicer_msgs::msg::ChassisState>("chassis_state", 1, std::bind(&RCRaicerPlant::servoCall, robot, std::placeholders::_1));
   model_sub_ = this->create_subscription<rcraicer_msgs::msg::NeuralNetModel>("/model_updater/model", 1, std::bind(&RCRaicerPlant::modelCall, robot, std::placeholders::_1));
 }
 

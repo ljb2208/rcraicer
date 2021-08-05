@@ -56,7 +56,7 @@ class DataRecorder : public rclcpp::Node
 
         int recordFlushCount {0};
         int deleteFileOnStart {false};
-        bool writeHeader {true};
+        bool writeHeader {false};
 
         float minDistance {0.05};
   

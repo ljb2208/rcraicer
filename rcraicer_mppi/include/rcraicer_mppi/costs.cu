@@ -220,7 +220,7 @@ inline std::vector<float4> MPPICosts::loadTrackData(std::string map_path, Eigen:
     track_costs[i].x = channel0[i];
     track_costs[i].y = channel1[i];
     track_costs[i].z = channel2[i];
-    track_costs[i].w = channel3[i];
+    track_costs[i].w = channel3[i];    
   }
 
   //Save the scaling and offset
