@@ -51,18 +51,25 @@ inline MPPICosts::MPPICosts(int width, int height)
 
 inline MPPICosts::MPPICosts(PathIntegralParams config)
 {
+  std::cout << "Allocate cost params \n";
+  std::cout <<  "Size: " << sizeof(CostParams) << "\n";
   //Transform from world coordinates to normalized grid coordinates
   Eigen::Matrix3f R;
   Eigen::Array3f trs;
   HANDLE_ERROR( cudaMalloc((void**)&params_d_, sizeof(CostParams)) ); //Initialize memory for device cost param struct
+  std::cout << "cost params allocated\n";
   //Get the map path
   
+  std::cout << "Loading track data \n";
   track_costs_ = loadTrackData(config.map_path, R, trs); //R and trs passed by reference
+  std::cout << "Track data loaded\n";
   updateTransform(R, trs);
   updateParams(config);
   allocateTexMem();
   costmapToTexture();
   debugging_ = false;
+
+  writeParamsFromDevice();
 }
 
 inline void MPPICosts::allocateTexMem()
@@ -169,6 +176,7 @@ inline void MPPICosts::updateParams(PathIntegralParams config)
   params_.boundary_threshold = config.boundary_threshold;
   params_.discount = config.discount;
   params_.num_timesteps = config.num_timesteps;
+  params_.grid_res = 0;
 
   //Move the updated parameters to gpu memory
   paramsToDevice();
@@ -236,6 +244,30 @@ inline void MPPICosts::paramsToDevice()
 {
   HANDLE_ERROR( cudaMemcpy(params_d_, &params_, sizeof(CostParams), cudaMemcpyHostToDevice) );
   HANDLE_ERROR( cudaStreamSynchronize(stream_) );
+}
+
+void MPPICosts::writeParamsFromDevice()
+{
+  CostParams debug_params;
+  HANDLE_ERROR( cudaMemcpy(&debug_params, params_d_, sizeof(CostParams), cudaMemcpyDeviceToHost) );
+
+  std::cout << "debug params\n";
+  
+  std::cout << debug_params.desired_speed << "\n";
+  std::cout << debug_params.speed_coeff << "\n";
+  std::cout << debug_params.track_coeff << "\n";
+  std::cout << debug_params.max_slip_ang << "\n";
+  std::cout << debug_params.slip_penalty << "\n";
+  std::cout << debug_params.track_slop << "\n";
+  std::cout << debug_params.crash_coeff << "\n";
+  std::cout << debug_params.steering_coeff << "\n";
+  std::cout << debug_params.throttle_coeff << "\n";
+  std::cout << debug_params.boundary_threshold << "\n";
+  std::cout << debug_params.discount << "\n";
+  std::cout << debug_params.num_timesteps << "\n";
+  std::cout << debug_params.grid_res << "\n";
+
+
 }
 
 inline void MPPICosts::getCostInfo()

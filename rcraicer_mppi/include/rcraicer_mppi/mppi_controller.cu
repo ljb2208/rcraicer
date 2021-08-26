@@ -46,7 +46,7 @@
 
 template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
 __global__ void rolloutKernel(int num_timesteps, float* state_d, float* U_d, float* du_d, float* nu_d, 
-                              float* costs_d, DYNAMICS_T dynamics_model, COSTS_T mppi_costs, 
+                              float* costs_d, float* state_dbg, float* state_der_dbg, float* u_dbg, float* du_dbg, DYNAMICS_T dynamics_model, COSTS_T mppi_costs, 
                               int opt_delay)
 {
   int i,j;
@@ -76,7 +76,7 @@ __global__ void rolloutKernel(int num_timesteps, float* state_d, float* U_d, flo
   float running_cost = 0;
 
   //Initialize the dynamics model.
-  dynamics_model.cudaInit(theta);
+  dynamics_model.cudaInit(theta);  
 
   int global_idx = BLOCKSIZE_X*bdx + tdx;
   if (global_idx < NUM_ROLLOUTS) {
@@ -119,11 +119,19 @@ __global__ void rolloutKernel(int num_timesteps, float* state_d, float* U_d, flo
           u[j] = U_d[i*CONTROL_DIM + j] + du[j];
         }
         du_d[CONTROL_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*CONTROL_DIM + j] = u[j];
+        // du_dbg[CONTROL_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*CONTROL_DIM + j] = u[j];
+        // du_dbg[CONTROL_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*CONTROL_DIM + j] = (float)CONTROL_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*CONTROL_DIM + j;
       }
     }
     __syncthreads();
     if (tdy == 0 && global_idx < NUM_ROLLOUTS){
        dynamics_model.enforceConstraints(s, u);
+
+      //  for (int q=0; q < CONTROL_DIM; q++)
+      //   {
+      //     u_dbg[i*NUM_ROLLOUTS*CONTROL_DIM + (BLOCKSIZE_X)*bdx*CONTROL_DIM + tdx*CONTROL_DIM + q] = u[q];          
+      //     // du_dbg[i*NUM_ROLLOUTS*CONTROL_DIM + (BLOCKSIZE_X)*bdx*CONTROL_DIM + tdx*CONTROL_DIM + q] = (float)i*NUM_ROLLOUTS*CONTROL_DIM + (BLOCKSIZE_X)*bdx*CONTROL_DIM + tdx*CONTROL_DIM + q;
+      //   }
     }
     __syncthreads();
     //Compute the cost of the being in the current state
@@ -134,16 +142,22 @@ __global__ void rolloutKernel(int num_timesteps, float* state_d, float* U_d, flo
     //Compute the dynamics
     if (global_idx < NUM_ROLLOUTS){
       dynamics_model.computeStateDeriv(s, u, s_der, theta);
+
+      // for (int q=0; q < STATE_DIM; q++)
+      // {
+      //   state_dbg[i*NUM_ROLLOUTS*STATE_DIM + (BLOCKSIZE_X)*bdx*STATE_DIM + tdx*STATE_DIM + q] = s[q];
+      //   state_der_dbg[i*NUM_ROLLOUTS*STATE_DIM + (BLOCKSIZE_X)*bdx*STATE_DIM + tdx*STATE_DIM + q] = s_der[q];
+      // }
     }
     __syncthreads();
     //Update the state
     if (global_idx < NUM_ROLLOUTS){
       dynamics_model.incrementState(s, s_der);
     }
-    //Check to see if the rollout will result in a (physical) crash.
-    if (tdy == 0 && global_idx < NUM_ROLLOUTS) {
-      mppi_costs.getCrash(s, crash);
-    }
+    // //Check to see if the rollout will result in a (physical) crash.
+    // if (tdy == 0 && global_idx < NUM_ROLLOUTS) {
+    //   mppi_costs.getCrash(s, crash);
+    // }
   }
   /* <------- End of the simulation loop ----------> */
   if (global_idx < NUM_ROLLOUTS && tdy == 0) {   //Write cost results back to global memory.
@@ -215,7 +229,7 @@ __global__ void weightedReductionKernel(float* states_d, float* du_d, float* nu_
 
 template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
 void launchRolloutKernel(int num_timesteps, float* state_d, float* U_d, float* du_d, float* nu_d, 
-                         float* costs_d, DYNAMICS_T *dynamics_model, COSTS_T *mppi_costs, 
+                         float* costs_d, float* state_dbg, float* state_der_dbg, float* u_dbg, float* du_dbg, DYNAMICS_T *dynamics_model, COSTS_T *mppi_costs, 
                          int opt_delay, cudaStream_t stream)
 {
   const int GRIDSIZE_X = (NUM_ROLLOUTS-1)/BLOCKSIZE_X + 1;
@@ -228,8 +242,9 @@ void launchRolloutKernel(int num_timesteps, float* state_d, float* U_d, float* d
   //printf("Device: %d \n", dev);
   //HANDLE_ERROR(cudaMemPrefetchAsync(dynamics_model, sizeof(DYNAMICS_T), dev, stream) );
   //HANDLE_ERROR(cudaMemPrefetchAsync(dynamics_model->control_rngs_d_, 2*sizeof(float2), dev, stream) );
+
   rolloutKernel<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y><<<dimGrid, dimBlock, 0, stream>>>(num_timesteps, state_d, U_d, 
-    du_d, nu_d, costs_d, *dynamics_model, *mppi_costs, opt_delay);
+    du_d, nu_d, costs_d, state_dbg, state_der_dbg, u_dbg, du_dbg, *dynamics_model, *mppi_costs, opt_delay);
 }
 
 template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
@@ -331,6 +346,11 @@ void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::allocateCuda
   HANDLE_ERROR( cudaMalloc((void**)&traj_costs_d_, NUM_ROLLOUTS*sizeof(float)));
   HANDLE_ERROR( cudaMalloc((void**)&U_d_, CONTROL_DIM*numTimesteps_*sizeof(float)));
   HANDLE_ERROR( cudaMalloc((void**)&du_d_, NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM*sizeof(float)));
+
+  HANDLE_ERROR( cudaMalloc((void**)&state_dbg_d_, NUM_ROLLOUTS*numTimesteps_*STATE_DIM*sizeof(float)));
+  HANDLE_ERROR( cudaMalloc((void**)&state_der_dbg_d_, NUM_ROLLOUTS*numTimesteps_*STATE_DIM*sizeof(float)));
+  HANDLE_ERROR( cudaMalloc((void**)&u_dbg_d_, NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM*sizeof(float)));
+  HANDLE_ERROR( cudaMalloc((void**)&du_dbg_d_, NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM*sizeof(float)));
 }
 
 template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
@@ -340,6 +360,12 @@ void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::deallocateCu
   cudaFree(traj_costs_d_);
   cudaFree(U_d_);
   cudaFree(du_d_);
+
+  cudaFree(state_dbg_d_);
+  cudaFree(state_der_dbg_d_);
+  cudaFree(u_dbg_d_);
+  cudaFree(du_dbg_d_);
+
   //Free cuda memory used by the model and costs.
   model_->freeCudaMem();
   costs_->freeCudaMem();
@@ -394,6 +420,13 @@ OptimizerResult<ModelWrapperDDP<DYNAMICS_T>> MPPIController<DYNAMICS_T, COSTS_T,
 template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
 void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::resetControls()
 {
+  std::cout << "control range: \n";
+
+  for (int i = 0; i < CONTROL_DIM; i++){
+    std::cout << "x: " << model_->control_rngs_[i].x;
+    std::cout << " y: " << model_->control_rngs_[i].y << "\n";
+  }
+
   int i,j;
   //Set all the control values to their initial settings.
   for (i = 0; i < numTimesteps_; i++) {
@@ -401,11 +434,20 @@ void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::resetControl
       U_[i*CONTROL_DIM + j] = init_u_[j];
     }
   }
+
+  std::cout <<"i: " << i << "\n";
+  std::cout << "control range post: \n";
+
+  for (int i = 0; i < CONTROL_DIM; i++){
+    std::cout << "x: " << model_->control_rngs_[i].x;
+    std::cout << " y: " << model_->control_rngs_[i].y << "\n";
+  }
 }
 
 template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
 void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::cutThrottle()
 {
+  std::cout << "cutThrottle\n";
   costs_->params_.desired_speed = 0.0;
   model_->control_rngs_[1].y = 0.0; //Max throttle to zero
   costs_->paramsToDevice();
@@ -505,18 +547,255 @@ void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::computeContr
   HANDLE_ERROR( cudaMemcpyAsync(state_d_, state.data(), STATE_DIM*sizeof(float), cudaMemcpyHostToDevice, stream_));
   for (int opt_iter = 0; opt_iter < num_iters_; opt_iter++) {
     HANDLE_ERROR( cudaMemcpyAsync(U_d_, U_.data(), CONTROL_DIM*numTimesteps_*sizeof(float), cudaMemcpyHostToDevice, stream_));    
-    //Generate a bunch of random numbers
-    curandGenerateNormal(gen_, du_d_, NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM, 0.0, 1.0);
+
+    // if (dbT != 0)
+    // {
+      //Generate a bunch of random numbers
+      curandGenerateNormal(gen_, du_d_, NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM, 0.0, 1.0);
+    // }
+    // else
+    // {
+    //   float dU_d[NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM];
+
+    //   std::ifstream input_file;
+    //   std::ofstream output_file;
+    //   input_file.open("/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi/debug/pi_dud.txt");
+    //   // output_file.open("/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi/debug/dud.txt");
+
+    //   int i=0;
+    //   size_t sz;
+    //   for (std::string line; std::getline(input_file, line); ) 
+    //   {
+    //       dU_d[i] = std::stof(line, &sz);
+
+    //       // output_file << dU_d[i] << "\n";
+    //       i++;
+    //   }
+
+    //   input_file.close();
+    //   // output_file.close();
+
+    //   std::cout << "Num rollouts: " << NUM_ROLLOUTS << " num timesteps: " << numTimesteps_ << " Control Dim: " << CONTROL_DIM << "\n";
+    //   std::cout << "Records read: " << i << "\n";
+
+    //   HANDLE_ERROR( cudaMemcpyAsync(du_d_, dU_d, NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM*sizeof(float), cudaMemcpyHostToDevice, stream_));      
+    // }
+
+
+    if (dbT == 0)
+    {
+      float dState[STATE_DIM];
+      float dU[CONTROL_DIM*numTimesteps_];
+      float dU_d[NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM];
+      float dNU_d[STATE_DIM];
+      float dTraj[NUM_ROLLOUTS];            
+
+      HANDLE_ERROR( cudaMemcpyAsync(dState, state_d_, STATE_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
+      HANDLE_ERROR( cudaMemcpyAsync(dU, U_d_,CONTROL_DIM*numTimesteps_*sizeof(float), cudaMemcpyDeviceToHost, stream_));    
+      HANDLE_ERROR( cudaMemcpyAsync(dU_d, du_d_,NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));    
+      HANDLE_ERROR( cudaMemcpyAsync(dNU_d, nu_d_, STATE_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
+      HANDLE_ERROR( cudaMemcpyAsync(dTraj, traj_costs_d_, NUM_ROLLOUTS*sizeof(float), cudaMemcpyDeviceToHost, stream_));      
+
+      std::cout << "Pre=============\n";
+      costs_->writeParamsFromDevice();
+      std::cout << "numTimesteps: " << numTimesteps_ << "\n";
+      std::cout << "optimizationStride_: " << optimizationStride_ << "\n";      
+
+
+      std::cout << "state_d\n";
+      
+      for (int x=0; x < STATE_DIM; x++)
+      {
+        std::cout << dState[x] << " ";
+      }
+      std::cout << "\n";
+
+      std::cout << "U_d\n";
+
+      for (int x=0; x < CONTROL_DIM*numTimesteps_; x++)
+      {
+        std::cout << dU[x] << " ";
+      }
+      std::cout << "\n";
+
+      std::cout << "du_d\n";
+
+      float min = 100000;
+      float max = -100000;      
+      double avg = 0.0;
+      for (int x=0; x < NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM; x++)
+      {
+        if (dU_d[x] > max)
+          max = dU_d[x];
+        
+        if (dU_d[x] < min)
+          min = dU_d[x];
+
+        avg += dU_d[x];        
+      }
+
+      avg = avg / (NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM);
+      std::cout << "min: " << min << " max: " << max << " avg: " << avg << "\n";
+
+      std::cout << "nu_d\n";
+
+      for (int x=0; x < STATE_DIM; x++)
+      {
+        std::cout << dNU_d[x] << " ";
+      }
+      std::cout << "\n";
+
+      std::cout << "traj_costs_d\n";
+
+      min = 100000;
+      max = -100000;      
+      avg = 0.0;
+      
+      for (int x=0; x < NUM_ROLLOUTS; x++)
+      {
+        if (dTraj[x] > max)
+          max = dTraj[x];
+        
+        if (dTraj[x] < min)
+          min = dTraj[x];
+
+        avg += dTraj[x];        
+      }
+
+      avg = avg / (NUM_ROLLOUTS);
+      std::cout << "min: " << min << " max: " << max << " avg: " << avg << "\n";
+
+    }
     //Launch the rollout kernel
-    launchRolloutKernel<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>(numTimesteps_, state_d_, U_d_, du_d_, nu_d_, traj_costs_d_, model_, 
+    launchRolloutKernel<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>(numTimesteps_, state_d_, U_d_, du_d_, nu_d_, traj_costs_d_, state_dbg_d_, state_der_dbg_d_, u_dbg_d_, du_dbg_d_, model_, 
                         costs_, optimizationStride_, stream_);
     HANDLE_ERROR(cudaMemcpyAsync(traj_costs_.data(), traj_costs_d_, NUM_ROLLOUTS*sizeof(float), cudaMemcpyDeviceToHost, stream_));
     //NOTE: The calls to cudaMemcpyAsync are only asynchronous with regards to (1) CPU operations AND (2) GPU operations 
     //that are potentially occuring on other streams. Since all the previous kernel/memcpy operations use the same 
     //stream, they all occur sequentially with respect to our stream (which is necessary for correct execution)
-  
+
     //Synchronize stream here since we want to do computations on the CPU
     HANDLE_ERROR( cudaStreamSynchronize(stream_) );
+
+    if (dbT == 0)
+    {
+      float dState[STATE_DIM];
+      float dU[CONTROL_DIM*numTimesteps_];
+      float dU_d[NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM];
+      float dNU_d[STATE_DIM];
+      float dTraj[NUM_ROLLOUTS];
+      float state_dbg[NUM_ROLLOUTS*numTimesteps_*STATE_DIM];
+      float state_der_dbg[NUM_ROLLOUTS*numTimesteps_*STATE_DIM];
+      float u_dbg[NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM];
+      float du_dbg[NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM];
+
+      HANDLE_ERROR( cudaMemcpyAsync(dState, state_d_, STATE_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
+      HANDLE_ERROR( cudaMemcpyAsync(dU, U_d_,CONTROL_DIM*numTimesteps_*sizeof(float), cudaMemcpyDeviceToHost, stream_));    
+      HANDLE_ERROR( cudaMemcpyAsync(dU_d, du_d_,NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));    
+      HANDLE_ERROR( cudaMemcpyAsync(dNU_d, nu_d_, STATE_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
+      HANDLE_ERROR( cudaMemcpyAsync(dTraj, traj_costs_d_, NUM_ROLLOUTS*sizeof(float), cudaMemcpyDeviceToHost, stream_));
+
+      HANDLE_ERROR( cudaMemcpyAsync(state_dbg, state_dbg_d_, NUM_ROLLOUTS*numTimesteps_*STATE_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
+      HANDLE_ERROR( cudaMemcpyAsync(state_der_dbg, state_der_dbg_d_, NUM_ROLLOUTS*numTimesteps_*STATE_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
+      HANDLE_ERROR( cudaMemcpyAsync(u_dbg, u_dbg_d_, NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
+      HANDLE_ERROR( cudaMemcpyAsync(du_dbg, du_dbg_d_, NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
+
+      std::cout << "Post=============\n";
+      std::cout << "numTimesteps: " << numTimesteps_ << "\n";
+      std::cout << "optimizationStride_: " << optimizationStride_ << "\n";
+      std::cout << "state_d\n";
+      
+      for (int x=0; x < STATE_DIM; x++)
+      {
+        std::cout << dState[x] << " ";
+      }
+      std::cout << "\n";
+
+      std::cout << "U_d\n";
+
+      for (int x=0; x < CONTROL_DIM*numTimesteps_; x++)
+      {
+        std::cout << dU[x] << " ";
+      }
+      std::cout << "\n";
+
+      std::cout << "du_d\n";
+
+      float min = 100000;
+      float max = -100000;      
+      double avg = 0.0;
+      for (int x=0; x < NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM; x++)
+      {
+        if (dU_d[x] > max)
+          max = dU_d[x];
+        
+        if (dU_d[x] < min)
+          min = dU_d[x];
+
+        avg += dU_d[x];        
+      }
+
+      avg = avg / (NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM);
+      std::cout << "min: " << min << " max: " << max << " avg: " << avg << "\n";
+
+      std::cout << "nu_d\n";
+
+      for (int x=0; x < STATE_DIM; x++)
+      {
+        std::cout << dNU_d[x] << " ";
+      }
+      std::cout << "\n";
+
+      std::cout << "traj_costs_d\n";
+
+      min = 100000;
+      max = -100000;      
+      avg = 0.0;
+      
+      for (int x=0; x < NUM_ROLLOUTS; x++)
+      {
+        if (dTraj[x] > max)
+          max = dTraj[x];
+        
+        if (dTraj[x] < min)
+          min = dTraj[x];
+
+        avg += dTraj[x];        
+      }
+
+      avg = avg / (NUM_ROLLOUTS);
+      std::cout << "min: " << min << " max: " << max << " avg: " << avg << "\n";
+
+      std::ofstream state_file;
+      std::ofstream state_der_file;
+      std::ofstream u_file;
+      std::ofstream du_file;
+
+      state_file.open("/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi/debug/state.txt");
+      state_der_file.open("/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi/debug/state_der.txt");
+      u_file.open("/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi/debug/u.txt");
+      du_file.open("/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi/debug/du.txt");
+
+      state_file << "State" << "\n";
+      state_der_file << "State Derivative" << "\n";
+
+      for (int x=0; x < NUM_ROLLOUTS*numTimesteps_*STATE_DIM;x++)
+      {
+        state_file << round(state_dbg[x] * 1000) / 1000 << "\n";
+        state_der_file << round(state_der_dbg[x] * 1000) / 1000 << "\n";
+      }
+
+      for (int x=0; x < NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM;x++)
+      {
+        u_file << u_dbg[x] << "\n";        
+        du_file << du_dbg[x] << "\n";
+      }
+
+      state_file.close();
+      state_der_file.close();
+      u_file.close();
+      du_file.close();
+    }        
 
     //Compute the baseline (minimum) sampled cost
     float baseline = traj_costs_[0];
@@ -544,12 +823,60 @@ void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::computeContr
     HANDLE_ERROR( cudaMemcpyAsync(du_.data(), du_d_, numTimesteps_*CONTROL_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
     cudaStreamSynchronize(stream_);
 
-    //Save the control update
+    //Save the control update    
     for (int i = 0; i < numTimesteps_; i++) {
       for (int j = 0; j < CONTROL_DIM; j++) {
         U_[i*CONTROL_DIM + j] = du_[i*CONTROL_DIM + j];
       }
     }
+
+    if (dbT == 0)
+    {
+      float steerMin = 1000;
+      float steerMax = -1000;
+      double steerAvg = 0;
+
+      float throttleMin = 1000;
+      float throttleMax = -1000;
+      double throttleAvg = 0;
+
+      for (int i=0; i < numTimesteps_; i++)
+      {
+        for (int j = 0; j < CONTROL_DIM; j++) {
+
+          if (j == 0)
+          {
+            if (U_[i*CONTROL_DIM + j] > steerMax)
+              steerMax =  U_[i*CONTROL_DIM + j];
+            
+            if (U_[i*CONTROL_DIM + j] < steerMin)
+              steerMin =  U_[i*CONTROL_DIM + j];
+
+            steerAvg += U_[i*CONTROL_DIM + j];            
+          }
+
+          if (j == 1)
+          {
+            if (U_[i*CONTROL_DIM + j] > throttleMax)
+              throttleMax =  U_[i*CONTROL_DIM + j];
+            
+            if (U_[i*CONTROL_DIM + j] < throttleMin)
+              throttleMin =  U_[i*CONTROL_DIM + j];
+
+            throttleAvg += U_[i*CONTROL_DIM + j];            
+          }          
+        }                
+      }
+
+      std::cout << "Steer min: " << steerMin << " max: " << steerMax << " avg: " << steerAvg / numTimesteps_ << "\n";
+      std::cout << "Throttle min: " << throttleMin << " max: " << throttleMax << " avg: " << throttleAvg / numTimesteps_ << "\n";
+
+    }
+
+
+
+
+    dbT = 1;
 
   }
   //Smooth for the next optimization round

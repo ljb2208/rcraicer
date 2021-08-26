@@ -101,6 +101,7 @@ void NeuralNetModel<S_DIM, C_DIM, K_DIM, layer_args...>::loadParams(std::string 
     weights_[i-1] = weight_i_mat;
     biases_[i-1] = bias_i_vec;
   }
+  
   //Save parameters to GPU memory
   paramsToDevice();
 }
@@ -114,6 +115,7 @@ void NeuralNetModel<S_DIM, C_DIM, K_DIM, layer_args...>::setParams(Eigen::Matrix
     weights_[i] = weights[i];
     biases_[i] = biases[i];
   }
+
   paramsToDevice();
 }
 
@@ -146,6 +148,15 @@ void NeuralNetModel<S_DIM, C_DIM, K_DIM, layer_args...>::paramsToDevice()
 #if defined(MPPI_NNET_USING_CONSTANT_MEM___)
   HANDLE_ERROR( cudaMemcpyToSymbol(NNET_PARAMS, theta_d_, NUM_PARAMS*sizeof(float)) );
 #endif /*MPPI_NNET_USING_CONSTANT_MEM___*/
+
+  std::cout << "control range nn: \n";
+
+  for (int i = 0; i < CONTROL_DIM; i++){
+    std::cout << "x: " << control_rngs_[i].x;
+    std::cout << " y: " << control_rngs_[i].y << "\n";
+  }
+
+
   HANDLE_ERROR( cudaMemcpy(control_rngs_d_, control_rngs_, CONTROL_DIM*sizeof(float2), cudaMemcpyHostToDevice) );
 }
 
@@ -276,11 +287,56 @@ void NeuralNetModel<S_DIM, C_DIM, K_DIM, layer_args...>::enforceConstraints(Eige
 template<int S_DIM, int C_DIM, int K_DIM, int... layer_args>
 void NeuralNetModel<S_DIM, C_DIM, K_DIM, layer_args...>::updateState(Eigen::MatrixXf &state, Eigen::MatrixXf &control)
 {
+  // std::cout << "Pre enforceConstraints\n";
+  // outputState(state);
+  // outputControl(control);
+
   enforceConstraints(state, control);
+
+  // std::cout << "Pre computeKinematics\n";
+  // outputState(state);  
+
   computeKinematics(state);
+
+  // std::cout << "Pre computeDynamics\n";
+  // outputState(state);
+  // outputControl(control);
+
   computeDynamics(state, control);
+
+  // std::cout << "Pre update\n";
+  // outputState(state);
+  // outputControl(control);
+
   state += state_der_*dt_;
+
+  // std::cout << "Post update\n";
+  // outputState(state);
+
   state_der_ *= 0;
+}
+
+template<int S_DIM, int C_DIM, int K_DIM, int... layer_args>
+void NeuralNetModel<S_DIM, C_DIM, K_DIM, layer_args...>::outputState(Eigen::MatrixXf &state)
+{
+  std::cout << "State Matrix\n";
+  for (int i=0; i < STATE_DIM; i++)
+  {
+    std::cout << state(i) << " ";
+  }
+  std::cout << "\n";
+}
+
+template<int S_DIM, int C_DIM, int K_DIM, int... layer_args>
+void NeuralNetModel<S_DIM, C_DIM, K_DIM, layer_args...>::outputControl(Eigen::MatrixXf &control)
+{
+
+  std::cout << "Control Matrix\n";
+  for (int i=0; i < CONTROL_DIM; i++)
+  {
+    std::cout << control(i) << " ";
+  }
+  std::cout << "\n";
 }
 
 template<int S_DIM, int C_DIM,  int K_DIM, int... layer_args>
@@ -315,6 +371,12 @@ __device__ void NeuralNetModel<S_DIM, C_DIM, K_DIM, layer_args...>::enforceConst
     else if (control[i] > control_rngs_d_[i].y){
       control[i] = control_rngs_d_[i].y;
     }
+    // if (control[i] < -0.99){
+    //   control[i] = 0.99;
+    // }
+    // else if (control[i] > 0.99){
+    //   control[i] = 0.99;
+    // }
   }
 }
 

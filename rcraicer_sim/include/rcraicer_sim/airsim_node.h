@@ -137,6 +137,8 @@ class AirSimNode : public rclcpp::Node
         bool autoEnabled;
         bool publishImage;
 
+        double lastAutoUpdate {0.0};
+
         double lastFixPub {0.0};
         double gps_accuracy {0.02};
 

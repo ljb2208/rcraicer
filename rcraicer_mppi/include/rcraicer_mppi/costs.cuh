@@ -164,6 +164,8 @@ public:
   */
   void paramsToDevice();
 
+  void writeParamsFromDevice();
+
   /*
   * @brief TODO: Return some useful information about the cost
   */

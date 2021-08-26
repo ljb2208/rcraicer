@@ -11,6 +11,8 @@ if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
 endif()
 
+set (VERBOSE 1)
+
 
 # set (CUDA_INCLUDE_DIRS "/usr/local/cuda-11.4/include")
 # set (CUDA_CUDART_LIBRARY )
@@ -55,22 +57,15 @@ include(FindCUDA)
 
 set(CUDA_PROPAGATE_HOST_FLAGS OFF)
 
-set(
-	CUDA_NVCC_FLAGS
-	${CUDA_NVCC_FLAGS};
-	-std=c++14
-	-maxrregcount=32;
-	-O3;
-	-arch=sm_75;
-	-w
-)
+# set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -std=c++17 -maxrregcount=32 -O3 -arch=sm_75 -w -lineinfo -G -DTHRUST_DEBUG -g)
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -std=c++17 -maxrregcount=32 -arch=sm_35 -w -g -G)
 
 
 ####################################################################################
 #Executable for the basis function model
 ####################################################################################
 
-add_executable(path_integral_bf src/path_integral_node.cu )
+cuda_add_executable(path_integral_bf src/path_integral_node.cu )
 target_compile_definitions(path_integral_bf PRIVATE PRIVATE USE_BASIS_FUNC_MODEL__)
 ament_target_dependencies(path_integral_bf rclcpp std_msgs sensor_msgs rcraicer_msgs nav_msgs Eigen3 OpenCV Boost CUDA)
 target_link_libraries(path_integral_bf rcraicer_plant param_getter cublas curand  /usr/local/lib/libcnpy.so)
@@ -79,7 +74,8 @@ target_link_libraries(path_integral_bf rcraicer_plant param_getter cublas curand
 # #Executable for the neural network model
 # ###################################################################################
 
-add_executable(path_integral_nn src/path_integral_node.cu )
+# add_executable(path_integral_nn src/path_integral_node.cu )
+cuda_add_executable(path_integral_nn src/path_integral_node.cu)
 target_compile_definitions(path_integral_nn PRIVATE USE_NEURAL_NETWORK_MODEL__; MPPI_NNET_USING_CONSTANT_MEM__)
 ament_target_dependencies(path_integral_nn rclcpp std_msgs sensor_msgs rcraicer_msgs nav_msgs Eigen3 OpenCV Boost CUDA)
 target_link_libraries(path_integral_nn rcraicer_plant param_getter cublas curand  /usr/local/lib/libcnpy.so)

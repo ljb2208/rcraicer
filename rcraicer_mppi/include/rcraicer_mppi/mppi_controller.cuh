@@ -44,6 +44,9 @@
 #include <cuda_runtime.h>
 #include <curand.h>
 
+#include <iostream>
+#include <fstream>
+
 #include "gpu_err_chk.h"
 
 namespace rcraicer_control{
@@ -147,6 +150,8 @@ private:
   float gamma_; ///< Value of the temperature in the softmax.
   float normalizer_; ///< Variable for the normalizing term from sampling.
 
+  int dbT {0};
+
   curandGenerator_t gen_;
 
   std::vector<float> traj_costs_; ///< Array of the trajectory costs.
@@ -163,6 +168,11 @@ private:
   float* traj_costs_d_;
   float* U_d_;
   float* du_d_;
+
+  float* state_dbg_d_;
+  float* state_der_dbg_d_;  
+  float* u_dbg_d_;
+  float* du_dbg_d_;
 };
 
 #include "mppi_controller.cu"

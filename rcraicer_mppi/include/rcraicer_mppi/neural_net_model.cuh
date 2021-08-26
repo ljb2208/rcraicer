@@ -91,6 +91,10 @@ public:
 
   void updateState(Eigen::MatrixXf &state, Eigen::MatrixXf &control);
 
+  void outputState(Eigen::MatrixXf &state);
+
+  void outputControl(Eigen::MatrixXf &control);
+
   void computeKinematics(Eigen::MatrixXf &state);
 
   void computeDynamics(Eigen::MatrixXf &state, Eigen::MatrixXf &control);

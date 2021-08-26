@@ -30,7 +30,7 @@
             "label": "clean",
             "detail": "Run the clean target",
             "type": "shell",
-            "command": "colcon build --cmake-target clean",
+            "command": "colcon build --packages-select ${command:extension.commandvariable.file.fileDirBasename1Up} --cmake-target clean",
             "problemMatcher": "$gcc"
         },
         {
@@ -59,6 +59,15 @@
             "command": "ros2 launch sim_launch_basic.py",
             "options": {
                 "cwd": "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer/launch"
+            },            
+        }            
+        {
+            "label": "ros1_env",
+            "detail": "ros1_env",
+            "type": "shell",
+            "command": "/home/lbarnett/catkin_ws/ros_env.sh",
+            "options": {
+                "cwd": "/home/lbarnett/catkin_ws"
             },            
         }            
     ],

@@ -123,7 +123,7 @@ public:
   float throttleMax_ = 0.99;
   int heading_multiplier_ = 0;
 
-	std::mutex access_guard_;
+	boost::mutex access_guard_;
   std::string nodeNamespace_;
 
   bool new_model_available_;
@@ -146,7 +146,7 @@ public:
   * publishers and subscribers.
   * @param mppi_node A ros node handle.
   */
-	RCRaicerPlant(SystemParams params);	
+	RCRaicerPlant(SystemParams params, PathIntegralParams costParams);	
 
   /**
   * @brief Callback for /pose_estimate subscriber.
@@ -232,6 +232,7 @@ public:
   rcraicer_control::PathIntegralParams getDynRcfgParams();
 
   virtual void displayDebugImage();
+  cv::Mat getDebugImage();
 
   virtual bool hasNewObstacles(){return false;};
   virtual void getObstacles(std::vector<int> &description, std::vector<float> &data){};

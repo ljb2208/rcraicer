@@ -53,6 +53,17 @@
 
 namespace rcraicer_control {
 
+void outputVector(std::string vecName, std::vector<float> vec)
+{
+  std::cout << vecName.c_str() << "\n";
+
+  for (size_t i=0; i < vec.size(); i++)
+  {
+    std::cout << vec[i] << " ";    
+  }
+  std::cout << "\n";
+}
+
 template <class CONTROLLER_T> 
 void runControlLoop(CONTROLLER_T* controller, RCRaicerPlant* robot, SystemParams* params, std::atomic<bool>* is_alive)
 {  
@@ -99,6 +110,8 @@ void runControlLoop(CONTROLLER_T* controller, RCRaicerPlant* robot, SystemParams
   controller->resetControls();
   controller->computeFeedbackGains(state);
 
+  controller->costs_->writeParamsFromDevice();
+
   //Start the control loop.
   while (is_alive->load()) {
     std::chrono::steady_clock::time_point loop_start = std::chrono::steady_clock::now();
@@ -112,7 +125,7 @@ void runControlLoop(CONTROLLER_T* controller, RCRaicerPlant* robot, SystemParams
     //Update the state estimate
     if (last_pose_update != robot->getLastPoseTime()){
       optimizationLoopTime = robot->getLastPoseTime() - last_pose_update;
-      last_pose_update = robot->getLastPoseTime();
+      last_pose_update = robot->getLastPoseTime();      
       fs = robot->getState(); //Get the new state.
       state << fs.x_pos, fs.y_pos, fs.yaw, fs.roll, fs.u_x, fs.u_y, fs.yaw_mder;
     }
@@ -154,6 +167,9 @@ void runControlLoop(CONTROLLER_T* controller, RCRaicerPlant* robot, SystemParams
     controlSolution = controller->getControlSeq();
     stateSolution = controller->getStateSeq();
     auto result = controller->getFeedbackGains();
+
+    // outputVector("controlSolution", controlSolution);
+    // outputVector("stateSolution", stateSolution);
 
     //Set the updated solution for execution
     robot->setSolution(stateSolution, controlSolution, result.feedback_gain, last_pose_update, avgOptimizationLoopTime);

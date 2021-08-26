@@ -28,7 +28,8 @@ __device__ __constant__ float NNET_PARAMS[param_counter(6,32,32,4)];
 #include <chrono>
 #include <functional>
 
-
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/core/core.hpp>
 
 
 
@@ -95,7 +96,8 @@ namespace rcraicer_control {
 
             bool costParamsUpdated {false};            
           
-            
+
+            void displayDebugImage();
     };
 }
 

@@ -67,7 +67,7 @@ AirSimNode::AirSimNode() : Node("airsim_node"), autoEnabled(false), vehicle_name
       "joy", 10, std::bind(&AirSimNode::joy_callback, this, std::placeholders::_1));   
 
     cmdSubscription = this->create_subscription<rcraicer_msgs::msg::ChassisCommand>(
-      "cmds", 10, std::bind(&AirSimNode::command_callback, this, std::placeholders::_1));       
+      "chassis_cmds", 10, std::bind(&AirSimNode::command_callback, this, std::placeholders::_1));       
     
     connectTimerCallback();
 
@@ -698,10 +698,17 @@ void AirSimNode::setup_covariance(sensor_msgs::msg::Imu::_angular_velocity_covar
 
 void AirSimNode::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)  // use const at end of function in later versions of ros2
 {    
+    rclcpp::Time ts = msg->header.stamp;
 
-    if (msg->buttons[autoButtonID] == 1)
+    if (msg->buttons[autoButtonID] == 1 && (ts.seconds() - lastAutoUpdate) >= 0.5)
     {
         autoEnabled = !autoEnabled;
+        lastAutoUpdate = ts.seconds();
+
+        if (autoEnabled)
+            RCLCPP_INFO(this->get_logger(), "Auto mode enabled");
+        else
+            RCLCPP_INFO(this->get_logger(), "Auto mode disabled");
     }
 
     if (autoEnabled)
@@ -737,7 +744,11 @@ void AirSimNode::sendControls(float throttle, float steering, float brake)
     controls.throttle = throttle * reverseThrottle;
     controls.steering = steering * reverseSteering;
     controls.handbrake = false;
-    controls.brake = (brake * reverseBrake + 1.0) / 2.0;
+
+    if (autoEnabled)
+        controls.brake = brake;
+    else
+        controls.brake = (brake * reverseBrake + 1.0) / 2.0;
 
     if (throttle >= 0)
     {

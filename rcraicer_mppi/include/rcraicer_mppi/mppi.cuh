@@ -23,9 +23,7 @@ public:
     virtual void onInit();
     std::atomic<bool> is_alive_;
 
-private:
-    ros::NodeHandle global_node;
-    ros::NodeHandle mppi_node;
+private:    
     SystemParams params;
     COSTS_T* costs;
     DYNAMICS_T* model;

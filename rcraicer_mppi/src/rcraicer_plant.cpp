@@ -37,7 +37,7 @@
 
 namespace rcraicer_control {
 
-RCRaicerPlant::RCRaicerPlant(SystemParams params)
+RCRaicerPlant::RCRaicerPlant(SystemParams params, PathIntegralParams costParams)
 {  
   debug_mode_ = params.debug_mode;
   numTimesteps_ = params.num_timesteps;
@@ -46,8 +46,14 @@ RCRaicerPlant::RCRaicerPlant(SystemParams params)
   deltaT_ = 1.0/params.hz;
   logger_name = params.logger_name;
 
+  costParams_ = costParams;
+
   controlSequence_.resize(RCRAICER_CONTROL_DIM*numTimesteps_);
   stateSequence_.resize(RCRAICER_STATE_DIM*numTimesteps_);
+
+  // clock = rclcpp::Clock(RCL_ROS_TIME);
+  clock = rclcpp::Clock(RCL_ROS_TIME);
+  solutionTs_ = rclcpp::Time(0, 0, RCL_ROS_TIME);
 
   // //Initialize the publishers.
   // control_pub_ = mppi_node->create_publisher<rcraicer_msgs::msg::ChassisCommand>("chassisCommand", 1);
@@ -71,7 +77,7 @@ RCRaicerPlant::RCRaicerPlant(SystemParams params)
   //Initialize auxiliary variables.
   safe_speed_zero_ = false;
   activated_ = false;
-  new_model_available_ = false;
+  new_model_available_ = false;    
   last_pose_call_ = clock.now();
   
   //Initialize yaw derivative to zero
@@ -89,6 +95,7 @@ RCRaicerPlant::RCRaicerPlant(SystemParams params)
 
   //Debug image display signaller
   receivedDebugImg_ = false;  
+  is_nodelet_ = false;
 
   if (!debug_mode_){
     RCLCPP_INFO(rclcpp::get_logger(logger_name), "DEBUG MODE is set to FALSE, waiting to receive first pose estimate...  ");
@@ -115,9 +122,10 @@ void RCRaicerPlant::setSolution(std::vector<float> traj, std::vector<float> cont
                                 util::EigenAlignedVector<float, 2, 7> gains,
                                 rclcpp::Time ts, double loop_speed)
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   optimizationLoopTime_ = loop_speed;
   solutionTs_ = ts;
+
   for (int t = 0; t < numTimesteps_; t++){
     for (int i = 0; i < RCRAICER_STATE_DIM; i++){
       stateSequence_[RCRAICER_STATE_DIM*t + i] = traj[RCRAICER_STATE_DIM*t + i];
@@ -132,7 +140,7 @@ void RCRaicerPlant::setSolution(std::vector<float> traj, std::vector<float> cont
 
 void RCRaicerPlant::setTimingInfo(double poseDiff, double tickTime, double sleepTime)
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   timingData_.average_time_between_poses = poseDiff;//.clear();
   timingData_.average_optimization_cycle_time = tickTime;
   timingData_.average_sleep_time = sleepTime;
@@ -140,7 +148,7 @@ void RCRaicerPlant::setTimingInfo(double poseDiff, double tickTime, double sleep
 
 void RCRaicerPlant::pubTimingData()
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   timingData_.header.stamp = clock.now();
   timing_data_pub_->publish(timingData_);
 }
@@ -148,21 +156,33 @@ void RCRaicerPlant::pubTimingData()
 void RCRaicerPlant::setDebugImage(cv::Mat img)
 {
   receivedDebugImg_ = true;
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   debugImg_ = img;
 }
 
-void RCRaicerPlant::displayDebugImage()
+cv::Mat RCRaicerPlant::getDebugImage()
 {
+  if (receivedDebugImg_.load())
+  {
+    boost::mutex::scoped_lock lock(access_guard_);
+    return debugImg_.clone();
+  }
+
+  cv::Mat empty;
+  return empty;
+}
+
+void RCRaicerPlant::displayDebugImage()
+{    
   if (receivedDebugImg_.load() && !is_nodelet_) {
     {
-      std::scoped_lock lock(access_guard_);
+      boost::mutex::scoped_lock lock(access_guard_);
       cv::namedWindow(nodeNamespace_, cv::WINDOW_AUTOSIZE);
       cv::imshow(nodeNamespace_, debugImg_);
     } 
   }
   if (receivedDebugImg_.load() && !is_nodelet_){
-    cv::waitKey(1);
+      cv::waitKey(1);
   }
 }
 
@@ -171,7 +191,7 @@ void RCRaicerPlant::poseCall(nav_msgs::msg::Odometry::SharedPtr pose_msg)
   if (poseCount_ == 0){
     RCLCPP_INFO(rclcpp::get_logger(logger_name), " First pose estimate received.");
   }
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   // //Update the timestamp
   // last_pose_call_ = pose_msg->header.stamp;
   // poseCount_++;
@@ -261,6 +281,8 @@ void RCRaicerPlant::poseCall(nav_msgs::msg::Odometry::SharedPtr pose_msg)
 
 void RCRaicerPlant::processPose(std_msgs::msg::Header header, geometry_msgs::msg::Quaternion orientation, geometry_msgs::msg::Point position, geometry_msgs::msg::Vector3 linear_velocity, geometry_msgs::msg::Vector3 angular_velocity)
 {
+  // rclcpp::Time ts;
+  // std::cout << "Pose clock type: " << ts.get_clock_type() << "\n";
   //Update the timestamp
   last_pose_call_ = header.stamp;
   poseCount_++;
@@ -303,7 +325,7 @@ void RCRaicerPlant::processPose(std_msgs::msg::Header header, geometry_msgs::msg
   full_state_.u_x = cos(full_state_.yaw)*full_state_.x_vel + sin(full_state_.yaw)*full_state_.y_vel;
   full_state_.u_y = -sin(full_state_.yaw)*full_state_.x_vel + cos(full_state_.yaw)*full_state_.y_vel;
   //Update the minus yaw derivative.
-  full_state_.yaw_mder = -angular_velocity.z;
+  full_state_.yaw_mder = -angular_velocity.z;  
 
   //Interpolate and publish the current control
   double timeFromLastOpt = (last_pose_call_ - solutionTs_).seconds();
@@ -348,14 +370,14 @@ void RCRaicerPlant::processPose(std_msgs::msg::Header header, geometry_msgs::msg
 
 void RCRaicerPlant::servoCall(rcraicer_msgs::msg::ChassisState::SharedPtr servo_msg)
 {  
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   full_state_.steering = servo_msg->steer;
   full_state_.throttle = servo_msg->throttle;
 }
 
 void RCRaicerPlant::simStateCall(rcraicer_msgs::msg::SimState::SharedPtr state_msg)
 {  
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   full_state_.steering = state_msg->steering;
   full_state_.throttle = state_msg->throttle;  
 
@@ -368,20 +390,20 @@ void RCRaicerPlant::simStateCall(rcraicer_msgs::msg::SimState::SharedPtr state_m
 
 void RCRaicerPlant::modelCall(rcraicer_msgs::msg::NeuralNetModel::SharedPtr model_msg)
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   new_model_available_ = true;
   dynamicsModel_ = model_msg;
 }
 
 bool RCRaicerPlant::hasNewModel()
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   return new_model_available_;
 }
 
 void RCRaicerPlant::getModel(std::vector<int> &description, std::vector<float> &data)
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   //Copy network structure into description
   description = dynamicsModel_->structure;
   //Compute total number of weights
@@ -409,15 +431,15 @@ void RCRaicerPlant::getModel(std::vector<int> &description, std::vector<float> &
 
 void RCRaicerPlant::runstopCall(rcraicer_msgs::msg::RunStop::SharedPtr safe_msg)
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   if (safe_msg->motion_enabled == false){
     safe_speed_zero_ = true;
   }
 }
 
 void RCRaicerPlant::pubPath()
-{
-  std::scoped_lock lock(access_guard_);
+{  
+  boost::mutex::scoped_lock lock(access_guard_);
   path_msg_.poses.clear();
   nav_msgs::msg::Odometry subscribed_state;
   int i;
@@ -482,7 +504,7 @@ void RCRaicerPlant::pubControl(float steering, float throttle)
 }
 
 void RCRaicerPlant::pubStatus(){
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   status_msg_.info = ocs_msg_;
   status_msg_.status = status_;
   status_msg_.header.stamp = clock.now();
@@ -491,25 +513,25 @@ void RCRaicerPlant::pubStatus(){
 
 RCRaicerPlant::FullState RCRaicerPlant::getState()
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   return full_state_;
 }
 
 bool RCRaicerPlant::getRunstop()
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   return safe_speed_zero_;
 }
 
 rclcpp::Time RCRaicerPlant::getLastPoseTime()
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   return last_pose_call_;
 }
 
 int RCRaicerPlant::checkStatus()
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   if (!activated_) {
     status_ = 1;
     ocs_msg_ = "No pose estimates received.";
@@ -527,7 +549,7 @@ int RCRaicerPlant::checkStatus()
 
 void RCRaicerPlant::updateConfigParams(rcraicer_control::PathIntegralParams &config)
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   costParams_.desired_speed = config.desired_speed;
   costParams_.speed_coefficient = config.speed_coefficient;
   costParams_.track_coefficient = config.track_coefficient;
@@ -542,13 +564,13 @@ void RCRaicerPlant::updateConfigParams(rcraicer_control::PathIntegralParams &con
 
 bool RCRaicerPlant::hasNewDynRcfg()
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   return hasNewCostParams_;
 }
 
 rcraicer_control::PathIntegralParams RCRaicerPlant::getDynRcfgParams()
 {
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   hasNewCostParams_ = false;
   return costParams_;
 }
@@ -556,7 +578,7 @@ rcraicer_control::PathIntegralParams RCRaicerPlant::getDynRcfgParams()
 void RCRaicerPlant::shutdown()
 {
   //Shutdown timers, subscribers, and dynamic reconfigure
-  std::scoped_lock lock(access_guard_);
+  boost::mutex::scoped_lock lock(access_guard_);
   // path_pub_.shutdown();
   // pose_sub_.shutdown();
   // servo_sub_.shutdown();  

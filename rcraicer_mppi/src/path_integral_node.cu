@@ -94,12 +94,13 @@ PathIntegralNode::PathIntegralNode() : Node("path_integral_node"), robot(NULL)
   mppi = new Controller(model, costs, params.num_timesteps, params.hz, params.gamma, exploration_std, 
                                     init_u, params.num_iters, params.optimization_stride);
 
-  robot = new RCRaicerPlant(params);  
+  robot = new RCRaicerPlant(params, config);  
   setupSubscribers();
   setupTimers();
   setupPublishers();
   robot->setPublishers(control_pub_, status_pub_, subscribed_pose_pub_, path_pub_, timing_data_pub_);
 
+  // optimizer = std::thread(&runControlLoop<Controller>, mppi, robot, &params, &is_alive);
   optimizer = boost::thread(&runControlLoop<Controller>, mppi, robot, &params, &is_alive);
 
   RCLCPP_INFO(this->get_logger(), "Node started.");    
@@ -136,7 +137,7 @@ void PathIntegralNode::setupSubscribers()
 void PathIntegralNode::setupPublishers()
 {
     //Initialize the publishers.
-    control_pub_ = this->create_publisher<rcraicer_msgs::msg::ChassisCommand>("chassisCommand", 1);
+    control_pub_ = this->create_publisher<rcraicer_msgs::msg::ChassisCommand>("chassis_cmds", 1);
     path_pub_ = this->create_publisher<nav_msgs::msg::Path>("nominalPath", 1);
     subscribed_pose_pub_ = this->create_publisher<nav_msgs::msg::Odometry>("subscribedPose", 1);
     status_pub_ = this->create_publisher<rcraicer_msgs::msg::PathIntegralStatus>("mppiStatus", 1);
@@ -146,10 +147,21 @@ void PathIntegralNode::setupPublishers()
 void PathIntegralNode::setupTimers()
 {
     //Timer callback for path publisher
-    pathTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubPath, robot));
-    statusTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubStatus, robot));
-    debugImgTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::displayDebugImage, robot));
-    timingInfoTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubTimingData, robot));
+    // pathTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubPath, robot));
+    // statusTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubStatus, robot));
+    debugImgTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&PathIntegralNode::displayDebugImage, this));
+    // timingInfoTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubTimingData, robot));
+}
+
+void PathIntegralNode::displayDebugImage()
+{
+  cv::Mat img = robot->getDebugImage();
+
+  if (!img.empty())
+  {
+    cv::namedWindow("Path Integral", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Path Integral", img);
+  }
 }
 
 void PathIntegralNode::setupParams()
@@ -163,10 +175,10 @@ void PathIntegralNode::setupParams()
   
   // <!--Setup parameters-->
   this->declare_parameter<int>("hz", 50);
-  this->declare_parameter<int>("num_timesteps", 50);
+  this->declare_parameter<int>("num_timesteps", 100);
   this->declare_parameter<double>("x_pos", 0.0);
   this->declare_parameter<double>("y_pos", 0.0);
-  this->declare_parameter<double>("heading", 0.0);
+  this->declare_parameter<double>("heading", 2.35);
 
   this->declare_parameter<int>("optimization_stride", 1);
   this->declare_parameter<bool>("use_feedback_gains", true);
@@ -181,8 +193,8 @@ void PathIntegralNode::setupParams()
   // <!-- Control parameters -->
   this->declare_parameter<double>("init_steering", 0.0);
   this->declare_parameter<double>("init_throttle", 0.0);
-  this->declare_parameter<double>("steering_std", 0.35);
-  this->declare_parameter<double>("throttle_std", 0.35);
+  this->declare_parameter<double>("steering_std", 0.275);
+  this->declare_parameter<double>("throttle_std", 0.3);
   this->declare_parameter<double>("max_throttle", 0.65);
 
   // <!-- Cost Parameters -->
@@ -264,7 +276,7 @@ void PathIntegralNode::updateParams()
     config.discount = this->get_parameter("discount").as_double();  
     config.num_timesteps = this->get_parameter("num_timesteps").as_int();  
     config.l1_cost = this->get_parameter("l1_cost").as_bool();  
-    config.map_path = this->get_parameter("map_path").as_string();
+    config.map_path = this->get_parameter("map_path").as_string();    
 
     if (costParamsUpdated && robot != NULL)
     {      
@@ -284,11 +296,10 @@ rcl_interfaces::msg::SetParametersResult PathIntegralNode::paramSetCallback(cons
     return result;
 }
 
-int main(int argc, char** argv) {
-  std::cout << "Here\n";
+int main(int argc, char** argv) {  
   //Ros node initialization
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<PathIntegralNode>());
+  rclcpp::spin(std::make_shared<PathIntegralNode>());  
   rclcpp::shutdown();
   return 0;   
 }
