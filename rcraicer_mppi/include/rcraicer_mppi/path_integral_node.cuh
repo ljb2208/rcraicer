@@ -98,6 +98,9 @@ namespace rcraicer_control {
           
 
             void displayDebugImage();
+
+            float init_u[2];
+            float exploration_std[2];
     };
 }
 

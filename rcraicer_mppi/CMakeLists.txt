@@ -65,10 +65,10 @@ set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -std=c++17 -maxrregcount=32 -arch=sm_35 -
 #Executable for the basis function model
 ####################################################################################
 
-cuda_add_executable(path_integral_bf src/path_integral_node.cu )
-target_compile_definitions(path_integral_bf PRIVATE PRIVATE USE_BASIS_FUNC_MODEL__)
-ament_target_dependencies(path_integral_bf rclcpp std_msgs sensor_msgs rcraicer_msgs nav_msgs Eigen3 OpenCV Boost CUDA)
-target_link_libraries(path_integral_bf rcraicer_plant param_getter cublas curand  /usr/local/lib/libcnpy.so)
+# cuda_add_executable(path_integral_bf src/path_integral_node.cu )
+# target_compile_definitions(path_integral_bf PRIVATE PRIVATE USE_BASIS_FUNC_MODEL__)
+# ament_target_dependencies(path_integral_bf rclcpp std_msgs sensor_msgs rcraicer_msgs nav_msgs Eigen3 OpenCV Boost CUDA)
+# target_link_libraries(path_integral_bf rcraicer_plant param_getter cublas curand  /usr/local/lib/libcnpy.so)
 
 # ###################################################################################
 # #Executable for the neural network model
@@ -96,7 +96,7 @@ endif()
 install (TARGETS 
     rcraicer_plant
     param_getter
-    path_integral_bf
+    # path_integral_bf
     path_integral_nn
     DESTINATION lib/${PROJECT_NAME})
 

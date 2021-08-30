@@ -154,10 +154,10 @@ __global__ void rolloutKernel(int num_timesteps, float* state_d, float* U_d, flo
     if (global_idx < NUM_ROLLOUTS){
       dynamics_model.incrementState(s, s_der);
     }
-    // //Check to see if the rollout will result in a (physical) crash.
-    // if (tdy == 0 && global_idx < NUM_ROLLOUTS) {
-    //   mppi_costs.getCrash(s, crash);
-    // }
+    //Check to see if the rollout will result in a (physical) crash.
+    if (tdy == 0 && global_idx < NUM_ROLLOUTS) {
+      mppi_costs.getCrash(s, crash);
+    }
   }
   /* <------- End of the simulation loop ----------> */
   if (global_idx < NUM_ROLLOUTS && tdy == 0) {   //Write cost results back to global memory.
@@ -446,8 +446,7 @@ void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::resetControl
 
 template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
 void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::cutThrottle()
-{
-  std::cout << "cutThrottle\n";
+{  
   costs_->params_.desired_speed = 0.0;
   model_->control_rngs_[1].y = 0.0; //Max throttle to zero
   costs_->paramsToDevice();

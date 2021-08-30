@@ -89,8 +89,12 @@ PathIntegralNode::PathIntegralNode() : Node("path_integral_node"), robot(NULL)
   model->loadParams(params.model_path, params.logger_name); //Load the model parameters from the launch file specified path  
 
   //Define the controller
-  float init_u[2] = {(float)params.init_steering, (float)params.init_throttle};
-  float exploration_std[2] = {(float)params.steering_std, (float)params.throttle_std};
+  init_u[0] = (float)params.init_steering;
+  init_u[1] = (float)params.init_throttle;
+
+  exploration_std[0] = (float)params.steering_std;
+  exploration_std[1] = (float)params.throttle_std;
+
   mppi = new Controller(model, costs, params.num_timesteps, params.hz, params.gamma, exploration_std, 
                                     init_u, params.num_iters, params.optimization_stride);
 
@@ -147,10 +151,10 @@ void PathIntegralNode::setupPublishers()
 void PathIntegralNode::setupTimers()
 {
     //Timer callback for path publisher
-    // pathTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubPath, robot));
-    // statusTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubStatus, robot));
-    debugImgTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&PathIntegralNode::displayDebugImage, this));
-    // timingInfoTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubTimingData, robot));
+    pathTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubPath, robot));
+    statusTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubStatus, robot));
+    debugImgTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::displayDebugImage, robot));
+    timingInfoTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubTimingData, robot));
 }
 
 void PathIntegralNode::displayDebugImage()

@@ -39,15 +39,18 @@ template<int S_DIM, int C_DIM, int K_DIM, int... layer_args>
 NeuralNetModel<S_DIM, C_DIM, K_DIM, layer_args...>::NeuralNetModel(float delta_t, float2* control_rngs)
 {
   dt_ = delta_t;
-  if (control_rngs == NULL){
-    control_rngs_ = new float2[CONTROL_DIM];
+  control_rngs_ = new float2[CONTROL_DIM];
+  if (control_rngs == NULL){    
     for (int i = 0; i < CONTROL_DIM; i++){
       control_rngs_[i].x = -FLT_MAX;
       control_rngs_[i].y = FLT_MAX;
     }
   }
   else {
-    control_rngs_ = control_rngs;
+    for (int i = 0; i < CONTROL_DIM; i++){
+      control_rngs_[i].x = control_rngs[i].x;
+      control_rngs_[i].y = control_rngs[i].y;
+    }
   }
   HANDLE_ERROR( cudaMalloc((void**)&control_rngs_d_, CONTROL_DIM*sizeof(float2)) );
 
