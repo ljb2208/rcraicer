@@ -41,6 +41,7 @@
 #include "gpu_err_chk.h"
 #include "cnpy.h"
 
+#include <cfloat>
 #include <Eigen/Dense>
 
 namespace rcraicer_control {

@@ -25,8 +25,8 @@ class Dyn():
         self.log_path = log_path
         self.run_id = 0
 
-        self.log_file = open(self.log_path + "dynmodel.log","a")
-        self.log_file_verbose =  open(self.log_path + "dynmodel_verbose.log","a")
+        self.log_file = open(self.log_path + "dynmodel_gazebo.log","a")
+        self.log_file_verbose =  open(self.log_path + "dynmodel_gazebo_verbose.log","a")
 
     
         if torch.cuda.is_available():
@@ -55,11 +55,11 @@ class Dyn():
     
     def test(self):
         model = DynModel()
-        model.load_state_dict(torch.load(self.model_path + "dynmodel_states{}.pth".format(self.run_id)))
+        model.load_state_dict(torch.load(self.model_path + "dynmodel_gazebo_states{}.pth".format(self.run_id)))
 
         model.eval()
 
-        test_filename = self.data_path + "dynamics_data_test.csv"
+        test_filename = self.data_path + "gazebo_data_test.csv"
 
         test_ds = DynDataset(test_filename)        
 
@@ -67,7 +67,7 @@ class Dyn():
 
         lossfn = nn.SmoothL1Loss(reduction="sum")
 
-        results = np.empty((test_ds.y_values.shape[0], 9), dtype=np.float32)
+        results = np.empty((test_ds.y_values.shape[0], 11), dtype=np.float32)
         count = 0
 
         for test_rec in test_ds:
@@ -85,13 +85,15 @@ class Dyn():
             results[count][5] = y_data[0][1]
             results[count][6] = y_data[0][2]
             results[count][7] = y_data[0][3]
-            results[count][8] = loss            
+            results[count][8] = loss
+            results[count][9] = x_data[0][5]            
+            results[count][10] = x_data[0][4]            
             
             # print("loss: {} \n".format(loss))
             # self.comp_values(output, y_data)
             count += 1        
         
-        df = pd.DataFrame(data=results, dtype=results.dtype, columns=["roll_out", "u_x_out", "u_y_out", "yaw_mder_out", "roll", "u_x", "u_y", "yaw_mder", "loss"])
+        df = pd.DataFrame(data=results, dtype=results.dtype, columns=["roll_out", "u_x_out", "u_y_out", "yaw_mder_out", "roll", "u_x", "u_y", "yaw_mder", "loss", "steer", "throttle"])
 
         loss_col = df["loss"]
 
@@ -128,9 +130,12 @@ class Dyn():
         yaw_out_plot = df.plot(y="yaw_mder_out", kind="line", ax=axarr[1][1])
         yaw_out_plot = df.plot(y="yaw_mder", kind="line", ax=axarr[1][1])
 
-        roll_out_plt = df.plot(y="roll_out", kind="line", ax=axarr[2][0])
+        roll_out_plt = df.plot(y="roll_out", kind="line", ax=axarr[2][0])        
         roll_out_plt = df.plot(y="roll", kind="line", ax=axarr[2][0])
 
+        throttle_out_plt = df.plot(y="throttle", kind="line", ax=axarr[2][1])        
+        throttle_out_plt = df.plot(y="u_x_out", kind="line", ax=axarr[2][1])
+        
         plt.suptitle("id: {} lr: {} optim: {} epochs: {} losses min: {:.4f} max: {:.4f} mean: {:.4f}".format(self.run_id, self.lr, self.optim, self.epochs, lmin, lmax, lavg))
         plt.savefig(self.log_path + "graph{}.png".format(self.run_id))
 
@@ -155,7 +160,7 @@ class Dyn():
 
         self.write_settings()        
 
-        training_filename = self.data_path + "dynamics_data.csv"
+        training_filename = self.data_path + "gazebo_data_train.csv"
         # valid_filename = self.data_path + "dyn2_model_valid.csv"
 
         dynamics_ds = DynDataset(training_filename)
@@ -244,8 +249,8 @@ class Dyn():
 
 
 
-        torch.save(model, self.model_path + "dynmodel{}.pth".format(self.run_id))
-        torch.save(model.state_dict(), self.model_path + "dynmodel_states{}.pth".format(self.run_id))
+        torch.save(model, self.model_path + "dynmodel_gazebo{}.pth".format(self.run_id))
+        torch.save(model.state_dict(), self.model_path + "dynmodel_gazebo_states{}.pth".format(self.run_id))
 
         sd = model.state_dict()
         
@@ -267,14 +272,16 @@ if __name__ == "__main__":
     dyn = Dyn(data_path, model_path, log_path, epochs=10, interactive=False)    
     # dyn = Dyn(data_path, model_path, log_path, epochs=10, interactive=True)    
 
-    epochs = [2000]
-    lrs = [0.0003, 0.0004, 0.0005, 0.001, 0.002, 0.003]
-    # optims = ["sgd", "adam"]
-    optims = ["adam"]
+    # epochs = [2000]
+    # lrs = [0.0003, 0.0004, 0.0005, 0.001, 0.002, 0.003]
+    # # optims = ["sgd", "adam"]
+    # optims = ["adam"]
 
-    # epochs = [100]
-    # lrs = [0.002] 
-    # optims = ["sgd"]
+    # dyn.interactive = True
+
+    epochs = [1000]
+    lrs = [0.00005] 
+    optims = ["adam"]
 
     for epoch in epochs:
         for opt in optims:

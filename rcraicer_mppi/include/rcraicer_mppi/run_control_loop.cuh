@@ -108,9 +108,7 @@ void runControlLoop(CONTROLLER_T* controller, RCRaicerPlant* robot, SystemParams
   }
 
   controller->resetControls();
-  controller->computeFeedbackGains(state);
-
-  controller->costs_->writeParamsFromDevice();
+  controller->computeFeedbackGains(state);  
 
   //Start the control loop.
   while (is_alive->load()) {
@@ -182,6 +180,9 @@ void runControlLoop(CONTROLLER_T* controller, RCRaicerPlant* robot, SystemParams
       for (int t = 0; t < optimization_stride; t++){
         u << controlSolution[2*t], controlSolution[2*t + 1];
         controller->model_->updateState(state, u); 
+
+        std::cout << "State: " << state(0) << "," << state(1) << "," << state(2) << "," << state(3) << "," << state(4) << "," << state(5) << "," << state(6) << ",,";
+        std::cout <<  u(0) << "," << u(1) << "\n";
       }
     }
     

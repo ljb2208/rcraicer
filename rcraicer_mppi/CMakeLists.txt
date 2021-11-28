@@ -80,6 +80,11 @@ target_compile_definitions(path_integral_nn PRIVATE USE_NEURAL_NETWORK_MODEL__; 
 ament_target_dependencies(path_integral_nn rclcpp std_msgs sensor_msgs rcraicer_msgs nav_msgs Eigen3 OpenCV Boost CUDA)
 target_link_libraries(path_integral_nn rcraicer_plant param_getter cublas curand  /usr/local/lib/libcnpy.so)
 
+cuda_add_executable(test_nn src/test.cu)
+target_compile_definitions(test_nn PRIVATE USE_NEURAL_NETWORK_MODEL__; MPPI_NNET_USING_CONSTANT_MEM__)
+ament_target_dependencies(test_nn rclcpp Eigen3 OpenCV Boost CUDA)
+target_link_libraries(test_nn cublas curand rcraicer_plant param_getter /usr/local/lib/libcnpy.so)
+
 endif(CUDA_FOUND)
 
 if(BUILD_TESTING)
@@ -98,6 +103,7 @@ install (TARGETS
     param_getter
     # path_integral_bf
     path_integral_nn
+    test_nn
     DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

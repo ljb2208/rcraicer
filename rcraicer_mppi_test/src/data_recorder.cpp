@@ -73,7 +73,7 @@ void DataRecorder::openFile()
     //write header
     if (writeHeader)
     {
-        csvFile << "x_pos,y_pos,z_pos,roll,pitch,yaw,u_x,u_y,u_z,roll_mder,pitch_mder,yaw_mder,steer,throttle,brake,act_x_pos,act_y_pos,act_z_pos,act_roll,act_pitch,act_yaw,act_u_x,act_u_y,act_u_z,act_roll_mder,act_pitch_mder,act_yaw_mder\n";
+        csvFile << "x_pos,y_pos,z_pos,roll,pitch,yaw,u_x,u_y,u_z,comp_u_x,comp_u_y,roll_mder,pitch_mder,yaw_mder,steer,throttle,brake,time_step,act_x_pos,act_y_pos,act_z_pos,act_roll,act_pitch,act_yaw,act_u_x,act_u_y,act_u_z,act_comp_u_x,act_comp_u_y,act_roll_mder,act_pitch_mder,act_yaw_mder\n";
         writeHeader = false;
     }
     csvFile.precision(10);
@@ -131,18 +131,24 @@ void DataRecorder::sim_state_callback(const rcraicer_msgs::msg::SimState::Shared
             csvFile << priorMsg.linear_velocity.y;                        
             csvFile << ",";
             csvFile << priorMsg.linear_velocity.z;                        
+            csvFile << ",";            
+            csvFile << cos(priorYaw)*priorMsg.angular_velocity.x + sin(priorYaw)*priorMsg.angular_velocity.y;            
             csvFile << ",";
+            csvFile << -sin(priorYaw)*priorMsg.angular_velocity.x + cos(priorYaw)*priorMsg.angular_velocity.y;             
+            csvFile << ",";            
             csvFile << priorMsg.angular_velocity.x;
             csvFile << ",";
             csvFile << priorMsg.angular_velocity.y;
             csvFile << ",";
             csvFile << priorMsg.angular_velocity.z;
-            csvFile << ",";
+            csvFile << ",";            
             csvFile << priorMsg.steering;
             csvFile << ",";
             csvFile << priorMsg.throttle;
             csvFile << ",";
             csvFile << priorMsg.brake;
+            csvFile << ",";
+            csvFile << tsDelta;
             csvFile << ",";
 
             // float priorYawmder = yawChange(priorYaw, priorYaw2) / priorTsDelta;
@@ -165,12 +171,16 @@ void DataRecorder::sim_state_callback(const rcraicer_msgs::msg::SimState::Shared
             csvFile << msg->linear_velocity.y;
             csvFile << ",";
             csvFile << msg->linear_velocity.z;
+            csvFile << ",";            
+            csvFile << cos(yaw)*msg->angular_velocity.x + sin(yaw)*msg->angular_velocity.y;            
             csvFile << ",";
+            csvFile << -sin(yaw)*msg->angular_velocity.x + cos(yaw)*msg->angular_velocity.y;             
+            csvFile << ",";                                    
             csvFile << msg->angular_velocity.x;
             csvFile << ",";
             csvFile << msg->angular_velocity.y;
             csvFile << ",";
-            csvFile << msg->angular_velocity.z;
+            csvFile << msg->angular_velocity.z;            
             // float yawmder = yawChange(yaw, priorYaw) / tsDelta;            
             // csvFile << yawmder;        
             csvFile << "\n";

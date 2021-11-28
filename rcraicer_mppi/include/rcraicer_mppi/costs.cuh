@@ -234,6 +234,11 @@ public:
   __host__ __device__ float getStabilizingCost(float* s);
 
   /*
+  * @brief Compute some cost terms that help stabilize the car.
+  */
+  __host__ __device__ float getRollCost(float* s);
+
+  /*
   * @brief Compute a coordinate transform going from world to costmap coordinates.
   */
   __host__ __device__ void coorTransform(float x, float y, float* u, float* v, float* w);

@@ -65,6 +65,8 @@ public:
   static const int STATE_DIM = DYNAMICS_T::STATE_DIM;
   static const int CONTROL_DIM = DYNAMICS_T::CONTROL_DIM;
 
+  static const int DEBUG_DIM = 27;
+
   cudaStream_t stream_;
 
   int numTimesteps_;
@@ -148,9 +150,7 @@ public:
 private:
   int num_iters_;
   float gamma_; ///< Value of the temperature in the softmax.
-  float normalizer_; ///< Variable for the normalizing term from sampling.
-
-  int dbT {0};
+  float normalizer_; ///< Variable for the normalizing term from sampling.  
 
   curandGenerator_t gen_;
 
@@ -163,6 +163,9 @@ private:
   std::vector<float> nu_;
   std::vector<float> init_u_;
 
+  std::vector<float> control_dbg;
+  std::vector<float> debug_output;
+
   float* state_d_;
   float* nu_d_;
   float* traj_costs_d_;
@@ -173,6 +176,7 @@ private:
   float* state_der_dbg_d_;  
   float* u_dbg_d_;
   float* du_dbg_d_;
+  float* dbg_output_;
 };
 
 #include "mppi_controller.cu"

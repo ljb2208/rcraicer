@@ -67,9 +67,7 @@ inline MPPICosts::MPPICosts(PathIntegralParams config)
   updateParams(config);
   allocateTexMem();
   costmapToTexture();
-  debugging_ = false;
-
-  writeParamsFromDevice();
+  debugging_ = false;  
 }
 
 inline void MPPICosts::allocateTexMem()
@@ -380,6 +378,12 @@ inline __host__ __device__ float MPPICosts::getStabilizingCost(float* s)
   return stabilizing_cost;
 }
 
+inline __host__ __device__ float MPPICosts::getRollCost(float* s)
+{
+  float roll_cost = powf(s[3], 2) * 10.0;  
+  return roll_cost;
+}
+
 inline __host__ __device__ void MPPICosts::coorTransform(float x, float y, float* u, float* v, float* w)
 {
   //Compute a projective transform of (x, y, 0, 1)
@@ -433,7 +437,8 @@ inline __device__ float MPPICosts::computeCost(float* s, float* u, float* du,
   float speed_cost = getSpeedCost(s, crash);
   float crash_cost = (1.0 - params_.discount)*getCrashCost(s, crash, timestep);
   float stabilizing_cost = getStabilizingCost(s);            
-  float cost = control_cost + speed_cost + crash_cost + track_cost + stabilizing_cost;
+  float roll_cost = getRollCost(s);
+  float cost = control_cost + speed_cost + crash_cost + track_cost + stabilizing_cost + roll_cost;
   if (cost > 1e12 || isnan(cost)) {
     cost = 1e12;
   }

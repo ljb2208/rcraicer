@@ -231,8 +231,7 @@ public:
 
   rcraicer_control::PathIntegralParams getDynRcfgParams();
 
-  virtual void displayDebugImage();
-  cv::Mat getDebugImage();
+  virtual void displayDebugImage();  
 
   virtual bool hasNewObstacles(){return false;};
   virtual void getObstacles(std::vector<int> &description, std::vector<float> &data){};

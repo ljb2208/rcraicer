@@ -157,17 +157,6 @@ void PathIntegralNode::setupTimers()
     timingInfoTimer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&RCRaicerPlant::pubTimingData, robot));
 }
 
-void PathIntegralNode::displayDebugImage()
-{
-  cv::Mat img = robot->getDebugImage();
-
-  if (!img.empty())
-  {
-    cv::namedWindow("Path Integral", cv::WINDOW_AUTOSIZE);
-    cv::imshow("Path Integral", img);
-  }
-}
-
 void PathIntegralNode::setupParams()
 {
   // <!--Pose topic configuration parameters -->

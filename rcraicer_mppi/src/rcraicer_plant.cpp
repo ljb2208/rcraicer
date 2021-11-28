@@ -160,18 +160,6 @@ void RCRaicerPlant::setDebugImage(cv::Mat img)
   debugImg_ = img;
 }
 
-cv::Mat RCRaicerPlant::getDebugImage()
-{
-  if (receivedDebugImg_.load())
-  {
-    boost::mutex::scoped_lock lock(access_guard_);
-    return debugImg_.clone();
-  }
-
-  cv::Mat empty;
-  return empty;
-}
-
 void RCRaicerPlant::displayDebugImage()
 {    
   if (receivedDebugImg_.load() && !is_nodelet_) {

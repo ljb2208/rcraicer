@@ -150,15 +150,7 @@ void NeuralNetModel<S_DIM, C_DIM, K_DIM, layer_args...>::paramsToDevice()
 //If we're using constant memory transfer theta_d_ to it.
 #if defined(MPPI_NNET_USING_CONSTANT_MEM___)
   HANDLE_ERROR( cudaMemcpyToSymbol(NNET_PARAMS, theta_d_, NUM_PARAMS*sizeof(float)) );
-#endif /*MPPI_NNET_USING_CONSTANT_MEM___*/
-
-  std::cout << "control range nn: \n";
-
-  for (int i = 0; i < CONTROL_DIM; i++){
-    std::cout << "x: " << control_rngs_[i].x;
-    std::cout << " y: " << control_rngs_[i].y << "\n";
-  }
-
+#endif /*MPPI_NNET_USING_CONSTANT_MEM___*/  
 
   HANDLE_ERROR( cudaMemcpy(control_rngs_d_, control_rngs_, CONTROL_DIM*sizeof(float2), cudaMemcpyHostToDevice) );
 }

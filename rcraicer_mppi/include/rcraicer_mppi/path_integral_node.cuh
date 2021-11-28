@@ -94,10 +94,7 @@ namespace rcraicer_control {
             rclcpp::TimerBase::SharedPtr debugImgTimer_;
             rclcpp::TimerBase::SharedPtr timingInfoTimer_;
 
-            bool costParamsUpdated {false};            
-          
-
-            void displayDebugImage();
+            bool costParamsUpdated {false};                        
 
             float init_u[2];
             float exploration_std[2];

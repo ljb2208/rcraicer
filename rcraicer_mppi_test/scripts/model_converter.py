@@ -4,8 +4,8 @@ import torch.nn as nn
 from dyn_model import DynModel
 
 
-input_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states4.pth_good"
-output_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states4.npz"
+input_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_gazebo_states1.pth"
+output_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_gazebo_states1.npz"
 
 model = DynModel()
 model.load_state_dict(torch.load(input_path))
