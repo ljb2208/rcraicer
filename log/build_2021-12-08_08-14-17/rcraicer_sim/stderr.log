@@ -1,0 +1,181 @@
+In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:[m[K In copy constructor ‘[01m[Kmsr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose::Pose(const msr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose&)[m[K’:
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:53:16:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[KEigen::Quaternion<float, 2>::Quaternion(const Eigen::Quaternion<float, 2>&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-copy[m[K]
+   53 |         struct [01;35m[KPose[m[K
+      |                [01;35m[K^~~~[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Geometry:42[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:6[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:488:64:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KEigen::Quaternion<float, 2>[m[K’ has user-provided ‘[01m[KEigen::QuaternionBase<Derived>& Eigen::QuaternionBase<Derived>::operator=(const Eigen::QuaternionBase<Derived>&) [with Derived = Eigen::Quaternion<float, 2>][m[K’
+  488 | EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE QuaternionBase<Derived>& [01;36m[KQuaternionBase<Derived>[m[K::operator=(const QuaternionBase<Derived>& other)
+      |                                                                [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:[m[K In copy constructor ‘[01m[KEigen::Quaternion<float, 2>::Quaternion(const Eigen::Quaternion<float, 2>&)[m[K’:
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:232:7:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr Eigen::QuaternionBase<Eigen::Quaternion<float, 2> >::QuaternionBase(const Eigen::QuaternionBase<Eigen::Quaternion<float, 2> >&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-copy[m[K]
+  232 | class [01;35m[KQuaternion[m[K : public QuaternionBase<Quaternion<_Scalar,_Options> >
+      |       [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:488:64:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KEigen::QuaternionBase<Eigen::Quaternion<float, 2> >[m[K’ has user-provided ‘[01m[KEigen::QuaternionBase<Derived>& Eigen::QuaternionBase<Derived>::operator=(const Eigen::QuaternionBase<Derived>&) [with Derived = Eigen::Quaternion<float, 2>][m[K’
+  488 | EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE QuaternionBase<Derived>& [01;36m[KQuaternionBase<Derived>[m[K::operator=(const QuaternionBase<Derived>& other)
+      |                                                                [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:[m[K In copy constructor ‘[01m[Kmsr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose::Pose(const msr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose&)[m[K’:
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:53:16:[m[K [01;36m[Knote: [m[Ksynthesized method ‘[01m[KEigen::Quaternion<float, 2>::Quaternion(const Eigen::Quaternion<float, 2>&)[m[K’ first required here
+   53 |         struct [01;36m[KPose[m[K
+      |                [01;36m[K^~~~[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:9[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/CommonStructs.hpp:[m[K In constructor ‘[01m[Kmsr::airlib::CameraInfo::CameraInfo(const Pose&, float, const msr::airlib::ProjectionMatrix&)[m[K’:
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/CommonStructs.hpp:268:66:[m[K [01;36m[Knote: [m[Ksynthesized method ‘[01m[Kmsr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose::Pose(const msr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose&)[m[K’ first required here
+  268 |             : pose(pose_val), fov(fov_val), proj_mat(proj_mat_val[01;36m[K)[m[K
+      |                                                                  [01;36m[K^[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/include/sensors/magnetometer/MagnetometerSimple.hpp:12[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/sensors/SensorFactory.hpp:10[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarApiBase.hpp:13[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:10[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/FrequencyLimiter.hpp:[m[K In member function ‘[01m[Kvirtual void msr::airlib::FrequencyLimiter::failResetUpdateOrdering(std::string)[m[K’:
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/FrequencyLimiter.hpp:49:58:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kerr[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+   49 |         virtual void failResetUpdateOrdering([01;35m[Kstd::string err[m[K) override
+      |                                              [01;35m[K~~~~~~~~~~~~^~~[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/object.hpp:15[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack.hpp:23[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/rpc_error.h:9[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:2[m[K:
+[01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/v1/object.hpp:[m[K In function ‘[01m[Kvoid clmdep_msgpack::v1::operator<<(clmdep_msgpack::v2::object&, const msgpack_object&)[m[K’:
+[01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/v1/object.hpp:656:34:[m[K [01;35m[Kwarning: [m[K‘[01m[Kvoid* memcpy(void*, const void*, size_t)[m[K’ copying an object of non-trivial type ‘[01m[Kstruct clmdep_msgpack::v2::object[m[K’ from an array of ‘[01m[Kconst msgpack_object[m[K’ {aka ‘[01m[Kconst struct msgpack_object[m[K’} [[01;35m[K-Wclass-memaccess[m[K]
+  656 |     std::memcpy(&o, &v, sizeof(v)[01;35m[K)[m[K;
+      |                                  [01;35m[K^[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/object_fwd.hpp:17[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/v1/adaptor/adaptor_base_decl.hpp:14[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/adaptor/adaptor_base_decl.hpp:13[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/adaptor/adaptor_base.hpp:13[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/v1/object_decl.hpp:16[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/object_decl.hpp:14[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/object.hpp:13[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack.hpp:23[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/rpc_error.h:9[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:2[m[K:
+[01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/v2/object_fwd.hpp:23:8:[m[K [01;36m[Knote: [m[K‘[01m[Kstruct clmdep_msgpack::v2::object[m[K’ declared here
+   23 | struct [01;36m[Kobject[m[K : v1::object {
+      |        [01;36m[K^~~~~~[m[K
+In file included from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:[m[K In constructor ‘[01m[KAirSimNode::AirSimNode()[m[K’:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:137:14:[m[K [01;35m[Kwarning: [m[K‘[01m[KAirSimNode::autoEnabled[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+  137 |         bool [01;35m[KautoEnabled[m[K;
+      |              [01;35m[K^~~~~~~~~~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:123:21:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kstd::string AirSimNode::vehicle_name[m[K’ [[01;35m[K-Wreorder[m[K]
+  123 |         std::string [01;35m[Kvehicle_name[m[K;
+      |                     [01;35m[K^~~~~~~~~~~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:8:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+    8 | [01;35m[KAirSimNode[m[K::AirSimNode() : Node("airsim_node"), autoEnabled(false), vehicle_name("PhysXCar"), client(NULL), staticBroadcaster(this), baseToOdomBroadcaster(this)
+      | [01;35m[K^~~~~~~~~~[m[K
+In file included from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:164:39:[m[K [01;35m[Kwarning: [m[K‘[01m[KAirSimNode::client[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+  164 |         msr::airlib::CarRpcLibClient* [01;35m[Kclient[m[K;
+      |                                       [01;35m[K^~~~~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:54:45:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Ktf2_ros::StaticTransformBroadcaster AirSimNode::staticBroadcaster[m[K’ [[01;35m[K-Wreorder[m[K]
+   54 |         tf2_ros::StaticTransformBroadcaster [01;35m[KstaticBroadcaster[m[K;
+      |                                             [01;35m[K^~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:8:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+    8 | [01;35m[KAirSimNode[m[K::AirSimNode() : Node("airsim_node"), autoEnabled(false), vehicle_name("PhysXCar"), client(NULL), staticBroadcaster(this), baseToOdomBroadcaster(this)
+      | [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:[m[K In member function ‘[01m[Kvoid AirSimNode::publishStateData()[m[K’:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:282:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdelta_x[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  282 |     double [01;35m[Kdelta_x[m[K = odom_msg.pose.pose.position.x - priorX;
+      |            [01;35m[K^~~~~~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:283:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdelta_yaw[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  283 |     double [01;35m[Kdelta_yaw[m[K = yaw - priorYaw;
+      |            [01;35m[K^~~~~~~~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:286:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdelta_t[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  286 |     double [01;35m[Kdelta_t[m[K = t.seconds() - priorOdomStamp;
+      |            [01;35m[K^~~~~~~[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Core:476[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:1[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/Diagonal.h: In instantiation of ‘[01m[KEigen::Diagonal<MatrixType, Index>::Diagonal(MatrixType&, Eigen::Index) [with MatrixType = Eigen::Map<Eigen::Matrix<double, 3, 3, 1> >; int _DiagIndex = 0; Eigen::Index = long int][m[K’:
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/Diagonal.h:193:10:[m[K   required from ‘[01m[KEigen::MatrixBase<Derived>::DiagonalReturnType Eigen::MatrixBase<Derived>::diagonal() [with Derived = Eigen::Map<Eigen::Matrix<double, 3, 3, 1> >; Eigen::MatrixBase<Derived>::DiagonalReturnType = Eigen::Diagonal<Eigen::Map<Eigen::Matrix<double, 3, 3, 1> >, 0>][m[K’
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:694:20:[m[K   required from here
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/Diagonal.h:73:112:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[KEigen::Map<Eigen::Matrix<double, 3, 3, 1> >::Map(const Eigen::Map<Eigen::Matrix<double, 3, 3, 1> >&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-copy[m[K]
+   73 |     explicit inline Diagonal(MatrixType& matrix, Index a_index = DiagIndex) : m_matrix(matrix), m_index(a_index[01;35m[K)[m[K
+      |                                                                                                                [01;35m[K^[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Core:469[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:1[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/MapBase.h:288:14:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KEigen::Map<Eigen::Matrix<double, 3, 3, 1> >[m[K’ has user-provided ‘[01m[KDerived& Eigen::MapBase<Derived, 1>::operator=(const Eigen::MapBase<Derived, 1>&) [with Derived = Eigen::Map<Eigen::Matrix<double, 3, 3, 1> >][m[K’
+  288 |     Derived& [01;36m[Koperator[m[K=(const MapBase& other)
+      |              [01;36m[K^~~~~~~~[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Geometry:36[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:6[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/OrthoMethods.h: In instantiation of ‘[01m[Ktypename Eigen::MatrixBase<Derived>::cross_product_return_type<OtherDerived>::type Eigen::MatrixBase<Derived>::cross(const Eigen::MatrixBase<OtherDerived>&) const [with OtherDerived = Eigen::Matrix<float, 3, 1>; Derived = Eigen::Block<const Eigen::Matrix<float, 4, 1>, 3, 1, false>; typename Eigen::MatrixBase<Derived>::cross_product_return_type<OtherDerived>::type = Eigen::Matrix<float, 3, 1>][m[K’:
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:482:13:[m[K   required from ‘[01m[KEigen::QuaternionBase<Derived>::Vector3 Eigen::QuaternionBase<Derived>::_transformVector(const Vector3&) const [with Derived = Eigen::Quaternion<float>; Eigen::QuaternionBase<Derived>::Vector3 = Eigen::Matrix<float, 3, 1>; typename Eigen::internal::traits<T>::Scalar = float][m[K’
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:201:54:[m[K   required from ‘[01m[Kstatic Vector3T msr::airlib::VectorMathT<Vector3T, QuaternionT, RealT>::rotateVectorReverse(const Vector3T&, const QuaternionT&, bool) [with Vector3T = Eigen::Matrix<float, 3, 1>; QuaternionT = Eigen::Quaternion<float, 2>; RealT = float][m[K’
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:238:39:[m[K   required from ‘[01m[Kstatic Vector3T msr::airlib::VectorMathT<Vector3T, QuaternionT, RealT>::transformToBodyFrame(const Vector3T&, const QuaternionT&, bool) [with Vector3T = Eigen::Matrix<float, 3, 1>; QuaternionT = Eigen::Quaternion<float, 2>; RealT = float][m[K’
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/sensors/imu/ImuSimple.hpp:64:79:[m[K   required from here
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/OrthoMethods.h:41:51:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[KEigen::Block<const Eigen::Matrix<float, 4, 1>, 3, 1, false>::Block(const Eigen::Block<const Eigen::Matrix<float, 4, 1>, 3, 1, false>&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-copy[m[K]
+   41 |   typename internal::nested_eval<Derived,2>::type [01;35m[Klhs[m[K(derived());
+      |                                                   [01;35m[K^~~[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Core:88[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:1[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/util/Macros.h:830:52:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KEigen::Block<const Eigen::Matrix<float, 4, 1>, 3, 1, false>[m[K’ has user-provided ‘[01m[KEigen::BlockImpl<XprType, BlockRows, BlockCols, InnerPanel, Eigen::Dense>& Eigen::BlockImpl<XprType, BlockRows, BlockCols, InnerPanel, Eigen::Dense>::operator=(const Eigen::BlockImpl<XprType, BlockRows, BlockCols, InnerPanel, Eigen::Dense>&) [with XprType = const Eigen::Matrix<float, 4, 1>; int BlockRows = 3; int BlockCols = 1; bool InnerPanel = false][m[K’
+  830 |     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& [01;36m[Koperator[m[K=(const Derived& other) \
+      |                                                    [01;36m[K^~~~~~~~[m[K
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/util/Macros.h:842:53:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KEIGEN_INHERIT_ASSIGNMENT_EQUAL_OPERATOR[m[K’
+  842 | #define EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Derived) [01;36m[KEIGEN_INHERIT_ASSIGNMENT_EQUAL_OPERATOR[m[K(Derived)
+      |                                                     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/Block.h:161:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KEIGEN_INHERIT_ASSIGNMENT_OPERATORS[m[K’
+  161 |     [01;36m[KEIGEN_INHERIT_ASSIGNMENT_OPERATORS[m[K(BlockImpl)
+      |     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Geometry:55[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:6[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/arch/Geometry_SSE.h: In instantiation of ‘[01m[Kstatic Eigen::Quaternion<float> Eigen::internal::quat_conj<1, Derived, float>::run(const Eigen::QuaternionBase<Derived>&) [with Derived = Eigen::Quaternion<float, 2>][m[K’:
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:698:74:[m[K   required from ‘[01m[KEigen::Quaternion<typename Eigen::internal::traits<T>::Scalar> Eigen::QuaternionBase<Derived>::conjugate() const [with Derived = Eigen::Quaternion<float, 2>; typename Eigen::internal::traits<T>::Scalar = float][m[K’
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:203:38:[m[K   required from ‘[01m[Kstatic Vector3T msr::airlib::VectorMathT<Vector3T, QuaternionT, RealT>::rotateVectorReverse(const Vector3T&, const QuaternionT&, bool) [with Vector3T = Eigen::Matrix<float, 3, 1>; QuaternionT = Eigen::Quaternion<float, 2>; RealT = float][m[K’
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:238:39:[m[K   required from ‘[01m[Kstatic Vector3T msr::airlib::VectorMathT<Vector3T, QuaternionT, RealT>::transformToBodyFrame(const Vector3T&, const QuaternionT&, bool) [with Vector3T = Eigen::Matrix<float, 3, 1>; QuaternionT = Eigen::Quaternion<float, 2>; RealT = float][m[K’
+[01m[K/home/lbarnett/development/AirSim/AirLib/include/sensors/imu/ImuSimple.hpp:64:79:[m[K   required from here
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/arch/Geometry_SSE.h:56:12:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[KEigen::Quaternion<float>::Quaternion(const Eigen::Quaternion<float>&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-copy[m[K]
+   56 |     return [01;35m[Kres[m[K;
+      |            [01;35m[K^~~[m[K
+In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Geometry:42[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:6[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+                 from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+                 from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:488:64:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KEigen::Quaternion<float>[m[K’ has user-provided ‘[01m[KEigen::QuaternionBase<Derived>& Eigen::QuaternionBase<Derived>::operator=(const Eigen::QuaternionBase<Derived>&) [with Derived = Eigen::Quaternion<float>][m[K’
+  488 | EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE QuaternionBase<Derived>& [01;36m[KQuaternionBase<Derived>[m[K::operator=(const QuaternionBase<Derived>& other)
+      |                                                                [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K

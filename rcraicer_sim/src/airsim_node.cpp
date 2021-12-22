@@ -221,7 +221,7 @@ void AirSimNode::publishStateData()
     state_msg.linear_velocity = atorVec(kin_data.twist.linear);
     state_msg.linear_acceleration = atorVec(kin_data.accelerations.linear);
     state_msg.angular_velocity = atorVecLocal(kin_data.twist.angular);
-    state_msg.angular_acceleration = atorVecLocal(kin_data.accelerations.angular);
+    state_msg.angular_acceleration = atorVecLocal(kin_data.accelerations.angular);        
 
     ssPublisher->publish(state_msg);
 
@@ -257,7 +257,9 @@ void AirSimNode::publishStateData()
     tf2::Quaternion qq(state_msg.orientation.x, state_msg.orientation.y, state_msg.orientation.z, state_msg.orientation.w);    
     tf2::Matrix3x3 m(qq);
 
-    m.getRPY(roll, pitch, yaw);    
+    m.getRPY(roll, pitch, yaw);            
+    // RCLCPP_INFO(this->get_logger(), "Roll: %f Pitch: %f Yaw: %f", roll, pitch, yaw);    
+    
 
     tf2::Quaternion q_orientation = tf2::Quaternion();
     q_orientation.setRPY(0, 0, yaw);
@@ -480,7 +482,7 @@ geometry_msgs::msg::Quaternion AirSimNode::atorQuat(const msr::airlib::Quaternio
     // tf2::Quaternion qrot = ENU_NED_Q * newq;
     // qrot.normalize();
     tf2::Quaternion qrot;
-    qrot.setRPY(pitch, roll, -yaw + M_PI_2);
+    qrot.setRPY(roll, -pitch, -yaw + M_PI_2);
     // tf2::Quaternion qrot(airlib_quat.y(), airlib_quat.x(), -airlib_quat.z(), airlib_quat.w());
 
     geometry_msgs::msg::Quaternion q;
@@ -497,8 +499,8 @@ geometry_msgs::msg::Quaternion AirSimNode::atorQuat(const msr::airlib::Quaternio
 
     // tf2::Quaternion qrot(q.x, q.y, q.x, q.w);
 
-    tf2::Matrix3x3 m(qrot);
-    m.getRPY(roll, pitch, yaw);
+    // tf2::Matrix3x3 m(qrot);
+    // m.getRPY(roll, pitch, yaw);
 
     // std::cout << "Global " << std::fixed << " roll: " << roll << " pitch: " << pitch << " yaw: " << yaw << "\r\n";
 
@@ -714,8 +716,8 @@ void AirSimNode::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)  // us
     if (autoEnabled)
         return;
 
-    float steer = msg->axes[steeringAxisID];
-    float throttle = msg->axes[throttleAxisID];
+    float steer = msg->axes[steeringAxisID]  * reverseSteering;
+    float throttle = msg->axes[throttleAxisID]  * reverseThrottle;
     float brake = msg->axes[brakeAxisID];
 
     sendControls(throttle, steer, brake);
@@ -741,8 +743,8 @@ void AirSimNode::setActive(bool active)
 
 void AirSimNode::sendControls(float throttle, float steering, float brake)
 {
-    controls.throttle = throttle * reverseThrottle;
-    controls.steering = steering * reverseSteering;
+    controls.throttle = throttle;
+    controls.steering = steering;
     controls.handbrake = false;
 
     if (autoEnabled)

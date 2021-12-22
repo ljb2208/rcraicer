@@ -116,16 +116,18 @@ void runControlLoop(CONTROLLER_T* controller, RCRaicerPlant* robot, SystemParams
     robot->setTimingInfo(avgOptimizationLoopTime, avgOptimizationTickTime, avgSleepTime);
     num_iter ++;
 
-    if (params->debug_mode){ //Display the debug window.
+    // if (params->debug_mode){ //Display the debug window.
      cv::Mat debug_img = controller->costs_->getDebugDisplay(state(0), state(1), state(2));
      robot->setDebugImage(debug_img);
-    }
+    // }
     //Update the state estimate
     if (last_pose_update != robot->getLastPoseTime()){
       optimizationLoopTime = robot->getLastPoseTime() - last_pose_update;
       last_pose_update = robot->getLastPoseTime();      
       fs = robot->getState(); //Get the new state.
       state << fs.x_pos, fs.y_pos, fs.yaw, fs.roll, fs.u_x, fs.u_y, fs.yaw_mder;
+
+      // std::cout << "Pose State: " << state(0) << "," << state(1) << "," << state(2) << "," << state(3) << "," << state(4) << "," << state(5) << "," << state(6) << "\r\n";
     }
     //Update the cost parameters
     if (robot->hasNewDynRcfg()){

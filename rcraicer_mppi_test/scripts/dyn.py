@@ -25,8 +25,8 @@ class Dyn():
         self.log_path = log_path
         self.run_id = 0
 
-        self.log_file = open(self.log_path + "dynmodel_gazebo.log","a")
-        self.log_file_verbose =  open(self.log_path + "dynmodel_gazebo_verbose.log","a")
+        self.log_file = open(self.log_path + "dynmodel.log","a")
+        self.log_file_verbose =  open(self.log_path + "dynmodel_verbose.log","a")
 
     
         if torch.cuda.is_available():
@@ -55,11 +55,11 @@ class Dyn():
     
     def test(self):
         model = DynModel()
-        model.load_state_dict(torch.load(self.model_path + "dynmodel_gazebo_states{}.pth".format(self.run_id)))
+        model.load_state_dict(torch.load(self.model_path + "dynmodel_states{}.pth".format(self.run_id)))
 
         model.eval()
 
-        test_filename = self.data_path + "gazebo_data_test.csv"
+        test_filename = self.data_path + "dynamics_data_test.csv"
 
         test_ds = DynDataset(test_filename)        
 
@@ -160,7 +160,8 @@ class Dyn():
 
         self.write_settings()        
 
-        training_filename = self.data_path + "gazebo_data_train.csv"
+        # training_filename = self.data_path + "gazebo_data_train.csv"
+        training_filename = self.data_path + "dynamics_data_train.csv"
         # valid_filename = self.data_path + "dyn2_model_valid.csv"
 
         dynamics_ds = DynDataset(training_filename)
@@ -249,8 +250,8 @@ class Dyn():
 
 
 
-        torch.save(model, self.model_path + "dynmodel_gazebo{}.pth".format(self.run_id))
-        torch.save(model.state_dict(), self.model_path + "dynmodel_gazebo_states{}.pth".format(self.run_id))
+        torch.save(model, self.model_path + "dynmodel{}.pth".format(self.run_id))
+        torch.save(model.state_dict(), self.model_path + "dynmodel_states{}.pth".format(self.run_id))
 
         sd = model.state_dict()
         
@@ -272,15 +273,17 @@ if __name__ == "__main__":
     dyn = Dyn(data_path, model_path, log_path, epochs=10, interactive=False)    
     # dyn = Dyn(data_path, model_path, log_path, epochs=10, interactive=True)    
 
-    # epochs = [2000]
-    # lrs = [0.0003, 0.0004, 0.0005, 0.001, 0.002, 0.003]
-    # # optims = ["sgd", "adam"]
+    # epochs = [1000,2000]
+    # epochs = [1000]
+    # lrs = [0.01, 0.03, 0.05, 0.008, 0.004, 0.002]
+    # # lrs = [0.01, 0.0003, 0.0004, 0.0005, 0.001, 0.002, 0.003]
+    # # # optims = ["sgd", "adam"]
     # optims = ["adam"]
 
     # dyn.interactive = True
 
-    epochs = [1000]
-    lrs = [0.00005] 
+    epochs = [2000]
+    lrs = [0.08] # 0.08
     optims = ["adam"]
 
     for epoch in epochs:

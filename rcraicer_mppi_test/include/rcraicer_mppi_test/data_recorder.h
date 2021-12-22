@@ -69,6 +69,7 @@ class DataRecorder : public rclcpp::Node
 
         float priorYaw2;
         float priorTsDelta;
+        int headingMultipler;
 
         std::mutex fileMutex;
 

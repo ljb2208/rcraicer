@@ -163,8 +163,8 @@ private:
   std::vector<float> nu_;
   std::vector<float> init_u_;
 
-  std::vector<float> control_dbg;
-  std::vector<float> debug_output;
+  // std::vector<float> control_dbg;
+  // std::vector<float> debug_output;
 
   float* state_d_;
   float* nu_d_;
@@ -172,11 +172,11 @@ private:
   float* U_d_;
   float* du_d_;
 
-  float* state_dbg_d_;
-  float* state_der_dbg_d_;  
-  float* u_dbg_d_;
-  float* du_dbg_d_;
-  float* dbg_output_;
+  // float* state_dbg_d_;
+  // float* state_der_dbg_d_;  
+  // float* u_dbg_d_;
+  // float* du_dbg_d_;
+  // float* dbg_output_;
 };
 
 #include "mppi_controller.cu"

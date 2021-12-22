@@ -1,0 +1,95 @@
+[0.079s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mapping': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake /home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mapping -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping
+[0.746s] -- The C compiler identification is GNU 9.3.0
+[0.746s] -- The CXX compiler identification is GNU 9.3.0
+[0.746s] -- Check for working C compiler: /usr/bin/cc
+[0.746s] -- Check for working C compiler: /usr/bin/cc -- works
+[0.747s] -- Detecting C compiler ABI info
+[0.912s] -- Detecting C compiler ABI info - done
+[0.937s] -- Detecting C compile features
+[0.939s] -- Detecting C compile features - done
+[0.949s] -- Check for working CXX compiler: /usr/bin/c++
+[1.222s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[1.225s] -- Detecting CXX compiler ABI info
+[1.441s] -- Detecting CXX compiler ABI info - done
+[1.519s] -- Detecting CXX compile features
+[1.520s] -- Detecting CXX compile features - done
+[1.537s] -- Found ament_cmake: 0.9.9 (/opt/ros/foxy/share/ament_cmake/cmake)
+[1.697s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[1.700s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[2.319s] -- Found rclcpp: 2.4.0 (/opt/ros/foxy/share/rclcpp/cmake)
+[2.451s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.468s] -- Found rosidl_adapter: 1.2.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[2.690s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+[2.733s] -- Found FastRTPS: /opt/ros/foxy/include  
+[2.900s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[3.025s] -- Found rmw_implementation_cmake: 1.0.3 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[3.029s] -- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+[3.030s] -- Looking for pthread.h
+[3.176s] -- Looking for pthread.h - found
+[3.177s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[3.331s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+[3.331s] -- Looking for pthread_create in pthreads
+[3.445s] -- Looking for pthread_create in pthreads - not found
+[3.445s] -- Looking for pthread_create in pthread
+[3.677s] -- Looking for pthread_create in pthread - found
+[3.679s] -- Found Threads: TRUE  
+[3.996s] -- Found sensor_msgs: 2.0.4 (/opt/ros/foxy/share/sensor_msgs/cmake)
+[4.231s] -- Found tf2: 0.13.11 (/opt/ros/foxy/share/tf2/cmake)
+[4.254s] -- Found tf2_ros: 0.13.11 (/opt/ros/foxy/share/tf2_ros/cmake)
+[4.875s] -- Found rcraicer_msgs: 0.0.0 (/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake)
+[5.052s] -- Found image_transport: 2.3.0 (/opt/ros/foxy/share/image_transport/cmake)
+[5.199s] -- Found OpenCV: /usr (found suitable version "4.2.0", minimum required is "4") 
+[5.215s] -- Found cv_bridge: 2.2.1 (/opt/ros/foxy/share/cv_bridge/cmake)
+[5.268s] -- Found ament_lint_auto: 0.9.6 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[5.428s] -- Added test 'copyright' to check source files copyright and LICENSE
+[5.430s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[5.430s] -- Configured cppcheck include dirs: 
+[5.430s] -- Configured cppcheck exclude dirs and/or files: 
+[5.433s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[5.433s] -- Configured cpplint exclude dirs and/or files: 
+[5.434s] -- Added test 'lint_cmake' to check CMake code style
+[5.436s] -- Added test 'uncrustify' to check C / C++ code style
+[5.436s] -- Configured uncrustify additional arguments: 
+[5.437s] -- Added test 'xmllint' to check XML markup files
+[5.445s] -- Configuring done
+[5.541s] -- Generating done
+[5.543s] -- Build files have been written to: /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mapping
+[5.576s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mapping' returned '0': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake /home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mapping -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping
+[5.578s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mapping': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mapping -- -j8 -l8
+[5.710s] [35m[1mScanning dependencies of target map_publisher_node[0m
+[5.876s] [ 25%] [32mBuilding CXX object CMakeFiles/map_publisher_node.dir/src/map_publisher.cpp.o[0m
+[11.390s] In file included from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mapping/src/map_publisher.cpp:1[m[K:
+[11.391s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mapping/src/../include/rcraicer_mapping/map_publisher.h:97:2:[m[K [01;35m[Kwarning: [m[KISO C++ prohibits anonymous structs [[01;35m[K-Wpedantic[m[K]
+[11.391s]    97 |  [01;35m[K}[m[K;
+[11.391s]       |  [01;35m[K^[m[K
+[32.922s] [ 50%] [32m[1mLinking CXX executable map_publisher_node[0m
+[34.144s] [ 50%] Built target map_publisher_node
+[34.162s] [35m[1mScanning dependencies of target map_generator_node[0m
+[34.256s] [ 75%] [32mBuilding CXX object CMakeFiles/map_generator_node.dir/src/map_generator.cpp.o[0m
+[38.586s] In file included from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mapping/src/map_generator.cpp:1[m[K:
+[38.586s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mapping/src/../include/rcraicer_mapping/map_generator.h:89:2:[m[K [01;35m[Kwarning: [m[KISO C++ prohibits anonymous structs [[01;35m[K-Wpedantic[m[K]
+[38.586s]    89 |  [01;35m[K}[m[K;
+[38.586s]       |  [01;35m[K^[m[K
+[61.977s] [100%] [32m[1mLinking CXX executable map_generator_node[0m
+[62.887s] [100%] Built target map_generator_node
+[62.906s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mapping' returned '0': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mapping -- -j8 -l8
+[63.076s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mapping': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mapping
+[63.100s] -- Install configuration: "RelWithDebInfo"
+[63.100s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/lib/rcraicer_mapping/map_generator_node
+[63.113s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/lib/rcraicer_mapping/map_generator_node" to ""
+[63.114s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/ament_index/resource_index/package_run_dependencies/rcraicer_mapping
+[63.114s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/ament_index/resource_index/parent_prefix_path/rcraicer_mapping
+[63.115s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/environment/ament_prefix_path.sh
+[63.115s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/environment/ament_prefix_path.dsv
+[63.115s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/environment/path.sh
+[63.116s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/environment/path.dsv
+[63.116s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/local_setup.bash
+[63.116s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/local_setup.sh
+[63.116s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/local_setup.zsh
+[63.117s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/local_setup.dsv
+[63.117s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/package.dsv
+[63.117s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/ament_index/resource_index/packages/rcraicer_mapping
+[63.117s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/cmake/rcraicer_mappingConfig.cmake
+[63.118s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/cmake/rcraicer_mappingConfig-version.cmake
+[63.118s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mapping/share/rcraicer_mapping/package.xml
+[63.124s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mapping' returned '0': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mapping

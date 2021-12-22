@@ -1,0 +1,33 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from rcraicer_msgs/msg/ArduinoStatus.msg
+// generated code does not contain a copyright notice
+
+#include "std_msgs/msg/Header.idl"
+
+module rcraicer_msgs {
+  module msg {
+    struct ArduinoStatus {
+      std_msgs::msg::Header header;
+
+      uint16 servo_update_count;
+
+      uint16 encoder_msg_count;
+
+      uint16 main_loop_count;
+
+      uint16 main_loop_max;
+
+      boolean armed;
+
+      uint8 status;
+
+      uint16 invalid_crc_arduino;
+
+      uint16 unknown_msg_arduino;
+
+      uint16 invalid_crc;
+
+      uint16 unknown_msg;
+    };
+  };
+};

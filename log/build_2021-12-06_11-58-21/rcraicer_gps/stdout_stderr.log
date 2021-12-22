@@ -1,0 +1,116 @@
+-- The C compiler identification is GNU 9.3.0
+-- The CXX compiler identification is GNU 9.3.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 0.9.9 (/opt/ros/foxy/share/ament_cmake/cmake)
+-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python3
+-- Found rclcpp: 2.4.0 (/opt/ros/foxy/share/rclcpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Found rosidl_adapter: 1.2.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+-- Found FastRTPS: /opt/ros/foxy/include  
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 1.0.3 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+-- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Found sensor_msgs: 2.0.4 (/opt/ros/foxy/share/sensor_msgs/cmake)
+-- Found rcraicer_msgs: 0.0.0 (/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake)
+-- Found ament_lint_auto: 0.9.6 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+-- Added test 'copyright' to check source files copyright and LICENSE
+-- Added test 'cppcheck' to perform static code analysis on C / C++ code
+-- Configured cppcheck include dirs: 
+-- Configured cppcheck exclude dirs and/or files: 
+-- Added test 'cpplint' to check C / C++ code against the Google style
+-- Configured cpplint exclude dirs and/or files: 
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'uncrustify' to check C / C++ code style
+-- Configured uncrustify additional arguments: 
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_gps
+[35m[1mScanning dependencies of target gps_node[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/gps_node.dir/src/gps_node.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/gps_node.dir/src/ubx_protocol.cpp.o[0m
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:[m[K In member function ‘[01m[Kvoid UbxProtocol::serial_data_callback(uint8_t)[m[K’:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:37:9:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kret[m[K’ [[01;35m[K-Wunused-variable[m[K]
+   37 |     int [01;35m[Kret[m[K = parseChar(data);
+      |         [01;35m[K^~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:[m[K In member function ‘[01m[Kint UbxProtocol::parseChar(uint8_t)[m[K’:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:44:11:[m[K [01;35m[Kwarning: [m[Kenumeration value ‘[01m[KUBX_DECODE_RTCM3[m[K’ not handled in switch [[01;35m[K-Wswitch[m[K]
+   44 |     switch[01;35m[K([m[Kdecode_state)
+      |           [01;35m[K^[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:[m[K In member function ‘[01m[Kint UbxProtocol::payloadRxAddMonVer(uint8_t)[m[K’:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:310:1:[m[K [01;35m[Kwarning: [m[Kno return statement in function returning non-void [[01;35m[K-Wreturn-type[m[K]
+  310 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:307:51:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kb[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+  307 | int UbxProtocol::payloadRxAddMonVer([01;35m[Kconst uint8_t b[m[K)
+      |                                     [01;35m[K~~~~~~~~~~~~~~^[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:[m[K In member function ‘[01m[Kint UbxProtocol::payloadRxAddNavSat(uint8_t)[m[K’:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:336:14:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Ksat_index[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  336 |     unsigned [01;35m[Ksat_index[m[K = (rx_payload_index - sizeof(ubx_payload_rx_nav_sat_part1_t)) /
+      |              [01;35m[K^~~~~~~~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:[m[K In member function ‘[01m[Kvoid UbxProtocol::configure()[m[K’:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:765:10:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kret[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  765 |     bool [01;35m[Kret[m[K = sendMessage(UBX_MSG_CFG_VALSET, (uint8_t*)&txbuf, cfg_valset_msg_size);
+      |          [01;35m[K^~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:[m[K In member function ‘[01m[Kvoid UbxProtocol::configureSurveyIn(uint32_t, uint32_t)[m[K’:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:780:10:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kret[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  780 |     bool [01;35m[Kret[m[K = sendMessage(UBX_MSG_CFG_VALSET, (uint8_t*)&txbuf, cfg_valset_msg_size);
+      |          [01;35m[K^~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:[m[K In member function ‘[01m[Kint UbxProtocol::payloadRxDone()[m[K’:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/ubx_protocol.cpp:662:1:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+  662 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+[ 75%] [32mBuilding CXX object CMakeFiles/gps_node.dir/src/serial_port.cpp.o[0m
+In file included from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/serial_port.cpp:1[m[K:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/../include/rcraicer_gps/serial_port.h:[m[K In constructor ‘[01m[KSerialPort::SerialPort(std::string, int)[m[K’:
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/../include/rcraicer_gps/serial_port.h:60:23:[m[K [01;35m[Kwarning: [m[K‘[01m[KSerialPort::alive[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+   60 |         volatile bool [01;35m[Kalive[m[K;
+      |                       [01;35m[K^~~~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/../include/rcraicer_gps/serial_port.h:59:22:[m[K [01;35m[Kwarning: [m[K  ‘[01m[KSerialPort::DataCallback SerialPort::dataCallback[m[K’ [[01;35m[K-Wreorder[m[K]
+   59 |         DataCallback [01;35m[KdataCallback[m[K; ///< Callback triggered when new data arrives
+      |                      [01;35m[K^~~~~~~~~~~~[m[K
+[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_gps/src/serial_port.cpp:10:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+   10 | [01;35m[KSerialPort[m[K::SerialPort(std::string port, int baudRate): port_fd(-1), port_setting_error(""), connected(false), alive(false), dataCallback(NULL)
+      | [01;35m[K^~~~~~~~~~[m[K
+[100%] [32m[1mLinking CXX executable gps_node[0m
+[100%] Built target gps_node
+-- Install configuration: "RelWithDebInfo"
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/lib/rcraicer_gps/gps_node
+-- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/lib/rcraicer_gps/gps_node" to ""
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/ament_index/resource_index/package_run_dependencies/rcraicer_gps
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/ament_index/resource_index/parent_prefix_path/rcraicer_gps
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/environment/ament_prefix_path.sh
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/environment/ament_prefix_path.dsv
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/environment/path.sh
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/environment/path.dsv
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/local_setup.bash
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/local_setup.sh
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/local_setup.zsh
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/local_setup.dsv
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/package.dsv
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/ament_index/resource_index/packages/rcraicer_gps
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/cmake/rcraicer_gpsConfig.cmake
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/cmake/rcraicer_gpsConfig-version.cmake
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_gps/share/rcraicer_gps/package.xml

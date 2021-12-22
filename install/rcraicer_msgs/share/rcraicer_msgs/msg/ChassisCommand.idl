@@ -1,0 +1,21 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from rcraicer_msgs/msg/ChassisCommand.msg
+// generated code does not contain a copyright notice
+
+#include "std_msgs/msg/Header.idl"
+
+module rcraicer_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      " Includes the frame id of the pose parent.")
+    struct ChassisCommand {
+      std_msgs::msg::Header header;
+
+      double throttle;
+
+      double steer;
+
+      string sender;
+    };
+  };
+};

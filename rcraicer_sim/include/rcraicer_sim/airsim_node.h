@@ -148,8 +148,8 @@ class AirSimNode : public rclcpp::Node
 
 
         int gps_update {200};
-        int sensor_update {50};
-        int state_update {50};
+        int sensor_update {20};
+        int state_update {20};
 
 
         double lastImuStamp {0.0};

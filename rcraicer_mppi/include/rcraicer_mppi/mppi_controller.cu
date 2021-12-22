@@ -48,7 +48,7 @@
 template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
 __global__ void rolloutKernel(int num_timesteps, float* state_d, float* U_d, float* du_d, float* nu_d, 
                               float* costs_d, DYNAMICS_T dynamics_model, COSTS_T mppi_costs, 
-                              int opt_delay, float* dbg_output)
+                              int opt_delay)//, float* dbg_output)
 {
   int i,j;
   int tdx = threadIdx.x;
@@ -124,44 +124,52 @@ __global__ void rolloutKernel(int num_timesteps, float* state_d, float* U_d, flo
     }    
 
     __syncthreads();
-    // dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM] = static_cast<float>(DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM);
-    // dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM + 1] = static_cast<float>(bdx);
-    dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM + 0] = static_cast<float>(i);    
+    
+// #ifdef DEBUG_BUILD
+//     dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM + 0] = static_cast<float>(i);    
+// #endif
 
     __syncthreads();
     if (tdy == 0 && global_idx < NUM_ROLLOUTS){
        dynamics_model.enforceConstraints(s, u);      
-       dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM + 1] = u[0];          
-       dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM + 2] = u[1];          
+// #ifdef DEBUG_BUILD
+//        dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM + 1] = u[0];          
+//        dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM + 2] = u[1];          
+// #endif
     }    
     __syncthreads();
     //Compute the cost of the being in the current state
     if (tdy == 0 && global_idx < NUM_ROLLOUTS && i > 0 && crash[0] > -1) {
       //Running average formula
       running_cost += (mppi_costs.computeCost(s, u, du, nu, crash, i) - running_cost)/(1.0*i);
-      dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM+3] = mppi_costs.computeCost(s, u, du, nu, crash, i);
-      dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM+4] = running_cost;
+// #ifdef DEBUG_BUILD
+//       dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM+3] = mppi_costs.computeCost(s, u, du, nu, crash, i);
+//       dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM+4] = running_cost;
+// #endif
     }
     //Compute the dynamics
     if (global_idx < NUM_ROLLOUTS){
       dynamics_model.computeStateDeriv(s, u, s_der, theta);      
     }
     __syncthreads();
-    for (int x=0; x < STATE_DIM; x++)
-    {
-      dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM+12+x] = s_der[x];
-      dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM+19+x] = s[x];
-    }
+
+// #ifdef DEBUG_BUILD
+//     for (int x=0; x < STATE_DIM; x++)
+//     {
+//       dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM+12+x] = s_der[x];
+//       dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM+19+x] = s[x];
+//     }
+// #endif
 
     //Update the state
     if (global_idx < NUM_ROLLOUTS){
       dynamics_model.incrementState(s, s_der);
     }
 
-    for (int x=0; x < STATE_DIM; x++)
-    {
-      dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM+5+x] = s[x];
-    }
+    // for (int x=0; x < STATE_DIM; x++)
+    // {
+    //   dbg_output[DEBUG_DIM*num_timesteps*(BLOCKSIZE_X*bdx + tdx) + i*DEBUG_DIM+5+x] = s[x];
+    // }
 
     //Check to see if the rollout will result in a (physical) crash.
     if (tdy == 0 && global_idx < NUM_ROLLOUTS) {
@@ -236,24 +244,22 @@ __global__ void weightedReductionKernel(float* states_d, float* du_d, float* nu_
   }
 }
 
+// template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
+// void launchRolloutKernel(int num_timesteps, float* state_d, float* U_d, float* du_d, float* nu_d, 
+//                          float* costs_d, float* dbg_output, float* state_der_dbg, float* u_dbg, float* du_dbg, DYNAMICS_T *dynamics_model, COSTS_T *mppi_costs, 
+//                          int opt_delay, cudaStream_t stream)
 template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
 void launchRolloutKernel(int num_timesteps, float* state_d, float* U_d, float* du_d, float* nu_d, 
-                         float* costs_d, float* dbg_output, float* state_der_dbg, float* u_dbg, float* du_dbg, DYNAMICS_T *dynamics_model, COSTS_T *mppi_costs, 
+                         float* costs_d, DYNAMICS_T *dynamics_model, COSTS_T *mppi_costs, 
                          int opt_delay, cudaStream_t stream)
 {
   const int GRIDSIZE_X = (NUM_ROLLOUTS-1)/BLOCKSIZE_X + 1;
   //transferMemToConst(dynamics_model.theta_d_);
   dim3 dimBlock(BLOCKSIZE_X, BLOCKSIZE_Y, 1);
-  dim3 dimGrid(GRIDSIZE_X, 1, 1);
-  //printf("%d \n", sizeof(DYNAMICS_T));
-  //int dev;
-  //cudaGetDevice(&dev);
-  //printf("Device: %d \n", dev);
-  //HANDLE_ERROR(cudaMemPrefetchAsync(dynamics_model, sizeof(DYNAMICS_T), dev, stream) );
-  //HANDLE_ERROR(cudaMemPrefetchAsync(dynamics_model->control_rngs_d_, 2*sizeof(float2), dev, stream) );
+  dim3 dimGrid(GRIDSIZE_X, 1, 1);  
 
   rolloutKernel<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y><<<dimGrid, dimBlock, 0, stream>>>(num_timesteps, state_d, U_d, 
-    du_d, nu_d, costs_d, *dynamics_model, *mppi_costs, opt_delay, dbg_output);
+    du_d, nu_d, costs_d, *dynamics_model, *mppi_costs, opt_delay);//, dbg_output);
 }
 
 template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
@@ -322,8 +328,10 @@ MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::MPPIController(DY
   U_.resize(numTimesteps_*CONTROL_DIM);
   traj_costs_.resize(NUM_ROLLOUTS);
 
-  control_dbg.resize(numTimesteps_*NUM_ROLLOUTS*CONTROL_DIM);
-  debug_output.resize(numTimesteps_*NUM_ROLLOUTS*DEBUG_DIM);
+// #ifdef DEBUG_BUILD
+//   control_dbg.resize(numTimesteps_*NUM_ROLLOUTS*CONTROL_DIM);
+//   debug_output.resize(numTimesteps_*NUM_ROLLOUTS*DEBUG_DIM);
+// #endif
 
   //Allocate memory on the device.
   allocateCudaMem();
@@ -360,7 +368,9 @@ void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::allocateCuda
   HANDLE_ERROR( cudaMalloc((void**)&du_d_, NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM*sizeof(float)));  
 
   //debug
-  HANDLE_ERROR( cudaMalloc((void**)&dbg_output_, NUM_ROLLOUTS*numTimesteps_*DEBUG_DIM*sizeof(float)));  
+// #ifdef DEBUG_BUILD
+//   HANDLE_ERROR( cudaMalloc((void**)&dbg_output_, NUM_ROLLOUTS*numTimesteps_*DEBUG_DIM*sizeof(float)));  
+// #endif
 }
 
 template<class DYNAMICS_T, class COSTS_T, int ROLLOUTS, int BDIM_X, int BDIM_Y>
@@ -371,8 +381,10 @@ void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::deallocateCu
   cudaFree(U_d_);
   cudaFree(du_d_);  
 
-  //debug
-  cudaFree(dbg_output_);
+//   //debug
+// #ifdef DEBUG_BUILD
+//   cudaFree(dbg_output_);
+// #endif
 
   //Free cuda memory used by the model and costs.
   model_->freeCudaMem();
@@ -543,11 +555,16 @@ void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::computeContr
     curandGenerateNormal(gen_, du_d_, NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM, 0.0, 1.0);
 
     // debug
+#ifdef DEBUG_OUTPUT
     HANDLE_ERROR( cudaMemcpyAsync(control_dbg.data(), du_d_, NUM_ROLLOUTS*numTimesteps_*CONTROL_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
+#endif
 
     //Launch the rollout kernel
-    launchRolloutKernel<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>(numTimesteps_, state_d_, U_d_, du_d_, nu_d_, traj_costs_d_, dbg_output_, state_der_dbg_d_, u_dbg_d_, du_dbg_d_, model_, 
-                        costs_, optimizationStride_, stream_);
+    // launchRolloutKernel<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>(numTimesteps_, state_d_, U_d_, du_d_, nu_d_, traj_costs_d_, dbg_output_, state_der_dbg_d_, u_dbg_d_, du_dbg_d_, model_, 
+    //                     costs_, optimizationStride_, stream_);
+    launchRolloutKernel<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>(numTimesteps_, state_d_, U_d_, du_d_, nu_d_, traj_costs_d_, model_, 
+                          costs_, optimizationStride_, stream_);
+  
 
     HANDLE_ERROR(cudaMemcpyAsync(traj_costs_.data(), traj_costs_d_, NUM_ROLLOUTS*sizeof(float), cudaMemcpyDeviceToHost, stream_));
     //NOTE: The calls to cudaMemcpyAsync are only asynchronous with regards to (1) CPU operations AND (2) GPU operations 
@@ -572,8 +589,10 @@ void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::computeContr
 
     // debug output
     // std::cout << "writing output\r\n";
-    HANDLE_ERROR( cudaMemcpyAsync(debug_output.data(), dbg_output_, NUM_ROLLOUTS*numTimesteps_*DEBUG_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
-    cudaStreamSynchronize(stream_);
+  // #ifdef DEBUG_BUILD
+  //   HANDLE_ERROR( cudaMemcpyAsync(debug_output.data(), dbg_output_, NUM_ROLLOUTS*numTimesteps_*DEBUG_DIM*sizeof(float), cudaMemcpyDeviceToHost, stream_));
+  //   cudaStreamSynchronize(stream_);
+  // #endif
 
     // if (state(4) > 6.5)
     // {

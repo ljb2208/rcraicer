@@ -73,7 +73,8 @@ void DataRecorder::openFile()
     //write header
     if (writeHeader)
     {
-        csvFile << "x_pos,y_pos,z_pos,roll,pitch,yaw,u_x,u_y,u_z,comp_u_x,comp_u_y,roll_mder,pitch_mder,yaw_mder,steer,throttle,brake,time_step,act_x_pos,act_y_pos,act_z_pos,act_roll,act_pitch,act_yaw,act_u_x,act_u_y,act_u_z,act_comp_u_x,act_comp_u_y,act_roll_mder,act_pitch_mder,act_yaw_mder\n";
+        // csvFile << "x_pos,y_pos,z_pos,roll,pitch,yaw,u_x,u_y,u_z,comp_u_x,comp_u_y,roll_mder,pitch_mder,yaw_mder,steer,throttle,brake,time_step,act_x_pos,act_y_pos,act_z_pos,act_roll,act_pitch,act_yaw,act_u_x,act_u_y,act_u_z,act_comp_u_x,act_comp_u_y,act_roll_mder,act_pitch_mder,act_yaw_mder\n";
+        csvFile << "x_pos,y_pos,z_pos,roll,pitch,yaw,u_x,u_y,u_z,comp_u_x,comp_u_y,roll_mder,pitch_mder,yaw_mder,steer,throttle,brake,time_step,act_x_pos,act_y_pos,act_z_pos,act_roll,act_pitch,act_yaw,act_u_x,act_u_y,act_u_z,act_comp_u_x,act_comp_u_y,act_roll_mder,act_pitch_mder,act_yaw_mder,accel_roll,accel_x,accel_y,accel_yaw\n";
         writeHeader = false;
     }
     csvFile.precision(10);
@@ -98,6 +99,18 @@ void DataRecorder::sim_state_callback(const rcraicer_msgs::msg::SimState::Shared
     tf2::Quaternion q(msg->orientation.x, msg->orientation.y, msg->orientation.z, msg->orientation.w);
     tf2::Matrix3x3 m(q);
     m.getRPY(roll, pitch, yaw);
+
+    float adjYaw = 0.0;
+
+    if (priorYaw > 2.5 and yaw < -2.5)
+        headingMultipler += 1;
+    else if(priorYaw < -2.5 and yaw > 2.5)
+        headingMultipler -= 1;
+    else
+        headingMultipler = 0;
+            
+    adjYaw = yaw + headingMultipler*2*M_PI;
+
 
 
     if (priorMessageAvailable)
@@ -132,15 +145,19 @@ void DataRecorder::sim_state_callback(const rcraicer_msgs::msg::SimState::Shared
             csvFile << ",";
             csvFile << priorMsg.linear_velocity.z;                        
             csvFile << ",";            
-            csvFile << cos(priorYaw)*priorMsg.angular_velocity.x + sin(priorYaw)*priorMsg.angular_velocity.y;            
+
+            float priorXVel = cos(priorYaw)*priorMsg.linear_velocity.x + sin(priorYaw)*priorMsg.linear_velocity.y;
+            float priorYVel = -sin(priorYaw)*priorMsg.linear_velocity.x + cos(priorYaw)*priorMsg.linear_velocity.y;             
+
+            csvFile << priorXVel;            
             csvFile << ",";
-            csvFile << -sin(priorYaw)*priorMsg.angular_velocity.x + cos(priorYaw)*priorMsg.angular_velocity.y;             
+            csvFile << priorYVel;
             csvFile << ",";            
             csvFile << priorMsg.angular_velocity.x;
             csvFile << ",";
             csvFile << priorMsg.angular_velocity.y;
             csvFile << ",";
-            csvFile << priorMsg.angular_velocity.z;
+            csvFile << -priorMsg.angular_velocity.z;
             csvFile << ",";            
             csvFile << priorMsg.steering;
             csvFile << ",";
@@ -171,16 +188,36 @@ void DataRecorder::sim_state_callback(const rcraicer_msgs::msg::SimState::Shared
             csvFile << msg->linear_velocity.y;
             csvFile << ",";
             csvFile << msg->linear_velocity.z;
-            csvFile << ",";            
-            csvFile << cos(yaw)*msg->angular_velocity.x + sin(yaw)*msg->angular_velocity.y;            
+            csvFile << ",";      
+
+            float xVel = cos(adjYaw)*msg->linear_velocity.x + sin(adjYaw)*msg->linear_velocity.y;            
+            float yVel = -sin(adjYaw)*msg->linear_velocity.x + cos(adjYaw)*msg->linear_velocity.y;
+
+            csvFile << xVel;            
             csvFile << ",";
-            csvFile << -sin(yaw)*msg->angular_velocity.x + cos(yaw)*msg->angular_velocity.y;             
+            csvFile << yVel;             
             csvFile << ",";                                    
             csvFile << msg->angular_velocity.x;
             csvFile << ",";
             csvFile << msg->angular_velocity.y;
             csvFile << ",";
-            csvFile << msg->angular_velocity.z;            
+            csvFile << -msg->angular_velocity.z;            
+
+
+            float rollVel = (roll - priorRoll) / tsDelta;
+            float xAccel = (xVel - priorXVel) / tsDelta;
+            float yAccel = (yVel - priorYVel) / tsDelta;
+            float yawAccel = -(msg->angular_velocity.z - priorMsg.angular_velocity.z) / tsDelta;
+
+            csvFile << ",";
+            csvFile << rollVel;
+            csvFile << ",";
+            csvFile << xAccel;
+            csvFile << ",";
+            csvFile << yAccel;
+            csvFile << ",";
+            csvFile << yawAccel;
+
             // float yawmder = yawChange(yaw, priorYaw) / tsDelta;            
             // csvFile << yawmder;        
             csvFile << "\n";

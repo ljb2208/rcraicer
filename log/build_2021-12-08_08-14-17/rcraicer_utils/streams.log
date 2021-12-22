@@ -1,0 +1,21 @@
+[0.868s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_utils': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_utils/lib/python3.8/site-packages:/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/rcraicer_utils build --build-base /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_utils/build install --prefix /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_utils --record /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_utils/install.log --single-version-externally-managed
+[1.265s] running egg_info
+[1.267s] writing ../build/rcraicer_utils/rcraicer_utils.egg-info/PKG-INFO
+[1.268s] writing dependency_links to ../build/rcraicer_utils/rcraicer_utils.egg-info/dependency_links.txt
+[1.269s] writing entry points to ../build/rcraicer_utils/rcraicer_utils.egg-info/entry_points.txt
+[1.269s] writing requirements to ../build/rcraicer_utils/rcraicer_utils.egg-info/requires.txt
+[1.270s] writing top-level names to ../build/rcraicer_utils/rcraicer_utils.egg-info/top_level.txt
+[1.333s] reading manifest file '../build/rcraicer_utils/rcraicer_utils.egg-info/SOURCES.txt'
+[1.335s] writing manifest file '../build/rcraicer_utils/rcraicer_utils.egg-info/SOURCES.txt'
+[1.336s] running build
+[1.336s] running build_py
+[1.336s] running install
+[1.338s] running install_lib
+[1.342s] running install_data
+[1.342s] running install_egg_info
+[1.345s] removing '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_utils/lib/python3.8/site-packages/rcraicer_utils-0.0.0-py3.8.egg-info' (and everything under it)
+[1.345s] Copying ../build/rcraicer_utils/rcraicer_utils.egg-info to /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_utils/lib/python3.8/site-packages/rcraicer_utils-0.0.0-py3.8.egg-info
+[1.346s] running install_scripts
+[1.381s] Installing rcraicer_ui script to /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_utils/lib/rcraicer_utils
+[1.381s] writing list of installed files to '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_utils/install.log'
+[1.420s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_utils' returned '0': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_utils/lib/python3.8/site-packages:/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/rcraicer_utils build --build-base /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_utils/build install --prefix /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_utils --record /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_utils/install.log --single-version-externally-managed

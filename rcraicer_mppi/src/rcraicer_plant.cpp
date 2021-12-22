@@ -180,90 +180,7 @@ void RCRaicerPlant::poseCall(nav_msgs::msg::Odometry::SharedPtr pose_msg)
     RCLCPP_INFO(rclcpp::get_logger(logger_name), " First pose estimate received.");
   }
   boost::mutex::scoped_lock lock(access_guard_);
-  // //Update the timestamp
-  // last_pose_call_ = pose_msg->header.stamp;
-  // poseCount_++;
-  // //Set activated to true --> we are receiving state messages.
-  // activated_ = true;
-  // //Update position
-  // full_state_.x_pos = pose_msg->pose.pose.position.x;
-  // full_state_.y_pos = pose_msg->pose.pose.position.y;
-  // full_state_.z_pos = pose_msg->pose.pose.position.z;
-  // //Grab the quaternion
-  // float q0 = pose_msg->pose.pose.orientation.w;
-  // float q1 = pose_msg->pose.pose.orientation.x;
-  // float q2 = pose_msg->pose.pose.orientation.y;
-  // float q3 = pose_msg->pose.pose.orientation.z;
-  // 	//Update euler angles. These use the 1-2-3 Euler angle convention.
-  // full_state_.roll = atan2(2*q2*q3 + 2*q0*q1, q3*q3 - q2*q2 - q1*q1 + q0*q0);
-  // full_state_.pitch = -asin(2*q1*q3 - 2*q0*q2);
-  // full_state_.yaw = atan2(2*q1*q2 + 2*q0*q3, q1*q1 + q0*q0 - q3*q3 - q2*q2);
-
-  // //Don't allow heading to wrap around
-  // if (last_heading_ > 3.0 && full_state_.yaw < -3.0){
-  //   heading_multiplier_ += 1;
-  // }
-  // else if (last_heading_ < -3.0 && full_state_.yaw > 3.0){
-  //   heading_multiplier_ -= 1;
-  // }
-  // last_heading_ = full_state_.yaw;
-  // full_state_.yaw = full_state_.yaw + heading_multiplier_*2*3.14159265359;
-
-  // //Update the quaternion
-  // full_state_.q0 = q0;
-  // full_state_.q1 = q1;
-  // full_state_.q2 = q2;
-  // full_state_.q3 = q3;
-  // //Update the world frame velocity
-  // full_state_.x_vel = pose_msg->twist.twist.linear.x;
-  // full_state_.y_vel = pose_msg->twist.twist.linear.y;
-  // full_state_.z_vel = pose_msg->twist.twist.linear.z;
-  // //Update the body frame longitudenal and lateral velocity
-  // full_state_.u_x = cos(full_state_.yaw)*full_state_.x_vel + sin(full_state_.yaw)*full_state_.y_vel;
-  // full_state_.u_y = -sin(full_state_.yaw)*full_state_.x_vel + cos(full_state_.yaw)*full_state_.y_vel;
-  // //Update the minus yaw derivative.
-  // full_state_.yaw_mder = -pose_msg->twist.twist.angular.z;
-
-  // //Interpolate and publish the current control
-  // double timeFromLastOpt = (last_pose_call_ - solutionTs_).seconds();
-
-  // if (solutionReceived_ && timeFromLastOpt > 0 && timeFromLastOpt < (numTimesteps_-1)*deltaT_){
-  //   double steering_ff, throttle_ff, steering_fb, throttle_fb, steering, throttle;
-  //   int lowerIdx = (int)(timeFromLastOpt/deltaT_);
-  //   int upperIdx = lowerIdx + 1;
-  //   double alpha = (timeFromLastOpt - lowerIdx*deltaT_)/deltaT_;
-  //   steering_ff = (1 - alpha)*controlSequence_[2*lowerIdx] + alpha*controlSequence_[2*upperIdx];
-  //   throttle_ff = (1 - alpha)*controlSequence_[2*lowerIdx + 1] + alpha*controlSequence_[2*upperIdx + 1];
-
-  //   if (!useFeedbackGains_){ //Just publish the computed open loop controls
-  //     steering = steering_ff;
-  //     throttle = throttle_ff;
-  //   }
-  //   else { //Compute the error between the current and actual state and apply feedback gains
-  //     Eigen::MatrixXf current_state(7,1);
-  //     Eigen::MatrixXf desired_state(7,1);
-  //     Eigen::MatrixXf deltaU;
-  //     current_state << full_state_.x_pos, full_state_.y_pos, full_state_.yaw, full_state_.roll, full_state_.u_x, full_state_.u_y, full_state_.yaw_mder;
-  //     for (int i = 0; i < 7; i++){
-  //       desired_state(i) = (1 - alpha)*stateSequence_[7*lowerIdx + i] + alpha*stateSequence_[7*upperIdx + i];
-  //     }
-      
-  //     deltaU = ((1-alpha)*feedback_gains_[lowerIdx] + alpha*feedback_gains_[upperIdx])*(current_state - desired_state);
-
-  //     if (std::isnan( deltaU(0) ) || std::isnan( deltaU(1))){
-  //       steering = steering_ff;
-  //       throttle = throttle_ff;
-  //     }
-  //     else {
-  //       steering_fb = deltaU(0);
-  //       throttle_fb = deltaU(1);
-  //       steering = fmin(0.99, fmax(-0.99, steering_ff + steering_fb));
-  //       throttle = fmin(throttleMax_, fmax(-0.99, throttle_ff + throttle_fb));
-  //     }
-  //   }
-  //   pubControl(steering, throttle);
-  // }
-
+ 
   processPose(pose_msg->header, pose_msg->pose.pose.orientation, pose_msg->pose.pose.position, pose_msg->twist.twist.linear, pose_msg->twist.twist.angular);
 }
 
@@ -352,6 +269,7 @@ void RCRaicerPlant::processPose(std_msgs::msg::Header header, geometry_msgs::msg
         throttle = fmin(throttleMax_, fmax(-0.99, throttle_ff + throttle_fb));
       }
     }
+    // std::cout << "Control: " << steering << ", " << throttle << "\r\n";
     pubControl(steering, throttle); 
   }
 }
@@ -370,10 +288,10 @@ void RCRaicerPlant::simStateCall(rcraicer_msgs::msg::SimState::SharedPtr state_m
   full_state_.throttle = state_msg->throttle;  
 
   geometry_msgs::msg::Point pt;
-  pt.x = state_msg->position.x;
-  pt.y = state_msg->position.y;
-  pt.z = state_msg->position.z;
-  processPose(state_msg->header, state_msg->orientation, pt, state_msg->linear_velocity, state_msg->linear_acceleration);
+  pt.x = state_msg->env_position.x;
+  pt.y = state_msg->env_position.y;
+  pt.z = state_msg->env_position.z;
+  processPose(state_msg->header, state_msg->orientation, pt, state_msg->linear_velocity, state_msg->angular_velocity);
 }
 
 void RCRaicerPlant::modelCall(rcraicer_msgs::msg::NeuralNetModel::SharedPtr model_msg)

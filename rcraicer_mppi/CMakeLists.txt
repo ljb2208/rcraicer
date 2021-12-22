@@ -58,7 +58,9 @@ include(FindCUDA)
 set(CUDA_PROPAGATE_HOST_FLAGS OFF)
 
 # set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -std=c++17 -maxrregcount=32 -O3 -arch=sm_75 -w -lineinfo -G -DTHRUST_DEBUG -g)
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -std=c++17 -maxrregcount=32 -arch=sm_35 -w -g -G)
+# set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -std=c++17 -maxrregcount=32 -arch=sm_35 -w -g -G)
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} -std=c++17 -maxrregcount=32 -O3 -arch=sm_75 -w)
+
 
 
 ####################################################################################

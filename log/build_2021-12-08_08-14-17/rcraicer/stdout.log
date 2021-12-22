@@ -1,0 +1,40 @@
+[ 20%] Built target state_estimator
+[ 50%] Built target arduino_controller
+[ 80%] Built target imu_mavlink
+[100%] Built target wheel_odometry
+-- Install configuration: "RelWithDebInfo"
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/lib/rcraicer/imu_mavlink
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/lib/rcraicer/arduino_controller
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/lib/rcraicer/wheel_odometry
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/lib/rcraicer/state_estimator
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/odom.txt
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/gps_launch.py
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/odom_launch.py
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/odom2.txt
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/onboard_launch.py
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/test_launch copy 2.py
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/sim_launch.py
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/__pycache__
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/__pycache__/test_launch.cpython-38.pyc
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/__pycache__/sim_launch_basic.cpython-38.pyc
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/tf_launch.py
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/mapviz_launch.py
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/offboard_launch.py
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/sim_launch_basic.py
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer//launch/odom.ods
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/ament_index/resource_index/package_run_dependencies/rcraicer
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/ament_index/resource_index/parent_prefix_path/rcraicer
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/environment/ament_prefix_path.sh
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/environment/path.sh
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/environment/path.dsv
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/local_setup.bash
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/local_setup.sh
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/local_setup.zsh
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/local_setup.dsv
+-- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.dsv
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/ament_index/resource_index/packages/rcraicer
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/cmake/rcraicerConfig.cmake
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/cmake/rcraicerConfig-version.cmake
+-- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.xml

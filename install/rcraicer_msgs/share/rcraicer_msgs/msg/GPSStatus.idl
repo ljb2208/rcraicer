@@ -1,0 +1,75 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from rcraicer_msgs/msg/GPSStatus.msg
+// generated code does not contain a copyright notice
+
+#include "std_msgs/msg/Header.idl"
+
+module rcraicer_msgs {
+  module msg {
+    module GPSStatus_Constants {
+      const int16 STATUS_NO_FIX = -1;
+      const int16 STATUS_FIX = 0;
+      const int16 STATUS_SBAS_FIX = 1;
+      const int16 STATUS_GBAS_FIX = 2;
+      const int16 STATUS_DGPS_FIX = 18;
+      const int16 STATUS_WAAS_FIX = 33;
+      const int16 RTK_STATUS_NONE = 0;
+      const int16 RTK_STATUS_FLOAT = 1;
+      const int16 RTK_STATUS_FIXED = 2;
+    };
+    struct GPSStatus {
+      std_msgs::msg::Header header;
+
+      @verbatim (language="comment", text=
+        " Satellites used in solution" "\n"
+        " Number of satellites")
+      uint16 satellites_used;
+
+      @verbatim (language="comment", text=
+        " PRN identifiers")
+      sequence<int32> satellite_used_prn;
+
+      @verbatim (language="comment", text=
+        " Satellites visible")
+      uint16 satellites_visible;
+
+      @verbatim (language="comment", text=
+        " PRN identifiers")
+      sequence<int32> satellite_visible_prn;
+
+      @verbatim (language="comment", text=
+        " Elevation of satellites")
+      sequence<int32> satellite_visible_z;
+
+      @verbatim (language="comment", text=
+        " Azimuth of satellites")
+      sequence<int32> satellite_visible_azimuth;
+
+      @verbatim (language="comment", text=
+        " Signal-to-noise ratios (dB)")
+      sequence<int32> satellite_visible_snr;
+
+      int16 status;
+
+      int16 rtk_status;
+
+      float vdop;
+
+      float hdop;
+
+      float pdop;
+
+      float hacc;
+
+      float vacc;
+
+      float gspeed;
+
+      float sacc;
+
+      float headmot;
+
+      float headacc;
+    };
+  };
+};

@@ -1,0 +1,993 @@
+[0.074s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_sim': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_sim -- -j8 -l8
+[0.475s] [  9%] Built target sim_node
+[0.475s] [ 15%] Built target sim_debug_node
+[0.477s] [ 59%] Built target rpc
+[0.478s] [ 93%] Built target AirLib
+[0.478s] [35m[1mScanning dependencies of target airsim_node[0m
+[0.629s] [ 96%] [32mBuilding CXX object CMakeFiles/airsim_node.dir/src/airsim_node.cpp.o[0m
+[4.867s] In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+[4.867s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+[4.867s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+[4.868s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[4.868s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:[m[K In copy constructor ‘[01m[Kmsr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose::Pose(const msr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose&)[m[K’:
+[4.868s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:53:16:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[KEigen::Quaternion<float, 2>::Quaternion(const Eigen::Quaternion<float, 2>&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-copy[m[K]
+[4.868s]    53 |         struct [01;35m[KPose[m[K
+[4.868s]       |                [01;35m[K^~~~[m[K
+[4.869s] In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Geometry:42[m[K,
+[4.869s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:6[m[K,
+[4.869s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+[4.869s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+[4.869s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+[4.869s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+[4.869s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[4.870s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:488:64:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KEigen::Quaternion<float, 2>[m[K’ has user-provided ‘[01m[KEigen::QuaternionBase<Derived>& Eigen::QuaternionBase<Derived>::operator=(const Eigen::QuaternionBase<Derived>&) [with Derived = Eigen::Quaternion<float, 2>][m[K’
+[4.870s]   488 | EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE QuaternionBase<Derived>& [01;36m[KQuaternionBase<Derived>[m[K::operator=(const QuaternionBase<Derived>& other)
+[4.870s]       |                                                                [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.870s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:[m[K In copy constructor ‘[01m[KEigen::Quaternion<float, 2>::Quaternion(const Eigen::Quaternion<float, 2>&)[m[K’:
+[4.870s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:232:7:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[Kconstexpr Eigen::QuaternionBase<Eigen::Quaternion<float, 2> >::QuaternionBase(const Eigen::QuaternionBase<Eigen::Quaternion<float, 2> >&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-copy[m[K]
+[4.870s]   232 | class [01;35m[KQuaternion[m[K : public QuaternionBase<Quaternion<_Scalar,_Options> >
+[4.870s]       |       [01;35m[K^~~~~~~~~~[m[K
+[4.870s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:488:64:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KEigen::QuaternionBase<Eigen::Quaternion<float, 2> >[m[K’ has user-provided ‘[01m[KEigen::QuaternionBase<Derived>& Eigen::QuaternionBase<Derived>::operator=(const Eigen::QuaternionBase<Derived>&) [with Derived = Eigen::Quaternion<float, 2>][m[K’
+[4.871s]   488 | EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE QuaternionBase<Derived>& [01;36m[KQuaternionBase<Derived>[m[K::operator=(const QuaternionBase<Derived>& other)
+[4.871s]       |                                                                [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.871s] In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+[4.871s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+[4.871s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+[4.871s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[4.871s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:[m[K In copy constructor ‘[01m[Kmsr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose::Pose(const msr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose&)[m[K’:
+[4.871s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:53:16:[m[K [01;36m[Knote: [m[Ksynthesized method ‘[01m[KEigen::Quaternion<float, 2>::Quaternion(const Eigen::Quaternion<float, 2>&)[m[K’ first required here
+[4.871s]    53 |         struct [01;36m[KPose[m[K
+[4.872s]       |                [01;36m[K^~~~[m[K
+[4.872s] In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:9[m[K,
+[4.872s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+[4.872s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[4.872s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/CommonStructs.hpp:[m[K In constructor ‘[01m[Kmsr::airlib::CameraInfo::CameraInfo(const Pose&, float, const msr::airlib::ProjectionMatrix&)[m[K’:
+[4.872s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/CommonStructs.hpp:268:66:[m[K [01;36m[Knote: [m[Ksynthesized method ‘[01m[Kmsr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose::Pose(const msr::airlib::VectorMathT<Eigen::Matrix<float, 3, 1>, Eigen::Quaternion<float, 2>, float>::Pose&)[m[K’ first required here
+[4.872s]   268 |             : pose(pose_val), fov(fov_val), proj_mat(proj_mat_val[01;36m[K)[m[K
+[4.872s]       |                                                                  [01;36m[K^[m[K
+[5.386s] In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/include/sensors/magnetometer/MagnetometerSimple.hpp:12[m[K,
+[5.386s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/sensors/SensorFactory.hpp:10[m[K,
+[5.386s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarApiBase.hpp:13[m[K,
+[5.386s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:10[m[K,
+[5.386s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+[5.386s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[5.386s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/FrequencyLimiter.hpp:[m[K In member function ‘[01m[Kvirtual void msr::airlib::FrequencyLimiter::failResetUpdateOrdering(std::string)[m[K’:
+[5.387s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/FrequencyLimiter.hpp:49:58:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kerr[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+[5.387s]    49 |         virtual void failResetUpdateOrdering([01;35m[Kstd::string err[m[K) override
+[5.387s]       |                                              [01;35m[K~~~~~~~~~~~~^~~[m[K
+[6.194s] In file included from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/object.hpp:15[m[K,
+[6.194s]                  from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack.hpp:23[m[K,
+[6.194s]                  from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/rpc_error.h:9[m[K,
+[6.195s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:2[m[K:
+[6.195s] [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/v1/object.hpp:[m[K In function ‘[01m[Kvoid clmdep_msgpack::v1::operator<<(clmdep_msgpack::v2::object&, const msgpack_object&)[m[K’:
+[6.195s] [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/v1/object.hpp:656:34:[m[K [01;35m[Kwarning: [m[K‘[01m[Kvoid* memcpy(void*, const void*, size_t)[m[K’ copying an object of non-trivial type ‘[01m[Kstruct clmdep_msgpack::v2::object[m[K’ from an array of ‘[01m[Kconst msgpack_object[m[K’ {aka ‘[01m[Kconst struct msgpack_object[m[K’} [[01;35m[K-Wclass-memaccess[m[K]
+[6.195s]   656 |     std::memcpy(&o, &v, sizeof(v)[01;35m[K)[m[K;
+[6.195s]       |                                  [01;35m[K^[m[K
+[6.195s] In file included from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/object_fwd.hpp:17[m[K,
+[6.195s]                  from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/v1/adaptor/adaptor_base_decl.hpp:14[m[K,
+[6.195s]                  from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/adaptor/adaptor_base_decl.hpp:13[m[K,
+[6.195s]                  from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/adaptor/adaptor_base.hpp:13[m[K,
+[6.195s]                  from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/v1/object_decl.hpp:16[m[K,
+[6.196s]                  from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/object_decl.hpp:14[m[K,
+[6.196s]                  from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/object.hpp:13[m[K,
+[6.196s]                  from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack.hpp:23[m[K,
+[6.196s]                  from [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/rpc_error.h:9[m[K,
+[6.196s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:2[m[K:
+[6.196s] [01m[K/home/lbarnett/development/AirSim/external/rpclib/rpclib-2.3.0/include/rpc/msgpack/v2/object_fwd.hpp:23:8:[m[K [01;36m[Knote: [m[K‘[01m[Kstruct clmdep_msgpack::v2::object[m[K’ declared here
+[6.196s]    23 | struct [01;36m[Kobject[m[K : v1::object {
+[6.196s]       |        [01;36m[K^~~~~~[m[K
+[6.328s] In file included from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[6.328s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:[m[K In constructor ‘[01m[KAirSimNode::AirSimNode()[m[K’:
+[6.328s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:137:14:[m[K [01;35m[Kwarning: [m[K‘[01m[KAirSimNode::autoEnabled[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+[6.328s]   137 |         bool [01;35m[KautoEnabled[m[K;
+[6.328s]       |              [01;35m[K^~~~~~~~~~~[m[K
+[6.328s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:123:21:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kstd::string AirSimNode::vehicle_name[m[K’ [[01;35m[K-Wreorder[m[K]
+[6.328s]   123 |         std::string [01;35m[Kvehicle_name[m[K;
+[6.328s]       |                     [01;35m[K^~~~~~~~~~~~[m[K
+[6.328s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:8:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+[6.328s]     8 | [01;35m[KAirSimNode[m[K::AirSimNode() : Node("airsim_node"), autoEnabled(false), vehicle_name("PhysXCar"), client(NULL), staticBroadcaster(this), baseToOdomBroadcaster(this)
+[6.329s]       | [01;35m[K^~~~~~~~~~[m[K
+[6.329s] In file included from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[6.329s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:164:39:[m[K [01;35m[Kwarning: [m[K‘[01m[KAirSimNode::client[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+[6.329s]   164 |         msr::airlib::CarRpcLibClient* [01;35m[Kclient[m[K;
+[6.329s]       |                                       [01;35m[K^~~~~~[m[K
+[6.329s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:54:45:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Ktf2_ros::StaticTransformBroadcaster AirSimNode::staticBroadcaster[m[K’ [[01;35m[K-Wreorder[m[K]
+[6.329s]    54 |         tf2_ros::StaticTransformBroadcaster [01;35m[KstaticBroadcaster[m[K;
+[6.329s]       |                                             [01;35m[K^~~~~~~~~~~~~~~~~[m[K
+[6.329s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:8:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+[6.329s]     8 | [01;35m[KAirSimNode[m[K::AirSimNode() : Node("airsim_node"), autoEnabled(false), vehicle_name("PhysXCar"), client(NULL), staticBroadcaster(this), baseToOdomBroadcaster(this)
+[6.329s]       | [01;35m[K^~~~~~~~~~[m[K
+[6.407s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:[m[K In member function ‘[01m[Kvoid AirSimNode::publishStateData()[m[K’:
+[6.407s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:282:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdelta_x[m[K’ [[01;35m[K-Wunused-variable[m[K]
+[6.407s]   282 |     double [01;35m[Kdelta_x[m[K = odom_msg.pose.pose.position.x - priorX;
+[6.407s]       |            [01;35m[K^~~~~~~[m[K
+[6.407s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:283:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdelta_yaw[m[K’ [[01;35m[K-Wunused-variable[m[K]
+[6.407s]   283 |     double [01;35m[Kdelta_yaw[m[K = yaw - priorYaw;
+[6.407s]       |            [01;35m[K^~~~~~~~~[m[K
+[6.408s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:286:12:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdelta_t[m[K’ [[01;35m[K-Wunused-variable[m[K]
+[6.408s]   286 |     double [01;35m[Kdelta_t[m[K = t.seconds() - priorOdomStamp;
+[6.408s]       |            [01;35m[K^~~~~~~[m[K
+[7.131s] In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Core:476[m[K,
+[7.131s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:1[m[K,
+[7.132s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+[7.132s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+[7.132s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+[7.132s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+[7.132s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[7.132s] /home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/Diagonal.h: In instantiation of ‘[01m[KEigen::Diagonal<MatrixType, Index>::Diagonal(MatrixType&, Eigen::Index) [with MatrixType = Eigen::Map<Eigen::Matrix<double, 3, 3, 1> >; int _DiagIndex = 0; Eigen::Index = long int][m[K’:
+[7.132s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/Diagonal.h:193:10:[m[K   required from ‘[01m[KEigen::MatrixBase<Derived>::DiagonalReturnType Eigen::MatrixBase<Derived>::diagonal() [with Derived = Eigen::Map<Eigen::Matrix<double, 3, 3, 1> >; Eigen::MatrixBase<Derived>::DiagonalReturnType = Eigen::Diagonal<Eigen::Map<Eigen::Matrix<double, 3, 3, 1> >, 0>][m[K’
+[7.132s] [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:694:20:[m[K   required from here
+[7.132s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/Diagonal.h:73:112:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[KEigen::Map<Eigen::Matrix<double, 3, 3, 1> >::Map(const Eigen::Map<Eigen::Matrix<double, 3, 3, 1> >&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-copy[m[K]
+[7.132s]    73 |     explicit inline Diagonal(MatrixType& matrix, Index a_index = DiagIndex) : m_matrix(matrix), m_index(a_index[01;35m[K)[m[K
+[7.133s]       |                                                                                                                [01;35m[K^[m[K
+[7.133s] In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Core:469[m[K,
+[7.133s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:1[m[K,
+[7.133s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+[7.133s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+[7.133s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+[7.133s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+[7.133s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[7.133s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/MapBase.h:288:14:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KEigen::Map<Eigen::Matrix<double, 3, 3, 1> >[m[K’ has user-provided ‘[01m[KDerived& Eigen::MapBase<Derived, 1>::operator=(const Eigen::MapBase<Derived, 1>&) [with Derived = Eigen::Map<Eigen::Matrix<double, 3, 3, 1> >][m[K’
+[7.133s]   288 |     Derived& [01;36m[Koperator[m[K=(const MapBase& other)
+[7.133s]       |              [01;36m[K^~~~~~~~[m[K
+[7.782s] In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Geometry:36[m[K,
+[7.783s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:6[m[K,
+[7.783s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+[7.783s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+[7.783s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+[7.783s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+[7.783s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[7.783s] /home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/OrthoMethods.h: In instantiation of ‘[01m[Ktypename Eigen::MatrixBase<Derived>::cross_product_return_type<OtherDerived>::type Eigen::MatrixBase<Derived>::cross(const Eigen::MatrixBase<OtherDerived>&) const [with OtherDerived = Eigen::Matrix<float, 3, 1>; Derived = Eigen::Block<const Eigen::Matrix<float, 4, 1>, 3, 1, false>; typename Eigen::MatrixBase<Derived>::cross_product_return_type<OtherDerived>::type = Eigen::Matrix<float, 3, 1>][m[K’:
+[7.783s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:482:13:[m[K   required from ‘[01m[KEigen::QuaternionBase<Derived>::Vector3 Eigen::QuaternionBase<Derived>::_transformVector(const Vector3&) const [with Derived = Eigen::Quaternion<float>; Eigen::QuaternionBase<Derived>::Vector3 = Eigen::Matrix<float, 3, 1>; typename Eigen::internal::traits<T>::Scalar = float][m[K’
+[7.783s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:201:54:[m[K   required from ‘[01m[Kstatic Vector3T msr::airlib::VectorMathT<Vector3T, QuaternionT, RealT>::rotateVectorReverse(const Vector3T&, const QuaternionT&, bool) [with Vector3T = Eigen::Matrix<float, 3, 1>; QuaternionT = Eigen::Quaternion<float, 2>; RealT = float][m[K’
+[7.783s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:238:39:[m[K   required from ‘[01m[Kstatic Vector3T msr::airlib::VectorMathT<Vector3T, QuaternionT, RealT>::transformToBodyFrame(const Vector3T&, const QuaternionT&, bool) [with Vector3T = Eigen::Matrix<float, 3, 1>; QuaternionT = Eigen::Quaternion<float, 2>; RealT = float][m[K’
+[7.783s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/sensors/imu/ImuSimple.hpp:64:79:[m[K   required from here
+[7.783s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/OrthoMethods.h:41:51:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[KEigen::Block<const Eigen::Matrix<float, 4, 1>, 3, 1, false>::Block(const Eigen::Block<const Eigen::Matrix<float, 4, 1>, 3, 1, false>&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-copy[m[K]
+[7.784s]    41 |   typename internal::nested_eval<Derived,2>::type [01;35m[Klhs[m[K(derived());
+[7.784s]       |                                                   [01;35m[K^~~[m[K
+[7.784s] In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Core:88[m[K,
+[7.784s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:1[m[K,
+[7.784s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+[7.784s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+[7.784s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+[7.784s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+[7.784s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[7.785s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/util/Macros.h:830:52:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KEigen::Block<const Eigen::Matrix<float, 4, 1>, 3, 1, false>[m[K’ has user-provided ‘[01m[KEigen::BlockImpl<XprType, BlockRows, BlockCols, InnerPanel, Eigen::Dense>& Eigen::BlockImpl<XprType, BlockRows, BlockCols, InnerPanel, Eigen::Dense>::operator=(const Eigen::BlockImpl<XprType, BlockRows, BlockCols, InnerPanel, Eigen::Dense>&) [with XprType = const Eigen::Matrix<float, 4, 1>; int BlockRows = 3; int BlockCols = 1; bool InnerPanel = false][m[K’
+[7.785s]   830 |     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& [01;36m[Koperator[m[K=(const Derived& other) \
+[7.785s]       |                                                    [01;36m[K^~~~~~~~[m[K
+[7.785s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/util/Macros.h:842:53:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KEIGEN_INHERIT_ASSIGNMENT_EQUAL_OPERATOR[m[K’
+[7.785s]   842 | #define EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Derived) [01;36m[KEIGEN_INHERIT_ASSIGNMENT_EQUAL_OPERATOR[m[K(Derived)
+[7.785s]       |                                                     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[7.785s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Core/Block.h:161:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KEIGEN_INHERIT_ASSIGNMENT_OPERATORS[m[K’
+[7.785s]   161 |     [01;36m[KEIGEN_INHERIT_ASSIGNMENT_OPERATORS[m[K(BlockImpl)
+[7.785s]       |     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[7.786s] In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Geometry:55[m[K,
+[7.786s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:6[m[K,
+[7.786s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+[7.787s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+[7.787s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+[7.787s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+[7.787s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[7.787s] /home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/arch/Geometry_SSE.h: In instantiation of ‘[01m[Kstatic Eigen::Quaternion<float> Eigen::internal::quat_conj<1, Derived, float>::run(const Eigen::QuaternionBase<Derived>&) [with Derived = Eigen::Quaternion<float, 2>][m[K’:
+[7.787s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:698:74:[m[K   required from ‘[01m[KEigen::Quaternion<typename Eigen::internal::traits<T>::Scalar> Eigen::QuaternionBase<Derived>::conjugate() const [with Derived = Eigen::Quaternion<float, 2>; typename Eigen::internal::traits<T>::Scalar = float][m[K’
+[7.787s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:203:38:[m[K   required from ‘[01m[Kstatic Vector3T msr::airlib::VectorMathT<Vector3T, QuaternionT, RealT>::rotateVectorReverse(const Vector3T&, const QuaternionT&, bool) [with Vector3T = Eigen::Matrix<float, 3, 1>; QuaternionT = Eigen::Quaternion<float, 2>; RealT = float][m[K’
+[7.787s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:238:39:[m[K   required from ‘[01m[Kstatic Vector3T msr::airlib::VectorMathT<Vector3T, QuaternionT, RealT>::transformToBodyFrame(const Vector3T&, const QuaternionT&, bool) [with Vector3T = Eigen::Matrix<float, 3, 1>; QuaternionT = Eigen::Quaternion<float, 2>; RealT = float][m[K’
+[7.788s] [01m[K/home/lbarnett/development/AirSim/AirLib/include/sensors/imu/ImuSimple.hpp:64:79:[m[K   required from here
+[7.788s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/arch/Geometry_SSE.h:56:12:[m[K [01;35m[Kwarning: [m[Kimplicitly-declared ‘[01m[KEigen::Quaternion<float>::Quaternion(const Eigen::Quaternion<float>&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-copy[m[K]
+[7.788s]    56 |     return [01;35m[Kres[m[K;
+[7.788s]       |            [01;35m[K^~~[m[K
+[7.788s] In file included from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Geometry:42[m[K,
+[7.788s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/Dense:6[m[K,
+[7.788s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/VectorMath.hpp:14[m[K,
+[7.788s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/common/Common.hpp:16[m[K,
+[7.788s]                  from [01m[K/home/lbarnett/development/AirSim/AirLib/include/vehicles/car/api/CarRpcLibClient.hpp:7[m[K,
+[7.788s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/../include/rcraicer_sim/airsim_node.h:18[m[K,
+[7.788s]                  from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_sim/src/airsim_node.cpp:1[m[K:
+[7.788s] [01m[K/home/lbarnett/development/AirSim/AirLib/deps/eigen3/Eigen/src/Geometry/Quaternion.h:488:64:[m[K [01;36m[Knote: [m[Kbecause ‘[01m[KEigen::Quaternion<float>[m[K’ has user-provided ‘[01m[KEigen::QuaternionBase<Derived>& Eigen::QuaternionBase<Derived>::operator=(const Eigen::QuaternionBase<Derived>&) [with Derived = Eigen::Quaternion<float>][m[K’
+[7.788s]   488 | EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE QuaternionBase<Derived>& [01;36m[KQuaternionBase<Derived>[m[K::operator=(const QuaternionBase<Derived>& other)
+[7.788s]       |                                                                [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[36.815s] [100%] [32m[1mLinking CXX executable airsim_node[0m
+[37.561s] [100%] Built target airsim_node
+[37.574s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_sim' returned '0': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_sim -- -j8 -l8
+[37.610s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_sim': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_sim
+[37.620s] -- Install configuration: "RelWithDebInfo"
+[37.621s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/rcraicer_sim/sim_node
+[37.624s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/rcraicer_sim/airsim_node
+[37.675s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/rcraicer_sim/airsim_node" to ""
+[37.679s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/rcraicer_sim/sim_debug_node
+[37.679s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/ament_index/resource_index/package_run_dependencies/rcraicer_sim
+[37.679s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/ament_index/resource_index/parent_prefix_path/rcraicer_sim
+[37.679s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/environment/ament_prefix_path.sh
+[37.680s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/environment/ament_prefix_path.dsv
+[37.680s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/environment/path.sh
+[37.680s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/environment/path.dsv
+[37.680s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/local_setup.bash
+[37.680s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/local_setup.sh
+[37.680s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/local_setup.zsh
+[37.680s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/local_setup.dsv
+[37.681s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/package.dsv
+[37.681s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/ament_index/resource_index/packages/rcraicer_sim
+[37.681s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/cmake/rcraicer_simConfig.cmake
+[37.681s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/cmake/rcraicer_simConfig-version.cmake
+[37.681s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/share/rcraicer_sim/package.xml
+[37.681s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/librpc.a
+[37.681s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include
+[37.682s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc
+[37.682s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/this_server.h
+[37.682s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/this_handler.h
+[37.682s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack
+[37.682s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/vrefbuffer_decl.hpp
+[37.683s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/zbuffer.hpp
+[37.683s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/zbuffer_decl.hpp
+[37.683s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/pack.h
+[37.683s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/object_fwd.hpp
+[37.683s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/version_master.h
+[37.684s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/gcc_atomic.h
+[37.684s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2
+[37.684s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/vrefbuffer_decl.hpp
+[37.684s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/zbuffer_decl.hpp
+[37.684s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/object_fwd.hpp
+[37.685s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/object.hpp
+[37.685s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/unpack_decl.hpp
+[37.685s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/iterator_decl.hpp
+[37.685s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/object_fwd_decl.hpp
+[37.685s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/create_object_visitor.hpp
+[37.687s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/parse.hpp
+[37.687s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/sbuffer_decl.hpp
+[37.687s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/x3_parse.hpp
+[37.687s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/unpack.hpp
+[37.687s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor
+[37.688s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/array_ref_decl.hpp
+[37.688s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/ext_decl.hpp
+[37.688s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/adaptor_base.hpp
+[37.688s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/size_equal_only_decl.hpp
+[37.689s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/check_container_size_decl.hpp
+[37.689s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/boost
+[37.689s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/boost/msgpack_variant_decl.hpp
+[37.689s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/fixint_decl.hpp
+[37.689s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/adaptor_base_decl.hpp
+[37.690s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/nil_decl.hpp
+[37.690s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/int_decl.hpp
+[37.690s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/detail
+[37.690s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/detail/cpp11_define_array_decl.hpp
+[37.690s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/detail/cpp03_define_array_decl.hpp
+[37.690s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/detail/cpp03_define_map_decl.hpp
+[37.691s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/detail/cpp03_msgpack_tuple_decl.hpp
+[37.691s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/detail/cpp11_msgpack_tuple_decl.hpp
+[37.691s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/detail/cpp11_define_map_decl.hpp
+[37.691s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/define_decl.hpp
+[37.691s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/raw_decl.hpp
+[37.691s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/msgpack_tuple_decl.hpp
+[37.692s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/v4raw_decl.hpp
+[37.692s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/adaptor/map_decl.hpp
+[37.692s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/cpp_config_decl.hpp
+[37.692s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/parse_return.hpp
+[37.692s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/detail
+[37.692s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/detail/cpp03_zone_decl.hpp
+[37.693s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/detail/cpp11_zone_decl.hpp
+[37.693s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/fbuffer_decl.hpp
+[37.693s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/meta_decl.hpp
+[37.693s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/zone_decl.hpp
+[37.693s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/x3_unpack.hpp
+[37.694s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/object_decl.hpp
+[37.694s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/null_visitor.hpp
+[37.694s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v2/pack_decl.hpp
+[37.694s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/object.hpp
+[37.694s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/unpack_decl.hpp
+[37.695s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef
+[37.695s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os.h
+[37.695s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler
+[37.695s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/gcc.h
+[37.695s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/hp_acc.h
+[37.695s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/digitalmars.h
+[37.696s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/compaq.h
+[37.696s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/greenhills.h
+[37.696s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/llvm.h
+[37.697s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/borland.h
+[37.697s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/gcc_xml.h
+[37.697s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/edg.h
+[37.697s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/clang.h
+[37.697s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/microtec.h
+[37.698s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/comeau.h
+[37.698s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/iar.h
+[37.698s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/metrowerks.h
+[37.698s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/visualc.h
+[37.699s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/palm.h
+[37.699s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/intel.h
+[37.699s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/watcom.h
+[37.699s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/dignus.h
+[37.699s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/kai.h
+[37.700s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/pgi.h
+[37.700s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/ibm.h
+[37.700s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/diab.h
+[37.700s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/sgi_mipspro.h
+[37.701s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/ekopath.h
+[37.701s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/mpw.h
+[37.701s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/tendra.h
+[37.701s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/sunpro.h
+[37.701s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler/metaware.h
+[37.702s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/other.h
+[37.702s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os
+[37.702s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/bsd.h
+[37.702s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/linux.h
+[37.703s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/irix.h
+[37.703s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/android.h
+[37.703s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/haiku.h
+[37.703s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/ios.h
+[37.703s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/hpux.h
+[37.704s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/solaris.h
+[37.704s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/vms.h
+[37.704s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/cygwin.h
+[37.704s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/windows.h
+[37.704s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/qnxnto.h
+[37.705s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/amigaos.h
+[37.705s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/bsd
+[37.705s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/bsd/open.h
+[37.706s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/bsd/net.h
+[37.706s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/bsd/free.h
+[37.706s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/bsd/bsdi.h
+[37.706s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/bsd/dragonfly.h
+[37.706s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/macos.h
+[37.706s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/os400.h
+[37.706s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/beos.h
+[37.706s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/unix.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/os/aix.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/language.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/compiler.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/version_number.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/z.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/sys370.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/sys390.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/pyramid.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/mips.h
+[37.707s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/x86
+[37.708s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/x86/64.h
+[37.708s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/x86/32.h
+[37.708s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/m68k.h
+[37.708s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/ppc.h
+[37.708s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/alpha.h
+[37.708s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/sparc.h
+[37.708s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/blackfin.h
+[37.708s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/arm.h
+[37.708s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/superh.h
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/x86.h
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/rs6k.h
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/convex.h
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/parisc.h
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture/ia64.h
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/make.h
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd.h
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/x86
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/x86/versions.h
+[37.709s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/ppc.h
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/arm
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/arm/versions.h
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/x86_amd.h
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/x86_amd
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/x86_amd/versions.h
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/arm.h
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/x86.h
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/ppc
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/hardware/simd/ppc/versions.h
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/language
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/language/stdc.h
+[37.710s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/language/objc.h
+[37.711s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/language/stdcpp.h
+[37.713s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/detail
+[37.713s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/detail/test.h
+[37.713s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/detail/_cassert.h
+[37.714s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/detail/endian_compat.h
+[37.714s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/detail/_exception.h
+[37.714s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/detail/test_def.h
+[37.714s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/detail/comp_detected.h
+[37.714s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/detail/platform_detected.h
+[37.714s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/detail/os_detected.h
+[37.714s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/version.h
+[37.714s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/platform
+[37.715s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/platform/windows_phone.h
+[37.715s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/platform/windows_store.h
+[37.715s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/platform/windows_desktop.h
+[37.715s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/platform/windows_runtime.h
+[37.715s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/platform/mingw.h
+[37.717s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/platform.h
+[37.718s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/architecture.h
+[37.718s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library
+[37.718s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std
+[37.718s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std/sgi.h
+[37.718s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std/roguewave.h
+[37.719s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std/cxx.h
+[37.719s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std/vacpp.h
+[37.719s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std/modena.h
+[37.719s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std/stdcpp3.h
+[37.719s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std/stlport.h
+[37.719s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std/_prefix.h
+[37.719s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std/msl.h
+[37.720s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std/libcomo.h
+[37.720s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std/dinkumware.h
+[37.720s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/c.h
+[37.720s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/std.h
+[37.720s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/c
+[37.720s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/c/vms.h
+[37.720s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/c/gnu.h
+[37.721s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/c/uc.h
+[37.721s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/c/_prefix.h
+[37.721s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/library/c/zos.h
+[37.721s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/other
+[37.721s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef/other/endian.h
+[37.721s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/iterator_decl.hpp
+[37.721s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/fbuffer.h
+[37.721s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/object_fwd_decl.hpp
+[37.721s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/meta.hpp
+[37.722s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/sysdep.h
+[37.722s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/object.h
+[37.722s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/pack_define.h
+[37.722s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1
+[37.722s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/vrefbuffer_decl.hpp
+[37.722s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/zbuffer.hpp
+[37.722s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/zbuffer_decl.hpp
+[37.722s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/object_fwd.hpp
+[37.722s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/object.hpp
+[37.722s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/unpack_decl.hpp
+[37.722s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/iterator_decl.hpp
+[37.723s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/object_fwd_decl.hpp
+[37.723s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/meta.hpp
+[37.723s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/sbuffer_decl.hpp
+[37.723s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/fbuffer.hpp
+[37.723s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/iterator.hpp
+[37.723s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/version.hpp
+[37.723s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/sbuffer.hpp
+[37.723s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/zone.hpp
+[37.723s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/unpack.hpp
+[37.724s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor
+[37.724s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/array_ref_decl.hpp
+[37.724s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/ext.hpp
+[37.724s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/ext_decl.hpp
+[37.724s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/adaptor_base.hpp
+[37.724s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/vector_char.hpp
+[37.724s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/vector_bool.hpp
+[37.725s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/char_ptr.hpp
+[37.725s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/size_equal_only_decl.hpp
+[37.725s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/v4raw.hpp
+[37.725s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/check_container_size_decl.hpp
+[37.725s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/boost
+[37.725s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/boost/optional.hpp
+[37.725s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/boost/string_ref.hpp
+[37.726s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/boost/msgpack_variant_decl.hpp
+[37.726s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/boost/fusion.hpp
+[37.726s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/boost/msgpack_variant.hpp
+[37.726s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/boost/string_view.hpp
+[37.726s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/msgpack_tuple.hpp
+[37.726s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/check_container_size.hpp
+[37.727s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/fixint_decl.hpp
+[37.727s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/nil.hpp
+[37.727s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/array_ref.hpp
+[37.727s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/vector.hpp
+[37.727s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/pair.hpp
+[37.727s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp17
+[37.727s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp17/optional.hpp
+[37.728s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp17/string_view.hpp
+[37.728s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/adaptor_base_decl.hpp
+[37.728s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/raw.hpp
+[37.728s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/float.hpp
+[37.728s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/nil_decl.hpp
+[37.728s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/int_decl.hpp
+[37.728s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/vector_unsigned_char.hpp
+[37.728s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp11
+[37.729s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp11/reference_wrapper.hpp
+[37.729s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp11/shared_ptr.hpp
+[37.729s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp11/unique_ptr.hpp
+[37.729s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp11/unordered_map.hpp
+[37.729s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp11/forward_list.hpp
+[37.729s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp11/array_unsigned_char.hpp
+[37.729s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp11/array.hpp
+[37.730s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp11/array_char.hpp
+[37.730s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp11/unordered_set.hpp
+[37.730s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/cpp11/tuple.hpp
+[37.730s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/size_equal_only.hpp
+[37.730s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/string.hpp
+[37.731s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail
+[37.731s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp11_define_array_decl.hpp
+[37.731s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp03_define_array_decl.hpp
+[37.731s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp03_define_map_decl.hpp
+[37.731s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp03_msgpack_tuple_decl.hpp
+[37.731s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp03_msgpack_tuple.hpp
+[37.732s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp11_msgpack_tuple_decl.hpp
+[37.732s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp11_define_array.hpp
+[37.732s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp03_define_map.hpp
+[37.732s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp03_define_array.hpp
+[37.732s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp11_define_map.hpp
+[37.732s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp11_msgpack_tuple.hpp
+[37.733s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/detail/cpp11_define_map_decl.hpp
+[37.733s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/define_decl.hpp
+[37.733s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/fixint.hpp
+[37.733s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/tr1
+[37.733s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/tr1/unordered_map.hpp
+[37.733s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/tr1/unordered_set.hpp
+[37.734s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/set.hpp
+[37.734s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/int.hpp
+[37.734s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/deque.hpp
+[37.734s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/raw_decl.hpp
+[37.734s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/msgpack_tuple_decl.hpp
+[37.734s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/v4raw_decl.hpp
+[37.735s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/map_decl.hpp
+[37.735s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/carray.hpp
+[37.735s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/define.hpp
+[37.735s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/list.hpp
+[37.735s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/map.hpp
+[37.735s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/adaptor/bool.hpp
+[37.735s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/cpp_config_decl.hpp
+[37.735s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/pack.hpp
+[37.737s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/vrefbuffer.hpp
+[37.737s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/parse_return.hpp
+[37.738s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/versioning.hpp
+[37.738s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/preprocessor.hpp
+[37.738s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/unpack_exception.hpp
+[37.738s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/detail
+[37.738s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/detail/cpp11_zone.hpp
+[37.738s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/detail/cpp03_zone_decl.hpp
+[37.739s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/detail/cpp03_zone.hpp
+[37.739s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/detail/cpp11_zone_decl.hpp
+[37.739s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/fbuffer_decl.hpp
+[37.739s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/meta_decl.hpp
+[37.739s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/zone_decl.hpp
+[37.740s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/cpp_config.hpp
+[37.740s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/object_decl.hpp
+[37.740s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/v1/pack_decl.hpp
+[37.740s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/sbuffer_decl.hpp
+[37.740s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/fbuffer.hpp
+[37.741s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/zbuffer.h
+[37.742s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/type.hpp
+[37.742s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/iterator.hpp
+[37.742s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/version.hpp
+[37.742s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/sbuffer.hpp
+[37.743s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/pack_template.h
+[37.743s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/zone.hpp
+[37.743s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/unpack.hpp
+[37.743s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor
+[37.743s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/array_ref_decl.hpp
+[37.744s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/ext.hpp
+[37.744s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/ext_decl.hpp
+[37.744s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/adaptor_base.hpp
+[37.745s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/vector_char.hpp
+[37.745s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/vector_bool.hpp
+[37.745s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/char_ptr.hpp
+[37.745s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/size_equal_only_decl.hpp
+[37.746s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/v4raw.hpp
+[37.746s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/check_container_size_decl.hpp
+[37.746s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/boost
+[37.746s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/boost/optional.hpp
+[37.746s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/boost/string_ref.hpp
+[37.747s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/boost/msgpack_variant_decl.hpp
+[37.748s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/boost/fusion.hpp
+[37.749s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/boost/msgpack_variant.hpp
+[37.750s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/boost/string_view.hpp
+[37.750s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/msgpack_tuple.hpp
+[37.750s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/check_container_size.hpp
+[37.750s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/fixint_decl.hpp
+[37.750s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/nil.hpp
+[37.751s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/array_ref.hpp
+[37.751s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/vector.hpp
+[37.751s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/pair.hpp
+[37.751s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp17
+[37.751s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp17/optional.hpp
+[37.751s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp17/string_view.hpp
+[37.751s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/adaptor_base_decl.hpp
+[37.752s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/raw.hpp
+[37.752s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/float.hpp
+[37.752s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/nil_decl.hpp
+[37.752s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/int_decl.hpp
+[37.752s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/vector_unsigned_char.hpp
+[37.752s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp11
+[37.752s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp11/reference_wrapper.hpp
+[37.752s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp11/shared_ptr.hpp
+[37.753s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp11/unique_ptr.hpp
+[37.753s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp11/unordered_map.hpp
+[37.753s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp11/forward_list.hpp
+[37.753s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp11/array_unsigned_char.hpp
+[37.753s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp11/array.hpp
+[37.753s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp11/array_char.hpp
+[37.753s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp11/unordered_set.hpp
+[37.754s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/cpp11/tuple.hpp
+[37.754s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/size_equal_only.hpp
+[37.754s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/string.hpp
+[37.754s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/define_decl.hpp
+[37.754s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/fixint.hpp
+[37.754s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/tr1
+[37.755s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/tr1/unordered_map.hpp
+[37.755s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/tr1/unordered_set.hpp
+[37.755s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/set.hpp
+[37.755s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/int.hpp
+[37.755s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/deque.hpp
+[37.756s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/raw_decl.hpp
+[37.756s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/msgpack_tuple_decl.hpp
+[37.756s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/v4raw_decl.hpp
+[37.756s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/map_decl.hpp
+[37.756s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/carray.hpp
+[37.756s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/define.hpp
+[37.757s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/list.hpp
+[37.757s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/map.hpp
+[37.757s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/adaptor/bool.hpp
+[37.757s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/util.h
+[37.757s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/cpp_config_decl.hpp
+[37.757s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/pack.hpp
+[37.758s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/vrefbuffer.hpp
+[37.758s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/parse_return.hpp
+[37.758s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/versioning.hpp
+[37.758s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor.hpp
+[37.758s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/unpack_exception.hpp
+[37.758s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/sbuffer.h
+[37.759s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/version.h
+[37.759s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor
+[37.759s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repeat_3rd.hpp
+[37.759s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities
+[37.759s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/is_empty.hpp
+[37.760s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/overload.hpp
+[37.760s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/is_empty_variadic.hpp
+[37.760s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/intercept.hpp
+[37.760s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/expand.hpp
+[37.760s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/detail
+[37.760s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/detail/is_empty.hpp
+[37.761s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/identity.hpp
+[37.761s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/empty.hpp
+[37.761s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/is_1.hpp
+[37.761s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/apply.hpp
+[37.761s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities/is_empty_or_1.hpp
+[37.761s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/cat.hpp
+[37.761s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/arithmetic.hpp
+[37.761s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/limits.hpp
+[37.761s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/inc.hpp
+[37.762s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration
+[37.762s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/self.hpp
+[37.762s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/local.hpp
+[37.762s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/iterate.hpp
+[37.762s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail
+[37.762s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/self.hpp
+[37.763s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/start.hpp
+[37.763s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/bounds
+[37.763s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/bounds/lower2.hpp
+[37.763s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/bounds/lower3.hpp
+[37.763s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/bounds/upper4.hpp
+[37.763s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/bounds/upper1.hpp
+[37.763s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/bounds/lower4.hpp
+[37.763s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/bounds/upper3.hpp
+[37.763s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/bounds/upper2.hpp
+[37.763s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/bounds/lower5.hpp
+[37.764s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/bounds/lower1.hpp
+[37.764s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/bounds/upper5.hpp
+[37.764s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/finish.hpp
+[37.764s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/local.hpp
+[37.764s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/rlocal.hpp
+[37.764s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/iter
+[37.765s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/iter/forward5.hpp
+[37.765s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/iter/reverse4.hpp
+[37.765s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/iter/reverse5.hpp
+[37.765s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/iter/reverse3.hpp
+[37.765s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/iter/forward1.hpp
+[37.765s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/iter/reverse2.hpp
+[37.765s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/iter/forward4.hpp
+[37.765s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/iter/forward2.hpp
+[37.765s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/iter/reverse1.hpp
+[37.765s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration/detail/iter/forward3.hpp
+[37.765s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/dec.hpp
+[37.766s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repeat_from_to_3rd.hpp
+[37.766s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control
+[37.766s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/expr_iif.hpp
+[37.766s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/if.hpp
+[37.766s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/deduce_d.hpp
+[37.766s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/expr_if.hpp
+[37.766s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/detail
+[37.767s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/detail/edg
+[37.767s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/detail/edg/while.hpp
+[37.767s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/detail/msvc
+[37.767s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/detail/msvc/while.hpp
+[37.767s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/detail/dmc
+[37.767s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/detail/dmc/while.hpp
+[37.767s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/detail/while.hpp
+[37.767s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/iif.hpp
+[37.767s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control/while.hpp
+[37.767s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/stringize.hpp
+[37.768s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition.hpp
+[37.768s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot
+[37.768s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot/counter.hpp
+[37.768s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot/detail
+[37.768s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot/detail/slot3.hpp
+[37.768s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot/detail/counter.hpp
+[37.768s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot/detail/slot2.hpp
+[37.768s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot/detail/def.hpp
+[37.768s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot/detail/shared.hpp
+[37.768s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot/detail/slot5.hpp
+[37.768s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot/detail/slot4.hpp
+[37.769s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot/detail/slot1.hpp
+[37.769s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot/slot.hpp
+[37.769s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/enum_shifted.hpp
+[37.769s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/selection.hpp
+[37.769s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/enum_params_with_defaults.hpp
+[37.769s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/selection
+[37.769s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/selection/max.hpp
+[37.769s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/selection/min.hpp
+[37.769s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical.hpp
+[37.769s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repeat.hpp
+[37.769s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/comparison
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/comparison/greater_equal.hpp
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/comparison/greater.hpp
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/comparison/less_equal.hpp
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/comparison/not_equal.hpp
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/comparison/less.hpp
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/comparison/equal.hpp
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/enum_params.hpp
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repeat_from_to_2nd.hpp
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/to_seq.hpp
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/to_tuple.hpp
+[37.770s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/replace.hpp
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/insert.hpp
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/push_front.hpp
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/pop_back.hpp
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/push_back.hpp
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/to_list.hpp
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/reverse.hpp
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/detail
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/detail/get_data.hpp
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/data.hpp
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/size.hpp
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/enum.hpp
+[37.771s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/pop_front.hpp
+[37.772s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/remove.hpp
+[37.772s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array/elem.hpp
+[37.772s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/wstringize.hpp
+[37.772s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/config
+[37.772s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/config/limits.hpp
+[37.772s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/config/config.hpp
+[37.772s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repeat_from_to.hpp
+[37.772s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/arithmetic
+[37.772s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/arithmetic/inc.hpp
+[37.773s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/arithmetic/dec.hpp
+[37.773s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/arithmetic/div.hpp
+[37.773s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/arithmetic/mul.hpp
+[37.773s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/arithmetic/mod.hpp
+[37.773s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/arithmetic/detail
+[37.773s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/arithmetic/detail/div_base.hpp
+[37.773s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/arithmetic/sub.hpp
+[37.773s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/arithmetic/add.hpp
+[37.773s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/for.hpp
+[37.773s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list
+[37.773s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/cat.hpp
+[37.774s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/for_each.hpp
+[37.774s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/to_seq.hpp
+[37.774s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/to_tuple.hpp
+[37.774s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/filter.hpp
+[37.774s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/append.hpp
+[37.774s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/to_array.hpp
+[37.774s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/fold_right.hpp
+[37.774s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/adt.hpp
+[37.774s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/transform.hpp
+[37.775s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/reverse.hpp
+[37.775s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/at.hpp
+[37.775s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/for_each_product.hpp
+[37.775s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/detail
+[37.775s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/detail/fold_right.hpp
+[37.775s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/detail/edg
+[37.775s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/detail/edg/fold_right.hpp
+[37.775s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/detail/edg/fold_left.hpp
+[37.776s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/detail/fold_left.hpp
+[37.776s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/detail/dmc
+[37.776s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/detail/dmc/fold_left.hpp
+[37.776s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/size.hpp
+[37.776s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/for_each_i.hpp
+[37.776s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/rest_n.hpp
+[37.776s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/enum.hpp
+[37.777s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/first_n.hpp
+[37.777s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list/fold_left.hpp
+[37.777s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq
+[37.777s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/cat.hpp
+[37.777s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/for_each.hpp
+[37.777s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/subseq.hpp
+[37.777s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/to_tuple.hpp
+[37.777s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/replace.hpp
+[37.777s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/filter.hpp
+[37.777s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/insert.hpp
+[37.778s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/to_array.hpp
+[37.778s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/push_front.hpp
+[37.778s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/fold_right.hpp
+[37.778s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/pop_back.hpp
+[37.778s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/push_back.hpp
+[37.778s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/seq.hpp
+[37.778s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/to_list.hpp
+[37.778s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/transform.hpp
+[37.778s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/reverse.hpp
+[37.778s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/for_each_product.hpp
+[37.778s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/detail
+[37.779s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/detail/is_empty.hpp
+[37.779s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/detail/binary_transform.hpp
+[37.779s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/detail/split.hpp
+[37.779s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/size.hpp
+[37.779s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/for_each_i.hpp
+[37.779s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/variadic_seq_to_seq.hpp
+[37.779s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/rest_n.hpp
+[37.779s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/enum.hpp
+[37.779s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/first_n.hpp
+[37.780s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/pop_front.hpp
+[37.780s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/fold_left.hpp
+[37.780s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/remove.hpp
+[37.780s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq/elem.hpp
+[37.780s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/array.hpp
+[37.780s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/if.hpp
+[37.780s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iterate.hpp
+[37.781s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/punctuation.hpp
+[37.782s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/library.hpp
+[37.783s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/enum_shifted_params.hpp
+[37.783s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/seq.hpp
+[37.783s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/expr_if.hpp
+[37.783s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/iteration.hpp
+[37.783s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/punctuation
+[37.783s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/punctuation/is_begin_parens.hpp
+[37.784s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/punctuation/paren.hpp
+[37.784s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/punctuation/detail
+[37.784s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/punctuation/detail/is_begin_parens.hpp
+[37.784s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/punctuation/paren_if.hpp
+[37.784s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/punctuation/comma.hpp
+[37.784s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/punctuation/comma_if.hpp
+[37.784s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/punctuation/remove_parens.hpp
+[37.784s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/expand.hpp
+[37.785s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/assert_msg.hpp
+[37.785s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/detail
+[37.785s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/detail/is_unary.hpp
+[37.785s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/detail/is_nullary.hpp
+[37.785s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/detail/auto_rec.hpp
+[37.785s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/detail/split.hpp
+[37.785s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/detail/null.hpp
+[37.785s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/detail/check.hpp
+[37.785s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/detail/is_binary.hpp
+[37.785s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/detail/dmc
+[37.785s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/detail/dmc/auto_rec.hpp
+[37.786s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/identity.hpp
+[37.786s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/variadic.hpp
+[37.786s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical
+[37.786s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical/xor.hpp
+[37.786s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical/bitor.hpp
+[37.786s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical/or.hpp
+[37.786s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical/and.hpp
+[37.786s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical/not.hpp
+[37.786s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical/bitxor.hpp
+[37.786s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical/compl.hpp
+[37.786s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical/bitand.hpp
+[37.787s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical/bitnor.hpp
+[37.787s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical/bool.hpp
+[37.787s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/logical/nor.hpp
+[37.787s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/empty.hpp
+[37.787s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/control.hpp
+[37.787s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/debug.hpp
+[37.787s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/enum.hpp
+[37.787s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/max.hpp
+[37.787s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple.hpp
+[37.787s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/comma.hpp
+[37.788s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/comma_if.hpp
+[37.788s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/debug
+[37.788s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/debug/line.hpp
+[37.788s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/debug/error.hpp
+[37.788s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/debug/assert.hpp
+[37.788s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/min.hpp
+[37.788s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/comparison.hpp
+[37.789s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/slot.hpp
+[37.789s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/list.hpp
+[37.789s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition
+[37.789s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/enum_trailing.hpp
+[37.789s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/deduce_z.hpp
+[37.789s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/enum_shifted.hpp
+[37.789s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/enum_params_with_defaults.hpp
+[37.789s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/repeat.hpp
+[37.790s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/enum_params.hpp
+[37.790s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/repeat_from_to.hpp
+[37.790s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/for.hpp
+[37.790s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/enum_shifted_params.hpp
+[37.790s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/enum_shifted_binary_params.hpp
+[37.790s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/enum_trailing_binary_params.hpp
+[37.790s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/enum_trailing_params.hpp
+[37.791s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/detail
+[37.791s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/detail/for.hpp
+[37.791s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/detail/edg
+[37.791s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/detail/edg/for.hpp
+[37.791s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/detail/msvc
+[37.791s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/detail/msvc/for.hpp
+[37.792s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/detail/dmc
+[37.792s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/detail/dmc/for.hpp
+[37.792s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/enum_binary_params.hpp
+[37.792s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/enum.hpp
+[37.792s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/enum_params_with_a_default.hpp
+[37.792s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repetition/deduce_r.hpp
+[37.792s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/repeat_2nd.hpp
+[37.792s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/enum_params_with_a_default.hpp
+[37.793s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple
+[37.793s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/eat.hpp
+[37.793s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/to_seq.hpp
+[37.793s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/replace.hpp
+[37.793s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/insert.hpp
+[37.793s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/to_array.hpp
+[37.793s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/push_front.hpp
+[37.793s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/pop_back.hpp
+[37.793s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/push_back.hpp
+[37.793s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/to_list.hpp
+[37.793s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/reverse.hpp
+[37.794s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/rem.hpp
+[37.794s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/detail
+[37.794s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/detail/is_single_return.hpp
+[37.794s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/size.hpp
+[37.794s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/enum.hpp
+[37.794s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/pop_front.hpp
+[37.794s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/remove.hpp
+[37.794s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/tuple/elem.hpp
+[37.795s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/variadic
+[37.795s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/variadic/to_seq.hpp
+[37.795s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/variadic/to_tuple.hpp
+[37.795s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/variadic/to_array.hpp
+[37.795s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/variadic/to_list.hpp
+[37.795s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/variadic/detail
+[37.795s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/variadic/detail/is_single_return.hpp
+[37.795s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/variadic/size.hpp
+[37.796s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/variadic/elem.hpp
+[37.796s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/while.hpp
+[37.796s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/preprocessor/facilities.hpp
+[37.796s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/fbuffer_decl.hpp
+[37.796s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/vrefbuffer.h
+[37.796s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/meta_decl.hpp
+[37.796s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/zone_decl.hpp
+[37.796s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/unpack_template.h
+[37.797s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/unpack_define.h
+[37.797s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/cpp_config.hpp
+[37.797s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/object_decl.hpp
+[37.797s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/gcc_atomic.hpp
+[37.797s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/zone.h
+[37.797s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/unpack.h
+[37.797s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/predef.h
+[37.797s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack/pack_decl.hpp
+[37.797s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/client.h
+[37.797s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/rpc_error.h
+[37.798s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/this_session.h
+[37.798s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/dispatcher.h
+[37.798s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/compatibility.h
+[37.798s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/client.inl
+[37.798s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail
+[37.798s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/server_session.h
+[37.799s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/make_unique.h
+[37.799s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/pimpl.h
+[37.799s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/thread_group.h
+[37.800s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/all.h
+[37.800s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/dev_utils.h
+[37.800s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/func_traits.h
+[37.800s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/bool.h
+[37.801s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/invoke.h
+[37.801s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/response.h
+[37.801s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/not.h
+[37.801s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/log.h
+[37.801s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/constant.h
+[37.802s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/util.h
+[37.802s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/client_error.h
+[37.803s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/if.h
+[37.803s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/call.h
+[37.803s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/func_tools.h
+[37.803s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/is_specialization_of.h
+[37.804s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/async_writer.h
+[37.804s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/detail/any.h
+[37.804s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/version.h
+[37.805s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/dispatcher.inl
+[37.805s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/this_handler.inl
+[37.805s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/msgpack.hpp
+[37.806s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/server.h
+[37.806s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/config.h
+[37.806s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/nonstd
+[37.807s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/include/rpc/nonstd/optional.hpp
+[37.807s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/cmake/rpclib/rpclibTargets.cmake
+[37.807s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/cmake/rpclib/rpclibTargets-relwithdebinfo.cmake
+[37.808s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/cmake/rpclib/rpclibConfig.cmake
+[37.808s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/cmake/rpclib/rpclibConfigVersion.cmake
+[37.808s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/pkgconfig/rpclib.pc
+[37.808s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/libAirLib.a
+[37.808s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/cmake/AirLib/AirLibTargets.cmake
+[37.808s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/cmake/AirLib/AirLibTargets-relwithdebinfo.cmake
+[37.808s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_sim/lib/cmake/AirLib/AirLibConfig.cmake
+[37.809s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_sim' returned '0': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --install /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_sim

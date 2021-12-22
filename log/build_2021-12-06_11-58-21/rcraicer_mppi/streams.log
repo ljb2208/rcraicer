@@ -1,0 +1,109 @@
+[0.036s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mppi': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake /home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi
+[0.248s] -- The C compiler identification is GNU 9.3.0
+[0.369s] -- The CXX compiler identification is GNU 9.3.0
+[2.215s] -- The CUDA compiler identification is NVIDIA 11.4.48
+[2.271s] -- Check for working C compiler: /usr/bin/cc
+[2.429s] -- Check for working C compiler: /usr/bin/cc -- works
+[2.432s] -- Detecting C compiler ABI info
+[2.617s] -- Detecting C compiler ABI info - done
+[2.646s] -- Detecting C compile features
+[2.654s] -- Detecting C compile features - done
+[2.658s] -- Check for working CXX compiler: /usr/bin/c++
+[2.853s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[2.855s] -- Detecting CXX compiler ABI info
+[3.141s] -- Detecting CXX compiler ABI info - done
+[3.176s] -- Detecting CXX compile features
+[3.176s] -- Detecting CXX compile features - done
+[3.191s] -- Check for working CUDA compiler: /usr/local/cuda/bin/nvcc
+[4.280s] -- Check for working CUDA compiler: /usr/local/cuda/bin/nvcc -- works
+[4.281s] -- Detecting CUDA compiler ABI info
+[5.912s] -- Detecting CUDA compiler ABI info - done
+[6.041s] -- Found ament_cmake: 0.9.9 (/opt/ros/foxy/share/ament_cmake/cmake)
+[6.136s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[6.136s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[6.781s] -- Found rclcpp: 2.4.0 (/opt/ros/foxy/share/rclcpp/cmake)
+[6.924s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[6.942s] -- Found rosidl_adapter: 1.2.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[7.315s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+[7.397s] -- Found FastRTPS: /opt/ros/foxy/include  
+[7.555s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[7.688s] -- Found rmw_implementation_cmake: 1.0.3 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[7.692s] -- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+[7.693s] -- Looking for pthread.h
+[7.912s] -- Looking for pthread.h - found
+[7.917s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[8.150s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+[8.151s] -- Looking for pthread_create in pthreads
+[8.363s] -- Looking for pthread_create in pthreads - not found
+[8.363s] -- Looking for pthread_create in pthread
+[8.637s] -- Looking for pthread_create in pthread - found
+[8.639s] -- Found Threads: TRUE  
+[9.075s] -- Found sensor_msgs: 2.0.4 (/opt/ros/foxy/share/sensor_msgs/cmake)
+[9.540s] -- Found rcraicer_msgs: 0.0.0 (/home/lbarnett/ros2_ws/install/rcraicer_msgs/share/rcraicer_msgs/cmake)
+[9.778s] -- Found nav_msgs: 2.0.4 (/opt/ros/foxy/share/nav_msgs/cmake)
+[10.245s] -- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0/BoostConfig.cmake (found version "1.71.0") found components: system thread chrono 
+[10.356s] -- Found OpenCV: /usr (found version "4.2.0") 
+[10.373s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/foxy/share/eigen3_cmake_module/cmake)
+[10.394s] -- Found Eigen3: TRUE (found version "3.3.90") 
+[10.503s] -- Found CUDA: /usr/local/cuda (found version "11.4") 
+[10.587s] -- Found ament_lint_auto: 0.9.6 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[11.036s] -- Added test 'copyright' to check source files copyright and LICENSE
+[11.049s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[11.052s] -- Configured cppcheck include dirs: 
+[11.052s] -- Configured cppcheck exclude dirs and/or files: 
+[11.056s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[11.056s] -- Configured cpplint exclude dirs and/or files: 
+[11.060s] -- Added test 'lint_cmake' to check CMake code style
+[11.069s] -- Added test 'uncrustify' to check C / C++ code style
+[11.069s] -- Configured uncrustify additional arguments: 
+[11.071s] -- Added test 'xmllint' to check XML markup files
+[11.079s] -- Configuring done
+[11.174s] -- Generating done
+[11.179s] -- Build files have been written to: /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mppi
+[11.206s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mppi' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake /home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi
+[11.212s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mppi': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mppi -- -j8 -l8
+[11.386s] [35m[1mScanning dependencies of target rcraicer_plant[0m
+[11.475s] [35m[1mScanning dependencies of target param_getter[0m
+[11.659s] [ 12%] [32mBuilding CXX object CMakeFiles/param_getter.dir/src/param_getter.cpp.o[0m
+[11.812s] [ 25%] [32mBuilding CXX object CMakeFiles/rcraicer_plant.dir/src/rcraicer_plant.cpp.o[0m
+[27.268s] [ 37%] [32m[1mLinking CXX static library libparam_getter.a[0m
+[27.467s] [ 37%] Built target param_getter
+[37.049s] [ 50%] [32m[1mLinking CXX static library librcraicer_plant.a[0m
+[37.110s] [ 50%] Built target rcraicer_plant
+[37.123s] [ 62%] [34m[1mBuilding NVCC (Device) object CMakeFiles/test_nn.dir/src/test_nn_generated_test.cu.o[0m
+[37.167s] nvcc warning : The 'compute_35', 'compute_37', 'compute_50', 'sm_35', 'sm_37' and 'sm_50' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+[38.083s] nvcc warning : The 'compute_35', 'compute_37', 'compute_50', 'sm_35', 'sm_37' and 'sm_50' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+[52.810s] [35m[1mScanning dependencies of target test_nn[0m
+[52.826s] [ 75%] [32m[1mLinking CXX executable test_nn[0m
+[53.225s] [ 75%] Built target test_nn
+[53.236s] [ 87%] [34m[1mBuilding NVCC (Device) object CMakeFiles/path_integral_nn.dir/src/path_integral_nn_generated_path_integral_node.cu.o[0m
+[53.272s] nvcc warning : The 'compute_35', 'compute_37', 'compute_50', 'sm_35', 'sm_37' and 'sm_50' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+[54.878s] nvcc warning : The 'compute_35', 'compute_37', 'compute_50', 'sm_35', 'sm_37' and 'sm_50' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+[196.793s] [35m[1mScanning dependencies of target path_integral_nn[0m
+[196.825s] [100%] [32m[1mLinking CXX executable path_integral_nn[0m
+[200.026s] [100%] Built target path_integral_nn
+[200.050s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mppi' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mppi -- -j8 -l8
+[200.109s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mppi': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --install /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mppi
+[200.122s] -- Install configuration: "RelWithDebInfo"
+[200.123s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/lib/rcraicer_mppi/librcraicer_plant.a
+[200.133s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/lib/rcraicer_mppi/libparam_getter.a
+[200.137s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/lib/rcraicer_mppi/path_integral_nn
+[200.231s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/lib/rcraicer_mppi/path_integral_nn" to ""
+[200.231s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/lib/rcraicer_mppi/test_nn
+[200.238s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/lib/rcraicer_mppi/test_nn" to ""
+[200.240s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/ament_index/resource_index/package_run_dependencies/rcraicer_mppi
+[200.241s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/ament_index/resource_index/parent_prefix_path/rcraicer_mppi
+[200.241s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/environment/ament_prefix_path.sh
+[200.242s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/environment/ament_prefix_path.dsv
+[200.242s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/environment/path.sh
+[200.242s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/environment/path.dsv
+[200.242s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/local_setup.bash
+[200.243s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/local_setup.sh
+[200.243s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/local_setup.zsh
+[200.243s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/local_setup.dsv
+[200.243s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/package.dsv
+[200.243s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/ament_index/resource_index/packages/rcraicer_mppi
+[200.243s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/cmake/rcraicer_mppiConfig.cmake
+[200.243s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/cmake/rcraicer_mppiConfig-version.cmake
+[200.243s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_mppi/share/rcraicer_mppi/package.xml
+[200.253s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mppi' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --install /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_mppi
