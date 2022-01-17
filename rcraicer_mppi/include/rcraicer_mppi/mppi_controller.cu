@@ -413,7 +413,7 @@ void MPPIController<DYNAMICS_T, COSTS_T, ROLLOUTS, BDIM_X, BDIM_Y>::initDDP()
   U_MAX_ << model_->control_rngs_[0].y, model_->control_rngs_[1].y;
   
   //Define the running and terminal cost
-  run_cost_ = new TrackingCostDDP<ModelWrapperDDP<DYNAMICS_T>>(Q_, R_, numTimesteps_);
+  run_cost_ = new TrackingCostDDP<ModelWrapperDDP<DYNAMICS_T>>(Q_, R_, numTimesteps_);  
   terminal_cost_ = new TrackingTerminalCost<ModelWrapperDDP<DYNAMICS_T>>(Qf_);
 }
 

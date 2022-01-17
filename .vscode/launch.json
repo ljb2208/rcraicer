@@ -269,9 +269,56 @@
             // "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states1.npz", "-p", "map_path:=/home/lbarnett/ros2_ws/src/rcraicer/costmap.npz", "-p", "y_pos:=-2.0", "-p", "heading:=2.95"], //, "-p", "num_timesteps:=200"],
             // "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/catkin_ws/src/autorally/autorally_control/src/path_integral/params/models/gazebo_nnet_09_12_2018.npz", "-p", "map_path:=/home/lbarnett/ros2_ws/src/rcraicer/costmap.npz", "-p", "y_pos:=-2.0", "-p", "heading:=2.95"],
             // "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states1.npz", "-p", "map_path:=/home/lbarnett/ros2_ws/src/rcraicer/costmap.npz", "-p", "y_pos:=-2.0", "-p", "heading:=2.95"],
-            "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states1.npz", "-p", "map_path:=/home/lbarnett/ros2_ws/src/rcraicer/costmap.npz", "-p", "debug_mode:=False", "-p", "throttle_coeff:=0.5", "-p", "max_throttle:=1.0"],
+            // "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states1.npz", "-p", "map_path:=/home/lbarnett/ros2_ws/src/rcraicer/costmap.npz", "-p", "debug_mode:=False", "-p", "throttle_coeff:=0.5", "-p", "max_throttle:=1.0"],
+            "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states1.npz", "-p", "map_path:=/home/lbarnett/ros2_ws/src/rcraicer/costmap.npz", "-p", "debug_mode:=False"],
             
             // "args": "--ros-args -p model_path:=/home/lbarnett/catkin_ws/src/autorally/autorally_control/src/path_integral/params/models/gazebo_nnet_09_12_2018.npz -p map_path:=/home/lbarnett/catkin_ws/src/autorally/autorally_control/src/path_integral/params/maps/gazebo_costmap_05_22_2016.npz",
+            "stopAtEntry": false,            
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Debug mppi node - debug",
+            "type": "lldb",
+            "request": "launch",
+            "program": "/home/lbarnett/ros2_ws/build/rcraicer_mppi/path_integral_nn",           
+            // "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states1_good_01012022.npz", "-p", "map_path:=/home/lbarnett/ros2_ws/src/rcraicer/costmap.npz", "-p", "throttle_coeff:=0.5", "-p", "max_throttle:=1.0", "-p", "y_pos:=-2.0", "-p", "heading:=2.95"],            
+            // "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states1.npz", "-p", "map_path:=/home/lbarnett/ros2_ws/src/rcraicer/costmap.npz", "-p", "throttle_coeff:=0.5", "-p", "max_throttle:=1.0", "-p", "y_pos:=-2.0", "-p", "heading:=2.95"],
+            "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/gazebo_dynmodel_states1.npz", "-p", "map_path:=/home/lbarnett/catkin_ws/src/autorally/autorally_control/src/path_integral/params/maps/gazebo_costmap_05_22_2016.npz"],
+            "stopAtEntry": false,            
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Debug mppi node - Airsim debug",
+            "type": "lldb",
+            "request": "launch",
+            "program": "/home/lbarnett/ros2_ws/build/rcraicer_mppi/path_integral_nn",           
+            // "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states1_good_01012022.npz", "-p", "map_path:=/home/lbarnett/ros2_ws/src/rcraicer/costmap.npz", "-p", "throttle_coeff:=0.5", "-p", "max_throttle:=1.0", "-p", "y_pos:=-2.0", "-p", "heading:=2.95"],            
+            // "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states1.npz", "-p", "map_path:=/home/lbarnett/ros2_ws/src/rcraicer/costmap.npz", "-p", "throttle_coeff:=0.5", "-p", "max_throttle:=1.0", "-p", "y_pos:=-2.0", "-p", "heading:=2.95"],
+            "args": ["--ros-args", "-p", "model_path:=/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynamics_dynmodel_states1.npz", "-p", "map_path:=/home/lbarnett/ros2_ws/src/rcraicer/costmap.npz", "-p", "y_pos:=-2.0", "-p", "heading:=2.95"],
             "stopAtEntry": false,            
             "cwd": "${workspaceFolder}",
             "environment": [],

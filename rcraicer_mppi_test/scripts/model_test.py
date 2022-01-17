@@ -4,7 +4,9 @@ import torch.nn as nn
 from dyn_model import DynModel
 
 model1_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states1.pth"
-model2_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/autorally_states.pth"
+# model2_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/autorally_states.pth"
+
+model2_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/dynmodel_states1_good_01012922.pth"
 
 model1 = DynModel()
 model1.load_state_dict(torch.load(model1_path))
@@ -16,8 +18,11 @@ model2.load_state_dict(torch.load(model2_path))
 model2.eval()
 
 # ["roll","u_x","u_y","yaw_mder","steer","throttle"]
-# data1 = [0., 1.88146, 0.0, 0.0, 0.0, 0.65]
-# data2 = [0., 1.88146, 0.0, 0.0, 0.0, 0.65]
+data1 = [0., 1.88146, 0.0, 0.0, 0.0, 0.65]
+data2 = [0., 1.88146, 0.0, 0.0, 0.0, 0.65]
+
+# data1 = [0.,0., 0.0, 0.0, 0.0, 1.0]
+# data2 = [0.,0., 0.0, 0.0, 0.0, 1.0]
 
 # data1 = [0.00197912,0.087988,0.0327559,0.00164792, -0.0948704,0.226337]
 # data2 = [0.00197912,0.087988,0.0327559,0.00164792, -0.0948704,0.226337]
@@ -38,8 +43,8 @@ model2.eval()
 # data1 = [-0.0194799,1.88146,0.0209004,0.0205138,0.0550244,0.3]
 # data2 = [-0.0194799,1.88146,0.0209004,0.0205138,0.0550244,0.3]
 
-data1 = [-0.145713,1.44483,-0.484872,0.0305919,-0.329207,0.65]
-data2 = [-0.145713,1.44483,-0.484872,0.0305919,-0.329207,0.65]
+# data1 = [-0.145713,1.44483,-0.484872,0.0305919,-0.329207,0.65]
+# data2 = [-0.145713,1.44483,-0.484872,0.0305919,-0.329207,0.65]
 
 # data1 = [-0.005,1.88146,0.0209004,0.0205138,0.0550244,0.3]
 # data2 = [-0.005,1.88146,0.0209004,0.0205138,0.0550244,0.3]

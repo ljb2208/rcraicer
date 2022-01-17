@@ -1,8 +1,0 @@
-In file included from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mapping/src/map_publisher.cpp:1[m[K:
-[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mapping/src/../include/rcraicer_mapping/map_publisher.h:97:2:[m[K [01;35m[Kwarning: [m[KISO C++ prohibits anonymous structs [[01;35m[K-Wpedantic[m[K]
-   97 |  [01;35m[K}[m[K;
-      |  [01;35m[K^[m[K
-In file included from [01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mapping/src/map_generator.cpp:1[m[K:
-[01m[K/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mapping/src/../include/rcraicer_mapping/map_generator.h:89:2:[m[K [01;35m[Kwarning: [m[KISO C++ prohibits anonymous structs [[01;35m[K-Wpedantic[m[K]
-   89 |  [01;35m[K}[m[K;
-      |  [01;35m[K^[m[K

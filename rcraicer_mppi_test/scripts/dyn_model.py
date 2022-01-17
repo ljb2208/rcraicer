@@ -30,7 +30,7 @@ class DynModel(nn.Module):
 
         # self.bn3 = nn.BatchNorm1d(layer2_size, eps=1e-5, momentum=0.1, affine=True, track_running_stats=True)
         # self.lin3 = nn.Linear(in_features=layer2_size, out_features=layer3_size, bias=False)
-        # # self.rel2 = nn.ReLU(inplace=True)
+        # # # self.rel2 = nn.ReLU(inplace=True)
         # self.rel3 = nn.Tanh()
 
         # self.lin_last = nn.Linear(in_features=layer2_size, out_features=out_features, bias=True)
@@ -49,7 +49,7 @@ class DynModel(nn.Module):
         # x = self.lin2(self.bn2(x))
         x = self.lin2(x)
         x = self.rel2(x)
-        # x = self.lin3(self.bn3(x))
+        # x = self.lin3(x)
         # x = self.rel3(x)
         x = self.lin_last(x)
 

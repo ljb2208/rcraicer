@@ -74,7 +74,7 @@ void DataRecorder::openFile()
     if (writeHeader)
     {
         // csvFile << "x_pos,y_pos,z_pos,roll,pitch,yaw,u_x,u_y,u_z,comp_u_x,comp_u_y,roll_mder,pitch_mder,yaw_mder,steer,throttle,brake,time_step,act_x_pos,act_y_pos,act_z_pos,act_roll,act_pitch,act_yaw,act_u_x,act_u_y,act_u_z,act_comp_u_x,act_comp_u_y,act_roll_mder,act_pitch_mder,act_yaw_mder\n";
-        csvFile << "x_pos,y_pos,z_pos,roll,pitch,yaw,u_x,u_y,u_z,comp_u_x,comp_u_y,roll_mder,pitch_mder,yaw_mder,steer,throttle,brake,time_step,act_x_pos,act_y_pos,act_z_pos,act_roll,act_pitch,act_yaw,act_u_x,act_u_y,act_u_z,act_comp_u_x,act_comp_u_y,act_roll_mder,act_pitch_mder,act_yaw_mder,accel_roll,accel_x,accel_y,accel_yaw\n";
+        csvFile << "x_pos,y_pos,z_pos,roll,pitch,yaw,u_x,u_y,u_z,comp_u_x,comp_u_y,roll_mder,pitch_mder,yaw_mder,steer,throttle,brake,time_step,act_x_pos,act_y_pos,act_z_pos,act_roll,act_pitch,act_yaw,act_u_x,act_u_y,act_u_z,act_comp_u_x,act_comp_u_y,act_roll_mder,act_pitch_mder,act_yaw_mder,accel_roll,accel_x,accel_y,accel_yaw, accel2_x,accel2_y,accel2_yaw\n";
         writeHeader = false;
     }
     csvFile.precision(10);
@@ -217,6 +217,13 @@ void DataRecorder::sim_state_callback(const rcraicer_msgs::msg::SimState::Shared
             csvFile << yAccel;
             csvFile << ",";
             csvFile << yawAccel;
+
+            csvFile << ",";                                    
+            csvFile << msg->angular_acceleration.x;
+            csvFile << ",";
+            csvFile << msg->angular_acceleration.y;
+            csvFile << ",";
+            csvFile << -msg->angular_acceleration.z;            
 
             // float yawmder = yawChange(yaw, priorYaw) / tsDelta;            
             // csvFile << yawmder;        

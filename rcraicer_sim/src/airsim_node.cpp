@@ -199,7 +199,13 @@ void AirSimNode::publishStateData()
     }
 
     state_msg.header.frame_id = "base_link";
-    state_msg.header.stamp = atorTime(state_data.timestamp);
+    // state_msg.header.stamp = atorTime(state_data.timestamp);
+    rclcpp::Time tm = this->get_clock()->now();  
+    state_msg.header.stamp = tm;
+    
+    // auto millisec_since_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    // rclcpp::Time tm = state_msg.header.stamp;
+    // RCLCPP_INFO(this->get_logger(), "Timestamp: %f , %ld, %ld", tm.seconds(),state_data.timestamp, millisec_since_epoch);    
 
     state_msg.speed = state_data.speed;
     state_msg.throttle = control_data.throttle;
@@ -216,6 +222,15 @@ void AirSimNode::publishStateData()
     state_msg.temperature = env_data.temperature;
     state_msg.air_density = env_data.air_density;
 
+
+
+    // state_msg.position = atorVec(state_data.kinematics_estimated.pose.position);
+    // state_msg.orientation = atorQuat(state_data.kinematics_estimated.pose.orientation);
+    // state_msg.linear_velocity = atorVec(state_data.kinematics_estimated.twist.linear);
+    // state_msg.linear_acceleration = atorVec(state_data.kinematics_estimated.accelerations.linear);
+    // state_msg.angular_velocity = atorVecLocal(state_data.kinematics_estimated.twist.angular);
+    // state_msg.angular_acceleration = atorVecLocal(state_data.kinematics_estimated.accelerations.angular);        
+
     state_msg.position = atorVec(kin_data.pose.position);
     state_msg.orientation = atorQuat(kin_data.pose.orientation);
     state_msg.linear_velocity = atorVec(kin_data.twist.linear);
@@ -223,7 +238,7 @@ void AirSimNode::publishStateData()
     state_msg.angular_velocity = atorVecLocal(kin_data.twist.angular);
     state_msg.angular_acceleration = atorVecLocal(kin_data.accelerations.angular);        
 
-    ssPublisher->publish(state_msg);
+    ssPublisher->publish(state_msg);    
 
     if (!initPos)
     {

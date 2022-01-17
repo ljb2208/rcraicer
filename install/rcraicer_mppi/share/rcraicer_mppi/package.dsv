@@ -1,8 +1,0 @@
-source;share/rcraicer_mppi/hook/cmake_prefix_path.ps1
-source;share/rcraicer_mppi/hook/cmake_prefix_path.dsv
-source;share/rcraicer_mppi/hook/cmake_prefix_path.sh
-source;share/rcraicer_mppi/local_setup.bash
-source;share/rcraicer_mppi/local_setup.dsv
-source;share/rcraicer_mppi/local_setup.ps1
-source;share/rcraicer_mppi/local_setup.sh
-source;share/rcraicer_mppi/local_setup.zsh

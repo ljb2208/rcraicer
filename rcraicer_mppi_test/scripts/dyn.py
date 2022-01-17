@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 
 
 class Dyn():
-    def __init__(self, data_path, model_path, log_path, lr=0.0005, epochs=100, optim="rms", interactive=True):
-        self.bs = 64      
+    def __init__(self, data_path, model_path, log_path, lr=0.0005, epochs=100, optim="rms", interactive=True, beta=1.0, prefix=""):
+        self.bs = 1024      
         
         #self.lr = 0.0003  # good results with lr 0.0005 and epochs 1000 and SGDProp
         self.lr = lr
@@ -24,9 +24,11 @@ class Dyn():
         self.data_path = data_path
         self.log_path = log_path
         self.run_id = 0
+        self.beta = beta
+        self.prefix = prefix
 
-        self.log_file = open(self.log_path + "dynmodel.log","a")
-        self.log_file_verbose =  open(self.log_path + "dynmodel_verbose.log","a")
+        self.log_file = open(self.log_path + self.prefix + "dynmodel.log","a")
+        self.log_file_verbose =  open(self.log_path + self.prefix + "dynmodel_verbose.log","a")
 
     
         if torch.cuda.is_available():
@@ -55,11 +57,11 @@ class Dyn():
     
     def test(self):
         model = DynModel()
-        model.load_state_dict(torch.load(self.model_path + "dynmodel_states{}.pth".format(self.run_id)))
+        model.load_state_dict(torch.load(self.model_path + self.prefix + "dynmodel_states{}.pth".format(self.run_id)))
 
         model.eval()
 
-        test_filename = self.data_path + "dynamics_data_test.csv"
+        test_filename = self.data_path + self.prefix + "data_test.csv"
 
         test_ds = DynDataset(test_filename)        
 
@@ -100,6 +102,7 @@ class Dyn():
         lmin = loss_col.min()
         lmax = loss_col.max()
         lavg = loss_col.mean()
+        lmed = loss_col.median()
 
         if self.interactive:
             print("Losses. Min: {} Max: {} Mean: {}\n".format(lmin, lmax, lavg))
@@ -136,8 +139,8 @@ class Dyn():
         throttle_out_plt = df.plot(y="throttle", kind="line", ax=axarr[2][1])        
         throttle_out_plt = df.plot(y="u_x_out", kind="line", ax=axarr[2][1])
         
-        plt.suptitle("id: {} lr: {} optim: {} epochs: {} losses min: {:.4f} max: {:.4f} mean: {:.4f}".format(self.run_id, self.lr, self.optim, self.epochs, lmin, lmax, lavg))
-        plt.savefig(self.log_path + "graph{}.png".format(self.run_id))
+        plt.suptitle("id: {} lr: {} optim: {} epochs: {} losses min: {:.4f} max: {:.4f} mean: {:.4f} median {:.4f}".format(self.run_id, self.lr, self.optim, self.epochs, lmin, lmax, lavg, lmed))
+        plt.savefig(self.log_path + self.prefix + "graph{}.png".format(self.run_id))
 
         if self.interactive:
             plt.show()       
@@ -161,7 +164,7 @@ class Dyn():
         self.write_settings()        
 
         # training_filename = self.data_path + "gazebo_data_train.csv"
-        training_filename = self.data_path + "dynamics_data_train.csv"
+        training_filename = self.data_path + self.prefix + "data_train.csv"
         # valid_filename = self.data_path + "dyn2_model_valid.csv"
 
         dynamics_ds = DynDataset(training_filename)
@@ -195,7 +198,7 @@ class Dyn():
         valid_loss = 0.
 
         lossfn = nn.MSELoss() #reduction="none")
-        # lossfn = nn.SmoothL1Loss(reduction="sum")
+        # lossfn = nn.SmoothL1Loss(reduction="sum", beta=self.beta)
 
         for epoch in range(1, self.epochs + 1):
             model.train()
@@ -250,19 +253,21 @@ class Dyn():
 
 
 
-        torch.save(model, self.model_path + "dynmodel{}.pth".format(self.run_id))
-        torch.save(model.state_dict(), self.model_path + "dynmodel_states{}.pth".format(self.run_id))
+        torch.save(model, self.model_path + self.prefix + "dynmodel{}.pth".format(self.run_id))
+        torch.save(model.state_dict(), self.model_path + self.prefix + "dynmodel_states{}.pth".format(self.run_id))
 
-        sd = model.state_dict()
+        sd = model.state_dict()        
         
-        # state_dict = {"dynamics_b1": sd["bn0.bias"].cpu().numpy(), 
-        #                 "dynamics_b2": sd["bn1.bias"].cpu().numpy(),
-        #                 "dynamics_b3":sd["bn2.bias"].cpu().numpy(), 
-        #                 "weights_b1":sd["bn0.weight"].cpu().numpy(),
-        #                 "weights_b2":sd["bn1.weight"].cpu().numpy(),
-        #                 "weights_b3":sd["bn2.weight"].cpu().numpy()}
+       # Save data to numpy array, each channel is saved individually as an array in row major order.
+        model_dict = {"dynamics_W1": sd["lin1.weight"].cpu().numpy().astype(np.float64), 
+                        "dynamics_W2": sd["lin2.weight"].cpu().numpy().astype(np.float64), 
+                        "dynamics_W3": sd["lin_last.weight"].cpu().numpy().astype(np.float64),                 
+                        "dynamics_b1": sd["lin1.bias"].cpu().numpy().astype(np.float64),
+                        "dynamics_b2": sd["lin2.bias"].cpu().numpy().astype(np.float64),
+                        "dynamics_b3": sd["lin_last.bias"].cpu().numpy().astype(np.float64)}
 
-        # np.savez(self.model_path + "dynmodel{}.npz".format(self.run_id), **state_dict)
+        np.savez(self.model_path + self.prefix + "dynmodel_states{}.npz".format(self.run_id), **model_dict)
+
         
 
 
@@ -270,20 +275,20 @@ if __name__ == "__main__":
     data_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/training_data/"
     model_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/models/"
     log_path = "/home/lbarnett/ros2_ws/src/rcraicer/rcraicer_mppi_test/logs/"
-    dyn = Dyn(data_path, model_path, log_path, epochs=10, interactive=False)    
+    dyn = Dyn(data_path, model_path, log_path, epochs=10, interactive=False, beta=2.0, prefix="dynamics_")    
     # dyn = Dyn(data_path, model_path, log_path, epochs=10, interactive=True)    
 
-    # epochs = [1000,2000]
-    # epochs = [1000]
+    # # epochs = [1000,2000]
+    # epochs = [500, 1000]
     # lrs = [0.01, 0.03, 0.05, 0.008, 0.004, 0.002]
-    # # lrs = [0.01, 0.0003, 0.0004, 0.0005, 0.001, 0.002, 0.003]
+    # # # lrs = [0.01, 0.0003, 0.0004, 0.0005, 0.001, 0.002, 0.003]
     # # # optims = ["sgd", "adam"]
-    # optims = ["adam"]
+    # # optims = ["adam"]
 
-    # dyn.interactive = True
+    dyn.interactive = True
 
-    epochs = [2000]
-    lrs = [0.08] # 0.08
+    epochs = [500]
+    lrs = [0.001] # 0.08
     optims = ["adam"]
 
     for epoch in epochs:
