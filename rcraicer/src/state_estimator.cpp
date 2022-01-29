@@ -163,7 +163,7 @@ StateEstimator::StateEstimator() : Node("state_estimator"),
      noiseModelBetweenBias_sigma_ = (Vector(6) << sigma_acc_bias_c, sigma_gyro_bias_c).finished();
     
     if (!fixedInitialPose)
-    {
+    {      
         initialPoseSub_ = this->create_subscription<rcraicer_msgs::msg::ImuFilterOutput>("imu_filter", 1, std::bind(&StateEstimator::ImuFilterCallback, this, std::placeholders::_1));    
     }
     else
@@ -201,6 +201,7 @@ void StateEstimator::completeSetup()
     biasGyroPub_ = this->create_publisher<geometry_msgs::msg::Point>("bias_gyro", 1);
     timePub_ = this->create_publisher<geometry_msgs::msg::Point>("time_delays", 1);
     statusPub_ = this->create_publisher<rcraicer_msgs::msg::StateEstimatorStatus>("status", 1);
+    gpsPosePub_ = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("gps_pos", 1);
 
     if (debug_)
       markerPub_ = this->create_publisher<visualization_msgs::msg::Marker>("state_estimator_path", 1);
@@ -398,7 +399,7 @@ void StateEstimator::WheelOdomCallback(nav_msgs::msg::Odometry::ConstSharedPtr o
     // std::cout << " Orient x: " << std::fixed << odom->pose.pose.orientation.x << " y: " << odom->pose.pose.orientation.y << " z: " << odom->pose.pose.orientation.z << " w: " << odom->pose.pose.orientation.w;
     std::cout << " Twist lin x: " << std::fixed << odom->twist.twist.linear.x << " ang z: " << odom->twist.twist.angular.z << "\r\n";     
 
-    if (!odomOptQ_.pushNonBlocking(odom))
+    if (!odomOptQ_.pushNonBlocking(odom) && usingOdom_)
         RCLCPP_WARN(this->get_logger(), "Dropping a wheel odometry measurement due to full queue");
 }
 
@@ -433,6 +434,21 @@ void StateEstimator::GpsHelper()
         sensor_msgs::msg::NavSatFix::ConstSharedPtr fix = gpsOptQ_.popBlocking();
         rclcpp::Time ts = fix->header.stamp;
         startTime = ts.seconds();
+
+        if(imuOptQ_.size() <= 0) {
+          RCLCPP_WARN(this->get_logger(), "no IMU messages before first fix, continuing until there is");
+          continue;
+        }
+
+        // errors out if the IMU and GPS are not close in timestamps        
+        rclcpp::Time most_recent_imu_time = imuOptQ_.back()->header.stamp;
+
+        if(std::abs(most_recent_imu_time.seconds() - startTime) > 0.1) {
+          RCLCPP_ERROR(this->get_logger(), "There is a very large difference in the GPS and IMU timestamps %d", most_recent_imu_time.seconds() - startTime);
+          exit(-1);
+        }
+
+
         if(usingOdom_) {
           lastOdom_ = odomOptQ_.popBlocking();
         }
@@ -610,6 +626,15 @@ void StateEstimator::GpsHelper()
             // std::cout <<"GPS Message. Distance: " << std::fixed << dist << "\r\n";
             if (dist < maxGPSError_ || latestGPSKey < imuKey-2)
             {
+              geometry_msgs::msg::PoseWithCovarianceStamped point;
+              point.header.stamp = this->get_clock()->now();
+              point.header.frame_id = "odom";
+              point.pose.pose.position.x = E;
+              point.pose.pose.position.y = N;
+              point.pose.covariance[0] = fix->position_covariance[0];
+              point.pose.covariance[7] = fix->position_covariance[4];
+              gpsPosePub_->publish(point);
+
               SharedDiagonal gpsNoise = noiseModel::Diagonal::Sigmas(Vector3(gpsSigma_, gpsSigma_, 3.0 * gpsSigma_));
               GPSFactor gpsFactor(G(key), Point3(E, N, U), gpsNoise);
               newFactors.add(gpsFactor);

@@ -24,6 +24,7 @@
 #include "sensor_msgs/msg/nav_sat_fix.hpp"
 #include "geometry_msgs/msg/point.hpp"
 #include "geometry_msgs/msg/quaternion.hpp"
+#include "geometry_msgs/msg/pose_with_covariance_stamped.hpp"
 
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Matrix3x3.h>
@@ -63,10 +64,13 @@ class StateEstimator : public rclcpp::Node
         rclcpp::Publisher<geometry_msgs::msg::Point>::SharedPtr timePub_;
         rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr markerPub_;
         rclcpp::Publisher<rcraicer_msgs::msg::StateEstimatorStatus>::SharedPtr statusPub_;
+        rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr gpsPosePub_;
+
         rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr gpsSub_;
         rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imuSub_;
         rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odomSub_;
         rclcpp::Subscription<rcraicer_msgs::msg::ImuFilterOutput>::SharedPtr initialPoseSub_;
+        
 
         double lastImuT_, lastImuTgps_;
         unsigned char status_;
