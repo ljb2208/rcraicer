@@ -5,6 +5,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <iostream>
 #include <linux/usbdevice_fs.h>
 
 SerialPort::SerialPort(std::string port, int baudRate): port_fd(-1), port_setting_error(""), connected(false), alive(false), dataCallback(NULL)
@@ -103,6 +104,7 @@ bool SerialPort::connect(std::string port, int baudRate)
     if (port_fd == -1)
     {
         port_setting_error = "could not open port";
+        std::cout << "Could not open port\r\n";
         return false;
     }
 
@@ -114,6 +116,7 @@ bool SerialPort::connect(std::string port, int baudRate)
     if(tcgetattr (port_fd, &port_settings) != 0)
     {
         port_setting_error = "could not get options for port";
+        std::cout << "Could not get options for port\r\n";
         return false;
     }
 
@@ -153,6 +156,7 @@ bool SerialPort::connect(std::string port, int baudRate)
     if(cfsetispeed(&port_settings, b) != 0 ||
        cfsetospeed(&port_settings, b) != 0)
     {     
+      std::cout << "Could not set baud\r\n";
       port_setting_error = "Could not set baud";
     }
 
@@ -188,6 +192,7 @@ bool SerialPort::connect(std::string port, int baudRate)
       return true;
     }
     
+    std::cout << "Could not set serial port attributes\r\n";
     port_setting_error = "Could not set serial port attributes";
     return false;   
 }

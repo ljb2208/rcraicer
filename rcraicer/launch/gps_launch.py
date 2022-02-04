@@ -8,7 +8,7 @@ def generate_launch_description():
            package="rcraicer_gps",           
            executable="gps_node",
            name="gps_rover",
-           parameters=[{"base" : True},{"serial_port" : "/dev/ttyACM0"},{"msg_debug" : True}, {"base_svin_acc_limit" : 10000}]
+           parameters=[{"base" : True},{"serial_port" : "/dev/rcGPS"},{"msg_debug" : True}, {"base_svin_acc_limit" : 10000}]
        )
 
    ])
