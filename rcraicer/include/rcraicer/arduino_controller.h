@@ -82,6 +82,9 @@ class ArduinoController : public rclcpp::Node
 
         int64_t armButtonID;        
 
+        bool cmdReceived;
+        float lastCommandTime;
+
         bool isArmed;
         int64_t armButtonValue;
         uint16_t invalidCRC;

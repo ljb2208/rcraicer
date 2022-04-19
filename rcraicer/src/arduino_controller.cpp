@@ -4,7 +4,7 @@
 using std::placeholders::_1;
 using namespace std::chrono_literals;
 
-ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(NULL), isArmed(false), armButtonValue(0), invalidCRC(0), unknownMsg(0)
+ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(NULL), isArmed(false), armButtonValue(0), invalidCRC(0), unknownMsg(0), cmdReceived(false)
 {   
     // declare parameters 
     this->declare_parameter<std::string>("serial_port", "/dev/rcArduino");
@@ -81,6 +81,11 @@ ArduinoController::~ArduinoController()
 
 void ArduinoController::command_callback(const rcraicer_msgs::msg::ChassisCommand::SharedPtr msg)
 {
+    cmdReceived = true;
+
+    rclcpp::Time ts = msg->header.stamp;
+    lastCommandTime = ts.seconds();
+
     sendActuatorData(msg->throttle, msg->steer);    
 }
  

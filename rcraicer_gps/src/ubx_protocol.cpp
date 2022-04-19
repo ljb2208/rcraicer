@@ -397,7 +397,7 @@ int UbxProtocol::payloadRxAddNavSat(const uint8_t b)
 				}
 
 				// gpsStatusMsg->svid[sat_index]	  = svinfo_svid;
-                uint8_t used = buf.payload_rx_nav_sat_part2.flags & 0x01;
+                uint8_t used = buf.payload_rx_nav_sat_part2.flags & 0x08;
                 int32_t svid = static_cast<int32_t>(svinfo_svid);
 
                 if (used)
@@ -405,8 +405,7 @@ int UbxProtocol::payloadRxAddNavSat(const uint8_t b)
                     gpsStatusMsg.satellites_used += 1;
                     gpsStatusMsg.satellite_used_prn.push_back(svid);
                 }
-
-				gpsStatusMsg.satellites_visible++;
+				
 				gpsStatusMsg.satellite_visible_z.push_back(static_cast<int32_t>(buf.payload_rx_nav_sat_part2.elev));
 				gpsStatusMsg.satellite_visible_azimuth.push_back(static_cast<int32_t>(static_cast<float>(buf.payload_rx_nav_sat_part2.azim) *
 						255.0f / 360.0f));

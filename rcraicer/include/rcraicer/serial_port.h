@@ -16,6 +16,7 @@ class SerialPort
 
         bool connect(std::string port, int baudRate);
         int writePort(const unsigned char* data, unsigned int length);
+        int writePort(const std::string data);
         int writePortTry(const unsigned char* data, unsigned int length);
 
         void lock();
@@ -40,11 +41,14 @@ class SerialPort
             return port_setting_error;
         }
 
+        std::string m_data;
+
     private:        
 
         void run();
 
         int writePortInternal(const unsigned char* data, unsigned int length) const;
+        int writePortInternal(const char* data, unsigned int length) const;
 
         uint8_t messageDelim;
         std::string port;

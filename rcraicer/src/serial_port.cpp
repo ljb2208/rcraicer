@@ -8,7 +8,7 @@
 #include <linux/usbdevice_fs.h>
 #include <iostream>
 
-SerialPort::SerialPort(std::string port, int baudRate, uint8_t messageDelim): port_fd(-1), port_setting_error(""), connected(false), alive(false)
+SerialPort::SerialPort(std::string port, int baudRate, uint8_t messageDelim): port_fd(-1), port_setting_error(""), connected(false), alive(false), dataCallback(NULL)
 {
     this->port = port;    
     this->messageDelim = messageDelim;
@@ -33,7 +33,7 @@ void SerialPort::run()
 {
   fd_set rfds;
   struct timeval tv;
-  uint8_t data[512];
+  char data[512];
   int retval;
   volatile int received;
   bool newMessage = false;
@@ -61,18 +61,25 @@ void SerialPort::run()
         {
           dataMutex.lock();
 
-          if (dataBuffer.size() > 100)
+          if (dataCallback != NULL)
           {
-            dataBuffer.clear();
+            if (dataBuffer.size() > 100)
+            {
+              dataBuffer.clear();
+            }
+
+            for (int i=0; i < received; i++)
+            {
+              dataBuffer.push_back(data[i]);
+
+              if (i < (received - 1) && data[i] == messageDelim && data[i+1] == messageDelim)
+                newMessage = true;
+              
+            }
           }
-
-          for (int i=0; i < received; i++)
-          {
-            dataBuffer.push_back(data[i]);
-
-            if (i < (received - 1) && data[i] == messageDelim && data[i+1] == messageDelim)
-              newMessage = true;
-            
+          else
+          {            
+              m_data.append(data, received);          
           }
 
           dataMutex.unlock();         
@@ -292,6 +299,37 @@ int SerialPort::writePortInternal(const unsigned char* data, unsigned int length
   }    
 
   return n;
+}
+
+int SerialPort::writePortInternal(const char* data, unsigned int length) const
+{  
+  if (!connected)
+    return -2;
+
+  int n;
+  n=write(port_fd, data, length);
+
+  if(n < 0)
+  {  
+    printf("Error %i from write: %s\n", errno, strerror(errno));
+    int val = fcntl(port_fd, F_GETFL, 0);
+    printf("file status = 0x%x\n", val);
+    
+    return -1;
+  }    
+
+  return n;
+}
+
+int SerialPort::writePort(const std::string data) 
+{
+  if (isConnected())
+  {
+    std::unique_lock<std::mutex> lock(writeMutex);
+    return writePortInternal((char*)data.c_str(), data.length());
+  }
+
+  return -1;
 }
 
 int SerialPort::writePort(const unsigned char* data, unsigned int length)

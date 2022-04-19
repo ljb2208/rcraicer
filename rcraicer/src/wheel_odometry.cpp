@@ -197,7 +197,7 @@ void WheelOdometry::wheelspeed_callback(const rcraicer_msgs::msg::WheelSpeed::Sh
     nav_msgs::msg::Odometry odom_msg = nav_msgs::msg::Odometry();
     odom_msg.header.stamp = this->get_clock()->now();
     // the pose is relative to the header.frame_id reference published
-    odom_msg.header.frame_id = "wheel_odom";
+    odom_msg.header.frame_id = "odom";
     // the twist is relative to the child_fram_id
     odom_msg.child_frame_id = "base_link";
 

@@ -8,11 +8,12 @@ def generate_launch_description():
            package="joy",           
            executable="joy_node",
            name="joy_node"
-       ),
-       Node(
-           package="rcraicer_gps",           
-           executable="gps_node",
-           name="gps_base",
-           parameters=[{"base" : True},{"serial_port" : "/dev/rcGPSBase"}]
        )
+    #    ,
+    #    Node(
+    #        package="rcraicer_gps",           
+    #        executable="gps_node",
+    #        name="gps_base",
+    #        parameters=[{"base" : True},{"serial_port" : "/dev/rcGPSBase"}]
+    #    )
    ])

@@ -138,6 +138,7 @@ typedef struct {
     uint32_t mag_y;
     uint32_t mag_z;    
     uint32_t temp;
+    uint32_t conf;
 } y3_payload_rx_stream_data_t;
 
 typedef struct {

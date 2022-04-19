@@ -1,0 +1,5 @@
+# fix compile error with mppi must be done on host
+
+sudo cp /usr/local/cuda-10.2/targets/aarch64-linux/include/crt/math_functions.hpp /usr/local/cuda-10.2/include/math_functions.hpp
+
+#upgrade eigen to at least 3.3.5 on host

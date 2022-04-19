@@ -25,6 +25,40 @@ def generate_launch_description():
            executable="gps_node",
            name="gps_rover",
            parameters=[{"base" : False},{"serial_port" : "/dev/rcGPS"},{"output_rf" :  True}]
+       ),
+        Node(
+           package="tf2_ros",           
+           executable="static_transform_publisher",
+           name="imu_transform_publisher",
+           arguments=["0","0", "0", "0",  "0",  "0",  "1", "imu_link", "base_link"]
+        #    parameters=[
+        #     {"frame_id": "base_link"},
+        #     {"child_frame_id": "imu_link"},
+        #     {"translation.x": 0},
+        #     {"translation.y": 0},
+        #     {"translation.z": 0},
+        #     {"rotation.x": 0},
+        #     {"rotation.y": 0},
+        #     {"rotation.z": 0},
+        #     {"rotation.w": 1}
+        # ]
+       ),
+       Node(
+           package="tf2_ros",           
+           executable="static_transform_publisher",
+           name="gps_transform_publisher",
+           arguments=["0","0", "0", "0",  "0",  "0",  "0", "gps_link", "base_link"]
+        #    parameters=[
+        #     {"frame_id": "base_link"},
+        #     {"child_frame_id": "imu_link"},
+        #     {"translation.x": 0},
+        #     {"translation.y": 0},
+        #     {"translation.z": 0},
+        #     {"rotation.x": 0},
+        #     {"rotation.y": 0},
+        #     {"rotation.z": 0},
+        #     {"rotation.w": 1}
+        # ]
        )
 
    ])

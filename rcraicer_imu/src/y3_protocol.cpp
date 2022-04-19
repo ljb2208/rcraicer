@@ -72,7 +72,7 @@ bool Y3Protocol::configure()
     tx_buf.y3_tx_slots.slot1 = Y3_CMD_TARED_ORIENTATION_Q;
     tx_buf.y3_tx_slots.slot2 = Y3_CMD_CORR_SENSOR_DATA;// Y3_CMD_CORR_SENSOR_DATA;
     tx_buf.y3_tx_slots.slot3 = Y3_CMD_TEMP_C;
-    tx_buf.y3_tx_slots.slot4 = 0xFF;
+    tx_buf.y3_tx_slots.slot4 = Y3_CMD_CONFIDENCE;
     tx_buf.y3_tx_slots.slot5 = 0xFF;
     tx_buf.y3_tx_slots.slot6 = 0xFF;
     tx_buf.y3_tx_slots.slot7 = 0xFF;
@@ -95,7 +95,7 @@ bool Y3Protocol::configure()
 
     ret = sendMessage(Y3_CMD_SET_STREAM_TIMING, (uint8_t*)&tx_buf, sizeof(tx_buf.y3_tx_timing));
 
-    // startStreaming();    
+    startStreaming();    
 
     return ret;
 
@@ -436,6 +436,9 @@ int Y3Protocol::payloadRxDone()
             imuMsg.angular_velocity.y = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.gyro_y);
             imuMsg.angular_velocity.z = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.gyro_z);
 
+            float temp = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.temp);
+            float conf = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.conf);
+
             if (sensorMessagesCallback != NULL)
                 sensorMessagesCallback(imuMsg, magMsg, tempMsg);
 
@@ -447,6 +450,8 @@ int Y3Protocol::payloadRxDone()
             yValue = Y3Protocol::getFloat((uint8_t*) &buf.payload_rx_stream_data.accel_z);
             std::cout << " : " << yValue << " : " << "\r\n";
             std::cout << " " << buf.payload_rx_stream_data.accel_x << "/" << buf.payload_rx_stream_data.accel_y << "/" << buf.payload_rx_stream_data.accel_z << "\r\n";
+            std::cout << "Temp: " << temp << "\r\n";
+            std::cout << "Conf: " << conf << "\r\n";
             break;
 
 

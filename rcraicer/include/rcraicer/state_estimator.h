@@ -104,6 +104,7 @@ class StateEstimator : public rclcpp::Node
         bool gotFirstFix_;
         bool invertx_, inverty_, invertz_;
         bool usingOdom_;
+        bool usingGps_;
         double maxGPSError_;
 
         bool gotInitialPose_;
