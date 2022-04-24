@@ -38,6 +38,7 @@ add_executable(ar_arduino_controller src/ar_arduino_controller.cpp src/serial_po
 add_executable(wheel_odometry src/wheel_odometry.cpp)
 add_executable(state_estimator src/state_estimator.cpp)
 add_executable(runstop src/runstop.cpp src/serial_port.cpp)
+add_executable(joystick_control src/joystick_control.cpp)
 
 target_link_libraries(state_estimator gtsam)
 
@@ -48,6 +49,7 @@ ament_target_dependencies(ar_arduino_controller rclcpp std_msgs sensor_msgs rcra
 ament_target_dependencies(wheel_odometry rclcpp std_msgs sensor_msgs nav_msgs visualization_msgs rcraicer_msgs tf2)
 ament_target_dependencies(state_estimator rclcpp std_msgs sensor_msgs nav_msgs visualization_msgs geometry_msgs rcraicer_msgs tf2 GTSAM Eigen3 GeographicLib)
 ament_target_dependencies(runstop rclcpp std_msgs rcraicer_msgs)
+ament_target_dependencies(joystick_control rclcpp std_msgs sensor_msgs rcraicer_msgs)
 #ament_target_dependencies(external_tracker rclcpp std_msgs sensor_msgs)
 
 
@@ -69,6 +71,7 @@ install (TARGETS
     wheel_odometry
     state_estimator
     runstop
+    joystick_control
     #external_tracker
     DESTINATION lib/${PROJECT_NAME})
 

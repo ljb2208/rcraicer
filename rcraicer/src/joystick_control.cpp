@@ -2,7 +2,7 @@
 
 using namespace std::chrono_literals;
 
-JoystickControl::JoystickControl() : Node("joystick_control") : throttleEnabled_(true), steeringEnabled_(true), throttleDamping_(0.0),
+JoystickControl::JoystickControl() : Node("joystick_control") , throttleEnabled_(true), steeringEnabled_(true), throttleDamping_(0.0),
     steeringDamping_(0.0)
 {                        
     this->declare_parameter("throttle_damping", 0.0);
