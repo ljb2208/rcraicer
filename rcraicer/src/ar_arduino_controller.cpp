@@ -101,7 +101,7 @@ ARArduinoController::~ARArduinoController()
 
 void ARArduinoController::command_callback(const rcraicer_msgs::msg::ChassisCommand::SharedPtr msg)
 {
-    std::map<std::string, rcraicer_msgs::msg::ChassisCommand::SharedPtr>::iterator mapIt;
+    std::map<std::string, rcraicer_msgs::msg::ChassisCommand>::iterator mapIt;
     if((mapIt = chassisCommands_.find(msg->sender)) == chassisCommands_.end())
     {
         RCLCPP_ERROR(this->get_logger(), "AutoRallyChassis: Unknown controller " +
@@ -110,13 +110,13 @@ void ARArduinoController::command_callback(const rcraicer_msgs::msg::ChassisComm
                             " to chassisCommandPriorities.yaml");
     }
     {
-        mapIt->second = msg;
+        mapIt->second = *msg;
     }
 }
 
 void ARArduinoController::runstop_callback(const rcraicer_msgs::msg::RunStop::SharedPtr msg)
 {
-    runstops_[msg->sender] = msg;
+    runstops_[msg->sender] = *msg;
 }
  
 void ARArduinoController::publishChassisState(float throttle, float steer, float steerAngle)
@@ -582,12 +582,12 @@ void ARArduinoController::setChassisActuators()
     int validRunstopCount = 0;
     for(auto& runstop : runstops_)
     {
-      rclcpp::Time rsTime = runstop.second->header.stamp;
+      rclcpp::Time rsTime = runstop.second.header.stamp;
 
       if((currentTime.seconds()-rsTime.seconds()) < runstopMaxAge)
       {
         ++validRunstopCount;
-        if(runstop.second->motion_enabled == 0)
+        if(runstop.second.motion_enabled == 0)
         {
           chassisState.runstop_motion_enabled = false;
           chassisState.throttle_commander = "runstop";
@@ -605,34 +605,34 @@ void ARArduinoController::setChassisActuators()
   //find highest priority (lowest valuemostRecentRc_) command message for each actuator across all valid actuator commands
   for(auto & vecIt : chassisCommandPriorities_)
   {
-    rclcpp::Time ccTime = chassisCommands_[vecIt.id]->header.stamp;
+    rclcpp::Time ccTime = chassisCommands_[vecIt.id].header.stamp;
     if((currentTime.seconds()-ccTime.seconds()) < commandMaxAge)
     {
       //valid throttle commands are on [-1,1], only set throttle value if runstop is enabled
       if(chassisState.throttle_commander.empty() && chassisState.runstop_motion_enabled &&
-         chassisCommands_[vecIt.id]->throttle <= 1.0 &&
-         chassisCommands_[vecIt.id]->throttle >= -1.0)
+         chassisCommands_[vecIt.id].throttle <= 1.0 &&
+         chassisCommands_[vecIt.id].throttle >= -1.0)
       {
-        chassisState.throttle_commander = chassisCommands_[vecIt.id]->sender;
-        chassisState.throttle = chassisCommands_[vecIt.id]->throttle;
+        chassisState.throttle_commander = chassisCommands_[vecIt.id].sender;
+        chassisState.throttle = chassisCommands_[vecIt.id].throttle;
       }
 
       //valid steeringBrake commands are on [-1,1]
       if(chassisState.steering_commander.empty() &&
-         chassisCommands_[vecIt.id]->steer <= 1.0 &&
-         chassisCommands_[vecIt.id]->steer >= -1.0)
+         chassisCommands_[vecIt.id].steer <= 1.0 &&
+         chassisCommands_[vecIt.id].steer >= -1.0)
       {
-        chassisState.steering_commander = chassisCommands_[vecIt.id]->sender;
-        chassisState.steer = chassisCommands_[vecIt.id]->steer;
+        chassisState.steering_commander = chassisCommands_[vecIt.id].sender;
+        chassisState.steer = chassisCommands_[vecIt.id].steer;
       }
 
       //valid frontBrake commands are on [0,1]
       if(chassisState.front_brake_commander.empty() &&
-         chassisCommands_[vecIt.id]->front_brake <= 1.0 &&
-         chassisCommands_[vecIt.id]->front_brake >= 0.0)
+         chassisCommands_[vecIt.id].front_brake <= 1.0 &&
+         chassisCommands_[vecIt.id].front_brake >= 0.0)
       {
-        chassisState.front_brake_commander = chassisCommands_[vecIt.id]->sender;
-        chassisState.front_brake = chassisCommands_[vecIt.id]->front_brake;
+        chassisState.front_brake_commander = chassisCommands_[vecIt.id].sender;
+        chassisState.front_brake = chassisCommands_[vecIt.id].front_brake;
       }
 
     }
@@ -762,7 +762,7 @@ void ARArduinoController::loadChassisCommandPriorities()
         toAdd.id = *it;
         toAdd.priority = priority++;
         chassisCommandPriorities_.push_back(toAdd);
-        chassisCommands_[*it] = rcraicer_msgs::msg::ChassisCommand::SharedPtr();
+        chassisCommands_[toAdd.id] = rcraicer_msgs::msg::ChassisCommand();        
     }
 
     //sort the loaded commanders according to their priority
@@ -775,7 +775,7 @@ void ARArduinoController::loadChassisCommandPriorities()
         vecIt != chassisCommandPriorities_.end();
         vecIt++)
     {
-        RCLCPP_INFO(this->get_logger(), "loaded commander %s with prioirity %i", vecIt->id, vecIt->priority);        
+        RCLCPP_INFO(this->get_logger(), "loaded commander %s with prioirity %i", vecIt->id.c_str(), vecIt->priority);        
     }
         
     RCLCPP_INFO(this->get_logger(), "Updated Chassis command priorities with %i entries", priority - 1);
