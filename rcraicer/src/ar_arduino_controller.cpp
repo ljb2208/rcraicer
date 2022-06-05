@@ -762,8 +762,22 @@ void ARArduinoController::loadChassisCommandPriorities()
         toAdd.id = *it;
         toAdd.priority = priority++;
         chassisCommandPriorities_.push_back(toAdd);
+        chassisCommands_[*it] = rcraicer_msgs::msg::ChassisCommand::SharedPtr();
     }
 
+    //sort the loaded commanders according to their priority
+    std::sort(chassisCommandPriorities_.begin(),
+                chassisCommandPriorities_.end(),
+                priorityComparator());
+
+    std::vector<priorityEntry>::const_iterator vecIt;
+    for(vecIt = chassisCommandPriorities_.begin();
+        vecIt != chassisCommandPriorities_.end();
+        vecIt++)
+    {
+        RCLCPP_INFO(this->get_logger(), "loaded commander %s with prioirity %i", vecIt->id, vecIt->priority);        
+    }
+        
     RCLCPP_INFO(this->get_logger(), "Updated Chassis command priorities with %i entries", priority - 1);
 }
 
