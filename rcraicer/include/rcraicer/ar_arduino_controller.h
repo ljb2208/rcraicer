@@ -95,10 +95,10 @@ class ARArduinoController : public rclcpp::Node
         double commandMaxAge;
         double runstopMaxAge;
 
-        std::map<std::string, rcraicer_msgs::msg::RunStop::SharedPtr> runstops_; ///< Map of the most recently received runstop message from
+        std::map<std::string, rcraicer_msgs::msg::RunStop> runstops_; ///< Map of the most recently received runstop message from
                                                             ///< all nodes publishing the message
 
-        std::map<std::string, rcraicer_msgs::msg::ChassisCommand::SharedPtr> chassisCommands_; ///< Map of the most recently received chassis
+        std::map<std::string, rcraicer_msgs::msg::ChassisCommand> chassisCommands_; ///< Map of the most recently received chassis
                         ///< command from each commander
 
         rclcpp::TimerBase::SharedPtr chassisControlTimer;
