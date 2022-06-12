@@ -72,7 +72,7 @@ ARArduinoController::ARArduinoController() : Node("arduino_controller"), serialP
     runstopSubscription = this->create_subscription<rcraicer_msgs::msg::RunStop>(
       "runstop", 10, std::bind(&ARArduinoController::runstop_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
     
-    serialPort = new SerialPort(portPath.as_string(), baudRate.as_int(), MESSAGE_DELIM);
+    serialPort = new SerialPort(portPath.as_string(), baudRate.as_int(), '#', 1);
     serialPort->registerDataCallback(std::bind(&ARArduinoController::serial_data_callback, this));
 
     if (serialPort->isConnected())

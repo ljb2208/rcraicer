@@ -14,7 +14,7 @@ RunStop::RunStop() : Node("runstop")
 
     rsPublisher = this->create_publisher<rcraicer_msgs::msg::RunStop>("runstop", 10);      
 
-    serialPort = new SerialPort(port_param.as_string(), baud_rate_param.as_int(), 0);    
+    serialPort = new SerialPort(port_param.as_string(), baud_rate_param.as_int(), 0, 1);    
 
      if (serialPort->isConnected())
     {
