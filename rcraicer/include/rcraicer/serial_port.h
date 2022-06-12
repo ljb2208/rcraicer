@@ -10,7 +10,7 @@
 class SerialPort
 {
     public:
-        SerialPort(std::string port, int baudRate, uint8_t messageDelim);
+        SerialPort(std::string port, int baudRate, uint8_t messageDelim, uint8_t connectionType);
 
         ~SerialPort();
 
@@ -50,6 +50,7 @@ class SerialPort
         int writePortInternal(const unsigned char* data, unsigned int length) const;
         int writePortInternal(const char* data, unsigned int length) const;
 
+        uint8_t connectionType;
         uint8_t messageDelim;
         std::string port;
         int port_fd; // file descriptor for serial port

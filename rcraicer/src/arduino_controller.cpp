@@ -55,7 +55,7 @@ ArduinoController::ArduinoController() : Node("arduino_controller"), serialPort(
     commandSubscription = this->create_subscription<rcraicer_msgs::msg::ChassisCommand>(
       "cmds", 10, std::bind(&ArduinoController::command_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
     
-    serialPort = new SerialPort(portPath.as_string(), baudRate.as_int(), MESSAGE_DELIM);
+    serialPort = new SerialPort(portPath.as_string(), baudRate.as_int(), MESSAGE_DELIM, 0);
     serialPort->registerDataCallback(std::bind(&ArduinoController::serial_data_callback, this));
 
     if (serialPort->isConnected())

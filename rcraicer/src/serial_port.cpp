@@ -8,10 +8,11 @@
 #include <linux/usbdevice_fs.h>
 #include <iostream>
 
-SerialPort::SerialPort(std::string port, int baudRate, uint8_t messageDelim): port_fd(-1), port_setting_error(""), connected(false), alive(false), dataCallback(NULL)
+SerialPort::SerialPort(std::string port, int baudRate, uint8_t messageDelim, uint8_t connectionType): port_fd(-1), port_setting_error(""), connected(false), alive(false), dataCallback(NULL)
 {
     this->port = port;    
     this->messageDelim = messageDelim;
+    this->connectionType = connectionType;
     if (connect(port, baudRate))
     {
       alive = true;
@@ -36,8 +37,7 @@ void SerialPort::run()
   char data[512];
   int retval;
   volatile int received;
-  bool newMessage = false;
-
+  bool newMessage = false;  
 
   if (!isConnected())
   {
@@ -63,16 +63,27 @@ void SerialPort::run()
 
           if (dataCallback != NULL)
           {
-            if (dataBuffer.size() > 100)
+            if (connectionType == 0)
             {
-              dataBuffer.clear();
+              if (dataBuffer.size() > 100)
+              {
+                dataBuffer.clear();         
+              }
             }
 
             for (int i=0; i < received; i++)
             {
-              dataBuffer.push_back(data[i]);
+              if (connectionType == 0)
+                dataBuffer.push_back(data[i]);
 
-              if (i < (received - 1) && data[i] == messageDelim && data[i+1] == messageDelim)
+              if (connectionType == 1)
+                m_data.push_back(data[i]);
+
+
+              if (connectionType == 0 && i < (received - 1) && data[i] == messageDelim && data[i+1] == messageDelim)
+                newMessage = true;
+              
+              if (connectionType == 1 && i < (received - 1) && data[i] == messageDelim)
                 newMessage = true;
               
             }
@@ -86,7 +97,7 @@ void SerialPort::run()
 
           if (newMessage && dataCallback)
           {
-            try{
+            try{              
               dataCallback();
             } catch(std::bad_function_call &)
             {
