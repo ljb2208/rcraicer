@@ -27,11 +27,14 @@ find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 find_package(rcraicer_msgs REQUIRED)
+find_package(diagnostic_msgs REQUIRED)
+find_package(diagnostic_updater REQUIRED)
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(GeographicLib REQUIRED)
 find_package(GTSAM REQUIRED)
 
+#add_library(rc_diagnostics src/diagnostics.cpp)
 add_executable(imu_mavlink src/imu_mavlink.cpp src/mavlink_serial_port.cpp)
 add_executable(arduino_controller src/arduino_controller.cpp src/serial_port.cpp)
 add_executable(ar_arduino_controller src/ar_arduino_controller.cpp src/serial_port.cpp)
@@ -42,7 +45,10 @@ add_executable(joystick_control src/joystick_control.cpp)
 
 target_link_libraries(state_estimator gtsam)
 
+ament_python_install_package(scripts/)
+
 #add_executable(external_tracker src/external_tracker.cpp)
+#ament_target_dependencies(rc_diagnostics rclcpp diagnostic_msgs diagnostic_updater)
 ament_target_dependencies(imu_mavlink rclcpp std_msgs sensor_msgs Eigen3 geometry_msgs tf2 tf2_eigen)
 ament_target_dependencies(arduino_controller rclcpp std_msgs sensor_msgs rcraicer_msgs)
 ament_target_dependencies(ar_arduino_controller rclcpp std_msgs sensor_msgs rcraicer_msgs)
@@ -65,6 +71,7 @@ if(BUILD_TESTING)
 endif()
 
 install (TARGETS 
+ #   rc_diagnostics
     imu_mavlink
     arduino_controller
     ar_arduino_controller
@@ -74,6 +81,11 @@ install (TARGETS
     joystick_control
     #external_tracker
     DESTINATION lib/${PROJECT_NAME})
+
+ install(PROGRAMS
+  scripts/system_status.py
+  DESTINATION bin
+)
 
   # Install launch files.
 install(DIRECTORY

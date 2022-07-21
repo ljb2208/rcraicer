@@ -72,6 +72,8 @@ class ARArduinoController : public rclcpp::Node
         void loadChassisCommandPriorities();
         void setChassisActuators();
 
+        std::map<std::string, rclcpp::Subscription<rcraicer_msgs::msg::ChassisCommand>::SharedPtr> chassisCommandSub_;
+
         rclcpp::Publisher<rcraicer_msgs::msg::WheelSpeed>::SharedPtr wsPublisher;
         rclcpp::Publisher<rcraicer_msgs::msg::ChassisState>::SharedPtr statePublisher;
         rclcpp::Publisher<rcraicer_msgs::msg::ChassisCommand>::SharedPtr cmdPublisher;

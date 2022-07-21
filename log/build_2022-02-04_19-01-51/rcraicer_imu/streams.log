@@ -1,0 +1,80 @@
+[0.022s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake /home/lbarnett/ros2_ws/src/rcraicer/rcraicer_imu -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu
+[0.258s] -- The C compiler identification is GNU 9.3.0
+[0.346s] -- The CXX compiler identification is GNU 9.3.0
+[0.353s] -- Check for working C compiler: /usr/bin/cc
+[0.442s] -- Check for working C compiler: /usr/bin/cc -- works
+[0.444s] -- Detecting C compiler ABI info
+[0.531s] -- Detecting C compiler ABI info - done
+[0.550s] -- Detecting C compile features
+[0.551s] -- Detecting C compile features - done
+[0.555s] -- Check for working CXX compiler: /usr/bin/c++
+[0.664s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[0.666s] -- Detecting CXX compiler ABI info
+[0.789s] -- Detecting CXX compiler ABI info - done
+[0.812s] -- Detecting CXX compile features
+[0.813s] -- Detecting CXX compile features - done
+[0.819s] -- Found ament_cmake: 0.9.9 (/opt/ros/foxy/share/ament_cmake/cmake)
+[0.852s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[0.853s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[1.110s] -- Found rclcpp: 2.4.0 (/opt/ros/foxy/share/rclcpp/cmake)
+[1.181s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.192s] -- Found rosidl_adapter: 1.2.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[1.288s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+[1.325s] -- Found FastRTPS: /opt/ros/foxy/include  
+[1.423s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.491s] -- Found rmw_implementation_cmake: 1.0.3 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[1.493s] -- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+[1.494s] -- Looking for pthread.h
+[1.567s] -- Looking for pthread.h - found
+[1.567s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[1.642s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+[1.643s] -- Looking for pthread_create in pthreads
+[1.701s] -- Looking for pthread_create in pthreads - not found
+[1.701s] -- Looking for pthread_create in pthread
+[1.774s] -- Looking for pthread_create in pthread - found
+[1.775s] -- Found Threads: TRUE  
+[2.000s] -- Found sensor_msgs: 2.0.4 (/opt/ros/foxy/share/sensor_msgs/cmake)
+[2.124s] -- Found tf2: 0.13.12 (/opt/ros/foxy/share/tf2/cmake)
+[2.140s] -- Found tf2_eigen: 0.13.12 (/opt/ros/foxy/share/tf2_eigen/cmake)
+[2.544s] -- Found Eigen3: TRUE (found version "3.3.90") 
+[2.549s] -- Found ament_lint_auto: 0.9.6 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[2.663s] -- Added test 'copyright' to check source files copyright and LICENSE
+[2.665s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[2.665s] -- Configured cppcheck include dirs: 
+[2.665s] -- Configured cppcheck exclude dirs and/or files: 
+[2.666s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[2.666s] -- Configured cpplint exclude dirs and/or files: 
+[2.667s] -- Added test 'lint_cmake' to check CMake code style
+[2.668s] -- Added test 'uncrustify' to check C / C++ code style
+[2.668s] -- Configured uncrustify additional arguments: 
+[2.669s] -- Added test 'xmllint' to check XML markup files
+[2.673s] -- Configuring done
+[2.682s] -- Generating done
+[2.683s] -- Build files have been written to: /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_imu
+[2.693s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake /home/lbarnett/ros2_ws/src/rcraicer/rcraicer_imu -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu
+[2.695s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_imu -- -j8 -l8
+[2.749s] [35m[1mScanning dependencies of target imu[0m
+[2.895s] [ 25%] [32mBuilding CXX object CMakeFiles/imu.dir/src/y3_protocol.cpp.o[0m
+[2.900s] [ 50%] [32mBuilding CXX object CMakeFiles/imu.dir/src/imu.cpp.o[0m
+[2.916s] [ 75%] [32mBuilding CXX object CMakeFiles/imu.dir/src/serial_port.cpp.o[0m
+[19.955s] [100%] [32m[1mLinking CXX executable imu[0m
+[20.275s] [100%] Built target imu
+[20.287s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_imu -- -j8 -l8
+[20.331s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --install /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_imu
+[20.342s] -- Install configuration: "RelWithDebInfo"
+[20.342s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/ament_index/resource_index/package_run_dependencies/rcraicer_imu
+[20.342s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/ament_index/resource_index/parent_prefix_path/rcraicer_imu
+[20.342s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/environment/ament_prefix_path.sh
+[20.342s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/environment/ament_prefix_path.dsv
+[20.343s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/environment/path.sh
+[20.343s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/environment/path.dsv
+[20.343s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/local_setup.bash
+[20.343s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/local_setup.sh
+[20.343s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/local_setup.zsh
+[20.343s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/local_setup.dsv
+[20.343s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/package.dsv
+[20.343s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/ament_index/resource_index/packages/rcraicer_imu
+[20.343s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/cmake/rcraicer_imuConfig.cmake
+[20.344s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/cmake/rcraicer_imuConfig-version.cmake
+[20.344s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_imu/share/rcraicer_imu/package.xml
+[20.346s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --install /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_imu

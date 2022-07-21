@@ -7,4 +7,4 @@ DRIVERS=="usb", ATTRS{idVendor}=="26ac", ATTRS{idProduct}=="0012", MODE="0666", 
 DRIVERS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="8057", MODE="0666", SYMLINK+="rcArduino"
 
 #GPS
-DRIVERS=="usb", ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a9", MODE="0666", SYMLINK+="rcGPS"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a9", MODE="0666", SYMLINK+="rcGPS"

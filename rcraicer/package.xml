@@ -7,6 +7,7 @@
   <maintainer email="ljb2208@gmail.com">lbarnett</maintainer>
   <license>TODO: License declaration</license>
 
+  <depend>rclpy</depend>
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>

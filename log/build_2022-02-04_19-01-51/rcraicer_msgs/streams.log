@@ -1,0 +1,729 @@
+[0.020s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake /home/lbarnett/ros2_ws/src/rcraicer/rcraicer_msgs -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs
+[0.272s] -- The C compiler identification is GNU 9.3.0
+[0.368s] -- The CXX compiler identification is GNU 9.3.0
+[0.375s] -- Check for working C compiler: /usr/bin/cc
+[0.464s] -- Check for working C compiler: /usr/bin/cc -- works
+[0.466s] -- Detecting C compiler ABI info
+[0.567s] -- Detecting C compiler ABI info - done
+[0.584s] -- Detecting C compile features
+[0.584s] -- Detecting C compile features - done
+[0.589s] -- Check for working CXX compiler: /usr/bin/c++
+[0.694s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[0.695s] -- Detecting CXX compiler ABI info
+[0.809s] -- Detecting CXX compiler ABI info - done
+[0.828s] -- Detecting CXX compile features
+[0.828s] -- Detecting CXX compile features - done
+[0.832s] -- Found ament_cmake: 0.9.9 (/opt/ros/foxy/share/ament_cmake/cmake)
+[0.863s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[0.863s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[1.115s] -- Found builtin_interfaces: 1.0.0 (/opt/ros/foxy/share/builtin_interfaces/cmake)
+[1.166s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.176s] -- Found rosidl_adapter: 1.2.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[1.288s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+[1.321s] -- Found FastRTPS: /opt/ros/foxy/include  
+[1.418s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.452s] -- Found rosidl_default_generators: 1.0.1 (/opt/ros/foxy/share/rosidl_default_generators/cmake)
+[1.469s] -- Found std_msgs: 2.0.4 (/opt/ros/foxy/share/std_msgs/cmake)
+[1.488s] -- Found geometry_msgs: 2.0.4 (/opt/ros/foxy/share/geometry_msgs/cmake)
+[1.554s] -- Found PythonInterp: /usr/bin/python3 (found version "3.8.10") 
+[1.911s] -- Found ament_cmake_ros: 0.9.2 (/opt/ros/foxy/share/ament_cmake_ros/cmake)
+[2.192s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.331s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.362s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3.5") 
+[2.365s] -- Found python_cmake_module: 0.8.1 (/opt/ros/foxy/share/python_cmake_module/cmake)
+[2.402s] -- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.8.so (found suitable version "3.8.10", minimum required is "3.5") 
+[2.402s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[2.402s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.8
+[2.402s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.8.so
+[2.427s] -- Found PythonExtra: .so  
+[2.532s] -- Found ament_lint_auto: 0.9.6 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[2.569s] -- Added test 'copyright' to check source files copyright and LICENSE
+[2.574s] -- Added test 'lint_cmake' to check CMake code style
+[2.577s] -- Added test 'xmllint' to check XML markup files
+[2.586s] -- Configuring done
+[2.716s] -- Generating done
+[2.719s] -- Build files have been written to: /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_msgs
+[2.732s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake /home/lbarnett/ros2_ws/src/rcraicer/rcraicer_msgs -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs
+[2.735s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_msgs -- -j8 -l8
+[2.788s] [35m[1mScanning dependencies of target rcraicer_msgs__cpp[0m
+[2.789s] [  1%] [34m[1mGenerating C code for ROS interfaces[0m
+[2.806s] [  1%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[4.909s] [35m[1mScanning dependencies of target rcraicer_msgs__rosidl_generator_c[0m
+[4.948s] [  2%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/arduino_status__functions.c.o[0m
+[4.949s] [  2%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/encoder__functions.c.o[0m
+[4.953s] [  2%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/chassis_state__functions.c.o[0m
+[4.965s] [  3%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/chassis_command__functions.c.o[0m
+[5.006s] [  3%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/gps_status__functions.c.o[0m
+[5.037s] [  4%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/gps_survey__functions.c.o[0m
+[5.040s] [  4%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/gpsrf_status__functions.c.o[0m
+[5.112s] [  5%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/wheel_speed__functions.c.o[0m
+[5.118s] [  6%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/state_estimator_status__functions.c.o[0m
+[5.130s] [  6%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/imu_filter_output__functions.c.o[0m
+[5.154s] [  7%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/compute_status__functions.c.o[0m
+[5.167s] [  7%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/sim_state__functions.c.o[0m
+[5.250s] [  8%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/neural_net_layer__functions.c.o[0m
+[5.250s] [  8%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/neural_net_model__functions.c.o[0m
+[5.266s] [  9%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/path_integral_params__functions.c.o[0m
+[5.295s] [ 10%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/path_integral_status__functions.c.o[0m
+[5.319s] [ 10%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/path_integral_stats__functions.c.o[0m
+[5.389s] [ 10%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/path_integral_timing__functions.c.o[0m
+[5.396s] [ 11%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/lap_stats__functions.c.o[0m
+[5.400s] [ 12%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_generator_c.dir/rosidl_generator_c/rcraicer_msgs/msg/detail/run_stop__functions.c.o[0m
+[5.503s] [ 12%] Built target rcraicer_msgs__cpp
+[5.508s] [ 12%] [32m[1mLinking C shared library librcraicer_msgs__rosidl_generator_c.so[0m
+[5.518s] [ 13%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[5.518s] [ 14%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[5.518s] [ 15%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[5.581s] [ 15%] Built target rcraicer_msgs__rosidl_generator_c
+[5.598s] [ 16%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[5.601s] [ 17%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[7.329s] [35m[1mScanning dependencies of target rcraicer_msgs__rosidl_typesupport_cpp[0m
+[7.361s] [35m[1mScanning dependencies of target rcraicer_msgs__rosidl_typesupport_c[0m
+[7.375s] [ 17%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/encoder__type_support.cpp.o[0m
+[7.376s] [ 18%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/arduino_status__type_support.cpp.o[0m
+[7.389s] [ 18%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/chassis_state__type_support.cpp.o[0m
+[7.417s] [ 18%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/encoder__type_support.cpp.o[0m
+[7.435s] [ 19%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/chassis_command__type_support.cpp.o[0m
+[7.524s] [ 20%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/arduino_status__type_support.cpp.o[0m
+[7.574s] [ 20%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/chassis_state__type_support.cpp.o[0m
+[7.623s] [ 21%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/chassis_command__type_support.cpp.o[0m
+[7.682s] [ 21%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/gps_status__type_support.cpp.o[0m
+[7.752s] [ 22%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/gps_survey__type_support.cpp.o[0m
+[7.824s] [ 22%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/gpsrf_status__type_support.cpp.o[0m
+[7.979s] [ 23%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/wheel_speed__type_support.cpp.o[0m
+[8.012s] [ 23%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/gps_status__type_support.cpp.o[0m
+[8.023s] [ 24%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/gps_survey__type_support.cpp.o[0m
+[8.031s] [ 25%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/gpsrf_status__type_support.cpp.o[0m
+[8.104s] [ 26%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/state_estimator_status__type_support.cpp.o[0m
+[8.163s] [35m[1mScanning dependencies of target rcraicer_msgs__rosidl_typesupport_introspection_cpp[0m
+[8.236s] [ 26%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/imu_filter_output__type_support.cpp.o[0m
+[8.240s] [ 27%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/encoder__type_support.cpp.o[0m
+[8.246s] [ 28%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/compute_status__type_support.cpp.o[0m
+[8.322s] [ 28%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/sim_state__type_support.cpp.o[0m
+[8.376s] [ 29%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/neural_net_layer__type_support.cpp.o[0m
+[8.412s] [ 29%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/neural_net_model__type_support.cpp.o[0m
+[8.452s] [ 30%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/path_integral_params__type_support.cpp.o[0m
+[8.525s] [35m[1mScanning dependencies of target rcraicer_msgs__rosidl_typesupport_introspection_c[0m
+[8.525s] [ 30%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/wheel_speed__type_support.cpp.o[0m
+[8.539s] [ 30%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/path_integral_stats__type_support.cpp.o[0m
+[8.606s] [ 30%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/encoder__type_support.c.o[0m
+[8.618s] [ 31%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/path_integral_status__type_support.cpp.o[0m
+[8.641s] [ 32%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/arduino_status__type_support.c.o[0m
+[8.682s] [ 33%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/chassis_state__type_support.c.o[0m
+[8.693s] [ 33%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/path_integral_timing__type_support.cpp.o[0m
+[8.703s] [ 33%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/chassis_command__type_support.c.o[0m
+[8.708s] [ 34%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/lap_stats__type_support.cpp.o[0m
+[8.757s] [ 35%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/gps_status__type_support.c.o[0m
+[8.772s] [ 36%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/rcraicer_msgs/msg/run_stop__type_support.cpp.o[0m
+[8.781s] [ 36%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/arduino_status__type_support.cpp.o[0m
+[8.804s] [ 36%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/gps_survey__type_support.c.o[0m
+[8.838s] [ 37%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/chassis_state__type_support.cpp.o[0m
+[8.856s] [ 37%] [32m[1mLinking CXX shared library librcraicer_msgs__rosidl_typesupport_c.so[0m
+[8.876s] [ 38%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/state_estimator_status__type_support.cpp.o[0m
+[8.880s] [ 39%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/gpsrf_status__type_support.c.o[0m
+[8.884s] [35m[1mScanning dependencies of target rcraicer_msgs__rosidl_typesupport_fastrtps_cpp[0m
+[8.904s] [ 39%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/imu_filter_output__type_support.cpp.o[0m
+[8.977s] [ 39%] Built target rcraicer_msgs__rosidl_typesupport_c
+[8.990s] [ 40%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/arduino_status__type_support.cpp.o[0m
+[9.000s] [ 40%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/wheel_speed__type_support.c.o[0m
+[9.008s] [ 40%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/encoder__type_support.cpp.o[0m
+[9.110s] [ 41%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/compute_status__type_support.cpp.o[0m
+[9.167s] [ 42%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/state_estimator_status__type_support.c.o[0m
+[9.352s] [ 42%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/imu_filter_output__type_support.c.o[0m
+[9.513s] [ 42%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/chassis_command__type_support.cpp.o[0m
+[9.528s] [ 43%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/compute_status__type_support.c.o[0m
+[9.541s] [ 44%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/gps_status__type_support.cpp.o[0m
+[9.563s] [ 44%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/sim_state__type_support.c.o[0m
+[9.629s] [ 44%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/gps_survey__type_support.cpp.o[0m
+[9.656s] [ 46%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/chassis_state__type_support.cpp.o[0m
+[9.658s] [ 46%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/neural_net_layer__type_support.c.o[0m
+[9.755s] [ 47%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/neural_net_model__type_support.c.o[0m
+[9.878s] [ 47%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/path_integral_params__type_support.c.o[0m
+[9.982s] [ 47%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/path_integral_status__type_support.c.o[0m
+[9.993s] [ 48%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/path_integral_stats__type_support.c.o[0m
+[10.043s] [ 49%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/path_integral_timing__type_support.c.o[0m
+[10.056s] [ 49%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/sim_state__type_support.cpp.o[0m
+[10.109s] [ 49%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/chassis_command__type_support.cpp.o[0m
+[10.184s] [ 49%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/lap_stats__type_support.c.o[0m
+[10.196s] [ 50%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/rcraicer_msgs/msg/detail/run_stop__type_support.c.o[0m
+[10.329s] [ 51%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/gpsrf_status__type_support.cpp.o[0m
+[10.331s] [ 51%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/wheel_speed__type_support.cpp.o[0m
+[10.357s] [ 51%] [32m[1mLinking C shared library librcraicer_msgs__rosidl_typesupport_introspection_c.so[0m
+[10.401s] [ 52%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/state_estimator_status__type_support.cpp.o[0m
+[10.544s] [ 52%] Built target rcraicer_msgs__rosidl_typesupport_introspection_c
+[10.604s] [ 53%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/gps_status__type_support.cpp.o[0m
+[10.720s] [ 54%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/neural_net_layer__type_support.cpp.o[0m
+[10.720s] [ 54%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/neural_net_model__type_support.cpp.o[0m
+[10.762s] [ 54%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/gps_survey__type_support.cpp.o[0m
+[11.022s] [ 54%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/imu_filter_output__type_support.cpp.o[0m
+[11.076s] [ 55%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/compute_status__type_support.cpp.o[0m
+[11.116s] [ 56%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/sim_state__type_support.cpp.o[0m
+[11.509s] [ 57%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/path_integral_params__type_support.cpp.o[0m
+[11.528s] [ 57%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/neural_net_layer__type_support.cpp.o[0m
+[11.624s] [ 58%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/neural_net_model__type_support.cpp.o[0m
+[11.694s] [ 59%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/gpsrf_status__type_support.cpp.o[0m
+[11.903s] [ 59%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/wheel_speed__type_support.cpp.o[0m
+[11.944s] [ 59%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/path_integral_params__type_support.cpp.o[0m
+[12.119s] [ 60%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/state_estimator_status__type_support.cpp.o[0m
+[12.205s] [ 61%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/path_integral_stats__type_support.cpp.o[0m
+[12.236s] [ 61%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/path_integral_stats__type_support.cpp.o[0m
+[12.354s] [ 62%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/path_integral_status__type_support.cpp.o[0m
+[12.586s] [ 62%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/path_integral_status__type_support.cpp.o[0m
+[12.770s] [ 63%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/path_integral_timing__type_support.cpp.o[0m
+[12.953s] [ 63%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/imu_filter_output__type_support.cpp.o[0m
+[12.972s] [ 63%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/lap_stats__type_support.cpp.o[0m
+[13.023s] [ 64%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/compute_status__type_support.cpp.o[0m
+[13.023s] [ 65%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/path_integral_timing__type_support.cpp.o[0m
+[13.233s] [ 65%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/lap_stats__type_support.cpp.o[0m
+[13.352s] [ 66%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/rcraicer_msgs/msg/detail/run_stop__type_support.cpp.o[0m
+[13.428s] [ 66%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/sim_state__type_support.cpp.o[0m
+[13.632s] [ 67%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/neural_net_layer__type_support.cpp.o[0m
+[13.720s] [ 68%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/neural_net_model__type_support.cpp.o[0m
+[13.860s] [ 69%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/rcraicer_msgs/msg/run_stop__type_support.cpp.o[0m
+[13.937s] [ 69%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/path_integral_params__type_support.cpp.o[0m
+[14.090s] [ 70%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/path_integral_stats__type_support.cpp.o[0m
+[14.324s] [ 71%] [32m[1mLinking CXX shared library librcraicer_msgs__rosidl_typesupport_introspection_cpp.so[0m
+[14.528s] [ 71%] [32m[1mLinking CXX shared library librcraicer_msgs__rosidl_typesupport_cpp.so[0m
+[14.664s] [ 71%] Built target rcraicer_msgs__rosidl_typesupport_introspection_cpp
+[14.685s] [ 71%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/path_integral_status__type_support.cpp.o[0m
+[14.762s] [ 71%] Built target rcraicer_msgs__rosidl_typesupport_cpp
+[14.818s] [ 72%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/path_integral_timing__type_support.cpp.o[0m
+[14.831s] [ 72%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/lap_stats__type_support.cpp.o[0m
+[14.938s] [ 73%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/rcraicer_msgs/msg/detail/dds_fastrtps/run_stop__type_support.cpp.o[0m
+[15.720s] [ 73%] [32m[1mLinking CXX shared library librcraicer_msgs__rosidl_typesupport_fastrtps_cpp.so[0m
+[15.855s] [ 73%] Built target rcraicer_msgs__rosidl_typesupport_fastrtps_cpp
+[15.868s] [ 74%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[17.218s] [35m[1mScanning dependencies of target rcraicer_msgs__rosidl_typesupport_fastrtps_c[0m
+[17.272s] [ 75%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/arduino_status__type_support_c.cpp.o[0m
+[17.272s] [ 75%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/encoder__type_support_c.cpp.o[0m
+[17.275s] [ 76%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/gps_status__type_support_c.cpp.o[0m
+[17.275s] [ 76%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/chassis_state__type_support_c.cpp.o[0m
+[17.275s] [ 77%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/gps_survey__type_support_c.cpp.o[0m
+[17.275s] [ 77%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/chassis_command__type_support_c.cpp.o[0m
+[17.282s] [ 78%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/gpsrf_status__type_support_c.cpp.o[0m
+[17.288s] [ 78%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/wheel_speed__type_support_c.cpp.o[0m
+[18.133s] [ 79%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/state_estimator_status__type_support_c.cpp.o[0m
+[18.223s] [ 79%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/imu_filter_output__type_support_c.cpp.o[0m
+[18.241s] [ 80%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/compute_status__type_support_c.cpp.o[0m
+[18.307s] [ 80%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/sim_state__type_support_c.cpp.o[0m
+[18.408s] [ 81%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/neural_net_layer__type_support_c.cpp.o[0m
+[18.430s] [ 81%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/neural_net_model__type_support_c.cpp.o[0m
+[18.475s] [ 82%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/path_integral_params__type_support_c.cpp.o[0m
+[18.580s] [ 83%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/path_integral_stats__type_support_c.cpp.o[0m
+[19.172s] [ 83%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/path_integral_status__type_support_c.cpp.o[0m
+[19.346s] [ 84%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/path_integral_timing__type_support_c.cpp.o[0m
+[19.480s] [ 84%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/lap_stats__type_support_c.cpp.o[0m
+[19.568s] [ 85%] [32mBuilding CXX object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/rcraicer_msgs/msg/detail/run_stop__type_support_c.cpp.o[0m
+[20.369s] [ 85%] [32m[1mLinking CXX shared library librcraicer_msgs__rosidl_typesupport_fastrtps_c.so[0m
+[20.517s] [ 85%] Built target rcraicer_msgs__rosidl_typesupport_fastrtps_c
+[20.528s] [35m[1mScanning dependencies of target rcraicer_msgs[0m
+[20.539s] [ 85%] Built target rcraicer_msgs
+[20.552s] [35m[1mScanning dependencies of target rcraicer_msgs__py[0m
+[20.565s] [ 86%] [34m[1mGenerating Python code for ROS interfaces[0m
+[23.370s] [ 86%] Built target rcraicer_msgs__py
+[23.381s] [35m[1mScanning dependencies of target rcraicer_msgs__python[0m
+[23.457s] [ 86%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_gps_status_s.c.o[0m
+[23.460s] [ 87%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_chassis_state_s.c.o[0m
+[23.462s] [ 88%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_arduino_status_s.c.o[0m
+[23.462s] [ 87%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_chassis_command_s.c.o[0m
+[23.462s] [ 89%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_gps_survey_s.c.o[0m
+[23.462s] [ 88%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_encoder_s.c.o[0m
+[23.462s] [ 89%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_gpsrf_status_s.c.o[0m
+[23.471s] [ 90%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_wheel_speed_s.c.o[0m
+[23.725s] [ 91%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_state_estimator_status_s.c.o[0m
+[23.725s] [ 91%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_imu_filter_output_s.c.o[0m
+[23.744s] [ 92%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_compute_status_s.c.o[0m
+[23.755s] [ 93%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_neural_net_layer_s.c.o[0m
+[23.774s] [ 93%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_neural_net_model_s.c.o[0m
+[23.780s] [ 93%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_sim_state_s.c.o[0m
+[23.823s] [ 94%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_path_integral_params_s.c.o[0m
+[24.049s] [ 94%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_path_integral_stats_s.c.o[0m
+[24.072s] [ 95%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_path_integral_status_s.c.o[0m
+[24.156s] [ 95%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_path_integral_timing_s.c.o[0m
+[24.179s] [ 96%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_lap_stats_s.c.o[0m
+[24.219s] [ 97%] [32mBuilding C object CMakeFiles/rcraicer_msgs__python.dir/rosidl_generator_py/rcraicer_msgs/msg/_run_stop_s.c.o[0m
+[24.417s] [ 97%] [32m[1mLinking C shared library rosidl_generator_py/rcraicer_msgs/librcraicer_msgs__python.so[0m
+[24.477s] [ 97%] Built target rcraicer_msgs__python
+[24.489s] [35m[1mScanning dependencies of target rcraicer_msgs__rosidl_typesupport_fastrtps_c__pyext[0m
+[24.491s] [35m[1mScanning dependencies of target rcraicer_msgs__rosidl_typesupport_c__pyext[0m
+[24.491s] [35m[1mScanning dependencies of target rcraicer_msgs__rosidl_typesupport_introspection_c__pyext[0m
+[24.529s] [ 98%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/rcraicer_msgs/_rcraicer_msgs_s.ep.rosidl_typesupport_c.c.o[0m
+[24.530s] [ 99%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/rcraicer_msgs/_rcraicer_msgs_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[24.530s] [100%] [32mBuilding C object CMakeFiles/rcraicer_msgs__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/rcraicer_msgs/_rcraicer_msgs_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[24.935s] [100%] [32m[1mLinking C shared library rosidl_generator_py/rcraicer_msgs/rcraicer_msgs_s__rosidl_typesupport_c.cpython-38-x86_64-linux-gnu.so[0m
+[24.944s] [100%] [32m[1mLinking C shared library rosidl_generator_py/rcraicer_msgs/rcraicer_msgs_s__rosidl_typesupport_introspection_c.cpython-38-x86_64-linux-gnu.so[0m
+[24.993s] [100%] Built target rcraicer_msgs__rosidl_typesupport_c__pyext
+[24.993s] [100%] Built target rcraicer_msgs__rosidl_typesupport_introspection_c__pyext
+[25.074s] [100%] [32m[1mLinking CXX shared library rosidl_generator_py/rcraicer_msgs/rcraicer_msgs_s__rosidl_typesupport_fastrtps_c.cpython-38-x86_64-linux-gnu.so[0m
+[25.144s] [100%] Built target rcraicer_msgs__rosidl_typesupport_fastrtps_c__pyext
+[25.157s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_msgs -- -j8 -l8
+[25.481s] Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --install /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_msgs
+[25.490s] -- Install configuration: "RelWithDebInfo"
+[25.490s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/ament_index/resource_index/rosidl_interfaces/rcraicer_msgs
+[25.491s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs
+[25.491s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg
+[25.491s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/state_estimator_status.h
+[25.491s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/neural_net_layer.h
+[25.491s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/imu_filter_output.h
+[25.491s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/path_integral_params.h
+[25.491s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/gpsrf_status.h
+[25.491s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/lap_stats.h
+[25.492s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/chassis_state.h
+[25.492s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/path_integral_stats.h
+[25.492s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/chassis_command.h
+[25.492s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/rosidl_generator_c__visibility_control.h
+[25.492s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/compute_status.h
+[25.492s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/path_integral_timing.h
+[25.492s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail
+[25.492s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__type_support.h
+[25.492s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__struct.h
+[25.492s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__functions.c
+[25.493s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__functions.h
+[25.493s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__type_support.h
+[25.493s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__functions.c
+[25.493s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__functions.c
+[25.493s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__type_support.h
+[25.493s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__struct.h
+[25.493s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__functions.c
+[25.493s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__struct.h
+[25.493s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__functions.h
+[25.493s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__struct.h
+[25.493s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__struct.h
+[25.494s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__functions.c
+[25.494s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__functions.c
+[25.494s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__type_support.h
+[25.494s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__functions.h
+[25.494s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__type_support.h
+[25.494s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__functions.h
+[25.494s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__struct.h
+[25.494s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__functions.c
+[25.494s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__type_support.h
+[25.494s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__type_support.h
+[25.495s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__type_support.h
+[25.495s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__functions.h
+[25.495s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__struct.h
+[25.495s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__type_support.h
+[25.495s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__functions.c
+[25.495s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__struct.h
+[25.495s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__type_support.h
+[25.495s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__functions.c
+[25.495s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__type_support.h
+[25.496s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__functions.h
+[25.496s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__struct.h
+[25.496s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__type_support.h
+[25.496s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__type_support.h
+[25.496s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__functions.h
+[25.496s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__functions.c
+[25.497s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__type_support.h
+[25.497s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__functions.c
+[25.497s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__functions.h
+[25.497s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__struct.h
+[25.497s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__struct.h
+[25.497s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__type_support.h
+[25.497s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__type_support.h
+[25.497s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__functions.h
+[25.497s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__functions.c
+[25.498s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__struct.h
+[25.498s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__struct.h
+[25.498s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__functions.h
+[25.498s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__functions.c
+[25.498s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__functions.h
+[25.498s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__struct.h
+[25.498s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__functions.h
+[25.499s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__functions.h
+[25.499s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__functions.h
+[25.499s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__functions.c
+[25.499s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__type_support.h
+[25.499s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__functions.h
+[25.499s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__functions.c
+[25.499s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__struct.h
+[25.500s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__type_support.h
+[25.500s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__functions.c
+[25.500s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__functions.c
+[25.500s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__struct.h
+[25.500s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__type_support.h
+[25.500s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__struct.h
+[25.500s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__functions.h
+[25.501s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__functions.h
+[25.501s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__functions.h
+[25.501s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__functions.c
+[25.501s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__struct.h
+[25.501s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__functions.c
+[25.501s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__functions.c
+[25.501s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__functions.h
+[25.501s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__functions.h
+[25.501s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__type_support.h
+[25.501s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__struct.h
+[25.501s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__struct.h
+[25.502s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/arduino_status.h
+[25.502s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/encoder.h
+[25.502s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/sim_state.h
+[25.502s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/neural_net_model.h
+[25.502s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/gps_survey.h
+[25.502s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/path_integral_status.h
+[25.502s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/run_stop.h
+[25.502s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/gps_status.h
+[25.502s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/wheel_speed.h
+[25.502s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/environment/library_path.sh
+[25.502s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/environment/library_path.dsv
+[25.503s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_generator_c.so
+[25.503s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_generator_c.so" to ""
+[25.503s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs
+[25.503s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[25.504s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__rosidl_typesupport_fastrtps_c.h
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__rosidl_typesupport_fastrtps_c.h
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__rosidl_typesupport_fastrtps_c.h
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__rosidl_typesupport_fastrtps_c.h
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__rosidl_typesupport_fastrtps_c.h
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__rosidl_typesupport_fastrtps_c.h
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__rosidl_typesupport_fastrtps_c.h
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__rosidl_typesupport_fastrtps_c.h
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__rosidl_typesupport_fastrtps_c.h
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__rosidl_typesupport_fastrtps_c.h
+[25.504s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__rosidl_typesupport_fastrtps_c.h
+[25.505s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__rosidl_typesupport_fastrtps_c.h
+[25.505s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__rosidl_typesupport_fastrtps_c.h
+[25.505s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__rosidl_typesupport_fastrtps_c.h
+[25.505s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__rosidl_typesupport_fastrtps_c.h
+[25.505s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__rosidl_typesupport_fastrtps_c.h
+[25.505s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__rosidl_typesupport_fastrtps_c.h
+[25.505s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__rosidl_typesupport_fastrtps_c.h
+[25.505s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__rosidl_typesupport_fastrtps_c.h
+[25.505s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__rosidl_typesupport_fastrtps_c.h
+[25.505s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_fastrtps_c.so
+[25.508s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_fastrtps_c.so" to ""
+[25.508s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs
+[25.509s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg
+[25.509s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail
+[25.509s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__rosidl_typesupport_fastrtps_cpp.hpp
+[25.509s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__rosidl_typesupport_fastrtps_cpp.hpp
+[25.509s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__rosidl_typesupport_fastrtps_cpp.hpp
+[25.509s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__rosidl_typesupport_fastrtps_cpp.hpp
+[25.509s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__rosidl_typesupport_fastrtps_cpp.hpp
+[25.509s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__rosidl_typesupport_fastrtps_cpp.hpp
+[25.509s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__rosidl_typesupport_fastrtps_cpp.hpp
+[25.510s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__rosidl_typesupport_fastrtps_cpp.hpp
+[25.510s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__rosidl_typesupport_fastrtps_cpp.hpp
+[25.510s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__rosidl_typesupport_fastrtps_cpp.hpp
+[25.510s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__rosidl_typesupport_fastrtps_cpp.hpp
+[25.510s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__rosidl_typesupport_fastrtps_cpp.hpp
+[25.510s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__rosidl_typesupport_fastrtps_cpp.hpp
+[25.511s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__rosidl_typesupport_fastrtps_cpp.hpp
+[25.511s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__rosidl_typesupport_fastrtps_cpp.hpp
+[25.511s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__rosidl_typesupport_fastrtps_cpp.hpp
+[25.511s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/dds_fastrtps
+[25.511s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__rosidl_typesupport_fastrtps_cpp.hpp
+[25.511s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__rosidl_typesupport_fastrtps_cpp.hpp
+[25.511s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__rosidl_typesupport_fastrtps_cpp.hpp
+[25.511s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__rosidl_typesupport_fastrtps_cpp.hpp
+[25.512s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[25.512s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_fastrtps_cpp.so
+[25.514s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_fastrtps_cpp.so" to ""
+[25.514s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs
+[25.514s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg
+[25.514s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[25.514s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__type_support.c
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__rosidl_typesupport_introspection_c.h
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__rosidl_typesupport_introspection_c.h
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__rosidl_typesupport_introspection_c.h
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__type_support.c
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__type_support.c
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__type_support.c
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__rosidl_typesupport_introspection_c.h
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__rosidl_typesupport_introspection_c.h
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__type_support.c
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__rosidl_typesupport_introspection_c.h
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__type_support.c
+[25.515s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__rosidl_typesupport_introspection_c.h
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__type_support.c
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__rosidl_typesupport_introspection_c.h
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__rosidl_typesupport_introspection_c.h
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__rosidl_typesupport_introspection_c.h
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__type_support.c
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__type_support.c
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__type_support.c
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__type_support.c
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__type_support.c
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__rosidl_typesupport_introspection_c.h
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__type_support.c
+[25.516s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__type_support.c
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__type_support.c
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__type_support.c
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__type_support.c
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__type_support.c
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__rosidl_typesupport_introspection_c.h
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__type_support.c
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__rosidl_typesupport_introspection_c.h
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__type_support.c
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__rosidl_typesupport_introspection_c.h
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__rosidl_typesupport_introspection_c.h
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__rosidl_typesupport_introspection_c.h
+[25.517s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__rosidl_typesupport_introspection_c.h
+[25.518s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__rosidl_typesupport_introspection_c.h
+[25.518s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__rosidl_typesupport_introspection_c.h
+[25.518s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__rosidl_typesupport_introspection_c.h
+[25.518s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_introspection_c.so
+[25.519s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_introspection_c.so" to ""
+[25.519s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_c.so
+[25.519s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_c.so" to ""
+[25.519s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs
+[25.519s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg
+[25.519s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/encoder.hpp
+[25.520s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/path_integral_stats.hpp
+[25.520s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/chassis_command.hpp
+[25.520s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/run_stop.hpp
+[25.520s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/sim_state.hpp
+[25.520s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/imu_filter_output.hpp
+[25.520s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/chassis_state.hpp
+[25.520s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/gps_survey.hpp
+[25.520s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/gpsrf_status.hpp
+[25.520s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/arduino_status.hpp
+[25.520s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/lap_stats.hpp
+[25.520s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail
+[25.520s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__struct.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__struct.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__builder.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__traits.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__traits.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__traits.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__traits.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__builder.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__traits.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__traits.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__builder.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__traits.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__struct.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__struct.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__traits.hpp
+[25.521s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__struct.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__builder.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__builder.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__struct.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__builder.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__traits.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__traits.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__struct.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__struct.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__traits.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__struct.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__builder.hpp
+[25.522s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__traits.hpp
+[25.523s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__builder.hpp
+[25.523s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__struct.hpp
+[25.523s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__traits.hpp
+[25.523s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__struct.hpp
+[25.523s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__struct.hpp
+[25.523s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__struct.hpp
+[25.523s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__builder.hpp
+[25.523s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__struct.hpp
+[25.523s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__struct.hpp
+[25.523s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__builder.hpp
+[25.523s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__traits.hpp
+[25.524s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__builder.hpp
+[25.524s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__traits.hpp
+[25.524s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__builder.hpp
+[25.524s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__traits.hpp
+[25.524s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__builder.hpp
+[25.524s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__builder.hpp
+[25.524s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__builder.hpp
+[25.524s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__traits.hpp
+[25.524s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__builder.hpp
+[25.524s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__builder.hpp
+[25.525s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__struct.hpp
+[25.525s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__traits.hpp
+[25.525s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__builder.hpp
+[25.525s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__builder.hpp
+[25.525s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__struct.hpp
+[25.525s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__struct.hpp
+[25.525s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__traits.hpp
+[25.525s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__builder.hpp
+[25.525s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__struct.hpp
+[25.525s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__traits.hpp
+[25.526s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__struct.hpp
+[25.526s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/neural_net_layer.hpp
+[25.526s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/path_integral_status.hpp
+[25.526s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/path_integral_timing.hpp
+[25.526s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/wheel_speed.hpp
+[25.526s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/gps_status.hpp
+[25.526s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/path_integral_params.hpp
+[25.526s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/compute_status.hpp
+[25.526s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/neural_net_model.hpp
+[25.526s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/state_estimator_status.hpp
+[25.527s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs
+[25.527s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg
+[25.527s] -- Up-to-date: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail
+[25.527s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__rosidl_typesupport_introspection_cpp.hpp
+[25.527s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__type_support.cpp
+[25.527s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__rosidl_typesupport_introspection_cpp.hpp
+[25.527s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__type_support.cpp
+[25.527s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__type_support.cpp
+[25.527s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__type_support.cpp
+[25.527s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__type_support.cpp
+[25.527s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/sim_state__rosidl_typesupport_introspection_cpp.hpp
+[25.528s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_timing__type_support.cpp
+[25.528s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__rosidl_typesupport_introspection_cpp.hpp
+[25.528s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__type_support.cpp
+[25.528s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__rosidl_typesupport_introspection_cpp.hpp
+[25.528s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__type_support.cpp
+[25.528s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__rosidl_typesupport_introspection_cpp.hpp
+[25.528s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__type_support.cpp
+[25.528s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__rosidl_typesupport_introspection_cpp.hpp
+[25.528s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__type_support.cpp
+[25.528s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_state__rosidl_typesupport_introspection_cpp.hpp
+[25.529s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__rosidl_typesupport_introspection_cpp.hpp
+[25.529s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/state_estimator_status__rosidl_typesupport_introspection_cpp.hpp
+[25.529s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__rosidl_typesupport_introspection_cpp.hpp
+[25.529s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/run_stop__type_support.cpp
+[25.529s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/lap_stats__type_support.cpp
+[25.529s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/arduino_status__rosidl_typesupport_introspection_cpp.hpp
+[25.529s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_survey__type_support.cpp
+[25.529s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/imu_filter_output__type_support.cpp
+[25.529s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_stats__rosidl_typesupport_introspection_cpp.hpp
+[25.529s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_layer__type_support.cpp
+[25.529s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__rosidl_typesupport_introspection_cpp.hpp
+[25.530s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gpsrf_status__rosidl_typesupport_introspection_cpp.hpp
+[25.530s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/gps_status__rosidl_typesupport_introspection_cpp.hpp
+[25.530s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__rosidl_typesupport_introspection_cpp.hpp
+[25.530s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__type_support.cpp
+[25.530s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/neural_net_model__type_support.cpp
+[25.530s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_status__rosidl_typesupport_introspection_cpp.hpp
+[25.530s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/encoder__type_support.cpp
+[25.530s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/chassis_command__type_support.cpp
+[25.530s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/compute_status__rosidl_typesupport_introspection_cpp.hpp
+[25.530s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/wheel_speed__rosidl_typesupport_introspection_cpp.hpp
+[25.530s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/include/rcraicer_msgs/msg/detail/path_integral_params__type_support.cpp
+[25.531s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_introspection_cpp.so
+[25.532s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_introspection_cpp.so" to ""
+[25.533s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_cpp.so
+[25.533s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__rosidl_typesupport_cpp.so" to ""
+[25.533s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/environment/pythonpath.sh
+[25.534s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/environment/pythonpath.dsv
+[25.534s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/__init__.py
+[25.566s] Compiling '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/__init__.py'...
+[25.570s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg
+[25.571s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_path_integral_timing.py
+[25.571s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_chassis_command_s.c
+[25.571s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_gpsrf_status.py
+[25.571s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_chassis_state_s.c
+[25.571s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_path_integral_stats_s.c
+[25.571s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_sim_state.py
+[25.571s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_lap_stats.py
+[25.571s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_compute_status_s.c
+[25.572s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_state_estimator_status.py
+[25.572s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_compute_status.py
+[25.572s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_sim_state_s.c
+[25.572s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_neural_net_layer.py
+[25.572s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_gps_survey.py
+[25.572s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_wheel_speed_s.c
+[25.573s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_chassis_state.py
+[25.573s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_lap_stats_s.c
+[25.573s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_chassis_command.py
+[25.573s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_imu_filter_output_s.c
+[25.573s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_run_stop_s.c
+[25.573s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_path_integral_params_s.c
+[25.573s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_wheel_speed.py
+[25.573s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_encoder.py
+[25.574s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_encoder_s.c
+[25.574s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_arduino_status.py
+[25.574s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_gps_status.py
+[25.574s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_path_integral_status_s.c
+[25.574s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_path_integral_params.py
+[25.574s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_gps_survey_s.c
+[25.575s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_state_estimator_status_s.c
+[25.575s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_gpsrf_status_s.c
+[25.575s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_path_integral_stats.py
+[25.575s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_gps_status_s.c
+[25.575s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_neural_net_model.py
+[25.575s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_path_integral_timing_s.c
+[25.576s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_path_integral_status.py
+[25.576s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_neural_net_model_s.c
+[25.576s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_neural_net_layer_s.c
+[25.576s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_imu_filter_output.py
+[25.576s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_arduino_status_s.c
+[25.576s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/__init__.py
+[25.576s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/msg/_run_stop.py
+[25.577s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/rcraicer_msgs_s__rosidl_typesupport_fastrtps_c.cpython-38-x86_64-linux-gnu.so
+[25.578s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/rcraicer_msgs_s__rosidl_typesupport_fastrtps_c.cpython-38-x86_64-linux-gnu.so" to ""
+[25.578s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/rcraicer_msgs_s__rosidl_typesupport_introspection_c.cpython-38-x86_64-linux-gnu.so
+[25.579s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/rcraicer_msgs_s__rosidl_typesupport_introspection_c.cpython-38-x86_64-linux-gnu.so" to ""
+[25.579s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/rcraicer_msgs_s__rosidl_typesupport_c.cpython-38-x86_64-linux-gnu.so
+[25.580s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages/rcraicer_msgs/rcraicer_msgs_s__rosidl_typesupport_c.cpython-38-x86_64-linux-gnu.so" to ""
+[25.581s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__python.so
+[25.582s] -- Set runtime path of "/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/librcraicer_msgs__python.so" to ""
+[25.583s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/Encoder.idl
+[25.583s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/ArduinoStatus.idl
+[25.583s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/ChassisState.idl
+[25.583s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/ChassisCommand.idl
+[25.584s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/GPSStatus.idl
+[25.584s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/GPSSurvey.idl
+[25.584s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/GPSRFStatus.idl
+[25.584s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/WheelSpeed.idl
+[25.584s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/StateEstimatorStatus.idl
+[25.585s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/ImuFilterOutput.idl
+[25.585s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/ComputeStatus.idl
+[25.585s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/SimState.idl
+[25.585s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/NeuralNetLayer.idl
+[25.586s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/NeuralNetModel.idl
+[25.586s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/PathIntegralParams.idl
+[25.586s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/PathIntegralStats.idl
+[25.586s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/PathIntegralStatus.idl
+[25.586s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/PathIntegralTiming.idl
+[25.586s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/LapStats.idl
+[25.586s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/RunStop.idl
+[25.587s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/Encoder.msg
+[25.587s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/ArduinoStatus.msg
+[25.587s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/ChassisState.msg
+[25.587s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/ChassisCommand.msg
+[25.587s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/GPSStatus.msg
+[25.587s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/GPSSurvey.msg
+[25.587s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/GPSRFStatus.msg
+[25.588s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/WheelSpeed.msg
+[25.588s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/StateEstimatorStatus.msg
+[25.588s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/ImuFilterOutput.msg
+[25.588s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/ComputeStatus.msg
+[25.588s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/SimState.msg
+[25.588s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/NeuralNetLayer.msg
+[25.588s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/NeuralNetModel.msg
+[25.589s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/PathIntegralParams.msg
+[25.589s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/PathIntegralStats.msg
+[25.589s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/PathIntegralStatus.msg
+[25.589s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/PathIntegralTiming.msg
+[25.589s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/LapStats.msg
+[25.589s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/msg/RunStop.msg
+[25.590s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/ament_index/resource_index/package_run_dependencies/rcraicer_msgs
+[25.590s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/ament_index/resource_index/parent_prefix_path/rcraicer_msgs
+[25.590s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/environment/ament_prefix_path.sh
+[25.590s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/environment/ament_prefix_path.dsv
+[25.590s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/environment/path.sh
+[25.590s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/environment/path.dsv
+[25.590s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/local_setup.bash
+[25.591s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/local_setup.sh
+[25.591s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/local_setup.zsh
+[25.591s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/local_setup.dsv
+[25.591s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/package.dsv
+[25.591s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/ament_index/resource_index/packages/rcraicer_msgs
+[25.592s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgs__rosidl_generator_cExport.cmake
+[25.592s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgs__rosidl_generator_cExport-relwithdebinfo.cmake
+[25.592s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgs__rosidl_typesupport_introspection_cExport.cmake
+[25.592s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgs__rosidl_typesupport_introspection_cExport-relwithdebinfo.cmake
+[25.593s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgs__rosidl_typesupport_cExport.cmake
+[25.593s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgs__rosidl_typesupport_cExport-relwithdebinfo.cmake
+[25.593s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgs__rosidl_generator_cppExport.cmake
+[25.593s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgs__rosidl_typesupport_introspection_cppExport.cmake
+[25.594s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgs__rosidl_typesupport_introspection_cppExport-relwithdebinfo.cmake
+[25.594s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgs__rosidl_typesupport_cppExport.cmake
+[25.594s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgs__rosidl_typesupport_cppExport-relwithdebinfo.cmake
+[25.594s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rosidl_cmake-extras.cmake
+[25.595s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+[25.595s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+[25.595s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/ament_cmake_export_targets-extras.cmake
+[25.595s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+[25.595s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[25.596s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[25.596s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgsConfig.cmake
+[25.596s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/cmake/rcraicer_msgsConfig-version.cmake
+[25.596s] -- Installing: /home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/share/rcraicer_msgs/package.xml
+[25.600s] Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy /usr/bin/cmake --install /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer_msgs

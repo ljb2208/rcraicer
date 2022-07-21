@@ -1,0 +1,267 @@
+[0.180s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'rcraicer', '--cmake-target', 'clean']
+[0.180s] DEBUG:colcon:Parsed command line arguments: Namespace(allow_overriding=[], ament_cmake_args=None, base_paths=['.'], build_base='build', catkin_cmake_args=None, catkin_skip_building_tests=False, cmake_args=None, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, cmake_target='clean', cmake_target_skip_unavailable=False, continue_on_error=False, event_handlers=None, executor='parallel', ignore_user_meta=False, install_base='install', log_base=None, log_level=None, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7f30df616e20>>, merge_install=False, metas=['./colcon.meta'], packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_end=None, packages_ignore=None, packages_ignore_regex=None, packages_select=['rcraicer'], packages_select_build_failed=False, packages_select_by_dep=None, packages_select_regex=None, packages_select_test_failures=False, packages_skip=None, packages_skip_build_finished=False, packages_skip_by_dep=None, packages_skip_regex=None, packages_skip_test_passed=False, packages_skip_up_to=None, packages_start=None, packages_up_to=None, packages_up_to_regex=None, parallel_workers=8, paths=None, symlink_install=False, test_result_base=None, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7f30df616e20>, verb_name='build', verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7f30df61f3d0>)
+[0.187s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.187s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.187s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.187s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.187s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.187s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.187s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/lbarnett/ros2_ws/src/rcraicer'
+[0.187s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.187s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.187s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.187s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.188s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.188s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.188s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.188s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.188s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.199s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.199s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.199s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.199s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.199s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.199s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.199s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.199s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extensions ['ignore', 'ignore_ament_install']
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extension 'ignore'
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extension 'ignore_ament_install'
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extensions ['colcon_pkg']
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extension 'colcon_pkg'
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extensions ['colcon_meta']
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extension 'colcon_meta'
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extensions ['ros']
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extension 'ros'
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extensions ['cmake', 'python']
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extension 'cmake'
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extension 'python'
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extensions ['python_setup_py']
+[0.200s] Level 1:colcon.colcon_core.package_identification:_identify(launch) by extension 'python_setup_py'
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer) by extensions ['ignore', 'ignore_ament_install']
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer) by extension 'ignore'
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer) by extension 'ignore_ament_install'
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer) by extensions ['colcon_pkg']
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer) by extension 'colcon_pkg'
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer) by extensions ['colcon_meta']
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer) by extension 'colcon_meta'
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer) by extensions ['ros']
+[0.201s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer) by extension 'ros'
+[0.204s] DEBUG:colcon.colcon_core.package_identification:Package 'rcraicer' with type 'ros.ament_cmake' and name 'rcraicer'
+[0.204s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_description) by extensions ['ignore', 'ignore_ament_install']
+[0.204s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_description) by extension 'ignore'
+[0.204s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_description) by extension 'ignore_ament_install'
+[0.204s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_description) by extensions ['colcon_pkg']
+[0.204s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_description) by extension 'colcon_pkg'
+[0.204s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_description) by extensions ['colcon_meta']
+[0.204s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_description) by extension 'colcon_meta'
+[0.204s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_description) by extensions ['ros']
+[0.204s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_description) by extension 'ros'
+[0.205s] DEBUG:colcon.colcon_core.package_identification:Package 'rcraicer_description' with type 'ros.ament_cmake' and name 'rcraicer_description'
+[0.205s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_gps) by extensions ['ignore', 'ignore_ament_install']
+[0.205s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_gps) by extension 'ignore'
+[0.205s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_gps) by extension 'ignore_ament_install'
+[0.205s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_gps) by extensions ['colcon_pkg']
+[0.205s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_gps) by extension 'colcon_pkg'
+[0.205s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_gps) by extensions ['colcon_meta']
+[0.205s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_gps) by extension 'colcon_meta'
+[0.206s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_gps) by extensions ['ros']
+[0.206s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_gps) by extension 'ros'
+[0.206s] DEBUG:colcon.colcon_core.package_identification:Package 'rcraicer_gps' with type 'ros.ament_cmake' and name 'rcraicer_gps'
+[0.206s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_imu) by extensions ['ignore', 'ignore_ament_install']
+[0.206s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_imu) by extension 'ignore'
+[0.206s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_imu) by extension 'ignore_ament_install'
+[0.206s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_imu) by extensions ['colcon_pkg']
+[0.207s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_imu) by extension 'colcon_pkg'
+[0.207s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_imu) by extensions ['colcon_meta']
+[0.207s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_imu) by extension 'colcon_meta'
+[0.207s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_imu) by extensions ['ros']
+[0.207s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_imu) by extension 'ros'
+[0.207s] DEBUG:colcon.colcon_core.package_identification:Package 'rcraicer_imu' with type 'ros.ament_cmake' and name 'rcraicer_imu'
+[0.208s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mapping) by extensions ['ignore', 'ignore_ament_install']
+[0.208s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mapping) by extension 'ignore'
+[0.208s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mapping) by extension 'ignore_ament_install'
+[0.208s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mapping) by extensions ['colcon_pkg']
+[0.208s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mapping) by extension 'colcon_pkg'
+[0.208s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mapping) by extensions ['colcon_meta']
+[0.208s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mapping) by extension 'colcon_meta'
+[0.208s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mapping) by extensions ['ros']
+[0.208s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mapping) by extension 'ros'
+[0.209s] DEBUG:colcon.colcon_core.package_identification:Package 'rcraicer_mapping' with type 'ros.ament_cmake' and name 'rcraicer_mapping'
+[0.209s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi) by extensions ['ignore', 'ignore_ament_install']
+[0.209s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi) by extension 'ignore'
+[0.209s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi) by extension 'ignore_ament_install'
+[0.209s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi) by extensions ['colcon_pkg']
+[0.209s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi) by extension 'colcon_pkg'
+[0.209s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi) by extensions ['colcon_meta']
+[0.209s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi) by extension 'colcon_meta'
+[0.209s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi) by extensions ['ros']
+[0.209s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi) by extension 'ros'
+[0.210s] DEBUG:colcon.colcon_core.package_identification:Package 'rcraicer_mppi' with type 'ros.ament_cmake' and name 'rcraicer_mppi'
+[0.210s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi_test) by extensions ['ignore', 'ignore_ament_install']
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi_test) by extension 'ignore'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi_test) by extension 'ignore_ament_install'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi_test) by extensions ['colcon_pkg']
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi_test) by extension 'colcon_pkg'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi_test) by extensions ['colcon_meta']
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi_test) by extension 'colcon_meta'
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi_test) by extensions ['ros']
+[0.211s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_mppi_test) by extension 'ros'
+[0.212s] DEBUG:colcon.colcon_core.package_identification:Package 'rcraicer_mppi_test' with type 'ros.ament_cmake' and name 'rcraicer_mppi_test'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_msgs) by extensions ['ignore', 'ignore_ament_install']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_msgs) by extension 'ignore'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_msgs) by extension 'ignore_ament_install'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_msgs) by extensions ['colcon_pkg']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_msgs) by extension 'colcon_pkg'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_msgs) by extensions ['colcon_meta']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_msgs) by extension 'colcon_meta'
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_msgs) by extensions ['ros']
+[0.212s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_msgs) by extension 'ros'
+[0.213s] DEBUG:colcon.colcon_core.package_identification:Package 'rcraicer_msgs' with type 'ros.ament_cmake' and name 'rcraicer_msgs'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_sim) by extensions ['ignore', 'ignore_ament_install']
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_sim) by extension 'ignore'
+[0.213s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_sim) by extension 'ignore_ament_install'
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_sim) by extensions ['colcon_pkg']
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_sim) by extension 'colcon_pkg'
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_sim) by extensions ['colcon_meta']
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_sim) by extension 'colcon_meta'
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_sim) by extensions ['ros']
+[0.214s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_sim) by extension 'ros'
+[0.215s] DEBUG:colcon.colcon_core.package_identification:Package 'rcraicer_sim' with type 'ros.ament_cmake' and name 'rcraicer_sim'
+[0.215s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_ui) by extensions ['ignore', 'ignore_ament_install']
+[0.215s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_ui) by extension 'ignore'
+[0.215s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_ui) by extension 'ignore_ament_install'
+[0.215s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_ui) by extensions ['colcon_pkg']
+[0.215s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_ui) by extension 'colcon_pkg'
+[0.215s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_ui) by extensions ['colcon_meta']
+[0.215s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_ui) by extension 'colcon_meta'
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_ui) by extensions ['ros']
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_ui) by extension 'ros'
+[0.216s] DEBUG:colcon.colcon_core.package_identification:Package 'rcraicer_ui' with type 'ros.ament_python' and name 'rcraicer_ui'
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_utils) by extensions ['ignore', 'ignore_ament_install']
+[0.216s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_utils) by extension 'ignore'
+[0.217s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_utils) by extension 'ignore_ament_install'
+[0.217s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_utils) by extensions ['colcon_pkg']
+[0.217s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_utils) by extension 'colcon_pkg'
+[0.217s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_utils) by extensions ['colcon_meta']
+[0.217s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_utils) by extension 'colcon_meta'
+[0.217s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_utils) by extensions ['ros']
+[0.217s] Level 1:colcon.colcon_core.package_identification:_identify(rcraicer_utils) by extension 'ros'
+[0.218s] DEBUG:colcon.colcon_core.package_identification:Package 'rcraicer_utils' with type 'ros.ament_python' and name 'rcraicer_utils'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extensions ['ignore', 'ignore_ament_install']
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extension 'ignore'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extension 'ignore_ament_install'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extensions ['colcon_pkg']
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extension 'colcon_pkg'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extensions ['colcon_meta']
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extension 'colcon_meta'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extensions ['ros']
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extension 'ros'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extensions ['cmake', 'python']
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extension 'cmake'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extension 'python'
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extensions ['python_setup_py']
+[0.218s] Level 1:colcon.colcon_core.package_identification:_identify(scratch) by extension 'python_setup_py'
+[0.219s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.219s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.219s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.219s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.219s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.237s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'rcraicer_imu' in 'rcraicer_imu'
+[0.237s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'rcraicer_msgs' in 'rcraicer_msgs'
+[0.237s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'rcraicer_description' in 'rcraicer_description'
+[0.237s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'rcraicer_gps' in 'rcraicer_gps'
+[0.237s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'rcraicer_mapping' in 'rcraicer_mapping'
+[0.237s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'rcraicer_mppi' in 'rcraicer_mppi'
+[0.237s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'rcraicer_mppi_test' in 'rcraicer_mppi_test'
+[0.237s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'rcraicer_sim' in 'rcraicer_sim'
+[0.237s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'rcraicer_ui' in 'rcraicer_ui'
+[0.237s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'rcraicer_utils' in 'rcraicer_utils'
+[0.238s] Level 5:colcon.colcon_core.verb:set package 'rcraicer' build argument 'cmake_args' from command line to 'None'
+[0.238s] Level 5:colcon.colcon_core.verb:set package 'rcraicer' build argument 'cmake_target' from command line to 'clean'
+[0.238s] Level 5:colcon.colcon_core.verb:set package 'rcraicer' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.238s] Level 5:colcon.colcon_core.verb:set package 'rcraicer' build argument 'cmake_clean_cache' from command line to 'False'
+[0.238s] Level 5:colcon.colcon_core.verb:set package 'rcraicer' build argument 'cmake_clean_first' from command line to 'False'
+[0.238s] Level 5:colcon.colcon_core.verb:set package 'rcraicer' build argument 'cmake_force_configure' from command line to 'False'
+[0.238s] Level 5:colcon.colcon_core.verb:set package 'rcraicer' build argument 'ament_cmake_args' from command line to 'None'
+[0.238s] Level 5:colcon.colcon_core.verb:set package 'rcraicer' build argument 'catkin_cmake_args' from command line to 'None'
+[0.238s] Level 5:colcon.colcon_core.verb:set package 'rcraicer' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.239s] DEBUG:colcon.colcon_core.verb:Building package 'rcraicer' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': 'clean', 'cmake_target_skip_unavailable': False, 'install_base': '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer', 'merge_install': False, 'path': '/home/lbarnett/ros2_ws/src/rcraicer/rcraicer', 'symlink_install': False, 'test_result_base': None}
+[0.243s] WARNING:colcon.colcon_core.verb:Some selected packages are already built in one or more underlay workspaces:
+	'rcraicer' is in: /home/lbarnett/ros2_ws/install/rcraicer
+If a package in a merged underlay workspace is overridden and it installs headers, then all packages in the overlay must sort their include directories by workspace order. Failure to do so may result in build failures or undefined behavior at run time.
+If the overridden package is used by another package in any underlay, then the overriding package in the overlay must be API and ABI compatible or undefined behavior at run time may occur.
+
+If you understand the risks and want to override a package anyways, add the following to the command line:
+	--allow-overriding rcraicer
+
+This may be promoted to an error in a future release of colcon-core.
+[0.244s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.246s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.247s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/lbarnett/ros2_ws/src/rcraicer/rcraicer' with build type 'ament_cmake'
+[0.247s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/lbarnett/ros2_ws/src/rcraicer/rcraicer'
+[0.251s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.251s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.251s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.264s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake /home/lbarnett/ros2_ws/src/rcraicer/rcraicer -DCMAKE_INSTALL_PREFIX=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer
+[1.625s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer' returned '0': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake /home/lbarnett/ros2_ws/src/rcraicer/rcraicer -DCMAKE_INSTALL_PREFIX=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer
+[1.626s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer --target clean -- -j8 -l8
+[1.658s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rcraicer)
+[1.659s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer' returned '0': AMENT_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rviz_satellite:/home/lbarnett/ros2_ws/install/robot_localization:/home/lbarnett/ros2_ws/install/rcraicer_sim:/home/lbarnett/ros2_ws/install/rcraicer_mapping:/home/lbarnett/ros2_ws/install/rcraicer_gps:/home/lbarnett/ros2_ws/install/rcraicer_description:/home/lbarnett/ros2_ws/install/rcraicer:/home/lbarnett/ros2_ws/install/rcraicer_msgs:/home/lbarnett/ros2_ws/install/rcraicer_mppi_test:/home/lbarnett/ros2_ws/install/rcraicer_mppi:/home/lbarnett/ros2_ws/install/rcraicer_imu:/home/lbarnett/ros2_ws/install/mavros:/home/lbarnett/ros2_ws/install/mavros_msgs:/home/lbarnett/ros2_ws/install/libmavconn:/home/lbarnett/ros2_ws/install/kalman_filter_localization:/home/lbarnett/ros2_ws/install/rcraicer_utils:/home/lbarnett/ros2_ws/install/rcraicer_ui:/opt/ros/foxy LD_LIBRARY_PATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/lbarnett/ros2_ws/src/rcraicer/build/rcraicer --target clean -- -j8 -l8
+[1.663s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer' for CMake module files
+[1.663s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer' for CMake config files
+[1.663s] Level 1:colcon.colcon_core.shell:create_environment_hook('rcraicer', 'cmake_prefix_path')
+[1.664s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/hook/cmake_prefix_path.ps1'
+[1.665s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/hook/cmake_prefix_path.dsv'
+[1.665s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/hook/cmake_prefix_path.sh'
+[1.666s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/lib'
+[1.666s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/bin'
+[1.666s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/lib/pkgconfig/rcraicer.pc'
+[1.666s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/lib/python3.8/site-packages'
+[1.667s] INFO:colcon.colcon_core.shell:Creating package script '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.ps1'
+[1.668s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.dsv'
+[1.668s] INFO:colcon.colcon_core.shell:Creating package script '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.sh'
+[1.669s] INFO:colcon.colcon_core.shell:Creating package script '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.bash'
+[1.670s] INFO:colcon.colcon_core.shell:Creating package script '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.zsh'
+[1.671s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/colcon-core/packages/rcraicer)
+[1.710s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(rcraicer)
+[1.711s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer' for CMake module files
+[1.711s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer' for CMake config files
+[1.711s] Level 1:colcon.colcon_core.shell:create_environment_hook('rcraicer', 'cmake_prefix_path')
+[1.712s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/hook/cmake_prefix_path.ps1'
+[1.712s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/hook/cmake_prefix_path.dsv'
+[1.713s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/hook/cmake_prefix_path.sh'
+[1.713s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/lib'
+[1.713s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/bin'
+[1.713s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/lib/pkgconfig/rcraicer.pc'
+[1.713s] Level 1:colcon.colcon_core.environment:checking '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/lib/python3.8/site-packages'
+[1.714s] INFO:colcon.colcon_core.shell:Creating package script '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.ps1'
+[1.714s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.dsv'
+[1.715s] INFO:colcon.colcon_core.shell:Creating package script '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.sh'
+[1.715s] INFO:colcon.colcon_core.shell:Creating package script '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.bash'
+[1.716s] INFO:colcon.colcon_core.shell:Creating package script '/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/rcraicer/package.zsh'
+[1.716s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/lbarnett/ros2_ws/src/rcraicer/install/rcraicer/share/colcon-core/packages/rcraicer)
+[1.716s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[1.716s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[1.717s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[1.717s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[1.723s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[1.723s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[1.723s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[1.738s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[1.739s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/lbarnett/ros2_ws/src/rcraicer/install/local_setup.ps1'
+[1.740s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/lbarnett/ros2_ws/src/rcraicer/install/_local_setup_util_ps1.py'
+[1.742s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/lbarnett/ros2_ws/src/rcraicer/install/setup.ps1'
+[1.745s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/lbarnett/ros2_ws/src/rcraicer/install/local_setup.sh'
+[1.746s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/lbarnett/ros2_ws/src/rcraicer/install/_local_setup_util_sh.py'
+[1.746s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/lbarnett/ros2_ws/src/rcraicer/install/setup.sh'
+[1.748s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/lbarnett/ros2_ws/src/rcraicer/install/local_setup.bash'
+[1.749s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/lbarnett/ros2_ws/src/rcraicer/install/setup.bash'
+[1.750s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/lbarnett/ros2_ws/src/rcraicer/install/local_setup.zsh'
+[1.751s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/lbarnett/ros2_ws/src/rcraicer/install/setup.zsh'
