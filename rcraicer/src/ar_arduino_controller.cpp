@@ -65,8 +65,14 @@ ARArduinoController::ARArduinoController() : Node("arduino_controller"), serialP
     {
         std::string topic = mapIt.first + "/chassisCommand";
         
+        RCLCPP_INFO(this->get_logger(), "Topic: %s", topic.c_str());
+
         rclcpp::Subscription<rcraicer_msgs::msg::ChassisCommand>::SharedPtr sub;        
         sub = this->create_subscription<rcraicer_msgs::msg::ChassisCommand>(topic, 10,  std::bind(&ARArduinoController::command_callback, this, std::placeholders::_1));
+
+        chassisCommandSub_[mapIt.first] = sub;
+
+        RCLCPP_INFO(this->get_logger(), "Subscribed");
     }    
 
     runstopSubscription = this->create_subscription<rcraicer_msgs::msg::RunStop>(
@@ -110,6 +116,9 @@ void ARArduinoController::command_callback(const rcraicer_msgs::msg::ChassisComm
                             " to chassisCommandPriorities.yaml");
     }
     {
+        // if (mapIt->first == "joystick")
+        //   RCLCPP_INFO(this->get_logger(), "ChassisCommand");
+
         mapIt->second = *msg;
     }
 }
@@ -334,6 +343,12 @@ void ARArduinoController::updateInternalParams()
         RCLCPP_INFO(this->get_logger(), "Runstop Max Age: %f", runstopMaxAge);
     }
 
+    if (commandMaxAge != chassisCommandMaxAgeParam.as_double())
+    {
+        commandMaxAge = chassisCommandMaxAgeParam.as_double();
+        RCLCPP_INFO(this->get_logger(), "Chassis Command Max Age: %f", commandMaxAge);
+    }
+
     loadChassisCommandPriorities();
 }
 
@@ -491,7 +506,9 @@ void ARArduinoController::processChassisMessage(std::string msgType, std::string
         
         // serialPort_.diag(escRegisterData_[i].first, std::to_string(val));
       }
-      RCLCPP_WARN(this->get_logger(), "ESC data incorrect msg size counter" + std::to_string(escDataFailCounter_));      
+
+      if (escDataFailCounter_ > 0)
+        RCLCPP_WARN(this->get_logger(), "ESC data incorrect msg size counter" + std::to_string(escDataFailCounter_));      
       break;
     }    
     //error message as an ASCII string
@@ -515,15 +532,12 @@ double ARArduinoController::actuatorUsToCmd(int pulseWidth, std::string actuator
 {
   double cmd = std::numeric_limits<double>::quiet_NaN();
   //convert PWM pulse width in us back to actuator command message using the actuator config
-  
+    
   //if us value is outside normal servo ranges, complain and don't try to convert
   if(pulseWidth < 900 || pulseWidth > 2100)
   {
     if(invalidActuatorPulses_[actuator].first == true)
-    {
-        RCLCPP_WARN(this->get_logger(), "Received multiple pulse widths out of valid range 900-2100ms in a row (" +
-        std::to_string(pulseWidth) + ") from " + actuator );
-            
+    {               
       //we've gone 2 cycles without a valid reading, disable RC control of this actuator
       cmd = -5.0;
     } else
@@ -531,6 +545,13 @@ double ARArduinoController::actuatorUsToCmd(int pulseWidth, std::string actuator
       //if we only get one invalid pulse width in a row, just use the previous one
       cmd = mostRecentRc_[actuator];
       //only increment invalid pulses when we get one in a row, not continuously
+
+      if (invalidActuatorPulses_[actuator].second == 2)
+      {
+        RCLCPP_WARN(this->get_logger(), "Received multiple pulse widths out of valid range 900-2100ms in a row (" +
+          std::to_string(pulseWidth) + ") from " + actuator );
+      }
+      
       invalidActuatorPulses_[actuator].second++;
     }
     invalidActuatorPulses_[actuator].first = true;
@@ -552,8 +573,8 @@ double ARArduinoController::actuatorUsToCmd(int pulseWidth, std::string actuator
     //save most recent valid actuator command    
     mostRecentRc_[actuator] = cmd;
   }
-  RCLCPP_WARN(this->get_logger(), actuator+ " single invalid pulse count",
-                   std::to_string(invalidActuatorPulses_[actuator].second));
+  // RCLCPP_WARN(this->get_logger(), actuator+ " single invalid pulse count %i", pulseWidth, 
+  //                  std::to_string(invalidActuatorPulses_[actuator].second));
   return cmd;
 }
 
@@ -577,25 +598,26 @@ void ARArduinoController::setChassisActuators()
   {
     chassisState.runstop_motion_enabled = false;
   } else
-  {
+  {    
     chassisState.runstop_motion_enabled = true;
     int validRunstopCount = 0;
     for(auto& runstop : runstops_)
     {
-      rclcpp::Time rsTime = runstop.second.header.stamp;
+      rclcpp::Time rsTime = runstop.second.header.stamp;   
 
       if((currentTime.seconds()-rsTime.seconds()) < runstopMaxAge)
       {
         ++validRunstopCount;
+
         if(runstop.second.motion_enabled == 0)
-        {
+        {        
           chassisState.runstop_motion_enabled = false;
           chassisState.throttle_commander = "runstop";
         }
       }
     }
     if(validRunstopCount == 0)
-    {
+    {      
       chassisState.runstop_motion_enabled = false;
       chassisState.throttle_commander = "runstop";
       chassisState.throttle = 0.0;
@@ -605,9 +627,12 @@ void ARArduinoController::setChassisActuators()
   //find highest priority (lowest valuemostRecentRc_) command message for each actuator across all valid actuator commands
   for(auto & vecIt : chassisCommandPriorities_)
   {
-    rclcpp::Time ccTime = chassisCommands_[vecIt.id].header.stamp;
+    
+    rclcpp::Time ccTime = chassisCommands_[vecIt.id].header.stamp;    
+
     if((currentTime.seconds()-ccTime.seconds()) < commandMaxAge)
     {
+      
       //valid throttle commands are on [-1,1], only set throttle value if runstop is enabled
       if(chassisState.throttle_commander.empty() && chassisState.runstop_motion_enabled &&
          chassisCommands_[vecIt.id].throttle <= 1.0 &&
