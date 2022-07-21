@@ -506,8 +506,10 @@ void ARArduinoController::processChassisMessage(std::string msgType, std::string
         val = (((double)tmp)/divisor)*escRegisterData_[i].second;
         
         // serialPort_.diag(escRegisterData_[i].first, std::to_string(val));
-      }      
-        
+      }
+
+      if (escDataFailCounter_ > 0)
+        RCLCPP_WARN(this->get_logger(), "ESC data incorrect msg size counter" + std::to_string(escDataFailCounter_));      
       break;
     }    
     //error message as an ASCII string
@@ -531,17 +533,12 @@ double ARArduinoController::actuatorUsToCmd(int pulseWidth, std::string actuator
 {
   double cmd = std::numeric_limits<double>::quiet_NaN();
   //convert PWM pulse width in us back to actuator command message using the actuator config
-
-  RCLCPP_INFO(this->get_logger(), "Actuator: %s PulseWidth: %i", actuator.c_str(), pulseWidth);
-  
+    
   //if us value is outside normal servo ranges, complain and don't try to convert
   if(pulseWidth < 900 || pulseWidth > 2100)
   {
     if(invalidActuatorPulses_[actuator].first == true)
-    {
-        RCLCPP_WARN(this->get_logger(), "Received multiple pulse widths out of valid range 900-2100ms in a row (" +
-        std::to_string(pulseWidth) + ") from " + actuator );
-            
+    {               
       //we've gone 2 cycles without a valid reading, disable RC control of this actuator
       cmd = -5.0;
     } else
@@ -549,6 +546,13 @@ double ARArduinoController::actuatorUsToCmd(int pulseWidth, std::string actuator
       //if we only get one invalid pulse width in a row, just use the previous one
       cmd = mostRecentRc_[actuator];
       //only increment invalid pulses when we get one in a row, not continuously
+
+      if (invalidActuatorPulses_[actuator].second == 2)
+      {
+        RCLCPP_WARN(this->get_logger(), "Received multiple pulse widths out of valid range 900-2100ms in a row (" +
+          std::to_string(pulseWidth) + ") from " + actuator );
+      }
+      
       invalidActuatorPulses_[actuator].second++;
     }
     invalidActuatorPulses_[actuator].first = true;

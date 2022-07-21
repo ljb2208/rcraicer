@@ -7,7 +7,8 @@ def generate_launch_description():
        Node(
            package="rcraicer",           
            executable="ar_arduino_controller",
-           name="ar_arduino_controller"
+           name="ar_arduino_controller",
+           parameters=[{"wheel_diameter" : 0.19}, {"steering_servo_points" : [987, 1503, 2010]}, {"throttle_servo_points" : [987, 1540, 2010]}, {"brake_servo_points": [1500, 1500, 2000]}]           
            #parameters=[{"steering_input_factor" : 1.0},{"steering_degrees_per_tick" : -0.10834}]
        ),
        Node(
@@ -18,7 +19,8 @@ def generate_launch_description():
        Node(
            package="rcraicer",           
            executable="wheel_odometry",
-           name="wheel_odometry"
+           name="wheel_odometry",
+           parameters=[{"vehicle_wheelbase" : 0.57785}, {"vehicle_width" : 0.3175}]
        ),
        Node(
            package="rcraicer_gps",           
