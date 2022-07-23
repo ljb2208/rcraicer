@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Software License Agreement (BSD License)
 # Copyright (c) 2013, Georgia Institute of Technology
 # All rights reserved.
@@ -32,7 +32,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 
-import commands
+#import commands
 import subprocess
 import signal
 import sys
@@ -51,10 +51,6 @@ except NVMLError:
 
 running = True
 
-def signal_handler(signal, frame):
-        print('SystemStatus: SIGINT detected.')
-        running = False
-
 ## WirelessStatus.
 #
 #  Uses iwconfig to retrieve wireless signal strength and then publishes it.
@@ -65,7 +61,8 @@ class WirelessStatus:
         self.maxQuality = 0
     ##  Retrieves wireless signal strength and stores it in the MSG format.
     def getValues(self):
-        outputString = commands.getoutput("sudo iwconfig | grep 'Link Quality='")
+        # outputString = commands.getoutput("sudo iwconfig | grep 'Link Quality='")
+        outputString = subprocess.getoutput("sudo iwconfig | grep 'Link Quality='")
         linkQualityLocation = outputString.find("Link Quality=")
         if linkQualityLocation >= 0 and outputString[linkQualityLocation+13:linkQualityLocation+15].isdigit() and outputString[linkQualityLocation+16:linkQualityLocation+18].isdigit():
             self.linkQuality = int(outputString[linkQualityLocation+13:linkQualityLocation+15])
@@ -81,7 +78,7 @@ class PowerStatus:
     self.valid = True
 ##  Retrieves battery status and stores it in the MSG format.
   def getValues(self):
-    outputString = commands.getoutput("acpi")
+    outputString = subprocess.getoutput("acpi")
     if outputString == "No support for device type: power_supply":
       self.valid = False
     else:
@@ -108,16 +105,16 @@ class M4ATXPowerStatus:
         return
       try:
         output = subprocess.check_output("m4ctl", shell=True)
-      except subprocess.CalledProcessError, e:
+      except (subprocess.CalledProcessError, e):
         self.valid = False
-        if e.returncode is 127:
-          print "m4ctl gave error code 127"
+        if e.returncode == 127:
+          print("m4ctl gave error code 127")
         else :
-          print "Unknown error code from m4ctl: ", e.returncode
+          print("Unknown error code from m4ctl: ", e.returncode)
       else:
         for line in output.split("\n"):
           tokens = line.split("\t")
-          if len(tokens) is 2:
+          if len(tokens) == 2:
             if tokens[0] == "VIN:":
               self.valid = True
               self.VIN = float(tokens[1])
@@ -146,7 +143,7 @@ class TempStatus:
       self.fanSpeed = 0
   ##  Retrieves CPU temperature and fan speed and stores it in the MSG format.
   def getValues(self):
-    outputString = commands.getoutput("sensors | grep \"Core 0:\"")
+    outputString = subprocess.getoutput("sensors | grep \"Core 0:\"")
     cpuTempLocation = outputString.find("+")
     if cpuTempLocation >= 0:
       try:
@@ -155,7 +152,7 @@ class TempStatus:
         self.cpuTemp1 = -1.0
     else:
       self.cpuTemp1 = 0.0
-    outputString = commands.getoutput("sensors | grep \"Core 1:\"")
+    outputString = subprocess.getoutput("sensors | grep \"Core 1:\"")
     cpuTempLocation = outputString.find("+")
     if cpuTempLocation >= 0:
       try:
@@ -164,7 +161,7 @@ class TempStatus:
           self.cpuTemp2 = -1.0
     else:
       self.cpuTemp2 = 0.0
-    outputString = commands.getoutput("sensors | grep \"Core 2:\"")
+    outputString = subprocess.getoutput("sensors | grep \"Core 2:\"")
     cpuTempLocation = outputString.find("+")
     if cpuTempLocation >= 0:
       try:
@@ -173,7 +170,7 @@ class TempStatus:
           self.cpuTemp3 = -1.0
     else:
       self.cpuTemp3 = 0.0
-    outputString = commands.getoutput("sensors | grep \"Core 3:\"")
+    outputString = subprocess.getoutput("sensors | grep \"Core 3:\"")
     cpuTempLocation = outputString.find("+")
     if cpuTempLocation >= 0:
       try:
@@ -184,14 +181,14 @@ class TempStatus:
       self.cpuTemp4 = 0.0
     self.cpuTemp = max(self.cpuTemp1, self.cpuTemp2, self.cpuTemp3, self.cpuTemp4)
 
-    outputString = commands.getoutput("sensors | grep \"fan1:\"")
+    outputString = subprocess.getoutput("sensors | grep \"fan1:\"")
     split = outputString.split()
     if(len(split) >= 2):
       self.fanSpeed = split[1]
     else:
       self.fanSpeed = " "
 
-    outputString = commands.getoutput("sensors | grep \"fan2:\"")
+    outputString = subprocess.getoutput("sensors | grep \"fan2:\"")
     split = outputString.split()
     if(len(split) >= 2):
       self.fanSpeed += "/" + split[1]
@@ -199,7 +196,7 @@ class TempStatus:
       self.fanSpeed += "/ "
 
 
-    outputString = commands.getoutput("sensors | grep \"fan3:\"")
+    outputString = subprocess.getoutput("sensors | grep \"fan3:\"")
     split = outputString.split()
     if(len(split) >= 2):
       self.fanSpeed += "/" + split[1]
@@ -297,13 +294,20 @@ class ARStatus(Node):
             self.hostname = socket.gethostname()
 
             self.pub = self.create_publisher(DiagnosticArray, 'diagnostics', 1)
-                        
+
+
+            self.valOK = int(0).to_bytes(1, 'big')
+            self.valWarn = int(1).to_bytes(1, 'big')
+            self.valError = int(2).to_bytes(1, 'big')
+            self.valStale = int(3).to_bytes(1, 'big')
+            
             self.array = DiagnosticArray()
             self.status = DiagnosticStatus(name='systemStatus',\
-                            level=0,\
+                            level=self.valOK,\
                             message='',
-                            hardware_id=hostname)
+                            hardware_id=self.hostname)
 
+            self.array.status = [self.status]
 
             self.timer = self.create_timer(0.5, self.timer_callback)
 
@@ -318,19 +322,24 @@ class ARStatus(Node):
             self.declare_parameter('dataDriveSpaceHighPercent', 75.0)
             self.declare_parameter('dataDriveSpaceCritPercent', 90.0)
 
-            self.cpuTempHigh = this.get_parameter('cpuTempHigh').get_parameter_value().double_value()
-            self.cpuTempCrit = this.get_parameter('cpuTempCrit').get_parameter_value().double_value()
-            self.batteryLow = this.get_parameter('batteryLow').get_parameter_value().double_value()
-            self.batteryCrit = this.get_parameter('batteryCrit').get_parameter_value().double_value()
-            self.wirelessLow = this.get_parameter('wirelessLow').get_parameter_value().double_value()
-            self.wirelessCrit = this.get_parameter('wirelessCrit').get_parameter_value().double_value()
+            self.cpuTempHigh = self.get_parameter('cpuTempHigh').get_parameter_value().double_value
+            self.cpuTempCrit = self.get_parameter('cpuTempCrit').get_parameter_value().double_value
+            self.batteryLow = self.get_parameter('batteryLow').get_parameter_value().double_value
+            self.batteryCrit = self.get_parameter('batteryCrit').get_parameter_value().double_value
+            self.wirelessLow = self.get_parameter('wirelessLow').get_parameter_value().double_value
+            self.wirelessCrit = self.get_parameter('wirelessCrit').get_parameter_value().double_value
 
-            self.dataDrive = this.get_parameter('dataDrive').get_parameter_value().string_value()
-            self.dataDriveHighPercent = this.get_parameter('dataDriveSpaceHighPercent').get_parameter_value().double_value()
-            self.dataDriveSpaceCritPercent = this.get_parameter('dataDriveSpaceCritPercent').get_parameter_value().double_value()
+            self.dataDrive = self.get_parameter('dataDrive').get_parameter_value().string_value
+            self.dataDriveHighPercent = self.get_parameter('dataDriveSpaceHighPercent').get_parameter_value().double_value
+            self.dataDriveSpaceCritPercent = self.get_parameter('dataDriveSpaceCritPercent').get_parameter_value().double_value
+
+        def setLevel(self, level):
+            if (self.status.level < level):
+              self.status.level = level
 
         def timer_callback(self):
             self.status.values = []
+            self.status.level = self.valOK
 
             self.wirelessStatusPublisher.getValues()
             self.powerStatusPublisher.getValues()
@@ -340,16 +349,20 @@ class ARStatus(Node):
             if self.powerStatusPublisher.valid:
                 self.status.values.append(KeyValue(key='Laptop Battery Level', value=str(self.powerStatusPublisher.percentage)))
                 if powerStatusPublisher.percentage <= self.batteryCrit:
+                    self.setLevel(self.valError)
                     self.status.values.append(KeyValue(key='BATTERY CRITICALLY LOW', value=chr(2)))
                 elif powerStatusPublisher.percentage <= self.batteryLow:
+                    self.setLevel(self.valWarn)
                     self.status.values.append(KeyValue(key='BATTERY LOW', value=chr(1)))
 
             if self.powerSupplyHandler.valid:
                 self.status.values.append(KeyValue(key='Power Supply Battery Level', value=str(self.powerSupplyHandler.percentage)))
                 if self.powerSupplyHandler.percentage <= self.batteryCrit:
                     self.status.values.append(KeyValue(key='Power Supply Input CRITICALLY LOW', value=chr(2)))
+                    self.setLevel(self.valError)
                 elif self.powerSupplyHandler.percentage <= self.batteryLow:
                     self.status.values.append(KeyValue(key='Power Supply Input LOW', value=chr(1)))
+                    self.setLevel(self.valWarn)
                 self.status.values.append(KeyValue(key='Power Supply VIN', value=str(self.powerSupplyHandler.VIN)))
                 self.status.values.append(KeyValue(key='Power Supply 3.3v Rail', value=str(self.powerSupplyHandler.V33)))
                 self.status.values.append(KeyValue(key='Power Supply 5v Rail', value=str(self.powerSupplyHandler.V5)))
@@ -358,46 +371,51 @@ class ARStatus(Node):
                     
             self.status.values.append(KeyValue(key='CPU Temp', value=str(self.tempStatusPublisher.cpuTemp)))
             if self.tempStatusPublisher.cpuTemp >= self.cpuTempCrit:
+                self.setLevel(self.valError)
                 self.status.values.append(KeyValue(key='CPU CRITICALLY HOT', value=chr(2)))
             elif self.tempStatusPublisher.cpuTemp >= self.cpuTempHigh:
                 self.status.values.append(KeyValue(key='CPU HOT', value=chr(1)))
+                self.setLevel(self.valWarn)
             self.status.values.append(KeyValue(key='Fan 1/2/3 (case/CPU/case) Speeds', value=self.tempStatusPublisher.fanSpeed))
 
             # WiFi status is not currently published by our driver
             self.status.values.append(KeyValue(key='WiFi Quality', value=str(self.wirelessStatusPublisher.linkQuality)))
             self.status.values.append(KeyValue(key='WiFi Max Quality', value=str(self.wirelessStatusPublisher.maxQuality)))
             if self.wirelessStatusPublisher.linkQuality <= self.wirelessCrit:
+                self.setLevel(self.valError)
                 self.status.values.append(KeyValue(key='WiFi CRITICALLY WEAK', value=chr(2)))
             elif self.wirelessStatusPublisher.linkQuality <= self.wirelessLow:
+                self.setLevel(self.valWarn)
                 self.status.values.append(KeyValue(key='WiFi WEAK', value=chr(1)))
 
             #get available dick space in /media/data
-            try:
-                diskUsage = subprocess.check_output("df -h " + self.dataDrive, shell=True)
-                lines = diskUsage.split("\n")
+            try:                
+                diskUsage = subprocess.check_output("df -h " + self.dataDrive, shell=True)              
+                lines = diskUsage.split(b'\n')                
                 #remove extra spaces and split on remaning/media/data spaces
-                line0 = (" ".join(lines[0].split())).split(" ")
-                line1 = (" ".join(lines[1].split())).split(" ")
+                line0 = (" ".join(str(lines[0]).split())).split(" ")
+                line1 = (" ".join(str(lines[1]).split())).split(" ")
                 for a, b in zip(line0, line1):
-                #check disc usage %              
-                if a == "Use%":
-                    discPercent = int(b.strip("%"))
-                    if discPercent > self.dataDriveHighPercent:
-                        self.status.values.append(KeyValue(key=self.dataDrive + " filling up!", value=chr(1)))              
-                    if discPercent > self.dataDriveCritPercent:
-                        self.status.values.append(KeyValue(key=self.dataDrive + " almost full!", value=chr(2)))  
+                  #check disc usage %              
+                  if a == "Use%":
+                      discPercent = int(b.strip("%"))
+                      if discPercent > self.dataDriveHighPercent:
+                          self.setLevel(self.valWarn)
+                          self.status.values.append(KeyValue(key=self.dataDrive + " filling up!", value=chr(1)))              
+                      if discPercent > self.dataDriveSpaceCritPercent:
+                          self.setLevel(self.valError)
+                          self.status.values.append(KeyValue(key=self.dataDrive + " almost full!", value=chr(2)))  
 
                 #only add part of the df -h output to diagnostics              
                 if a not in ["Filesystem", "Mounted", "on"]:
                     self.status.values.append(KeyValue(key=a + " " + self.dataDrive, value=b))
-            except subprocess.CalledProcessError, e:
+            except (subprocess.CalledProcessError, e):
                 self.status.values.append(KeyValue(key="Error reading disc usage", value=e))
-
             if gpuInstalled==True:
                 self.gpuHandler.getValues()
-                if self.gpuHandler.gpuInstalled==True:
-                    self.status.values.append(KeyValue(key="GPU", value=self.gpuHandler.device))
-                    self.status.values.append(KeyValue(key="GPU driver", value=self.gpuHandler.driver))
+                if self.gpuHandler.gpuInstalled==True:                    
+                    self.status.values.append(KeyValue(key="GPU", value=self.gpuHandler.device.decode()))
+                    self.status.values.append(KeyValue(key="GPU driver", value=self.gpuHandler.driver.decode()))
                     self.status.values.append(KeyValue(key="GPU memory used/free/total", value=self.gpuHandler.memory))
                     self.status.values.append(KeyValue(key="GPU fan", value=self.gpuHandler.fan))
                     self.status.values.append(KeyValue(key="GPU temp", value=self.gpuHandler.temp))
@@ -408,20 +426,19 @@ class ARStatus(Node):
             else:
                 self.status.values.append(KeyValue(key="Nvidia Management library not imported", value="GPU not installed?"))
                 
-            self.pub.publish(array)
+            self.pub.publish(self.array)
 
 
     
-          
+def main(args=None):
+  rclpy.init()
+  node = ARStatus()
+  rclpy.spin(node)
+
+  print("SystemStatus: Shutting down")
 
 if __name__ == '__main__':
-    signal.signal(signal.SIGINT, signal_handler)
-
-    rclpy.init()
-    node = ARStatus()
-    rclpy.spin(node)
-    
-    print("SystemStatus: Shutting down")
+    main()
 
 
 
