@@ -71,7 +71,8 @@ class Diagnostics
     * Initializes a diagnostic_updator and sets up a timer to trigger
     * callback publishing at the desired frequency (1s default).
     */
-  Diagnostics(const std::string otherInfo,
+  Diagnostics(rclcpp::Node::SharedPtr node,
+              const std::string otherInfo,
               const std::string hardwareID,
               const std::string hardwareLocation);
   ~Diagnostics();
@@ -133,6 +134,8 @@ class Diagnostics
  private:   
   rclcpp::TimerBase::ConstSharedPtr m_heartbeatTimer; ///< Timer to trigger diagnostic publishing
   rclcpp::TimerBase::ConstSharedPtr m_statusTimer; ///<Timer to trigger diagnostics status
+
+  rclcpp::Node::SharedPtr m_nodeHandle;
 
   std::string m_hardwareLocation; ///< Location of hardware diagnostics relate to
   diagnostic_updater::Updater m_updater; ///< ros diagnostics publisher

@@ -39,14 +39,18 @@
 #include <sstream>
 
 Diagnostics::Diagnostics()
-{}
+{
+    
+}
 
-Diagnostics::Diagnostics(const std::string otherInfo,
+Diagnostics::Diagnostics(rclcpp::Node::SharedPtr node,
+                         const std::string otherInfo,
                          const std::string hardwareID,
-                         const std::string hardwareLocation) :
+                         const std::string hardwareLocation) :                         
   m_hardwareLocation(hardwareLocation),
   m_overallLevel(diagnostic_msgs::msg::DiagnosticStatus::OK)
 {
+    m_nodeHandle = node;
   init(otherInfo, hardwareID, hardwareLocation);
 }
 
@@ -57,8 +61,7 @@ Diagnostics::~Diagnostics()
 void Diagnostics::init(const std::string& otherInfo,
                        const std::string& hardwareID,
                        const std::string& hardwareLocation)
-{
-  ros::NodeHandle nh;
+{  
   m_hardwareLocation = hardwareLocation;
   m_overallLevel = diagnostic_msgs::msg::DiagnosticStatus::OK;
   m_updater.setHardwareID(hardwareID);
