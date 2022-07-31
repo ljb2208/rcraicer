@@ -138,7 +138,7 @@ class Diagnostics
   rclcpp::Node::SharedPtr m_nodeHandle;
 
   std::string m_hardwareLocation; ///< Location of hardware diagnostics relate to
-  diagnostic_updater::Updater m_updater; ///< ros diagnostics publisher
+  diagnostic_updater::Updater* m_updater; ///< ros diagnostics publisher
   std::map<std::string, char> m_diagMsgs; ///< map of pending diagnostic messages
   std::map<std::string, std::string> m_diags; ///< map of pending standard messages
   unsigned char m_overallLevel; ///< overall status level of the message

@@ -36,7 +36,7 @@ find_package(Eigen3 REQUIRED)
 find_package(GeographicLib REQUIRED)
 find_package(GTSAM REQUIRED)
 
-#add_library(rc_diagnostics src/diagnostics.cpp)
+add_library(rc_diagnostics src/diagnostics.cpp)
 add_executable(imu_mavlink src/imu_mavlink.cpp src/mavlink_serial_port.cpp)
 add_executable(arduino_controller src/arduino_controller.cpp src/serial_port.cpp)
 add_executable(ar_arduino_controller src/ar_arduino_controller.cpp src/serial_port.cpp)
@@ -50,7 +50,7 @@ target_link_libraries(state_estimator gtsam)
 ament_python_install_package(scripts/)
 
 #add_executable(external_tracker src/external_tracker.cpp)
-#ament_target_dependencies(rc_diagnostics rclcpp diagnostic_msgs diagnostic_updater)
+ament_target_dependencies(rc_diagnostics rclcpp diagnostic_msgs diagnostic_updater)
 ament_target_dependencies(imu_mavlink rclcpp std_msgs sensor_msgs Eigen3 geometry_msgs tf2 tf2_eigen)
 ament_target_dependencies(arduino_controller rclcpp std_msgs sensor_msgs rcraicer_msgs)
 ament_target_dependencies(ar_arduino_controller rclcpp std_msgs sensor_msgs rcraicer_msgs)
@@ -73,7 +73,7 @@ if(BUILD_TESTING)
 endif()
 
 install (TARGETS 
- #   rc_diagnostics
+    rc_diagnostics
     imu_mavlink
     arduino_controller
     ar_arduino_controller

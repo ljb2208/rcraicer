@@ -51,7 +51,7 @@ Diagnostics::Diagnostics(rclcpp::Node::SharedPtr node,
   m_overallLevel(diagnostic_msgs::msg::DiagnosticStatus::OK)
 {
     m_nodeHandle = node;
-  init(otherInfo, hardwareID, hardwareLocation);
+    init(otherInfo, hardwareID, hardwareLocation);
 }
 
 Diagnostics::~Diagnostics()
@@ -64,17 +64,17 @@ void Diagnostics::init(const std::string& otherInfo,
 {  
   m_hardwareLocation = hardwareLocation;
   m_overallLevel = diagnostic_msgs::msg::DiagnosticStatus::OK;
-  m_updater.setHardwareID(hardwareID);
-  m_updater.add(otherInfo, this, &Diagnostics::diagnostics);
 
-  //can retrieve a global diagnosticsFrequency parameter if diagnostics should
-  //be published at a differenc frequency than 1.0 second
-  double diagFreq;
-  ros::param::param<double>("diagnosticsFrequency", diagFreq, 1.0);  
+  m_updater = new diagnostic_updater::Updater(m_nodeHandle, 1.0);
+  m_updater->setHardwareID(hardwareID);
+  m_updater->add(otherInfo, this, &Diagnostics::diagnostics);
+
+  m_nodeHandle->declare_parameter("diagnosticsFrequency", 1);
+  int diagFreq = m_nodeHandle->get_parameter("diagnosticsFrequency").as_int();  
 
 
-  m_heartbeatTimer = this->create_wall_timer(diagFreq, std::bind(&Diagnostics::diagUpdate, this));
-  m_statusTimer = this->create_wall_timer(diagFreq, std::bind(&Diagnostics::diagnosticStatus, this));
+  m_heartbeatTimer = m_nodeHandle->create_wall_timer(std::chrono::milliseconds(1000/diagFreq), std::bind(&Diagnostics::diagUpdate, this));
+  m_statusTimer = m_nodeHandle->create_wall_timer(std::chrono::milliseconds(1000/diagFreq), std::bind(&Diagnostics::diagnosticStatus, this));
 
 }
 
@@ -109,10 +109,7 @@ void Diagnostics::diag_error(const std::string msg)
 void Diagnostics::diagUpdate()
 {
   //force the publishing of a diagnostics array based on the desired frequency
-  if(ros::ok())
-  {
-    m_updater.force_update();
-  }
+  m_updater->force_update();
 }
 
 void Diagnostics::OK()
@@ -138,15 +135,15 @@ void Diagnostics::ERROR()
 
 void Diagnostics::tick(const std::string &name)
 {
-  std::map<std::string, std::vector<std::pair<int, ros::Time> > >::iterator mapIt;
+  std::map<std::string, std::vector<std::pair<int, rclcpp::Time> > >::iterator mapIt;
   m_dataMutex.lock();
   if( (mapIt = m_ticks.find(name)) == m_ticks.end())
   {
-    std::vector<std::pair<int, ros::Time> > toAdd;
-    toAdd.push_back(std::pair<int, ros::Time>(0, ros::Time::now()) );
+    std::vector<std::pair<int, rclcpp::Time> > toAdd;
+    toAdd.push_back(std::pair<int, rclcpp::Time>(0, m_nodeHandle->get_clock()->now()) );
 
     mapIt = m_ticks.insert(std::pair<std::string,
-                           std::vector<std::pair<int, ros::Time> > >
+                           std::vector<std::pair<int, rclcpp::Time> > >
                            (name, toAdd)).first;
   }
   ++mapIt->second.back().first;
@@ -159,19 +156,19 @@ void Diagnostics::diagnostics(diagnostic_updater::DiagnosticStatusWrapper &stat)
   stat.summary(m_overallLevel, m_hardwareLocation);
 
   //Frequency messages are added to diagnotics only if tick() is being called
-  std::map<std::string, std::vector<std::pair<int, ros::Time> > >::iterator mapItF;
-  ros::Time n = ros::Time::now();
+  std::map<std::string, std::vector<std::pair<int, rclcpp::Time> > >::iterator mapItF;
+  rclcpp::Time n = m_nodeHandle->get_clock()->now();
   m_dataMutex.lock();
   for( mapItF = m_ticks.begin(); mapItF != m_ticks.end(); ++mapItF)
   {
     //remove all tick counts older than 15 seconds
-    while( (n-mapItF->second.front().second).toSec() > 20.0)
+    while( (n-mapItF->second.front().second).seconds() > 20.0)
     {
       mapItF->second.erase(mapItF->second.begin());
     }
 
     //sum all ticks in the window
-    std::vector<std::pair<int, ros::Time> >::const_iterator qIt;
+    std::vector<std::pair<int, rclcpp::Time> >::const_iterator qIt;
     int sum = 0;
     for( qIt = mapItF->second.begin(); qIt != mapItF->second.end(); ++qIt)
     {
@@ -179,13 +176,13 @@ void Diagnostics::diagnostics(diagnostic_updater::DiagnosticStatusWrapper &stat)
     }
     
     //add a diagnostic message with the publishing freq over the sliding window
-    double val = sum/(n-mapItF->second.front().second).toSec();
+    double val = sum/(n-mapItF->second.front().second).seconds();
     if(!std::isnan(val) && !std::isinf(val))
     { //strs << sum/((n-mapItF->second.front().second).toSec());
       diag(mapItF->first + " freq(hz):", std::to_string(val), false);
     }
     //add new tick entry to vector
-    mapItF->second.push_back( std::pair<int, ros::Time>(0, n));
+    mapItF->second.push_back( std::pair<int, rclcpp::Time>(0, n));
   }
 
   //add all queued diganostic messages, clear the queues
