@@ -77,7 +77,8 @@ class Diagnostics
               const std::string hardwareLocation);
   ~Diagnostics();
 
-  void init(const std::string& otherInfo,
+  void init(rclcpp::Node::SharedPtr node,
+            const std::string& otherInfo,
             const std::string& hardwareID,
             const std::string& hardwareLocation);
   /**

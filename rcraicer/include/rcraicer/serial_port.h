@@ -6,11 +6,19 @@
 #include <memory>
 #include <vector>
 
+#include "diagnostics.h"
 
-class SerialPort
+
+class SerialPort : public Diagnostics
 {
     public:
-        SerialPort(std::string port, int baudRate, uint8_t messageDelim, uint8_t connectionType);
+        SerialPort();
+
+        SerialPort(rclcpp::Node::SharedPtr node,
+                        const std::string& nodeName,
+                        const std::string& hardwareID,
+                        const std::string& port,
+                        int baudRate, uint8_t messageDelim, uint8_t connectionType);
 
         ~SerialPort();
 
@@ -23,9 +31,13 @@ class SerialPort
         bool tryLock();
         void unlock();
 
+        typedef std::function<void(const uint8_t)> ByteDataCallback;
         typedef std::function<void()> DataCallback;
         void registerDataCallback(DataCallback callback);
         void clearDataCallback();
+
+        void registerByteDataCallback(ByteDataCallback callback);
+        void clearByteDataCallback();
 
         bool getNextMessage(unsigned char* data, int dataLength, int& length);
 
@@ -63,6 +75,9 @@ class SerialPort
         std::mutex writeMutex; ///< mutex for writing serial data
         std::mutex waitMutex; ///< mutex for thread synchronization
 
+        ByteDataCallback byteDataCallback;
         DataCallback dataCallback; ///< Callback triggered when new data arrives
         volatile bool alive;
+
+        void diagnosticStatus();
 };

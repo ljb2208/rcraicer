@@ -14,17 +14,21 @@ RunStop::RunStop() : Node("runstop")
 
     rsPublisher = this->create_publisher<rcraicer_msgs::msg::RunStop>("runstop", 10);      
 
-    serialPort = new SerialPort(port_param.as_string(), baud_rate_param.as_int(), 0, 1);    
+    serialPort = new SerialPort((rclcpp::Node::SharedPtr) this, this->get_name(), "runstop", port_param.as_string(), baud_rate_param.as_int(), 0, 1);    
+    serialPort->WARN();
 
      if (serialPort->isConnected())
     {
         RCLCPP_INFO(this->get_logger(), "Connected on %s @ %i", port_param.as_string().c_str(), 
                                     baud_rate_param.as_int());
+
+        serialPort->OK();
     }
     else
     {
         RCLCPP_ERROR(this->get_logger(), "Error connecting on %s @ %i. Error: %s", port_param.as_string().c_str(), 
                                     baud_rate_param.as_int(), serialPort->getErrorString().c_str());        
+        serialPort->ERROR();
     }    
 
         // create comand timer
@@ -96,8 +100,14 @@ void RunStop::doWorkTimerCallback()
     //if no recent message, runstop is false
     if(this->get_clock()->now().seconds() -lastMessageTime_.seconds() > 1.0)
     {
-        RCLCPP_ERROR(this->get_logger(), "No recent data from runstop box");
+        serialPort->ERROR();
+        serialPort->diag_error("No recent data from runstop box");
+        // RCLCPP_ERROR(this->get_logger(), "No recent data from runstop box");
         rsMsg.motion_enabled = false;
+    }
+    else
+    {
+        serialPort->OK();
     }
 
     rsPublisher->publish(rsMsg);    

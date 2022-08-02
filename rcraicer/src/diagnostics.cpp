@@ -50,30 +50,32 @@ Diagnostics::Diagnostics(rclcpp::Node::SharedPtr node,
   m_hardwareLocation(hardwareLocation),
   m_overallLevel(diagnostic_msgs::msg::DiagnosticStatus::OK)
 {
-    m_nodeHandle = node;
-    init(otherInfo, hardwareID, hardwareLocation);
+    init(node, otherInfo, hardwareID, hardwareLocation);
 }
 
 Diagnostics::~Diagnostics()
-{}
+{
+  delete m_updater;
+}
 
 
-void Diagnostics::init(const std::string& otherInfo,
+void Diagnostics::init(rclcpp::Node::SharedPtr node,
+                       const std::string& otherInfo,
                        const std::string& hardwareID,
                        const std::string& hardwareLocation)
 {  
+  m_nodeHandle = node;
   m_hardwareLocation = hardwareLocation;
   m_overallLevel = diagnostic_msgs::msg::DiagnosticStatus::OK;
-
-  m_updater = new diagnostic_updater::Updater(m_nodeHandle, 1.0);
-  m_updater->setHardwareID(hardwareID);
-  m_updater->add(otherInfo, this, &Diagnostics::diagnostics);
 
   m_nodeHandle->declare_parameter("diagnosticsFrequency", 1);
   int diagFreq = m_nodeHandle->get_parameter("diagnosticsFrequency").as_int();  
 
+  m_updater = new diagnostic_updater::Updater(m_nodeHandle, diagFreq);
+  m_updater->setHardwareID(hardwareID);
+  m_updater->add(otherInfo, this, &Diagnostics::diagnostics);
 
-  m_heartbeatTimer = m_nodeHandle->create_wall_timer(std::chrono::milliseconds(1000/diagFreq), std::bind(&Diagnostics::diagUpdate, this));
+  // m_heartbeatTimer = m_nodeHandle->create_wall_timer(std::chrono::milliseconds(1000/diagFreq), std::bind(&Diagnostics::diagUpdate, this));
   m_statusTimer = m_nodeHandle->create_wall_timer(std::chrono::milliseconds(1000/diagFreq), std::bind(&Diagnostics::diagnosticStatus, this));
 
 }
@@ -140,7 +142,7 @@ void Diagnostics::tick(const std::string &name)
   if( (mapIt = m_ticks.find(name)) == m_ticks.end())
   {
     std::vector<std::pair<int, rclcpp::Time> > toAdd;
-    toAdd.push_back(std::pair<int, rclcpp::Time>(0, m_nodeHandle->get_clock()->now()) );
+    toAdd.push_back(std::pair<int, rclcpp::Time>(0, m_nodeHandle->now()) );
 
     mapIt = m_ticks.insert(std::pair<std::string,
                            std::vector<std::pair<int, rclcpp::Time> > >
@@ -157,7 +159,8 @@ void Diagnostics::diagnostics(diagnostic_updater::DiagnosticStatusWrapper &stat)
 
   //Frequency messages are added to diagnotics only if tick() is being called
   std::map<std::string, std::vector<std::pair<int, rclcpp::Time> > >::iterator mapItF;
-  rclcpp::Time n = m_nodeHandle->get_clock()->now();
+  rclcpp::Time n = m_nodeHandle->now();
+
   m_dataMutex.lock();
   for( mapItF = m_ticks.begin(); mapItF != m_ticks.end(); ++mapItF)
   {

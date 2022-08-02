@@ -22,6 +22,7 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rcraicer_msgs REQUIRED)
+find_package(rcraicer REQUIRED)
 
 # uncomment the following section in order to fill in
 # further dependencies manually.
@@ -29,7 +30,9 @@ find_package(rcraicer_msgs REQUIRED)
 
 add_executable(gps_node src/gps_node.cpp src/serial_port.cpp src/ubx_protocol.cpp)
 
-ament_target_dependencies(gps_node rclcpp std_msgs sensor_msgs rcraicer_msgs)
+target_link_libraries(gps_node rc_diagnostics)
+
+ament_target_dependencies(gps_node rclcpp std_msgs sensor_msgs rcraicer_msgs rcraicer)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

@@ -8,8 +8,19 @@
 #include <linux/usbdevice_fs.h>
 #include <iostream>
 
-SerialPort::SerialPort(std::string port, int baudRate, uint8_t messageDelim, uint8_t connectionType): port_fd(-1), port_setting_error(""), connected(false), alive(false), dataCallback(NULL)
+#include "rclcpp/rclcpp.hpp"
+
+SerialPort::SerialPort()
 {
+
+}
+
+SerialPort::SerialPort(rclcpp::Node::SharedPtr node,
+                          const std::string& nodeName,
+                          const std::string& hardwareID,
+                          const std::string& port, int baudRate, uint8_t messageDelim, uint8_t connectionType): port_fd(-1), port_setting_error(""), connected(false), alive(false), dataCallback(NULL)
+{
+    Diagnostics::init(node, nodeName, hardwareID, port);
     this->port = port;    
     this->messageDelim = messageDelim;
     this->connectionType = connectionType;
@@ -61,7 +72,7 @@ void SerialPort::run()
         {
           dataMutex.lock();
 
-          if (dataCallback != NULL)
+          if (dataCallback != NULL || byteDataCallback != NULL)
           {
             if (connectionType == 0)
             {
@@ -79,6 +90,8 @@ void SerialPort::run()
               if (connectionType == 1)
                 m_data.push_back(data[i]);
 
+              if (connectionType == 2 && byteDataCallback != NULL)
+                  byteDataCallback(data[i]);
 
               if (connectionType == 0 && i < (received - 1) && data[i] == messageDelim && data[i+1] == messageDelim)
                 newMessage = true;
@@ -197,6 +210,16 @@ void SerialPort::clearDataCallback()
   dataCallback = NULL;
 }
 
+void SerialPort::registerByteDataCallback(ByteDataCallback callback)
+{
+  byteDataCallback = callback;
+}
+
+void SerialPort::clearByteDataCallback()
+{
+  byteDataCallback = NULL;
+}
+
 
 bool SerialPort::connect(std::string port, int baudRate)
 {
@@ -205,6 +228,7 @@ bool SerialPort::connect(std::string port, int baudRate)
 
     if (port_fd == -1)
     {
+        diag_error("could not open port");
         port_setting_error = "could not open port";
         return false;
     }
@@ -216,6 +240,7 @@ bool SerialPort::connect(std::string port, int baudRate)
     //Get the current options for the port...
     if(tcgetattr (port_fd, &port_settings) != 0)
     {
+        diag_error("could not get options for port");
         port_setting_error = "could not get options for port";        
         return false;
     }
@@ -244,6 +269,9 @@ bool SerialPort::connect(std::string port, int baudRate)
       case 230400:
         b = B230400;
         break;
+      case 460800:
+        b = B460800;
+        break;
       default:        
         port_setting_error = "Unsupported baud";
         return false;
@@ -253,6 +281,7 @@ bool SerialPort::connect(std::string port, int baudRate)
     if(cfsetispeed(&port_settings, b) != 0 ||
        cfsetospeed(&port_settings, b) != 0)
     {     
+      diag_error("Could not set baud rate");
       port_setting_error = "Could not set baud";
     }
 
@@ -288,6 +317,7 @@ bool SerialPort::connect(std::string port, int baudRate)
       return true;
     }
     
+    diag_error("Could not set serial port attributes");
     port_setting_error = "Could not set serial port attributes";
     return false;   
 }
@@ -321,7 +351,7 @@ int SerialPort::writePortInternal(const char* data, unsigned int length) const
   n=write(port_fd, data, length);
 
   if(n < 0)
-  {  
+  {
     printf("Error %i from write: %s\n", errno, strerror(errno));
     int val = fcntl(port_fd, F_GETFL, 0);
     printf("file status = 0x%x\n", val);
@@ -365,4 +395,15 @@ int SerialPort::writePortTry(const unsigned char* data, unsigned int length)
   }
 
   return -1;
+}
+
+void SerialPort::diagnosticStatus()
+{
+  if(!isConnected())
+  {
+    diag_error("Not connected");
+  } else
+  {
+    diag_ok("Connected");
+  }
 }

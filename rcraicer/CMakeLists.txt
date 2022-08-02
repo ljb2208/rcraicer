@@ -39,13 +39,18 @@ find_package(GTSAM REQUIRED)
 add_library(rc_diagnostics src/diagnostics.cpp)
 add_executable(imu_mavlink src/imu_mavlink.cpp src/mavlink_serial_port.cpp)
 add_executable(arduino_controller src/arduino_controller.cpp src/serial_port.cpp)
-add_executable(ar_arduino_controller src/ar_arduino_controller.cpp src/serial_port.cpp)
+add_executable(ar_arduino_controller src/ar_arduino_controller.cpp src/serial_port.cpp src/diagnostics.cpp)
 add_executable(wheel_odometry src/wheel_odometry.cpp)
 add_executable(state_estimator src/state_estimator.cpp)
 add_executable(runstop src/runstop.cpp src/serial_port.cpp)
 add_executable(joystick_control src/joystick_control.cpp)
+add_executable(gps_node src/gps_node.cpp src/serial_port.cpp src/ubx_protocol.cpp)
 
 target_link_libraries(state_estimator gtsam)
+target_link_libraries(ar_arduino_controller rc_diagnostics)
+target_link_libraries(arduino_controller rc_diagnostics)
+target_link_libraries(runstop rc_diagnostics)
+target_link_libraries(gps_node rc_diagnostics)
 
 ament_python_install_package(scripts/)
 
@@ -58,6 +63,8 @@ ament_target_dependencies(wheel_odometry rclcpp std_msgs sensor_msgs nav_msgs vi
 ament_target_dependencies(state_estimator rclcpp std_msgs sensor_msgs nav_msgs visualization_msgs geometry_msgs rcraicer_msgs tf2 GTSAM Eigen3 GeographicLib)
 ament_target_dependencies(runstop rclcpp std_msgs rcraicer_msgs)
 ament_target_dependencies(joystick_control rclcpp std_msgs sensor_msgs rcraicer_msgs)
+ament_target_dependencies(gps_node rclcpp std_msgs sensor_msgs rcraicer_msgs)
+
 #ament_target_dependencies(external_tracker rclcpp std_msgs sensor_msgs)
 
 
@@ -72,8 +79,9 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-install (TARGETS 
+install (TARGETS
     rc_diagnostics
+    gps_node
     imu_mavlink
     arduino_controller
     ar_arduino_controller

@@ -240,3 +240,14 @@ int SerialPort::writePortTry(const unsigned char* data, unsigned int length)
 
   return -1;
 }
+
+void SerialPort::diagnosticStatus()
+{
+  if(!isConnected())
+  {
+    diag_error("Not connected");
+  } else
+  {
+    diag_ok("Connected");
+  }
+}

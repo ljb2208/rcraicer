@@ -78,18 +78,22 @@ ARArduinoController::ARArduinoController() : Node("arduino_controller"), serialP
     runstopSubscription = this->create_subscription<rcraicer_msgs::msg::RunStop>(
       "runstop", 10, std::bind(&ARArduinoController::runstop_callback, this, std::placeholders::_1));   // add queue size in later versions of ros2       
     
-    serialPort = new SerialPort(portPath.as_string(), baudRate.as_int(), '#', 1);
+    serialPort = new SerialPort((rclcpp::Node::SharedPtr)this, this->get_name(), "arChassis", portPath.as_string(), baudRate.as_int(), '#', 1);
+
+    serialPort->WARN();
     serialPort->registerDataCallback(std::bind(&ARArduinoController::serial_data_callback, this));
 
     if (serialPort->isConnected())
     {
         RCLCPP_INFO(this->get_logger(), "Connected on %s @ %i", portPath.as_string().c_str(), 
                                     baudRate.as_int());
+        serialPort->OK();
     }
     else
     {
         RCLCPP_ERROR(this->get_logger(), "Error connecting on %s @ %i. Error: %s", portPath.as_string().c_str(), 
                                     baudRate.as_int(), serialPort->getErrorString().c_str());        
+        serialPort->ERROR();
     }    
 
     // create comand timer
@@ -389,6 +393,7 @@ void ARArduinoController::writeData(data_msg dmsg)
 
     if (serialPort->writePort((const unsigned char*) &data, MSG_SIZE_WITH_DELIM) != (int)(MSG_SIZE_WITH_DELIM))
     {
+        serialPort->diag_error("Error occurred writing to serial port");
         RCLCPP_ERROR(this->get_logger(), "Error occurred writing data to serial port");
     }
 }
@@ -418,15 +423,14 @@ void ARArduinoController::processChassisMessage(std::string msgType, std::string
             ws_msg.header.stamp = this->get_clock()->now();            
             wsPublisher->publish(ws_msg);
           
-            // serialPort_.tick("wheelSpeeds data");
+            serialPort->tick("wheelSpeeds data");
         } catch (std::exception& e )
         {
-            RCLCPP_WARN(this->get_logger(), "Converting wheel speeds data failed");          
+            serialPort->diag_warn("Converting wheel speeds data failed");          
         }
       } else
       {
-          RCLCPP_WARN(this->get_logger(), "Processing wheel speeds data failed");
-            //serialPort_.diag_warn("Processing wheel speeds data failed");
+          serialPort->diag_warn("Processing wheel speeds data failed");
       }
       break;
     }
@@ -468,15 +472,16 @@ void ARArduinoController::processChassisMessage(std::string msgType, std::string
             throttleRelayEnabled_ = std::stoi(data[3]); //this value can be 0 or 1
             chassisEnableMutex_.unlock();
 
-            //serialPort_.tick("RC data");
+            serialPort->tick("RC data");
             } catch(std::exception& e)
             {
-                RCLCPP_WARN(this->get_logger(), "Converting chassis cmd data failed");          
+                serialPort->diag_warn("Converting chassis cmd data failed");          
             }
 
       } else
       {
-          RCLCPP_WARN(this->get_logger(), "Processing chassis cmd data failed");        
+          serialPort->diag_warn("Processing chassis cmd data failed");
+          // RCLCPP_WARN(this->get_logger(), "Processing chassis cmd data failed");        
       }
       
       break;
@@ -491,7 +496,7 @@ void ARArduinoController::processChassisMessage(std::string msgType, std::string
       if (msg.length() != 18)
       {
         escDataFailCounter_++;
-        RCLCPP_WARN(this->get_logger(), "ESC data incorrect msg size counter" + std::to_string(escDataFailCounter_));      
+        // RCLCPP_WARN(this->get_logger(), "ESC data incorrect msg size counter" + std::to_string(escDataFailCounter_));      
         //Expected 18 bytes of ESC data, instead received " + std::to_string(msg.length()));
       }
 
@@ -505,25 +510,29 @@ void ARArduinoController::processChassisMessage(std::string msgType, std::string
         
         val = (((double)tmp)/divisor)*escRegisterData_[i].second;
         
-        // serialPort_.diag(escRegisterData_[i].first, std::to_string(val));
+        serialPort->diag(escRegisterData_[i].first, std::to_string(val));
       }
 
-      if (escDataFailCounter_ > 0)
-        RCLCPP_WARN(this->get_logger(), "ESC data incorrect msg size counter" + std::to_string(escDataFailCounter_));      
+      serialPort->diag("ESC data incorrect msg size counter", std::to_string(escDataFailCounter_));
+      serialPort->tick("ESC data");
+
+      // if (escDataFailCounter_ > 0)
+      //   RCLCPP_WARN(this->get_logger(), "ESC data incorrect msg size counter" + std::to_string(escDataFailCounter_));      
       break;
     }    
     //error message as an ASCII string
     case 'e':
     {
-        RCLCPP_WARN(this->get_logger(), "Error message: " + msg);
-    //   serialPort_.tick("Error message");
-    //   serialPort_.diag_error(msg);
+        // RCLCPP_WARN(this->get_logger(), "Error message: " + msg);
+      serialPort->tick("Error message");
+      serialPort->diag_error(msg);
         break;
     }
 
     default:
     {
-        RCLCPP_WARN(this->get_logger(), "Unknown message type received from chassis:" + msgType);
+        serialPort->diag_error("Unknown message type received from chassis:" + msgType);
+        // RCLCPP_WARN(this->get_logger(), "Unknown message type received from chassis:" + msgType);
         break;
     }
   }
@@ -676,16 +685,16 @@ void ARArduinoController::setChassisActuators()
   if(chassisState.autonomous_enabled)
   {
     //if we're in autonomous mode, set all the information apppropriately 
-    // serialPort_.diag("throttle commander", chassisState->throttleCommander);
-    // serialPort_.diag("steering commander", chassisState->steeringCommander);
-    // serialPort_.diag("frontBrake commander", chassisState->frontBrakeCommander);
+    serialPort->diag("throttle commander", chassisState.throttle_commander);
+    serialPort->diag("steering commander", chassisState.steering_commander);
+    serialPort->diag("frontBrake commander", chassisState.front_brake_commander);
   } else
   {
     //if we're in manual mode, send the most recentl RC command received from the chassis
     
-    // serialPort_.diag("throttle commander", "RC - manual");
-    // serialPort_.diag("steering commander", "RC - manual");
-    // serialPort_.diag("frontBrake commander", "RC - manual");
+    serialPort->diag("throttle commander", "RC - manual");
+    serialPort->diag("steering commander", "RC - manual");
+    serialPort->diag("frontBrake commander", "RC - manual");
     rcMutex_.lock();
     chassisState.throttle = mostRecentRc_["throttle"];
     chassisState.throttle_commander = "RC - manual";
@@ -701,7 +710,7 @@ void ARArduinoController::setChassisActuators()
     chassisState.header.frame_id = "AutoRallyChassis";
     statePublisher->publish(chassisState);
   
-//   serialPort_.tick("chassisState pub");
+    serialPort->tick("chassisState pub");
 }
 
 void ARArduinoController::sendCommandToChassis(rcraicer_msgs::msg::ChassisState state)

@@ -9,8 +9,9 @@
 #include <memory>
 #include <vector>
 
+#include "diagnostics.h"
 
-class SerialPort
+class SerialPort: public Diagnostics
 {
     public:
         SerialPort(std::string port, int baudRate);
@@ -58,6 +59,8 @@ class SerialPort
 
         DataCallback dataCallback; ///< Callback triggered when new data arrives
         volatile bool alive;
+
+        void diagnosticStatus();
 };
 
 #endif
