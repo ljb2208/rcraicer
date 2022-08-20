@@ -21,14 +21,18 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rcraicer_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-add_executable(data_recorder_node src/data_recorder.cpp)
+add_executable(sim_data_recorder_node src/sim_data_recorder.cpp)
+add_executable(data_recorder src/data_recorder.cpp)
 
-ament_target_dependencies(data_recorder_node rclcpp std_msgs sensor_msgs rcraicer_msgs)
+ament_target_dependencies(sim_data_recorder_node rclcpp std_msgs sensor_msgs rcraicer_msgs)
+ament_target_dependencies(data_recorder rclcpp std_msgs sensor_msgs nav_msgs rcraicer_msgs)
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -42,7 +46,8 @@ if(BUILD_TESTING)
 endif()
 
 install (TARGETS 
-    data_recorder_node    
+    sim_data_recorder_node    
+    data_recorder
     DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

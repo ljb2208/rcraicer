@@ -3,8 +3,7 @@
 #include "sensor_msgs/msg/joy.hpp"
 #include "geometry_msgs/msg/vector3.hpp"
 #include "geometry_msgs/msg/quaternion.hpp"
-#include "rcraicer_msgs/msg/chassis_state.hpp"
-#include "nav_msgs/msg/odometry.hpp"
+#include "rcraicer_msgs/msg/sim_state.hpp"
 
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Matrix3x3.h>
@@ -20,25 +19,23 @@
 # define M_PI		3.14159265358979323846	/* pi */
 # define M_PI_2		1.57079632679489661923	/* pi/2 */
 
-class DataRecorder : public rclcpp::Node
+class SimDataRecorder : public rclcpp::Node
 {
     public:
-        DataRecorder();
-        ~DataRecorder();        
+        SimDataRecorder();
+        ~SimDataRecorder();        
 
     private:
-        rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odomSubscription;
-        rclcpp::Subscription<rcraicer_msgs::msg::ChassisState>::SharedPtr chassisStateSubscription;
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joySubscription;
+        rclcpp::Subscription<rcraicer_msgs::msg::SimState>::SharedPtr ssSubscription;
         
         rclcpp::TimerBase::SharedPtr publishTimer;
 
-        void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
-        void chassis_state_callback(const rcraicer_msgs::msg::ChassisState::SharedPtr msg);
         void joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg);             
+        void sim_state_callback(const rcraicer_msgs::msg::SimState::SharedPtr msg);
         void updateInternalParams();                
 
-        void copyMessage(const nav_msgs::msg::Odometry::SharedPtr msg);
+        void copyMessage(const rcraicer_msgs::msg::SimState::SharedPtr msg);
         void openFile();
         void closeFile();
         float distanceTravelled(float x, float y, float x1, float y1);
@@ -65,8 +62,7 @@ class DataRecorder : public rclcpp::Node
   
         
 
-        nav_msgs::msg::Odometry priorMsg;
-        
+        rcraicer_msgs::msg::SimState priorMsg;
         float priorRoll;
         float priorPitch;
         float priorYaw;
@@ -74,13 +70,6 @@ class DataRecorder : public rclcpp::Node
         float priorYaw2;
         float priorTsDelta;
         int headingMultipler;
-
-        float steering {0.0};
-        float throttle {0.0};
-        float brake {0.0};
-        bool chassisStateValid {false};
-
-        float tsDiffAllowed {0.02};
 
         std::mutex fileMutex;
 
