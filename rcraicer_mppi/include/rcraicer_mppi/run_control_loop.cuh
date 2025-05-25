@@ -96,7 +96,9 @@ void runControlLoop(CONTROLLER_T* controller, RCRaicerPlant* robot, SystemParams
   double avgOptimizationTickTime = 0; //Avg. time it takes to get to the sleep at end of loop
   double avgSleepTime = 0; //Average time spent sleeping
   rclcpp::Time last_pose_update = robot->getLastPoseTime();
-  rclcpp::Duration optimizationLoopTime(optimization_stride/(1.0*params->hz));
+
+  std::chrono::nanoseconds ns{(int)(optimization_stride/(1.0*params->hz))};
+  rclcpp::Duration optimizationLoopTime(ns);
 
   //Set the loop rate
   std::chrono::milliseconds ms{(int)(optimization_stride*1000.0/params->hz)};

@@ -367,7 +367,9 @@ void RCRaicerPlant::pubPath()
     pose.pose.orientation.x = q1;
     pose.pose.orientation.y = q2;
     pose.pose.orientation.z = q3;
-    pose.header.stamp = begin + rclcpp::Duration(i*deltaT_);
+
+    uint32_t newDeltaT = (i*deltaT_) * 1000 * 1000; // convert to nanoseconds;
+    pose.header.stamp = begin + rclcpp::Duration(0, newDeltaT);
     pose.header.frame_id = "odom";
     path_msg_.poses.push_back(pose);
     if (i == 0){

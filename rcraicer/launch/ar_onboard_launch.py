@@ -18,6 +18,11 @@ def generate_launch_description():
        ),
        Node(
            package="rcraicer",           
+           executable="system_status.py",
+           name="system_status"
+       ),
+       Node(
+           package="rcraicer",           
            executable="wheel_odometry",
            name="wheel_odometry",
            parameters=[{"vehicle_wheelbase" : 0.57785}, {"vehicle_width" : 0.3175}]
